@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSocialProofToast();
   initSmoothScroll();
   initMascotHelper();
+  initReferralSystem();
 });
 
 // 1. Calculator Logic
@@ -398,4 +399,96 @@ function initMascotHelper() {
       if (bubble) bubble.classList.add('hidden');
     }
   });
+}
+
+// 7. Referral Partner System Logic (แนะนำเพื่อนรับค่าคอมมิชชั่น)
+function initReferralSystem() {
+  const tabFormBtn = document.getElementById('tabReferralFormBtn');
+  const tabLinkBtn = document.getElementById('tabReferralLinkBtn');
+  const contentForm = document.getElementById('tabContentReferralForm');
+  const contentLink = document.getElementById('tabContentReferralLink');
+
+  if (tabFormBtn && tabLinkBtn && contentForm && contentLink) {
+    tabFormBtn.addEventListener('click', () => {
+      contentForm.classList.remove('hidden');
+      contentLink.classList.add('hidden');
+      tabFormBtn.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-brand-700 border-b-2 border-brand-600 flex items-center justify-center gap-2 transition-all';
+      tabLinkBtn.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-slate-500 hover:text-slate-800 flex items-center justify-center gap-2 transition-all';
+    });
+
+    tabLinkBtn.addEventListener('click', () => {
+      contentLink.classList.remove('hidden');
+      contentForm.classList.add('hidden');
+      tabLinkBtn.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-brand-700 border-b-2 border-brand-600 flex items-center justify-center gap-2 transition-all';
+      tabFormBtn.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-slate-500 hover:text-slate-800 flex items-center justify-center gap-2 transition-all';
+    });
+  }
+
+  // Handle Direct Referral Form Submit
+  const refForm = document.getElementById('referralSubmitForm');
+  const successAlert = document.getElementById('referralSuccessAlert');
+  if (refForm && successAlert) {
+    refForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const agentName = document.getElementById('refAgentName')?.value || 'คุณ';
+      const friendName = document.getElementById('refFriendName')?.value || 'เพื่อนของคุณ';
+      
+      const succAgent = document.getElementById('succAgentName');
+      const succFriend = document.getElementById('succFriendName');
+      if (succAgent) succAgent.textContent = agentName;
+      if (succFriend) succFriend.textContent = friendName;
+
+      successAlert.classList.remove('hidden');
+      refForm.classList.add('hidden');
+    });
+  }
+
+  // Handle Link Generator
+  const btnGen = document.getElementById('btnGenerateRefLink');
+  const inputPhone = document.getElementById('genAgentPhone');
+  const outputLink = document.getElementById('outputRefLink');
+  const btnShareLine = document.getElementById('btnShareLineRef');
+  const btnCopy = document.getElementById('btnCopyRefLink');
+
+  function updateRefLink(phone) {
+    const cleanPhone = phone.trim().replace(/[^0-9]/g, '') || '0894661491';
+    const baseUrl = window.location.href.split('?')[0].split('#')[0];
+    const generatedUrl = `${baseUrl}?ref=${cleanPhone}`;
+    
+    if (outputLink) outputLink.value = generatedUrl;
+    if (btnShareLine) {
+      const shareMsg = encodeURIComponent(`เพื่อนๆ บ้านไหนค่าไฟเกิน 3,000 บ. ลองเข้าไปคำนวณลดค่าไฟกับ 99 Solar หาดใหญ่ดูนะ ช่างสำรวจฟรี ยื่น กฟภ. ให้ด้วย คุ้มมาก! คลิกที่นี่เลย: ${generatedUrl}`);
+      btnShareLine.href = `https://line.me/R/share?text=${shareMsg}`;
+    }
+  }
+
+  if (btnGen && inputPhone) {
+    btnGen.addEventListener('click', () => {
+      if (!inputPhone.value.trim()) {
+        alert('กรุณากรอกเบอร์โทรศัพท์ของคุณเพื่อสร้างรหัสผู้แนะนำครับ');
+        inputPhone.focus();
+        return;
+      }
+      updateRefLink(inputPhone.value);
+      alert('สร้างลิงก์แนะนำเฉพาะตัวของคุณเรียบร้อยแล้วครับ! สามารถกดคัดลอก หรือกดแชร์เข้า LINE ได้ทันที');
+    });
+  }
+
+  if (btnCopy && outputLink) {
+    btnCopy.addEventListener('click', () => {
+      outputLink.select();
+      outputLink.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(outputLink.value).then(() => {
+        const originalText = btnCopy.innerHTML;
+        btnCopy.innerHTML = '<i class="fa-solid fa-check"></i> คัดลอกแล้ว!';
+        btnCopy.classList.replace('bg-brand-600', 'bg-emerald-600');
+        setTimeout(() => {
+          btnCopy.innerHTML = originalText;
+          btnCopy.classList.replace('bg-emerald-600', 'bg-brand-600');
+        }, 2000);
+      }).catch(() => {
+        alert('คัดลอกลิงก์สำเร็จ: ' + outputLink.value);
+      });
+    });
+  }
 }
