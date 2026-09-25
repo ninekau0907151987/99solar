@@ -401,27 +401,77 @@ function initMascotHelper() {
   });
 }
 
-// 7. Referral Partner System Logic (แนะนำเพื่อนรับค่าคอมมิชชั่น)
+// 7. Referral Partner System Logic (แนะนำเพื่อนรับค่าคอมมิชชั่น 4 ฟังก์ชัน)
+let refRatePerHouse = 5000;
+
+function switchReferralTab(tabKey) {
+  const tabs = {
+    form: { btn: 'tabReferralFormBtn', content: 'tabContentReferralForm' },
+    link: { btn: 'tabReferralLinkBtn', content: 'tabContentReferralLink' },
+    calc: { btn: 'tabReferralCalcBtn', content: 'tabContentReferralCalc' },
+    track: { btn: 'tabReferralTrackBtn', content: 'tabContentReferralTrack' }
+  };
+
+  Object.keys(tabs).forEach(k => {
+    const b = document.getElementById(tabs[k].btn);
+    const c = document.getElementById(tabs[k].content);
+    if (b && c) {
+      if (k === tabKey) {
+        c.classList.remove('hidden');
+        b.className = 'py-2.5 px-2 font-bold text-brand-700 border-b-2 border-brand-600 flex items-center justify-center gap-1.5 transition-all text-center';
+      } else {
+        c.classList.add('hidden');
+        b.className = 'py-2.5 px-2 font-bold text-slate-500 hover:text-slate-800 flex items-center justify-center gap-1.5 transition-all text-center';
+      }
+    }
+  });
+}
+
+function setRefCalcSize(rate, btn) {
+  refRatePerHouse = rate;
+  document.querySelectorAll('.ref-size-btn').forEach(b => {
+    b.className = 'ref-size-btn py-2 px-3 rounded-xl border border-slate-300 bg-white text-slate-700 font-medium text-xs hover:border-brand-500 transition-all';
+  });
+  if (btn) {
+    btn.className = 'ref-size-btn active py-2 px-3 rounded-xl border-2 border-brand-500 bg-brand-50 text-brand-800 font-bold text-xs shadow-sm transition-all';
+  }
+  updateRefCommission();
+}
+
+function updateRefCommission() {
+  const slider = document.getElementById('refCalcSlider');
+  const countDisplay = document.getElementById('refCalcHouses');
+  const monthlyDisp = document.getElementById('refMonthlyIncome');
+  const yearlyDisp = document.getElementById('refYearlyIncome');
+
+  if (!slider) return;
+  const houses = parseInt(slider.value) || 1;
+  if (countDisplay) countDisplay.textContent = houses;
+
+  const monthlyTotal = houses * refRatePerHouse;
+  const yearlyTotal = monthlyTotal * 12;
+
+  if (monthlyDisp) monthlyDisp.textContent = monthlyTotal.toLocaleString() + ' ฿';
+  if (yearlyDisp) yearlyDisp.textContent = yearlyTotal.toLocaleString() + ' ฿';
+}
+
 function initReferralSystem() {
+  // Wire 4 Tab Buttons
   const tabFormBtn = document.getElementById('tabReferralFormBtn');
   const tabLinkBtn = document.getElementById('tabReferralLinkBtn');
-  const contentForm = document.getElementById('tabContentReferralForm');
-  const contentLink = document.getElementById('tabContentReferralLink');
+  const tabCalcBtn = document.getElementById('tabReferralCalcBtn');
+  const tabTrackBtn = document.getElementById('tabReferralTrackBtn');
 
-  if (tabFormBtn && tabLinkBtn && contentForm && contentLink) {
-    tabFormBtn.addEventListener('click', () => {
-      contentForm.classList.remove('hidden');
-      contentLink.classList.add('hidden');
-      tabFormBtn.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-brand-700 border-b-2 border-brand-600 flex items-center justify-center gap-2 transition-all';
-      tabLinkBtn.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-slate-500 hover:text-slate-800 flex items-center justify-center gap-2 transition-all';
-    });
+  if (tabFormBtn) tabFormBtn.addEventListener('click', () => switchReferralTab('form'));
+  if (tabLinkBtn) tabLinkBtn.addEventListener('click', () => switchReferralTab('link'));
+  if (tabCalcBtn) tabCalcBtn.addEventListener('click', () => switchReferralTab('calc'));
+  if (tabTrackBtn) tabTrackBtn.addEventListener('click', () => switchReferralTab('track'));
 
-    tabLinkBtn.addEventListener('click', () => {
-      contentLink.classList.remove('hidden');
-      contentForm.classList.add('hidden');
-      tabLinkBtn.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-brand-700 border-b-2 border-brand-600 flex items-center justify-center gap-2 transition-all';
-      tabFormBtn.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-slate-500 hover:text-slate-800 flex items-center justify-center gap-2 transition-all';
-    });
+  // Commission Calculator Slider
+  const slider = document.getElementById('refCalcSlider');
+  if (slider) {
+    slider.addEventListener('input', updateRefCommission);
+    updateRefCommission();
   }
 
   // Handle Direct Referral Form Submit
@@ -431,7 +481,37 @@ function initReferralSystem() {
     refForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const agentName = document.getElementById('refAgentName')?.value || 'คุณ';
+      const agentPhone = document.getElementById('refAgentPhone')?.value || '';
+      const agentBank = document.getElementById('refAgentBank')?.value || '';
       const friendName = document.getElementById('refFriendName')?.value || 'เพื่อนของคุณ';
+      const friendPhone = document.getElementById('refFriendPhone')?.value || '';
+      const friendBill = document.getElementById('refFriendBill')?.value || '3000';
+      const friendLoc = document.getElementById('refFriendLocation')?.value || 'หาดใหญ่';
+
+      // Estimate commission
+      let estCommission = '3,000 - 5,000฿';
+      if (friendBill === '6000') estCommission = '5,000฿';
+      else if (friendBill === '12000') estCommission = '10,000฿';
+      else if (friendBill === 'business') estCommission = '15,000+ ฿';
+
+      // Save to localStorage
+      try {
+        const existing = JSON.parse(localStorage.getItem('solar_referrals') || '[]');
+        existing.unshift({
+          agentName,
+          agentPhone: agentPhone.replace(/[^0-9]/g, ''),
+          agentBank,
+          friendName,
+          friendPhone,
+          estCommission,
+          location: friendLoc,
+          date: new Date().toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' }),
+          status: '⏳ กำลังประสานงานและนัดสำรวจหน้างาน'
+        });
+        localStorage.setItem('solar_referrals', JSON.stringify(existing));
+      } catch (err) {
+        console.warn('Storage error:', err);
+      }
       
       const succAgent = document.getElementById('succAgentName');
       const succFriend = document.getElementById('succFriendName');
@@ -440,6 +520,70 @@ function initReferralSystem() {
 
       successAlert.classList.remove('hidden');
       refForm.classList.add('hidden');
+    });
+  }
+
+  // Handle Status Tracker Search
+  const btnTrack = document.getElementById('btnTrackSearch');
+  const trackPhoneInput = document.getElementById('trackSearchPhone');
+  const trackResultContainer = document.getElementById('trackResultContainer');
+
+  if (btnTrack && trackPhoneInput && trackResultContainer) {
+    btnTrack.addEventListener('click', () => {
+      const q = trackPhoneInput.value.trim().replace(/[^0-9]/g, '');
+      if (!q) {
+        alert('กรุณากรอกเบอร์โทรศัพท์ของคุณเพื่อค้นหาประวัติครับ');
+        trackPhoneInput.focus();
+        return;
+      }
+
+      let referrals = [];
+      try {
+        referrals = JSON.parse(localStorage.getItem('solar_referrals') || '[]');
+      } catch (err) {}
+
+      const matched = referrals.filter(r => r.agentPhone.includes(q));
+
+      if (matched.length > 0) {
+        trackResultContainer.innerHTML = matched.map(m => `
+          <div class="p-4 bg-emerald-50/70 rounded-2xl border border-emerald-300 text-xs space-y-2 animate-fadeIn">
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="font-bold text-slate-900 text-sm">${m.friendName} (${m.location})</span>
+                <p class="text-[11px] text-slate-500">วันที่ส่งข้อมูล: ${m.date}</p>
+              </div>
+              <span class="px-2.5 py-1 bg-brand-500 text-slate-950 font-bold text-[10px] rounded-full">
+                ค่าคอมฯ ประมาณ ${m.estCommission}
+              </span>
+            </div>
+            <div class="pt-2 border-t border-emerald-200/80 text-[11px] text-slate-700 flex justify-between items-center">
+              <span>สถานะ: ${m.status}</span>
+              <span class="text-emerald-700 font-semibold">${m.agentBank}</span>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        trackResultContainer.innerHTML = `
+          <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs space-y-2">
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="font-bold text-slate-800 text-sm">คุณประสิทธิ์ (เพื่อนบ้านคลองแห)</span>
+                <p class="text-[11px] text-slate-500">ระบบ Hybrid 5 kW | วันที่ส่งชื่อ: 20 ก.ย. 2026</p>
+              </div>
+              <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 font-bold text-[10px] rounded-full border border-emerald-300">
+                ✓ โอนเงินสำเร็จ 5,000฿
+              </span>
+            </div>
+            <div class="pt-2 border-t border-slate-200 text-[11px] text-slate-600 flex justify-between items-center">
+              <span>สถานะ: ติดตั้งเสร็จสมบูรณ์ ขนานไฟ กฟภ. แล้ว</span>
+              <span class="text-emerald-600 font-bold">โอนเข้า กสิกร xxx-x-56789-0</span>
+            </div>
+          </div>
+          <div class="text-center py-2 text-[11px] text-slate-400">
+            (ยังไม่พบข้อมูลเบอร์ ${q} ในระบบล่าสุด แสดงรายการตัวอย่างข้างต้น)
+          </div>
+        `;
+      }
     });
   }
 

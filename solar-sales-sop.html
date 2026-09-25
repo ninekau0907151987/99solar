@@ -135,6 +135,9 @@
         <button onclick="switchTab('contracts')" id="tab-btn-contracts" class="tab-btn px-3.5 py-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 flex items-center gap-2">
           <i class="fa-solid fa-file-signature"></i> <span>5. การวางมัดจำ, สัญญา & การขออนุญาต</span>
         </button>
+        <button onclick="switchTab('referral')" id="tab-btn-referral" class="tab-btn px-3.5 py-2 rounded-lg text-emerald-400 hover:text-emerald-300 hover:bg-slate-800 flex items-center gap-2 border border-emerald-500/30">
+          <i class="fa-solid fa-hand-holding-dollar text-emerald-400"></i> <span>6. แนะนำเพื่อนรับค่าคอมฯ (Referral SOP)</span>
+        </button>
       </div>
     </div>
   </header>
@@ -197,6 +200,9 @@
           </button>
           <button onclick="sendQuickPrompt('การวางเงินมัดจำแบ่งเป็นกี่งวด และขั้นตอนการขออนุญาตการไฟฟ้า/อบต. ต้องทำอะไรบ้าง?')" class="bg-slate-800 hover:bg-brand-900/50 hover:border-brand-500/50 border border-slate-700 text-slate-200 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5">
             <i class="fa-solid fa-file-contract text-emerald-400"></i> งวดเงินมัดจำ & การขออนุญาต กฟภ.
+          </button>
+          <button onclick="sendQuickPrompt('ระบบแนะนำเพื่อนรับค่าคอมมิชชั่น 3,000 - 15,000 บาท มีเงื่อนไขยังไง และมีสคริปต์ชวนลูกค้าเก่ายังไง?')" class="bg-slate-800 hover:bg-emerald-950/60 hover:border-emerald-500/50 border border-slate-700 text-slate-200 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5">
+            <i class="fa-solid fa-hand-holding-dollar text-emerald-400"></i> แนะนำเพื่อนรับคอมฯ 3,000-15,000฿ มีสคริปต์ยังไง?
           </button>
         </div>
       </div>
@@ -844,6 +850,161 @@
 
     </div>
 
+    <!-- ========================================== -->
+    <!-- TAB 6: SOLAR REFERRAL & AFFILIATE COMMISSION SOP -->
+    <!-- ========================================== -->
+    <div id="tab-referral" class="tab-content hidden space-y-6">
+      
+      <div class="border-b border-slate-800 pb-4">
+        <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs rounded-md font-semibold">
+          Solar Partner & Affiliate Playbook
+        </span>
+        <h2 class="text-2xl font-bold text-white font-heading mt-2">โครงการแนะนำเพื่อนรับค่าคอมมิชชั่น & SOP การเปลี่ยนลูกค้าเป็นตัวแทนขาย</h2>
+        <p class="text-slate-400 text-sm mt-1">
+          กลยุทธ์การขยายยอดขายแบบบอกต่ออัตโนมัติ (Viral Advocacy) จ่ายค่าคอมฯ 3,000 - 15,000+ บาท/หลัง พร้อมคู่มือสำหรับเซลส์ในการชวนลูกค้าเก่า ช่างไฟ และนิติบุคคลหมู่บ้าน
+        </p>
+      </div>
+
+      <!-- Commission Rates Grid -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 text-center space-y-2 hover:border-brand-500/50 transition-all">
+          <div class="w-10 h-10 rounded-xl bg-slate-800 text-slate-300 font-bold text-sm flex items-center justify-center mx-auto">3 kW</div>
+          <h4 class="font-bold text-white text-xs sm:text-sm">บ้านเริ่มต้น (1 เฟส)</h4>
+          <div class="text-2xl sm:text-3xl font-black font-heading text-brand-400">3,000 ฿</div>
+          <p class="text-[11px] text-slate-400">โอนสดทันทีเมื่อติดตั้งเสร็จ</p>
+        </div>
+
+        <div class="bg-gradient-to-b from-slate-900 to-emerald-950/40 border-2 border-brand-500 rounded-2xl p-5 text-center space-y-2 relative shadow-lg">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-500 text-slate-950 text-[10px] font-bold px-2.5 py-0.5 rounded-full">ยอดนิยมที่สุด</div>
+          <div class="w-10 h-10 rounded-xl bg-brand-500/20 text-brand-400 font-bold text-sm flex items-center justify-center mx-auto mt-1">5 kW</div>
+          <h4 class="font-bold text-white text-xs sm:text-sm">บ้านครอบครัว (1/3 เฟส)</h4>
+          <div class="text-2xl sm:text-3xl font-black font-heading text-solar-gold">5,000 ฿</div>
+          <p class="text-[11px] text-emerald-400 font-semibold">แนะนำ 3 หลัง = 15,000 บ./ด.</p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 text-center space-y-2 hover:border-brand-500/50 transition-all">
+          <div class="w-10 h-10 rounded-xl bg-slate-800 text-slate-300 font-bold text-sm flex items-center justify-center mx-auto">10 kW</div>
+          <h4 class="font-bold text-white text-xs sm:text-sm">บ้านหลังใหญ่ / ชาร์จ EV</h4>
+          <div class="text-2xl sm:text-3xl font-black font-heading text-purple-400">10,000 ฿</div>
+          <p class="text-[11px] text-slate-400">โอนสดทันทีเมื่อติดตั้งเสร็จ</p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 text-center space-y-2 hover:border-brand-500/50 transition-all">
+          <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 font-bold text-sm flex items-center justify-center mx-auto">20 kW+</div>
+          <h4 class="font-bold text-white text-xs sm:text-sm">ธุรกิจ / โรงงาน / คลินิก</h4>
+          <div class="text-2xl sm:text-3xl font-black font-heading text-emerald-400">15,000+ ฿</div>
+          <p class="text-[11px] text-purple-300 font-semibold">คิด % ตามมูลค่าโครงการ</p>
+        </div>
+      </div>
+
+      <!-- Super Bonus Callout -->
+      <div class="bg-gradient-to-r from-solar-gold/20 via-slate-900 to-brand-500/20 border border-solar-gold/40 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3 text-center sm:text-left">
+          <div class="w-12 h-12 rounded-2xl bg-solar-gold text-slate-950 flex items-center justify-center text-2xl shrink-0 font-bold">
+            <i class="fa-solid fa-crown"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-white text-sm sm:text-base font-heading">Super Partner Bonus: รางวัลทองคำแท่งสำหรับผู้บอกต่อ!</h4>
+            <p class="text-xs text-slate-300 mt-0.5">แนะนำเพื่อนสะสมครบทุก 5 หลัง รับฟรีทันที <strong>ทองคำแท่งหนัก 1 สลึง</strong> หรือเลือกรับเป็นเงินสดเพิ่ม 10,000 บาททันที!</p>
+          </div>
+        </div>
+        <button onclick="copyPredefinedScript(5)" class="px-4 py-2 bg-solar-gold hover:bg-solar-amber text-slate-950 font-bold rounded-xl text-xs whitespace-nowrap shadow transition-all">
+          <i class="fa-regular fa-clone mr-1"></i> ก็อปปี้ข้อความโปรชวนเพื่อน
+        </button>
+      </div>
+
+      <!-- SOP Section for Sales -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- SOP: 3 Golden Touches -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+          <h3 class="text-lg font-bold text-white font-heading flex items-center gap-2">
+            <i class="fa-solid fa-calendar-check text-brand-400"></i> SOP 3 จังหวะทองคำ: เปลี่ยนลูกค้าเก่าเป็น Partner
+          </h3>
+          <p class="text-xs text-slate-400">พนักงานขายต้องทำตามขั้นตอนนี้กับลูกค้าทุกคนหลังติดตั้งเสร็จ เพื่อสร้างกระแสลูกโซ่บอกต่อ</p>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800 space-y-1">
+              <div class="font-bold text-brand-400 flex items-center justify-between">
+                <span>จังหวะที่ 1: วันส่งมอบงาน & สอนดูแอป (D+1)</span>
+                <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-300">ความประทับใจสูงสุด</span>
+              </div>
+              <p class="text-slate-300">
+                เมื่อสอนลูกค้าโหลดแอปดูแดด ให้พูดเกริ่น: <em>"คุณพี่ครับ ตอนนี้แดดกำลังผลิตไฟฟรีให้บ้านคุณพี่ชั่วโมงละ 3-4 หน่วยเลยครับ ถ้าเพื่อนบ้านข้างๆ เดินมาถามว่าติดกับที่ไหน พี่บอกได้เลยนะครับ ทางเรามีค่าตอบแทนโครงการ Partner ให้พี่หลังละ 3,000 - 5,000 บาททันทีครับผม"</em>
+              </p>
+            </div>
+
+            <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800 space-y-1">
+              <div class="font-bold text-solar-gold flex items-center justify-between">
+                <span>จังหวะที่ 2: บิลค่าไฟเดือนแรกออก (D+30)</span>
+                <span class="text-[10px] bg-solar-gold/20 text-solar-gold px-2 py-0.5 rounded font-bold">จุดปิดการขายดีลบอกต่อ</span>
+              </div>
+              <p class="text-slate-300">
+                เซลส์โทรหาลูกค้า: <em>"สวัสดีครับคุณพี่ สิ้นเดือนแล้ว บิลค่าไฟงวดแรกมาหรือยังครับ? ลดไป 2,000 กว่าบาทตามที่เราคำนวณไว้ไหมครับ?... ยอดเยี่ยมเลยครับพี่! พี่มีเพื่อนร่วมงาน หรือญาติที่บ้านค่าไฟแพงอยากลดแบบนี้ไหมครับ? แค่พี่ส่งเบอร์ให้ผม เดี๋ยวผมดูแลต่อให้ และโอนค่าคอมฯ เข้าบัญชีพี่ 5,000 บาททันทีครับ"</em>
+              </p>
+            </div>
+
+            <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800 space-y-1">
+              <div class="font-bold text-blue-400 flex items-center justify-between">
+                <span>จังหวะที่ 3: บริการล้างแผงรอบ 6 เดือน (D+180)</span>
+                <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-300">สายสัมพันธ์ระยะยาว</span>
+              </div>
+              <p class="text-slate-300">
+                ทีมวิศวกรเข้าตรวจเช็คระบบฟรี ถ่ายรูปแผงสะอาดส่งให้ลูกค้า และมอบบัตรกำนัลส่วนลด 5,000 บาท ให้ลูกค้านำไปแจกเพื่อนบ้าน
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Ready-to-use Scripts -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+          <h3 class="text-lg font-bold text-white font-heading flex items-center gap-2">
+            <i class="fa-solid fa-comments-dollar text-solar-gold"></i> 4 สคริปต์ปิดดีลชวนแนะนำเพื่อน (พร้อมก็อปปี้)
+          </h3>
+          <p class="text-xs text-slate-400">เลือกก็อปปี้สคริปต์ตามกลุ่มเป้าหมายไปปรับใช้ได้ทันที</p>
+
+          <div class="space-y-2.5 text-xs">
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-1.5">
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-emerald-400">📋 1. สำหรับเซลส์ชวนช่างไฟ / ผู้รับเหมาในพื้นที่:</span>
+                <button onclick="copyPredefinedScript(6)" class="text-slate-400 hover:text-brand-400"><i class="fa-regular fa-clone"></i> คัดลอก</button>
+              </div>
+              <p class="text-slate-400 italic">"พี่เป็นช่างไฟ/ผู้รับเหมา เจอเจ้าของบ้านที่สร้างใหม่หรือรีโนเวทบ่อยๆ ไม่ต้องลงทุนสต็อกของหรือรับประกันเอง แค่ส่งเบอร์ลูกค้าให้ 99 Solar ทางเรามีวิศวกรเข้าสำรวจ ยื่น กฟภ. ให้ครบ และโอนค่าคอมมิชชั่นให้พี่ 5,000 - 15,000 บาท/หลัง ทุกงานครับ"</p>
+            </div>
+
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-1.5">
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-solar-gold">📋 2. สำหรับลูกค้า นำไปโพสต์ในกลุ่มไลน์หมู่บ้าน:</span>
+                <button onclick="copyPredefinedScript(7)" class="text-slate-400 hover:text-brand-400"><i class="fa-regular fa-clone"></i> คัดลอก</button>
+              </div>
+              <p class="text-slate-400 italic">"เพื่อนๆ ในหมู่บ้าน หลังไหนเปิดแอร์กลางวันแล้วค่าไฟแพง 3,000-5,000 บ. บ้านผมเพิ่งติดโซลาร์กับ 99 Solar มา ค่าไฟลดไปเดือนละ 2,400 กว่าบาท ช่างหาดใหญ่งานเนี๊ยบ ท่อสแตนเลสสวยงาม ยื่น กฟภ. ให้ฟรี ใครสนใจทักถามได้นะ มีโปรลดพิเศษให้เพื่อนบ้านครับ"</p>
+            </div>
+
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-1.5">
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-blue-400">📋 3. สคริปต์ตอบเพื่อนที่ถามว่า 'ติดแล้วดีจริงไหม?':</span>
+                <button onclick="copyPredefinedScript(8)" class="text-slate-400 hover:text-brand-400"><i class="fa-regular fa-clone"></i> คัดลอก</button>
+              </div>
+              <p class="text-slate-400 italic">"คุ้มมากแก ปกติเสียค่าไฟทิ้งให้หลวงทุกเดือน พอติดแล้วเปิดแอร์กลางวันสบายใจเลย ไม่ต้องกลัวไฟไหม้เพราะเขาใช้ตู้คอมบายเกรดการไฟฟ้าแท้ มีประกันน้ำรั่ว 2 ปี ถ้าแกสนใจให้ช่างเขาเข้ามาบินโดรนสำรวจหลังคาให้ฟรีก่อนได้ ไม่ซื้อไม่เป็นไร เดี๋ยวฉันส่งเบอร์ให้ทีมงานโทรคุย"</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Quick Action: Go to Main Referral Link Generator -->
+      <div class="p-4 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-arrow-up-right-from-square text-emerald-400 text-base"></i>
+          <span class="text-slate-300">ต้องการสร้างลิงก์แนะนำ หรือกรอกข้อมูลเพื่อนลงระบบโดยตรง?</span>
+        </div>
+        <a href="index.html#referral" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition-all shadow">
+          ไปยังระบบแนะนำเพื่อนในหน้าหลัก &rarr;
+        </a>
+      </div>
+
+    </div>
+
   </main>
 
   <!-- FOOTER -->
@@ -1487,7 +1648,38 @@
 2. รูปถ่ายบิลค่าไฟเดือนล่าสุด
 3. หนังสือมอบอำนาจ (ทางเราเตรียมแบบฟอร์มให้ ลูกค้าเพียงเซ็นชื่อ)
 
-ที่เหลือตั้งแต่ยื่น อบต./เทศบาล, ขนานไฟ กฟภ. และจดแจ้ง กกพ. ทางเราจัดการให้ฟรีครบวงจร One-Stop Service ครับ! ⚡`
+ที่เหลือตั้งแต่ยื่น อบต./เทศบาล, ขนานไฟ กฟภ. และจดแจ้ง กกพ. ทางเราจัดการให้ฟรีครบวงจร One-Stop Service ครับ! ⚡`,
+
+      5: `🎁 โครงการ 99 Solar Partner: แนะนำเพื่อนติดโซลาร์เซลล์ รับเงินสด 3,000 - 15,000 บาท/หลัง!
+
+มีเพื่อน ญาติ หรือเพื่อนบ้านในหาดใหญ่-สงขลา ที่บ่นว่าค่าไฟแพงไหมครับ?
+เพียงแนะนำให้เรารู้จัก เมื่อติดตั้งสำเร็จ รับเงินโอนเข้าบัญชีทันที:
+• ระบบ 3.3 kW (บ้านทั่วไป): รับ 3,000 - 5,000 บาท
+• ระบบ 5.0 kW (บ้านครอบครัว): รับ 5,000 - 8,000 บาท
+• ระบบ 10 kW (บ้านใหญ่/EV): รับ 10,000 บาท
+• ระบบธุรกิจ/โรงงาน 20kW+: รับ 15,000 - 30,000+ บาท
+
+👑 พิเศษ Super Bonus: แนะนำครบทุก 5 หลัง รับฟรีทันที "ทองคำแท่งหนัก 1 สลึง" หรือเงินสดเพิ่ม 10,000 บาท!
+สนใจส่งเบอร์เพื่อนให้ทีมงานติดต่อ หรือขอรับลิงก์แนะนำเฉพาะตัว ทักแอดมินได้เลยครับ ⚡`,
+
+      6: `🤝 ชวนช่างไฟฟ้า / ผู้รับเหมาต่อเติมบ้านในหาดใหญ่-สงขลา ร่วมเป็น Partner กับ 99 Solar:
+
+เจอลูกค้าสร้างบ้านใหม่ หรือรีโนเวท แล้วอยากติดโซลาร์เซลล์ แต่พี่ไม่อยากแบกรับสต็อกของ หรือปวดหัวเรื่องยื่นเอกสารการไฟฟ้า?
+• ส่งงานให้ 99 Solar ดูแลครบวงจร
+• ทีมวิศวกร กว. เข้าสำรวจ ออกแบบ ยื่นขออนุญาต กฟภ./อบต. ติดตั้ง และรับประกันงานให้ 100%
+• พี่รับค่าคอมมิชชั่น 5,000 - 15,000 บาท/หลัง โอนสดเข้าบัญชีทันทีเมื่อปิดงาน!
+มีลูกค้าสนใจ ทักส่งข้อมูลมาได้เลยครับ ยินดีร่วมงานครับผม 😊`,
+
+      7: `☀️ เพื่อนๆ ในหมู่บ้านครับ บ้านไหนเปิดแอร์กลางวันแล้วค่าไฟแพง 3,000 - 6,000 บาทบ้าง?
+
+บ้านผมเพิ่งติดโซลาร์เซลล์กับทีม 99 Solar (บจก. 99 แมทช์ เมคเกอร์ หาดใหญ่) มาครับ เดือนนี้ค่าไฟลดไปเกือบ 2,500 บาท เปิดแอร์ได้สบายใจมาก
+• ช่างพื้นที่หาดใหญ่งานเนี๊ยบ ใช้ท่อสแตนเลสและเคเบิ้ลไทร์สแตนเลสบนหลังคาทนแดด 25 ปี
+• ฟรีค่าสำรวจบินโดรนดูหลังคา และฟรีค่าดำเนินการยื่น กฟภ. ให้ครบ
+เพื่อนบ้านคนไหนสนใจอยากให้ช่างเข้ามาดูทิศแดดฟรี ทักถามผมได้เลยนะ หรือแจ้งชื่อไว้ เดี๋ยวผมให้วิศวกรติดต่อให้ครับ มีโปรส่วนลดพิเศษสำหรับเพื่อนบ้านด้วยครับ!`,
+
+      8: `💬 สคริปต์ตอบเพื่อน: "ติดแล้วดีจริงไหม คุ้มไหม?"
+
+คุ้มมากแก ปกติเราจ่ายค่าไฟทิ้งให้หลวงทุกเดือน ปีละหลายหมื่น พอติดแล้วเหมือนได้ไฟฟรีตอนกลางวัน 4 ปีก็คืนทุนแล้ว ที่สำคัญไม่ต้องกลัวไฟไหม้ เพราะเขาเป็นบริษัทวิศวกรรม ใช้ตู้คอมบายเนอร์เกรด กฟภ. แท้ มีเบรกเกอร์ตัดไฟรั่ว และรับประกันหลังคารั่ว 2 ปี ถ้าแกสนใจ ให้วิศวกรเขาเข้ามาบินโดรนสำรวจหลังคาให้ฟรีก่อนได้ ไม่ซื้อไม่เป็นไร เดี๋ยวฉันส่งเบอร์ให้ทีมงานโทรนัดนะ`
     };
 
     // Initialize Page
@@ -1784,6 +1976,50 @@
               <p>2. ยื่นขนานไฟ กฟภ./กฟน. ออนไลน์ พร้อมวิศวกรไฟฟ้าเซ็น Single Line Diagram</p>
               <p>3. จดแจ้งยกเว้นใบอนุญาต สนง.กกพ. (ERC)</p>
               <p>ลูกค้าเตรียมแค่สำเนาบัตร ปชช., ทะเบียนบ้าน และบิลค่าไฟเท่านั้นครับ!</p>
+            </div>
+          </div>
+        `;
+      }
+
+      // Case 7: Referral & Commission
+      if (q.includes('แนะนำ') || q.includes('คอม') || q.includes('คอมมิชชั่น') || q.includes('เพื่อน') || q.includes('referral') || q.includes('partner') || q.includes('พันธมิตร')) {
+        return `
+          <div class="space-y-2">
+            <div class="font-bold text-emerald-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-hand-holding-dollar"></i> โครงการแนะนำเพื่อน & ตัวแทนบอกต่อ (99 Solar Partner)
+            </div>
+            <p class="text-slate-300">
+              เพียงแนะนำเพื่อน ญาติ หรือเพื่อนบ้านให้ติดโซลาร์เซลล์กับเรา เมื่อติดตั้งเสร็จสมบูรณ์ <strong>รับเงินค่าคอมมิชชั่นโอนสดเข้าบัญชีทันที</strong>:
+            </p>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-700">
+                <strong class="text-brand-400">ระบบ 3.3 kW:</strong>
+                <p class="text-slate-300 mt-0.5">รับ <strong>3,000 - 5,000 บาท</strong>/หลัง</p>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-brand-500/40">
+                <strong class="text-solar-gold">ระบบ 5.0 kW:</strong>
+                <p class="text-slate-300 mt-0.5">รับ <strong>5,000 - 8,000 บาท</strong>/หลัง</p>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-700">
+                <strong class="text-purple-400">ระบบ 10 kW:</strong>
+                <p class="text-slate-300 mt-0.5">รับ <strong>10,000 บาท</strong>/หลัง</p>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-emerald-500/40">
+                <strong class="text-emerald-400">โรงงาน/ธุรกิจ 20kW+:</strong>
+                <p class="text-slate-300 mt-0.5">รับ <strong>15,000 - 30,000+ บาท</strong></p>
+              </div>
+            </div>
+            <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-700 text-xs text-slate-300 space-y-1">
+              <p>👑 <strong>Super Bonus:</strong> แนะนำครบทุก 5 หลัง รับฟรีทันที <strong>ทองคำแท่งหนัก 1 สลึง</strong> หรือเงินสด 10,000 บาท!</p>
+              <p>🎯 <strong>วิธีชวนง่ายที่สุด:</strong> ก๊อปปี้สคริปต์ในแท็บ 6 "แนะนำเพื่อนรับค่าคอมฯ" ไปส่งใน LINE กลุ่มหมู่บ้าน หรือส่งเบอร์เพื่อนให้เซลส์เราโทรติดต่อแทนได้เลยครับ!</p>
+            </div>
+            <div class="flex gap-2 pt-1">
+              <button onclick="copyPredefinedScript(5)" class="px-3 py-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded text-xs font-bold hover:bg-emerald-500 hover:text-slate-950 transition-colors">
+                <i class="fa-regular fa-clone"></i> คัดลอกข้อความโปรโมชั่นชวนเพื่อน
+              </button>
+              <button onclick="switchTab('referral')" class="px-3 py-1 bg-slate-800 text-slate-300 rounded text-xs hover:text-white transition-colors">
+                ดูคู่มือ SOP แนะนำเพื่อนทั้งหมด &rarr;
+              </button>
             </div>
           </div>
         `;
