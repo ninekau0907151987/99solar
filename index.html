@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>99 Solar (โดย บจก. 99 แมทช์ เมคเกอร์) | บริการติดตั้งโซลาร์เซลล์ หาดใหญ่ สงขลา มาตรฐาน กฟภ. 100%</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              200: '#a7f3d0',
+              300: '#6ee7b7',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+            },
+            solar: {
+              gold: '#f59e0b',
+              amber: '#d97706',
+              light: '#fef3c7'
+            }
+          },
+          fontFamily: {
+            heading: ['Kanit', 'sans-serif'],
+            body: ['Prompt', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Prompt & Kanit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white pb-16 lg:pb-0">
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="bg-gradient-to-r from-brand-900 via-brand-800 to-brand-950 text-white text-xs sm:text-sm py-2.5 px-4 text-center font-medium shadow-sm">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-2">
+      <span class="inline-block px-2 py-0.5 bg-solar-gold text-slate-900 rounded font-bold text-[11px] uppercase tracking-wider">โปรโมชั่นหาดใหญ่-สงขลา</span>
+      <span>⚡ ฟรีค่าสำรวจหน้างาน + ล้างแผงฟรี 2 ปี + ผ่อน 0% สูงสุด 10 เดือน หรือผ่อนสบายนาน 84 เดือน</span>
+      <a href="#calculator" class="underline hover:text-brand-300 ml-1 font-semibold">คำนวณค่าไฟ &rarr;</a>
+    </div>
+  </div>
+
+  <!-- NAVIGATION BAR -->
+  <header class="sticky top-0 z-40 glass-nav transition-all duration-300 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo: 99 Solar (โดย บจก. 99 แมทช์ เมคเกอร์) -->
+      <a href="#" class="flex items-center space-x-3 group">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center text-white shadow-lg shadow-brand-500/25 group-hover:scale-105 transition-transform">
+          <span class="text-2xl font-black font-heading tracking-tighter">99</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-xl sm:text-2xl font-black font-heading text-slate-900 tracking-tight">
+              99 <span class="text-brand-600">SOLAR</span>
+            </span>
+            <span class="text-[10px] px-2 py-0.5 bg-emerald-100 text-emerald-800 font-bold rounded-full">หาดใหญ่-สงขลา</span>
+          </div>
+          <p class="text-[11px] text-slate-500 font-medium">โดย บจก. 99 แมทช์ เมคเกอร์ (ทุน 3 ล้าน)</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Menu: หน้าแรก | แพ็กเกจราคา | บริการของเรา | คำนวณค่าไฟ | ผลงาน | ติดต่อเรา -->
+      <nav class="hidden xl:flex items-center space-x-7 font-medium text-sm text-slate-700">
+        <a href="#hero" class="hover:text-brand-600 transition-colors">หน้าแรก</a>
+        <a href="#packages" class="hover:text-brand-600 transition-colors">แพ็กเกจราคา</a>
+        <a href="#services" class="hover:text-brand-600 transition-colors">บริการของเรา</a>
+        <a href="#calculator" class="hover:text-brand-600 transition-colors flex items-center gap-1 text-brand-700 font-semibold">
+          <i class="fa-solid fa-calculator text-brand-500"></i> คำนวณค่าไฟ
+        </a>
+        <a href="#portfolio" class="hover:text-brand-600 transition-colors">ผลงาน</a>
+        <a href="#contact" class="hover:text-brand-600 transition-colors">ติดต่อเรา</a>
+        <a href="solar-planner.html" class="px-3 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-300 rounded-xl transition-all flex items-center gap-1.5 font-bold text-xs">
+          <i class="fa-solid fa-drafting-compass text-brand-600"></i>
+          <span>โปรแกรมผังหลังคา (กว.)</span>
+        </a>
+        <a href="solar-sales-sop.html" class="px-3 py-1.5 bg-solar-light hover:bg-amber-100 text-amber-900 border border-solar-amber/40 rounded-xl transition-all flex items-center gap-1.5 font-bold text-xs shadow-sm">
+          <i class="fa-solid fa-robot text-solar-amber"></i>
+          <span>ระบบ SOP & แชทบอท</span>
+        </a>
+      </nav>
+
+      <!-- Quick Contact Top-Right Buttons: 📞 โทร 089-466-1491 | 🟢 แอด LINE: @99sola (ซ่อนบนมือถือ เพราะมีปุ่มลอยด้านล่างอยู่แล้ว) -->
+      <div class="hidden sm:flex items-center space-x-2 sm:space-x-3">
+        <!-- Phone Call Button -->
+        <a href="tel:0894661491" class="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs sm:text-sm px-3.5 sm:px-4 py-2 rounded-xl transition-all border border-slate-200 shadow-sm active:scale-95">
+          <i class="fa-solid fa-phone text-brand-600 text-sm"></i>
+          <span class="hidden sm:inline">โทร</span> <span>089-466-1491</span>
+        </a>
+
+        <!-- LINE Button -->
+        <a href="https://line.me/R/ti/p/@99sola" target="_blank" class="inline-flex items-center gap-2 bg-[#06C755] hover:bg-[#05b34c] text-white font-bold text-xs sm:text-sm px-3.5 sm:px-4 py-2 rounded-xl transition-all shadow-md shadow-green-600/20 active:scale-95">
+          <i class="fa-brands fa-line text-lg"></i>
+          <span class="hidden sm:inline">แอด LINE:</span> <span>@99sola</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- HERO SECTION WITH HOUSE & ROOF SOLAR ILLUSTRATION -->
+  <section id="hero" class="relative pt-8 pb-16 overflow-hidden bg-gradient-to-b from-brand-50/70 via-white to-slate-50">
+    
+    <!-- Background Glows -->
+    <div class="absolute top-10 left-1/2 -translate-x-1/2 w-[850px] h-[450px] bg-brand-300/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
+    <div class="absolute top-20 right-10 w-72 h-72 bg-solar-gold/15 rounded-full blur-2xl pointer-events-none -z-10"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        
+        <!-- Left: Value Proposition -->
+        <div class="lg:col-span-6 space-y-6 text-center lg:text-left">
+          
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-100/90 border border-brand-300 text-brand-800 text-xs sm:text-sm font-medium">
+            <span class="w-2.5 h-2.5 rounded-full bg-brand-500 animate-ping"></span>
+            <span>โซลาร์เซลล์คุณภาพสูง ดูแลโดยช่างพื้นที่หาดใหญ่</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-slate-900 leading-tight">
+            ติดโซลาร์เซลล์กับ <span class="text-brand-600">99 Solar</span> <br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 via-emerald-600 to-teal-700">
+              ลดค่าไฟได้สูงสุด 70-80%
+            </span> <br>
+            วิศวกร กว. คุมงาน มาตรฐาน กฟภ.
+          </h1>
+
+          <p class="text-base sm:text-lg text-slate-600 font-light leading-relaxed max-w-xl mx-auto lg:mx-0">
+            โดย <strong>บจก. 99 แมทช์ เมคเกอร์</strong> (ทุนจดทะเบียน 3 ล้านบาท) มีสำนักงานจริงที่ ต.คลองแห อ.หาดใหญ่ พร้อมบริการขอสินเชื่อ ยื่นขออนุญาต กฟภ. และบริการล้างแผงตรวจเช็คฟรี
+          </p>
+
+          <!-- CTAs -->
+          <div class="pt-2 flex flex-col sm:flex-row gap-3.5 justify-center lg:justify-start">
+            <a href="#calculator" class="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-brand-600 to-emerald-600 hover:from-brand-700 hover:to-emerald-700 text-white font-semibold text-base px-7 py-3.5 rounded-xl shadow-lg shadow-brand-600/30 hover:shadow-brand-600/40 transition-all hover:-translate-y-0.5">
+              <i class="fa-solid fa-calculator"></i>
+              <span>คำนวณค่าไฟที่ประหยัดได้</span>
+            </a>
+            <button class="open-consult-modal inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-800 border-2 border-brand-500 font-semibold text-base px-6 py-3.5 rounded-xl shadow-sm transition-all hover:border-brand-600">
+              <i class="fa-regular fa-calendar-check text-brand-600"></i>
+              <span>นัดหมายช่างหาดใหญ่วัดหลังคาฟรี</span>
+            </button>
+          </div>
+
+          <!-- Quick Contacts Pill -->
+          <div class="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-4 text-xs text-slate-600">
+            <div class="flex items-center gap-1.5">
+              <i class="fa-solid fa-location-dot text-red-500"></i>
+              <span>สำนักงาน ต.คลองแห อ.หาดใหญ่ จ.สงขลา</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <i class="fa-solid fa-headset text-brand-600"></i>
+              <span>ดูแลปัญหาหน้างานใน 24 ชม.</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Modern House with Solar Panels SVG & Visual Graphic -->
+        <div class="lg:col-span-6 relative flex justify-center">
+          
+          <div class="relative w-full max-w-lg">
+            
+            <!-- Floating Smart Stats Badges (แสดงบนหน้าจอแท็บเล็ตและคอมพิวเตอร์ เพื่อไม่ให้บังรูปบ้านบนมือถือ) -->
+            <div class="hidden sm:flex absolute -top-4 -left-4 z-20 glass-card px-4 py-3 rounded-2xl shadow-xl float-slow border border-emerald-200">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center font-bold">
+                  <i class="fa-solid fa-chart-line text-lg"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-500">ประหยัดเฉลี่ยต่อเดือน</div>
+                  <div class="text-base font-bold text-emerald-700 font-heading">~1,800 - 8,500 ฿</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="hidden sm:flex absolute -bottom-4 -right-4 z-20 glass-card px-4 py-3 rounded-2xl shadow-xl float-delayed border border-emerald-200">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-solar-gold text-white flex items-center justify-center font-bold">
+                  <i class="fa-solid fa-shield-halved text-lg"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-500">มาตรฐาน กฟภ. 100%</div>
+                  <div class="text-base font-bold text-amber-600 font-heading">มีใบ กว. รับรอง</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SVG Container of Modern House with Solar Panels on Roof -->
+            <div class="w-full bg-gradient-to-b from-sky-50 via-emerald-50/50 to-slate-100 rounded-3xl p-6 sm:p-8 shadow-2xl border border-emerald-100 relative overflow-hidden">
+              
+              <!-- Sun Graphics -->
+              <div class="absolute top-4 right-6 sun-pulse">
+                <svg width="70" height="70" viewBox="0 0 100 100" fill="none">
+                  <circle cx="50" cy="50" r="24" fill="#f59e0b" />
+                  <circle cx="50" cy="50" r="32" stroke="#fbbf24" stroke-width="2" stroke-dasharray="4 4" opacity="0.6"/>
+                  <line x1="50" y1="10" x2="50" y2="2" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+                  <line x1="50" y1="90" x2="50" y2="98" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+                  <line x1="10" y1="50" x2="2" y2="50" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+                  <line x1="90" y1="50" x2="98" y2="50" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+                  <line x1="22" y1="22" x2="16" y2="16" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+                  <line x1="78" y1="78" x2="84" y2="84" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+                  <line x1="22" y1="78" x2="16" y2="84" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+                  <line x1="78" y1="22" x2="84" y2="16" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+              </div>
+
+              <!-- Modern House SVG Illustration -->
+              <svg viewBox="0 0 540 380" class="w-full h-auto drop-shadow-md">
+                <defs>
+                  <pattern id="solarGrid" width="22" height="14" patternUnits="userSpaceOnUse">
+                    <rect width="22" height="14" fill="#0f172a" stroke="#38bdf8" stroke-width="0.8" />
+                    <line x1="11" y1="0" x2="11" y2="14" stroke="#38bdf8" stroke-width="0.5" stroke-dasharray="1 1"/>
+                    <line x1="0" y1="7" x2="22" y2="7" stroke="#38bdf8" stroke-width="0.5"/>
+                  </pattern>
+
+                  <linearGradient id="panelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#1e293b"/>
+                    <stop offset="50%" stop-color="#0f172a"/>
+                    <stop offset="100%" stop-color="#0369a1"/>
+                  </linearGradient>
+
+                  <linearGradient id="roofGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#334155" />
+                    <stop offset="100%" stop-color="#1e293b" />
+                  </linearGradient>
+
+                  <linearGradient id="wallGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#ffffff" />
+                    <stop offset="100%" stop-color="#f1f5f9" />
+                  </linearGradient>
+                </defs>
+
+                <!-- Ground / Lawn -->
+                <rect x="20" y="325" width="500" height="25" rx="12" fill="#10b981" opacity="0.85"/>
+                <rect x="0" y="340" width="540" height="20" fill="#047857" opacity="0.3"/>
+
+                <!-- House Main Base -->
+                <rect x="90" y="160" width="360" height="165" rx="8" fill="url(#wallGrad)" stroke="#cbd5e1" stroke-width="2"/>
+                
+                <!-- Modern Timber Accent Wall -->
+                <rect x="90" y="160" width="110" height="165" rx="6" fill="#d97706" opacity="0.15"/>
+                <line x1="112" y1="160" x2="112" y2="325" stroke="#b45309" stroke-width="1.5" opacity="0.4"/>
+                <line x1="134" y1="160" x2="134" y2="325" stroke="#b45309" stroke-width="1.5" opacity="0.4"/>
+                <line x1="156" y1="160" x2="156" y2="325" stroke="#b45309" stroke-width="1.5" opacity="0.4"/>
+                <line x1="178" y1="160" x2="178" y2="325" stroke="#b45309" stroke-width="1.5" opacity="0.4"/>
+
+                <!-- Front Door (Modern Minimalist) -->
+                <rect x="120" y="235" width="50" height="90" rx="4" fill="#0f172a" />
+                <rect x="125" y="240" width="40" height="85" rx="2" fill="#334155" />
+                <circle cx="132" cy="285" r="2.5" fill="#f59e0b" />
+
+                <!-- Large Modern Glass Windows -->
+                <rect x="230" y="220" width="180" height="95" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+                <line x1="320" y1="220" x2="320" y2="315" stroke="#0284c7" stroke-width="2"/>
+                <polygon points="240,310 270,225 290,225 260,310" fill="#ffffff" opacity="0.6"/>
+                <polygon points="335,310 365,225 385,225 355,310" fill="#ffffff" opacity="0.6"/>
+
+                <!-- Second Floor Window -->
+                <rect x="230" y="175" width="180" height="32" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="1.5"/>
+
+                <!-- Modern Pitched Roof Structure -->
+                <polygon points="60,160 270,55 480,160 450,160 270,72 90,160" fill="url(#roofGrad)" stroke="#0f172a" stroke-width="2"/>
+                <polygon points="90,160 270,72 450,160" fill="#1e293b"/>
+
+                <!-- SOLAR PANELS ON ROOF -->
+                <g transform="rotate(-23 185 115)">
+                  <rect x="110" y="105" width="130" height="55" rx="4" fill="#0284c7" opacity="0.3"/>
+                  <rect x="112" y="107" width="126" height="51" rx="3" fill="url(#solarGrid)"/>
+                  <rect x="112" y="107" width="126" height="51" rx="3" fill="url(#panelGrad)" opacity="0.35"/>
+                  <polygon points="120,158 145,107 165,107 140,158" fill="#38bdf8" opacity="0.45"/>
+                </g>
+
+                <g transform="rotate(23 355 115)">
+                  <rect x="295" y="105" width="130" height="55" rx="4" fill="#0284c7" opacity="0.3"/>
+                  <rect x="297" y="107" width="126" height="51" rx="3" fill="url(#solarGrid)"/>
+                  <rect x="297" y="107" width="126" height="51" rx="3" fill="url(#panelGrad)" opacity="0.35"/>
+                  <polygon points="360,158 385,107 405,107 380,158" fill="#38bdf8" opacity="0.45"/>
+                </g>
+
+                <!-- Inverter & Cable -->
+                <rect x="68" y="235" width="18" height="30" rx="3" fill="#ffffff" stroke="#10b981" stroke-width="2"/>
+                <rect x="71" y="240" width="12" height="6" fill="#10b981"/>
+                <circle cx="77" cy="254" r="2" fill="#10b981" class="animate-pulse"/>
+
+                <path d="M190 145 L77 235 L77 315 L120 315" fill="none" stroke="#10b981" stroke-width="2.5" class="energy-flow-line"/>
+
+                <circle cx="485" cy="305" r="24" fill="#10b981" opacity="0.75"/>
+                <circle cx="470" cy="315" r="18" fill="#059669"/>
+                <rect x="478" y="320" width="8" height="15" fill="#78350f"/>
+              </svg>
+
+              <!-- Live Energy Feed Pill Indicator -->
+              <div class="mt-4 flex items-center justify-between bg-white/95 rounded-xl p-3 border border-emerald-100 shadow-sm text-xs">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                  <span class="font-semibold text-slate-800">สถานะผลิตไฟวันนี้:</span>
+                  <span class="text-emerald-600 font-bold">19.2 หน่วย (kWh)</span>
+                </div>
+                <div class="text-slate-500 font-medium hidden sm:block">
+                  <i class="fa-solid fa-bolt text-brand-600 mr-1"></i> เชื่อมต่อ กฟภ. หาดใหญ่
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST BADGES: แถบการันตีความน่าเชื่อถือ (4 กล่องเรียงแนวนอนตามที่ระบุ) -->
+  <section class="py-12 bg-white border-y border-slate-200/80 relative z-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center mb-8">
+        <span class="text-xs uppercase tracking-wider text-brand-700 font-bold px-3 py-1 bg-brand-50 rounded-full border border-brand-200">
+          ทำไมลูกค้าหาดใหญ่-สงขลา ถึงไว้วางใจ 99 SOLAR
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-bold font-heading text-slate-900 mt-2">
+          4 เหตุผลการันตีความน่าเชื่อถือ ปลอดภัย มั่นใจได้ 100%
+        </h2>
+      </div>
+
+      <!-- 4 Horizontal Trust Boxes Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        
+        <!-- Box 1: วิศวกรคุมงานจริง -->
+        <div class="trust-badge-card p-6 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-2xl mb-4 shadow-sm">
+              🛡️
+            </div>
+            <h3 class="text-lg font-bold font-heading text-slate-900 mb-2 flex items-center gap-1.5">
+              <span>วิศวกรคุมงานจริง</span>
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              ออกแบบถูกต้องตามหลัก วสท. มีใบ กว. ไฟฟ้าและโยธารับรอง โครงสร้างปลอดภัย แข็งแรง ทนลมมรสุมภาคใต้
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-brand-700 font-semibold flex items-center gap-1">
+            <i class="fa-solid fa-certificate"></i> มีวิศวกร กว. เซ็นรับรองทุกเคส
+          </div>
+        </div>
+
+        <!-- Box 2: มาตรฐาน กฟภ. 100% -->
+        <div class="trust-badge-card p-6 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl mb-4 shadow-sm">
+              ⚡
+            </div>
+            <h3 class="text-lg font-bold font-heading text-slate-900 mb-2 flex items-center gap-1.5">
+              <span>มาตรฐาน กฟภ. 100%</span>
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              ใช้อุปกรณ์ในลิสต์การไฟฟ้ารับรอง (Inverter Tier 1) ดำเนินเรื่องยื่นขออนุญาตผ่านฉลุย ถูกต้องตามระเบียบ กฟภ.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-amber-700 font-semibold flex items-center gap-1">
+            <i class="fa-solid fa-file-circle-check"></i> ดำเนินการยื่น กฟภ. ฟรี 100%
+          </div>
+        </div>
+
+        <!-- Box 3: ช่างหาดใหญ่ ดูแล 24 ชม. -->
+        <div class="trust-badge-card p-6 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-2xl mb-4 shadow-sm">
+              🏠
+            </div>
+            <h3 class="text-lg font-bold font-heading text-slate-900 mb-2 flex items-center gap-1.5">
+              <span>ช่างหาดใหญ่ ดูแล 24 ชม.</span>
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              มีสำนักงานที่ ต.คลองแห อ.หาดใหญ่ ไม่ทิ้งงาน มีปัญหาเข้าดูหน้างานใน 24 ชม. อุ่นใจ มีตัวตนจริงในพื้นที่
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-blue-700 font-semibold flex items-center gap-1">
+            <i class="fa-solid fa-truck-fast"></i> เข้าถึงหน้างานไว ไม่ต้องรอช่าง กทม.
+          </div>
+        </div>
+
+        <!-- Box 4: นิติบุคคลทุน 3 ล้าน -->
+        <div class="trust-badge-card p-6 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-2xl mb-4 shadow-sm">
+              📄
+            </div>
+            <h3 class="text-lg font-bold font-heading text-slate-900 mb-2 flex items-center gap-1.5">
+              <span>นิติบุคคลทุน 3 ล้าน</span>
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              ออกใบกำกับภาษีถูกต้อง ทำสัญญาชัดเจน ปลอดภัย ไม่เสี่ยงช่างเถื่อน ดำเนินงานโดย บจก. 99 แมทช์ เมคเกอร์
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-purple-700 font-semibold flex items-center gap-1">
+            <i class="fa-solid fa-building-circle-check"></i> บจก. 99 แมทช์ เมคเกอร์
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- INTERACTIVE VALUE CALCULATOR (HIGHLIGHT: ค่าไฟ 3,000 สมควรติดไหม?) -->
+  <section id="calculator" class="py-20 bg-slate-50 relative border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-14">
+        <span class="px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold text-xs uppercase tracking-wider">
+          เครื่องคำนวณความคุ้มค่าอัจฉริยะ (Interactive Solar Calculator)
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-bold font-heading text-slate-900 mt-3 mb-4">
+          เลื่อนเพื่อดูว่าค่าไฟบ้านคุณ <br class="hidden sm:inline">
+          <span class="text-brand-600">ประหยัดได้เดือนละเท่าไหร่? สมควรติดไหม?</span>
+        </h2>
+        <p class="text-slate-600 text-base">
+          ลองเลื่อนแถบค่าไฟเพื่อดูขนาดกิโลวัตต์ (kW) ที่เหมาะสม, ระยะเวลาคืนทุน และยอดผ่อนรายเดือนได้ทันที
+        </p>
+      </div>
+
+      <!-- Calculator Card Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        
+        <!-- Left: Slider & Control Panel -->
+        <div class="lg:col-span-7 bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-sm">
+          
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <label for="billSlider" class="text-sm sm:text-base font-bold text-slate-800 flex items-center gap-2">
+                <i class="fa-solid fa-receipt text-brand-600"></i> ค่าไฟฟ้าเฉลี่ยต่อเดือนของคุณ:
+              </label>
+              <div class="text-right">
+                <span id="billValueDisplay" class="text-3xl sm:text-4xl font-extrabold font-heading text-brand-600">3,000</span>
+                <span class="text-base font-medium text-slate-500 ml-1">บาท / เดือน</span>
+              </div>
+            </div>
+
+            <!-- The Interactive Slider -->
+            <div class="py-4">
+              <input type="range" id="billSlider" min="1500" max="25000" step="250" value="3000" class="w-full cursor-pointer">
+              <div class="flex justify-between text-xs text-slate-400 mt-2 font-medium">
+                <span>1,500 ฿ (บ้านทั่วไป)</span>
+                <span class="text-brand-700 font-bold font-heading">3,000 ฿ (ไฮไลท์)</span>
+                <span>8,000 ฿</span>
+                <span>15,000 ฿</span>
+                <span>25,000+ ฿ (ธุรกิจ)</span>
+              </div>
+            </div>
+
+            <!-- Quick Preset Chips -->
+            <div class="mt-3">
+              <span class="text-xs font-semibold text-slate-500 block mb-2">เลือกค่าไฟด่วน:</span>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" class="bill-preset-btn px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors border-slate-300 hover:border-brand-500" data-val="2000">2,000 บ.</button>
+                <button type="button" class="bill-preset-btn px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors bg-emerald-600 text-white border-emerald-600" data-val="3000">3,000 บ. (ค่าไฟยอดฮิต)</button>
+                <button type="button" class="bill-preset-btn px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors border-slate-300 hover:border-brand-500" data-val="4500">4,500 บ.</button>
+                <button type="button" class="bill-preset-btn px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors border-slate-300 hover:border-brand-500" data-val="6000">6,000 บ.</button>
+                <button type="button" class="bill-preset-btn px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors border-slate-300 hover:border-brand-500" data-val="10000">10,000 บ.</button>
+              </div>
+            </div>
+
+            <!-- Answer Box: ค่าไฟ 3,000 สมควรติดไหม? (Dynamic Verdict Box) -->
+            <div class="mt-6 p-5 bg-emerald-50/50 rounded-2xl border border-emerald-200 shadow-sm transition-all duration-300">
+              <div id="verdictBadge" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300 mb-2">
+                <i class="fa-solid fa-circle-check mr-1.5 text-emerald-600"></i> ตอบคำถาม: ค่าไฟ 3,000 บาท สมควรติดไหม?
+              </div>
+              <p id="verdictText" class="text-sm text-slate-700 leading-relaxed">
+                <strong>สมควรติดเป็นอย่างยิ่ง!</strong> สำหรับบ้านในหาดใหญ่-สงขลา ที่มีค่าไฟประมาณ 3,000 บาท แนะนำระบบ <strong>3.3 kW ถึง 5 kW</strong> ซึ่งจะช่วยเซฟค่าไฟได้ราว <strong>1,800 - 2,200 บาท/เดือน</strong> (ลดลงถึง 65-70%) คืนทุนไวภายใน <strong>3.8 - 4.2 ปี</strong> เท่านั้น! ที่สำคัญทีมวิศวกร 99 Solar ดำเนินการยื่น กฟภ. หาดใหญ่ ให้ฟรี และดูแลบริการหลังการขายโดยช่างพื้นที่คลองแห เข้าถึงหน้างานใน 24 ชม.
+              </p>
+            </div>
+          </div>
+
+          <!-- Financing & Bill Comparison Row -->
+          <div class="mt-6 pt-5 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-slate-600">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-hand-holding-dollar text-brand-600 text-lg"></i>
+              <span>แผนผ่อนชำระ: <strong id="monthlyInstallment" class="text-slate-900 font-bold">เริ่มต้น 2,300 บ./ด.</strong></span>
+            </div>
+            <div class="flex items-center gap-1.5 text-emerald-700 font-medium">
+              <i class="fa-solid fa-check-double"></i> ค่างวดถูกกว่าค่าไฟที่ลดได้ = สบายใจ ไม่ต้องควักเพิ่ม
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Results & Output Card -->
+        <div class="lg:col-span-5 bg-gradient-to-br from-slate-900 via-brand-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-xl relative overflow-hidden">
+          
+          <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-brand-500/20 rounded-full blur-2xl pointer-events-none"></div>
+
+          <div>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+              <span class="text-xs uppercase tracking-wider text-brand-300 font-bold">ผลการวิเคราะห์ระบบที่เหมาะสม</span>
+              <span class="text-xs px-2.5 py-1 bg-brand-500/20 text-brand-300 border border-brand-500/30 rounded-full">คำนวณแบบ Realtime</span>
+            </div>
+
+            <!-- Recommended Capacity Large -->
+            <div class="mb-6">
+              <div class="text-slate-400 text-xs font-medium">ขนาดระบบโซลาร์ที่แนะนำ:</div>
+              <div class="flex items-baseline gap-3 mt-1">
+                <span id="recommendedKw" class="text-4xl sm:text-5xl font-extrabold font-heading text-brand-400">3.3 kW</span>
+                <span class="text-slate-300 text-sm">(On-Grid กฟภ. รับรอง)</span>
+              </div>
+            </div>
+
+            <!-- 2 Key Savings Metrics -->
+            <div class="grid grid-cols-2 gap-4 mb-6">
+              <div class="bg-white/10 rounded-2xl p-4 border border-white/10 backdrop-blur-sm">
+                <div class="text-slate-400 text-xs mb-1">ประหยัดเฉลี่ยต่อเดือน</div>
+                <div id="monthlySavings" class="text-xl sm:text-2xl font-bold font-heading text-emerald-300">1,950 บาท/เดือน</div>
+              </div>
+              <div class="bg-white/10 rounded-2xl p-4 border border-white/10 backdrop-blur-sm">
+                <div class="text-slate-400 text-xs mb-1">ประหยัดเฉลี่ยต่อปี</div>
+                <div id="yearlySavings" class="text-xl sm:text-2xl font-bold font-heading text-emerald-300">23,400 บาท/ปี</div>
+              </div>
+            </div>
+
+            <!-- Technical Summary List -->
+            <div class="space-y-3 text-xs sm:text-sm text-slate-300 border-t border-slate-800 pt-4">
+              <div class="flex justify-between">
+                <span class="text-slate-400"><i class="fa-solid fa-clock-rotate-left mr-1.5 text-solar-gold"></i> ระยะเวลาคืนทุนโดยประมาณ:</span>
+                <span id="breakevenYears" class="font-bold text-white font-heading">3.9 ปี</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400"><i class="fa-solid fa-solar-panel mr-1.5 text-brand-400"></i> จำนวนแผงโซลาร์เซลล์:</span>
+                <span id="panelCount" class="font-bold text-white">6 แผง (Tier 1 รับประกัน 25 ปี)</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400"><i class="fa-solid fa-bolt mr-1.5 text-solar-gold"></i> ผลิตไฟได้ประมาณ:</span>
+                <span id="dailyUnits" class="font-bold text-white">14 หน่วย/วัน</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400"><i class="fa-solid fa-file-signature mr-1.5 text-blue-400"></i> ดำเนินเรื่องเอกสาร กฟภ. หาดใหญ่:</span>
+                <span class="font-bold text-emerald-400">ฟรีทุกขั้นตอน</span>
+              </div>
+            </div>
+
+            <!-- Visual Bar Comparison -->
+            <div class="mt-6 p-3.5 bg-slate-800/60 rounded-xl border border-slate-700/60">
+              <div class="flex justify-between text-xs text-slate-300 mb-1.5">
+                <span>ค่าไฟเดิม: <strong id="comparisonBefore" class="text-red-400">3,000 ฿</strong></span>
+                <span>ค่าไฟหลังติดโซลาร์: <strong id="comparisonAfter" class="text-emerald-400">1,050 ฿</strong></span>
+              </div>
+              <div class="w-full bg-red-400/40 h-2.5 rounded-full overflow-hidden flex">
+                <div class="bg-emerald-400 h-full w-[35%]"></div>
+                <div class="bg-emerald-400/20 h-full w-[65%]"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Button -->
+          <div class="mt-6">
+            <button class="open-consult-modal w-full bg-gradient-to-r from-brand-500 to-emerald-500 hover:from-brand-600 hover:to-emerald-600 text-white font-bold py-3.5 px-4 rounded-xl text-center shadow-lg shadow-brand-500/30 transition-all hover:scale-[1.02]">
+              <i class="fa-solid fa-phone-volume mr-2"></i> นัดวิศวกร 99 Solar วัดหน้างานฟรี
+            </button>
+            <p class="text-center text-[11px] text-slate-400 mt-2">
+              *ไม่มีค่าใช้จ่ายในการสำรวจหน้างานในเขตหาดใหญ่และสงขลา
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PRICING PACKAGES SECTION (แพ็กเกจราคา & ระบบกิโลวัตต์) -->
+  <section id="packages" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="px-3.5 py-1.5 rounded-full bg-brand-100 text-brand-800 font-semibold text-xs uppercase tracking-wider">
+          แพ็กเกจมาตรฐาน 99 Solar
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-bold font-heading text-slate-900 mt-3 mb-4">
+          แพ็กเกจติดตั้งโซลาร์เซลล์ยอดนิยม <br class="hidden sm:inline">
+          <span class="text-brand-600">ราคารวมติดตั้งครบวงจร ยื่น กฟภ. ฟรี</span>
+        </h2>
+        <p class="text-slate-600 text-base leading-relaxed">
+          เลือกขนาดกิโลวัตต์ที่เหมาะกับบิลค่าไฟของคุณ ผ่อน 0% ได้ นาน 10 เดือน หรือผ่อนสบายนานสูงสุด 84 เดือน
+        </p>
+      </div>
+
+      <!-- 4 Package Sizing Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- 3.3 kW Card -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:border-brand-400 transition-all group flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-start mb-4">
+              <span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-bold rounded-lg group-hover:bg-brand-50 group-hover:text-brand-700 transition-colors">
+                บ้านไซส์เริ่มต้น
+              </span>
+              <span class="text-xs text-slate-400">1 Phase</span>
+            </div>
+
+            <div class="text-3xl font-extrabold font-heading text-slate-900 mb-1">
+              3.3 kW <span class="text-sm font-normal text-slate-500">(kWp)</span>
+            </div>
+            <div class="text-xs text-emerald-600 font-semibold mb-4">
+              ประหยัดได้ ~1,500 - 2,200 บ./เดือน
+            </div>
+
+            <div class="space-y-3 text-xs text-slate-600 border-t border-slate-100 pt-4">
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-receipt text-amber-500"></i>
+                <span>ค่าไฟปัจจุบัน: <strong>2,500 - 3,500 บาท</strong></span>
+              </div>
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-fan text-blue-500 mt-0.5"></i>
+                <span>แอร์ 1-2 ตัว + ตู้เย็น + ปั๊มน้ำ + WFH 1-2 คน</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-solar-panel text-slate-400"></i>
+                <span>ใช้แผงโซลาร์: 6-7 แผง (~14 ตร.ม.)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-credit-card text-brand-600"></i>
+                <span>ผ่อนเริ่มต้น: <strong>~2,300 บ./เดือน</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-slate-100">
+            <button class="open-consult-modal w-full py-2.5 px-3 rounded-xl bg-slate-100 group-hover:bg-brand-600 group-hover:text-white text-slate-700 text-xs font-semibold transition-all">
+              ปรึกษาระบบ 3.3 kW
+            </button>
+          </div>
+        </div>
+
+        <!-- 5 kW Card (Most Popular Highlighted) -->
+        <div class="bg-gradient-to-b from-brand-50/50 via-white to-white rounded-2xl p-6 border-2 border-brand-500 shadow-lg hover:shadow-2xl transition-all relative flex flex-col justify-between">
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 bg-gradient-to-r from-brand-600 to-emerald-600 text-white text-[11px] font-bold rounded-full shadow-sm whitespace-nowrap">
+            🔥 ขายดีที่สุดในหาดใหญ่
+          </div>
+
+          <div>
+            <div class="flex justify-between items-start mb-4 mt-1">
+              <span class="px-3 py-1 bg-brand-100 text-brand-800 text-xs font-bold rounded-lg">
+                บ้านครอบครัวยอดนิยม
+              </span>
+              <span class="text-xs text-brand-700 font-semibold">1 / 3 Phase</span>
+            </div>
+
+            <div class="text-3xl font-extrabold font-heading text-slate-900 mb-1">
+              5 kW <span class="text-sm font-normal text-slate-500">(kWp)</span>
+            </div>
+            <div class="text-xs text-emerald-600 font-semibold mb-4">
+              ประหยัดได้ ~3,000 - 4,200 บ./เดือน
+            </div>
+
+            <div class="space-y-3 text-xs text-slate-600 border-t border-slate-100 pt-4">
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-receipt text-amber-500"></i>
+                <span>ค่าไฟปัจจุบัน: <strong>4,000 - 7,000 บาท</strong></span>
+              </div>
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-fan text-blue-500 mt-0.5"></i>
+                <span>แอร์ 2-4 ตัว + ตู้เย็น 2 เครื่อง + ไมโครเวฟ</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-solar-panel text-slate-400"></i>
+                <span>ใช้แผงโซลาร์: 9-10 แผง (~22 ตร.ม.)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-credit-card text-brand-600"></i>
+                <span>ผ่อนเริ่มต้น: <strong>~3,300 บ./เดือน</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-slate-100">
+            <button class="open-consult-modal w-full py-2.5 px-3 rounded-xl bg-brand-600 text-white hover:bg-brand-700 text-xs font-semibold shadow-md shadow-brand-500/20 transition-all">
+              เลือกแพ็กเกจยอดนิยม 5 kW
+            </button>
+          </div>
+        </div>
+
+        <!-- 10 kW Card -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:border-brand-400 transition-all group flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-start mb-4">
+              <span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-bold rounded-lg group-hover:bg-brand-50 group-hover:text-brand-700 transition-colors">
+                บ้านใหญ่ & มีชาร์จ EV
+              </span>
+              <span class="text-xs text-slate-400">3 Phase</span>
+            </div>
+
+            <div class="text-3xl font-extrabold font-heading text-slate-900 mb-1">
+              10 kW <span class="text-sm font-normal text-slate-500">(kWp)</span>
+            </div>
+            <div class="text-xs text-emerald-600 font-semibold mb-4">
+              ประหยัดได้ ~6,500 - 8,500 บ./เดือน
+            </div>
+
+            <div class="space-y-3 text-xs text-slate-600 border-t border-slate-100 pt-4">
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-receipt text-amber-500"></i>
+                <span>ค่าไฟปัจจุบัน: <strong>8,000 - 15,000+ บาท</strong></span>
+              </div>
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-charging-station text-emerald-600 mt-0.5"></i>
+                <span>แอร์ 4-7 ตัว + ชาร์จรถยนต์ไฟฟ้า EV ช่วงกลางวัน</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-solar-panel text-slate-400"></i>
+                <span>ใช้แผงโซลาร์: 18-20 แผง (~45 ตร.ม.)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-credit-card text-brand-600"></i>
+                <span>ผ่อนเริ่มต้น: <strong>~5,500 บ./เดือน</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-slate-100">
+            <button class="open-consult-modal w-full py-2.5 px-3 rounded-xl bg-slate-100 group-hover:bg-brand-600 group-hover:text-white text-slate-700 text-xs font-semibold transition-all">
+              ปรึกษาระบบ 10 kW
+            </button>
+          </div>
+        </div>
+
+        <!-- 15-20 kW+ Card -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:border-brand-400 transition-all group flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-start mb-4">
+              <span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-bold rounded-lg group-hover:bg-brand-50 group-hover:text-brand-700 transition-colors">
+                คลินิก ร้านค้า โรงงาน
+              </span>
+              <span class="text-xs text-slate-400">3 Phase High</span>
+            </div>
+
+            <div class="text-3xl font-extrabold font-heading text-slate-900 mb-1">
+              15 - 20+ kW <span class="text-sm font-normal text-slate-500">ขึ้นไป</span>
+            </div>
+            <div class="text-xs text-emerald-600 font-semibold mb-4">
+              ประหยัดได้ 15,000 - 30,000+ บ./เดือน
+            </div>
+
+            <div class="space-y-3 text-xs text-slate-600 border-t border-slate-100 pt-4">
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-receipt text-amber-500"></i>
+                <span>ค่าไฟปัจจุบัน: <strong>20,000 - 50,000+ บาท</strong></span>
+              </div>
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-industry text-purple-500 mt-0.5"></i>
+                <span>ตู้แช่ขนาดใหญ่ เครื่องจักร แอร์อาคารพาณิชย์</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-percent text-amber-600"></i>
+                <span>ลดหย่อนภาษีนิติบุคคล / ขอ BOI ได้</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-file-invoice text-emerald-600"></i>
+                <span>ออกใบกำกับภาษี บจก. 99 แมทช์ เมคเกอร์</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-slate-100">
+            <button class="open-consult-modal w-full py-2.5 px-3 rounded-xl bg-slate-100 group-hover:bg-brand-600 group-hover:text-white text-slate-700 text-xs font-semibold transition-all">
+              ปรึกษาระบบนิติบุคคล
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- DAYTIME VS NIGHTTIME USAGE COMPARISON (เน้นใช้ไฟกลางวัน VS กลางคืน) -->
+      <div class="mt-16 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-6 sm:p-10 text-white shadow-xl border border-slate-700">
+        
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <span class="px-3.5 py-1 rounded-full bg-solar-gold/20 text-solar-gold border border-solar-gold/30 text-xs font-bold uppercase tracking-wider">
+            คำถามสำคัญก่อนตัดสินใจซื้อ
+          </span>
+          <h3 class="text-2xl sm:text-3xl font-bold font-heading text-white mt-3">
+            ☀️ เน้นใช้ไฟกลางวัน VS 🌙 เน้นใช้ไฟกลางคืน <br class="hidden sm:inline">
+            <span class="text-emerald-400">บ้านของคุณเหมาะกับระบบแบบไหนที่สุด?</span>
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-300 mt-2">
+            แผงโซลาร์เซลล์ผลิตไฟได้เฉพาะช่วงที่มีแสงแดด (08:30 - 16:30 น.) การเข้าใจพฤติกรรมบ้านคุณช่วยให้เลือกได้คุ้มค่าที่สุด
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+          
+          <!-- Case 1: กลางวัน -->
+          <div class="bg-slate-800/80 rounded-2xl p-6 border border-emerald-500/40 relative flex flex-col justify-between">
+            <div class="absolute -top-3 right-6 px-3 py-0.5 bg-emerald-500 text-slate-950 text-[11px] font-black rounded-full">
+              🔥 คุ้มค่าที่สุด (แนะนำ 90%)
+            </div>
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-solar-gold flex items-center justify-center text-2xl">
+                  ☀️
+                </div>
+                <div>
+                  <h4 class="font-bold text-base sm:text-lg text-white">แบบที่ 1: บ้านที่เน้นใช้ไฟกลางวัน</h4>
+                  <p class="text-xs text-emerald-400">Daytime Heavy User</p>
+                </div>
+              </div>
+
+              <div class="space-y-2 text-xs text-slate-300 mb-5">
+                <div class="flex items-start gap-2">
+                  <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                  <span><strong>พฤติกรรม:</strong> ทำงาน WFH, มีผู้สูงอายุ/เด็กเล็กอยู่บ้าน, เปิดแอร์กลางวัน 1-3 ตัว, คลินิก, ร้านค้า</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                  <span><strong>ระบบที่เหมาะสม:</strong> <strong class="text-white">ระบบ On-Grid (ไม่มีแบตเตอรี่)</strong></span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                  <span><strong>หลักการทำงาน:</strong> แดดออก $\rightarrow$ ผลิตไฟปุ๊บ ใช้ตัดบิลค่าไฟทันที ไม่ต้องซื้อแบตเตอรี่แพงๆ</span>
+                </div>
+              </div>
+
+              <div class="p-3 bg-emerald-950/60 rounded-xl border border-emerald-800 text-xs">
+                <span class="text-emerald-400 font-bold block mb-0.5"><i class="fa-solid fa-circle-check mr-1"></i> ความคุ้มค่า: สูงสุด 5 ดาว</span>
+                <span class="text-slate-300">คืนทุนเร็วมากภายใน <strong>3.5 - 4 ปี</strong> ค่าไฟลดลงเฉลี่ย 60 - 75% ค่างวดผ่อนถูกกว่าค่าไฟที่ประหยัดได้</span>
+              </div>
+            </div>
+
+            <div class="mt-5 pt-4 border-t border-slate-700">
+              <a href="#calculator" class="w-full inline-flex items-center justify-center py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs transition-colors">
+                คำนวณแพ็กเกจ On-Grid กลางวัน
+              </a>
+            </div>
+          </div>
+
+          <!-- Case 2: กลางคืน -->
+          <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 relative flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-2xl">
+                  🌙
+                </div>
+                <div>
+                  <h4 class="font-bold text-base sm:text-lg text-white">แบบที่ 2: บ้านที่เน้นใช้ไฟกลางคืน</h4>
+                  <p class="text-xs text-blue-300">Nighttime Heavy User</p>
+                </div>
+              </div>
+
+              <div class="space-y-2 text-xs text-slate-300 mb-5">
+                <div class="flex items-start gap-2">
+                  <i class="fa-solid fa-check text-blue-400 mt-0.5"></i>
+                  <span><strong>พฤติกรรม:</strong> เช้าออกไปทำงานนอกบ้าน ไม่มีคนอยู่ กลับบ้าน 18:00 น. เปิดแอร์นอนตอนกลางคืน</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <i class="fa-solid fa-check text-blue-400 mt-0.5"></i>
+                  <span><strong>ทางเลือกที่ 1 (ประหยัดสุด):</strong> ติด On-Grid ไซส์เริ่มต้น (3.3 kW) เพื่อตัดค่าไฟพื้นฐาน (ตู้เย็น, ปั๊มน้ำ, แอร์ช่วง 16:00-18:00 น.)</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <i class="fa-solid fa-check text-blue-400 mt-0.5"></i>
+                  <span><strong>ทางเลือกที่ 2 (มีแบตเตอรี่):</strong> ติดระบบ <strong>Hybrid + แบตเตอรี่ลิเธียม</strong> เก็บไฟกลางวันไว้เปิดแอร์ตอนกลางคืน และใช้เป็นไฟสำรองเวลาไฟดับ</span>
+                </div>
+              </div>
+
+              <div class="p-3 bg-blue-950/60 rounded-xl border border-blue-800 text-xs">
+                <span class="text-blue-300 font-bold block mb-0.5"><i class="fa-solid fa-battery-half mr-1"></i> ข้อดีของระบบมีแบตเตอรี่:</span>
+                <span class="text-slate-300">ไฟไม่ดับ สบายใจ มีพลังงานสะอาดใช้ 24 ชม. (ระยะเวลาคืนทุน <strong>6 - 8 ปี</strong>)</span>
+              </div>
+            </div>
+
+            <div class="mt-5 pt-4 border-t border-slate-700">
+              <button class="open-consult-modal w-full inline-flex items-center justify-center py-2.5 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl text-xs transition-colors">
+                ปรึกษาระบบ Hybrid พร้อมแบตเตอรี่
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 99 Solar Hybrid-Ready Note -->
+        <div class="mt-6 p-4 bg-slate-950/80 rounded-xl border border-slate-700 text-xs text-slate-300 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+          <div class="flex items-center gap-2.5">
+            <i class="fa-solid fa-lightbulb text-solar-gold text-lg"></i>
+            <span><strong>ข้อแนะนำจาก 99 Solar:</strong> ทุกระบบของเราเป็น <strong>Hybrid-Ready</strong> ลูกค้าสามารถเริ่มติดระบบ On-Grid เพื่อประหยัดเงินและคืนทุนไวก่อนได้ และในอนาคตเมื่อราคาแบตเตอรี่ถูกลง สามารถซื้อแบตเตอรี่มาเสียบเพิ่มได้ทันทีโดยไม่ต้องรื้อระบบครับ!</span>
+          </div>
+          <a href="https://line.me/R/ti/p/@99sola" target="_blank" class="shrink-0 px-3 py-1.5 bg-[#06C755] text-white rounded-lg font-bold text-xs hover:bg-[#05b34c]">
+            สอบถามในไลน์
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ALL-IN-ONE SERVICES SECTION (บริการของเรา) -->
+  <section id="services" class="py-20 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold text-xs uppercase tracking-wider">
+          บริการของเรา (Our Services)
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-bold font-heading text-slate-900 mt-3 mb-4">
+          บริการครบวงจร One-Stop Service <br class="hidden sm:inline">
+          <span class="text-brand-600">ดูแลโดยวิศวกร กว. และทีมช่างหาดใหญ่</span>
+        </h2>
+        <p class="text-slate-600 text-base">
+          สบายใจเรื่องเอกสาร การเงิน และการบำรุงรักษา เราดูแลให้ครบวงจรตั้งแต่ต้นจนเปิดใช้งาน
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- 1. การขอไฟแนนซ์ & ผ่อนชำระ -->
+        <div class="p-8 rounded-3xl bg-white border border-slate-200/90 hover:border-brand-500 transition-all flex flex-col justify-between shadow-sm">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mb-6 shadow-sm">
+              <i class="fa-solid fa-money-check-dollar"></i>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold font-heading text-slate-900 mb-3">
+              1. บริการขอไฟแนนซ์ & ผ่อนชำระสบาย
+            </h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6">
+              ไม่ต้องใช้เงินก้อนใหญ่! 99 Solar ร่วมมือกับสถาบันการเงินชั้นนำ ให้คุณเลือกเงื่อนไขสินเชื่อที่คุ้มค่าที่สุด:
+            </p>
+            <ul class="space-y-3 text-sm text-slate-700">
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-brand-600 mt-1"></i>
+                <span><strong>ผ่อน 0% นานสูงสุด 10 เดือน</strong> ผ่านบัตรเครดิตธนาคารชั้นนำ</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-brand-600 mt-1"></i>
+                <span><strong>สินเชื่อโซลาร์ Green Loan</strong> ดอกเบี้ยพิเศษ ผ่อนยาวได้สูงสุดถึง 60 - 84 เดือน</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-brand-600 mt-1"></i>
+                <span><strong>ค่างวดผ่อนต่ำกว่าค่าไฟที่ลดได้</strong> เสมือนนำเงินที่ประหยัดได้มาจ่ายค่างวดแทน</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <span>พันธมิตร: KBank, SCB, Krungsri, TTB, UOB</span>
+            <span class="text-brand-600 font-semibold">อนุมัติไว ภายใน 3-5 วัน</span>
+          </div>
+        </div>
+
+        <!-- 2. การขออนุญาตราชการ & กฟภ. -->
+        <div class="p-8 rounded-3xl bg-white border border-slate-200/90 hover:border-brand-500 transition-all flex flex-col justify-between shadow-sm">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl mb-6 shadow-sm">
+              <i class="fa-solid fa-stamp"></i>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold font-heading text-slate-900 mb-3">
+              2. ดำเนินการขออนุญาต กฟภ. หาดใหญ่ ฟรี 100%
+            </h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6">
+              การติดตั้งระบบ On-Grid ต้องขออนุญาตตามกฎหมาย เรามีวิศวกรผู้เชี่ยวชาญพร้อมใบ กว. ดำเนินการให้ทุกขั้นตอน:
+            </p>
+            <ul class="space-y-3 text-sm text-slate-700">
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-amber-600 mt-1"></i>
+                <span><strong>ยื่นการไฟฟ้าส่วนภูมิภาค (PEA กฟภ. หาดใหญ่ / สงขลา)</strong> เพื่อขออนุญาตขนานไฟและเปลี่ยนมิเตอร์สองทาง</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-amber-600 mt-1"></i>
+                <span><strong>ยื่นสำนักงานคณะกรรมการกำกับกิจการพลังงาน (กกพ.)</strong> จดแจ้งได้รับการยกเว้นใบอนุญาตประกอบกิจการ</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-amber-600 mt-1"></i>
+                <span><strong>ยื่นเทศบาลนครหาดใหญ่ / อบต. คลองแห</strong> ขออนุญาตดัดแปลงอาคารอย่างถูกต้องตามระเบียบ</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <span>เอกสารครบ ไม่ต้องเสียเวลาเดินทาง</span>
+            <span class="text-amber-600 font-semibold">ถูกต้องตามกฎหมาย 100%</span>
+          </div>
+        </div>
+
+        <!-- 3. การขอสิทธิประโยชน์ทางภาษี -->
+        <div class="p-8 rounded-3xl bg-white border border-slate-200/90 hover:border-brand-500 transition-all flex flex-col justify-between shadow-sm">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-2xl mb-6 shadow-sm">
+              <i class="fa-solid fa-file-invoice"></i>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold font-heading text-slate-900 mb-3">
+              3. บริการเอกสารภาษี & สิทธิประโยชน์ BOI
+            </h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6">
+              เปลี่ยนค่าไฟเป็นความคุ้มค่าด้านภาษี ออกเอกสารถูกต้องในนาม บจก. 99 แมทช์ เมคเกอร์:
+            </p>
+            <ul class="space-y-3 text-sm text-slate-700">
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-blue-600 mt-1"></i>
+                <span><strong>สิทธิประโยชน์ BOI สำหรับกิจการ:</strong> ยกเว้นภาษีเงินได้นิติบุคคลสูงสุด 50% - 100% ของเงินลงทุนโซลาร์เซลล์</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-blue-600 mt-1"></i>
+                <span><strong>การหักค่าเสื่อมราคาทางภาษี:</strong> บันทึกค่าเสื่อมราคาสินทรัพย์พลังงานสะอาดแบบเร่งรัดช่วยลดภาษีประจำปี</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-blue-600 mt-1"></i>
+                <span><strong>ออกใบกำกับภาษีเต็มรูปแบบ:</strong> ทุนจดทะเบียน 3 ล้านบาท ปลอดภัย มั่นใจได้ 100%</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <span>เอกสารใบกำกับภาษีถูกต้อง</span>
+            <span class="text-blue-600 font-semibold">คุ้มค่าต่อยอดธุรกิจ</span>
+          </div>
+        </div>
+
+        <!-- 4. บริการล้างแผง & ช่างหาดใหญ่ 24 ชม. -->
+        <div class="p-8 rounded-3xl bg-white border border-slate-200/90 hover:border-brand-500 transition-all flex flex-col justify-between shadow-sm">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-cyan-100 text-cyan-600 flex items-center justify-center text-2xl mb-6 shadow-sm">
+              <i class="fa-solid fa-soap"></i>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold font-heading text-slate-900 mb-3">
+              4. บริการล้างแผง & ทีมช่างหาดใหญ่ ดูแล 24 ชม.
+            </h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6">
+              ภาคใต้มีฝนแปดแดดสี่ อาจเกิดคราบตะไคร่หรือฝุ่นสะสม เรามีทีมช่างคลองแหคอยดูแลต่อเนื่อง:
+            </p>
+            <ul class="space-y-3 text-sm text-slate-700">
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-cyan-600 mt-1"></i>
+                <span><strong>ฟรีบริการล้างแผง 2 ปีแรก</strong> ด้วยระบบน้ำไร้คราบหินปูน ไม่ทำลายกระจกแผง</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-cyan-600 mt-1"></i>
+                <span><strong>เข้าดูหน้างานใน 24 ชม.</strong> หากระบบขัดข้องหรือเกิดปัญหา ช่างพื้นที่เข้าถึงทันใจ</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-cyan-600 mt-1"></i>
+                <span><strong>ตรวจสอบจุดร้อน Hotspot</strong> ด้วยกล้องอินฟราเรดความร้อน ป้องกันอันตรายล่วงหน้า</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <span>สำนักงาน ต.คลองแห ไม่ทิ้งงาน</span>
+            <span class="text-cyan-600 font-semibold">รับประกันงานติดตั้ง 5 ปี</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PORTFOLIO & REVIEWS (ผลงาน & รีวิวลูกค้าหาดใหญ่-สงขลา + YouTube) -->
+  <section id="portfolio" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="px-3.5 py-1.5 rounded-full bg-amber-100 text-amber-800 font-semibold text-xs uppercase tracking-wider">
+          ผลงานจริงในพื้นที่ (Our Portfolio & Reviews)
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-bold font-heading text-slate-900 mt-3 mb-4">
+          “ขอบคุณ 99 Solar มากครับ ประหยัดจริง คุ้มจริง!” <br class="hidden sm:inline">
+          <span class="text-brand-600">ผลงานติดตั้งจริงใน อ.หาดใหญ่ และ จ.สงขลา</span>
+        </h2>
+        <p class="text-slate-600 text-base">
+          เสียงตอบรับจริงจากเจ้าของบ้านและผู้ประกอบการในพื้นที่ภาคใต้
+        </p>
+      </div>
+
+      <!-- Testimonial Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        
+        <!-- Review 1: หาดใหญ่ -->
+        <div class="bg-slate-50 rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-1 text-amber-400 mb-4 text-sm">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <span class="text-xs text-slate-400 font-medium ml-2">(ประหยัด 70%)</span>
+            </div>
+            
+            <p class="text-slate-700 text-sm leading-relaxed mb-6 italic">
+              “ขอบคุณทีมงาน 99 Solar มากครับ! เมื่อก่อนค่าไฟบ้านผม <strong>3,400 บาท</strong> ทุกเดือน เพราะเปิดแอร์เลี้ยงลูกกลางวัน พอติดระบบ 3.3 kW เดือนที่แล้ว <strong>ค่าไฟเหลือแค่ 1,120 บาท!</strong> ช่างหาดใหญ่อยู่ใกล้บ้านที่คลองแห มีอะไรก็เข้ามาดูให้เร็วมาก สบายใจจริงๆ ครับ”
+            </p>
+
+            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 mb-4 flex items-center justify-between text-xs">
+              <div>
+                <span class="text-slate-500 block">ก่อนติดตั้ง:</span>
+                <span class="font-bold text-red-500 line-through">3,450 ฿</span>
+              </div>
+              <i class="fa-solid fa-arrow-right text-emerald-600"></i>
+              <div class="text-right">
+                <span class="text-slate-500 block">บิลล่าสุด:</span>
+                <span class="font-extrabold text-emerald-700 text-sm">1,120 ฿</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 pt-4 border-t border-slate-200">
+            <img class="w-12 h-12 rounded-full object-cover border-2 border-brand-500" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80" alt="คุณพงษ์ศักดิ์">
+            <div>
+              <div class="font-bold text-slate-900 text-sm">คุณพงษ์ศักดิ์ รัตนวิบูลย์</div>
+              <div class="text-xs text-slate-500">บ้านเดี่ยว ถ.ราษฎร์อุทิศ หาดใหญ่ (ระบบ 3.3 kW)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2: สงขลา -->
+        <div class="bg-slate-50 rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-1 text-amber-400 mb-4 text-sm">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <span class="text-xs text-slate-400 font-medium ml-2">(มาตรฐาน กว.)</span>
+            </div>
+            
+            <p class="text-slate-700 text-sm leading-relaxed mb-6 italic">
+              “ประทับใจวิศวกร กว. มากครับ ออกแบบและติดตั้งแข็งแรงมาก รับมือลมทะเลและฝนตกหนักได้สบาย เรื่องยื่นเอกสาร กฟภ. ทาง 99 Solar จัดการให้หมดเลย สะดวกมากครับ หลังคาไม่มีรั่วซึมเลย แนะนำเพื่อนบ้านติดไปอีก 2 หลังแล้วครับ”
+            </p>
+
+            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 mb-4 flex items-center justify-between text-xs">
+              <div>
+                <span class="text-slate-500 block">ก่อนติดตั้ง:</span>
+                <span class="font-bold text-red-500 line-through">6,800 ฿</span>
+              </div>
+              <i class="fa-solid fa-arrow-right text-emerald-600"></i>
+              <div class="text-right">
+                <span class="text-slate-500 block">บิลล่าสุด:</span>
+                <span class="font-extrabold text-emerald-700 text-sm">2,380 ฿</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 pt-4 border-t border-slate-200">
+            <img class="w-12 h-12 rounded-full object-cover border-2 border-brand-500" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80" alt="คุณธีรเดช">
+            <div>
+              <div class="font-bold text-slate-900 text-sm">นพ.ธีรเดช เจริญสุข</div>
+              <div class="text-xs text-slate-500">บ้านเดี่ยว อ.เมืองสงขลา (ระบบ 5 kW)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3: คลินิก/ธุรกิจหาดใหญ่ -->
+        <div class="bg-slate-50 rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-1 text-amber-400 mb-4 text-sm">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <span class="text-xs text-slate-400 font-medium ml-2">(นิติบุคคลสุดคุ้ม)</span>
+            </div>
+            
+            <p class="text-slate-700 text-sm leading-relaxed mb-6 italic">
+              “ที่คลินิกเปิดแอร์ 4 ตัวทุกวัน ค่าไฟเคยพุ่งไปถึง <strong>14,000 กว่าบาท</strong> ติดตั้งระบบ 10 kW ไป ตอนนี้เหลือจ่ายแค่ 5,000 ต้นๆ แถมยังได้ใบกำกับภาษีจาก บจก. 99 แมทช์ เมคเกอร์ ไปหักค่าใช้จ่ายบริษัทได้เต็มๆ คืนทุนใน 3 ปีแน่นอนครับ”
+            </p>
+
+            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 mb-4 flex items-center justify-between text-xs">
+              <div>
+                <span class="text-slate-500 block">ก่อนติดตั้ง:</span>
+                <span class="font-bold text-red-500 line-through">14,500 ฿</span>
+              </div>
+              <i class="fa-solid fa-arrow-right text-emerald-600"></i>
+              <div class="text-right">
+                <span class="text-slate-500 block">บิลล่าสุด:</span>
+                <span class="font-extrabold text-emerald-700 text-sm">5,200 ฿</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 pt-4 border-t border-slate-200">
+            <img class="w-12 h-12 rounded-full object-cover border-2 border-brand-500" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80" alt="ทพญ.พิมพิศา">
+            <div>
+              <div class="font-bold text-slate-900 text-sm">ทพญ.พิมพิศา ว่องไววิทย์</div>
+              <div class="text-xs text-slate-500">คลินิก ถ.ศุภสารรังสรรค์ หาดใหญ่ (ระบบ 10 kW)</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- YOUTUBE SHOWCASE SECTION -->
+      <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 sm:p-12 text-white shadow-xl relative overflow-hidden">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <div class="lg:col-span-5 space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/20 text-red-400 border border-red-500/30 text-xs font-bold">
+              <i class="fa-brands fa-youtube text-red-500 text-sm"></i>
+              <span>YOUTUBE SHOWCASE</span>
+            </div>
+            
+            <h3 class="text-2xl sm:text-3xl font-bold font-heading">
+              ดูรีวิวหน้างานจริงในหาดใหญ่ & <br class="hidden sm:inline">
+              วิธีเช็คยอดประหยัดไฟผ่านมือถือ
+            </h3>
+
+            <p class="text-slate-300 text-sm leading-relaxed">
+              ติดตามคลิปรีวิวหน้างานติดตั้งจริงบนหลังคาประเภทต่างๆ ในหาดใหญ่และสงขลา พร้อมคลิปแนะนำวิธีดูมิเตอร์สองทางของ กฟภ.
+            </p>
+
+            <div class="pt-4">
+              <a href="https://www.youtube.com" target="_blank" class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-6 py-3 rounded-xl transition-all shadow-md shadow-red-600/30">
+                <i class="fa-brands fa-youtube text-lg"></i>
+                <span>ดูคลิปรีวิวใน YouTube</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Video Player Card Mockups -->
+          <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            <!-- Video Mockup 1 -->
+            <div class="group relative rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-md">
+              <div class="relative aspect-video overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1509391365360-2e959784a276?w=600&auto=format&fit=crop&q=80" alt="Solar Installation Video" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                <div class="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/20 transition-colors">
+                  <div class="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center text-lg shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-play ml-0.5"></i>
+                  </div>
+                </div>
+                <span class="absolute bottom-2 right-2 bg-black/80 text-white text-[10px] px-2 py-0.5 rounded font-mono">12:45</span>
+              </div>
+              <div class="p-3.5">
+                <h5 class="font-bold text-xs sm:text-sm text-white line-clamp-1">รีวิวหน้างานหาดใหญ่: ค่าไฟ 3,000 บ. ลดเหลือ 1,000 บ. คืนทุนกี่ปี?</h5>
+                <p class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+                  <span>99 Solar Channel</span>
+                  <span>ยอดวิว 48K</span>
+                </p>
+              </div>
+            </div>
+
+            <!-- Video Mockup 2 -->
+            <div class="group relative rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-md">
+              <div class="relative aspect-video overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1548611716-ad022c4f8016?w=600&auto=format&fit=crop&q=80" alt="Solar Mobile App Tutorial" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                <div class="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/20 transition-colors">
+                  <div class="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center text-lg shadow-lg group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-play ml-0.5"></i>
+                  </div>
+                </div>
+                <span class="absolute bottom-2 right-2 bg-black/80 text-white text-[10px] px-2 py-0.5 rounded font-mono">08:20</span>
+              </div>
+              <div class="p-3.5">
+                <h5 class="font-bold text-xs sm:text-sm text-white line-clamp-1">วิธีตรวจสอบยอดผลิตไฟฟ้า Real-time ผ่านมือถือและบริการล้างแผง</h5>
+                <p class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+                  <span>99 Solar Channel</span>
+                  <span>ยอดวิว 32K</span>
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ SECTION (5 คำถามสำคัญ) -->
+  <section class="py-20 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center mb-14">
+        <span class="px-3.5 py-1.5 rounded-full bg-brand-100 text-brand-800 font-semibold text-xs uppercase tracking-wider">
+          คลายทุกข้อสงสัย (FAQ)
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-bold font-heading text-slate-900 mt-3 mb-4">
+          คำถามที่พบบ่อยก่อนตัดสินใจติดโซลาร์เซลล์
+        </h2>
+        <p class="text-slate-600 text-base">
+          รวม 5 คำถามยอดฮิตที่เจ้าของบ้านสอบถามเข้ามาบ่อยที่สุด
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        
+        <!-- FAQ 1: ติดแบบไหนดี? -->
+        <div class="faq-item border border-slate-200 rounded-2xl overflow-hidden transition-all bg-white">
+          <button class="faq-btn w-full p-6 text-left flex justify-between items-center gap-4 hover:bg-slate-50">
+            <span class="font-bold text-base sm:text-lg text-slate-900 flex items-center gap-3">
+              <span class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-black">1</span>
+              ติดโซลาร์เซลล์แบบไหนดี? ระหว่าง On-Grid กับ Hybrid?
+            </span>
+            <i class="fa-solid fa-chevron-down faq-icon text-slate-400 transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer hidden px-6 pb-6 pt-1 text-slate-600 text-sm leading-relaxed border-t border-slate-100 bg-white">
+            <p class="mb-2">
+              <strong>ระบบ On-Grid (ออนกริด):</strong> เป็นระบบที่ <strong>คุ้มค่าที่สุดและนิยมที่สุด 90% ของบ้านในไทย</strong> เพราะเชื่อมต่อกับ กฟภ. โดยตรง ผลิตไฟใช้ตอนกลางวันช่วยลดค่าไฟได้มหาศาล คืนทุนไวภายใน 3-4 ปี ไม่มีค่าแบตเตอรี่ราคาแพง
+            </p>
+            <p>
+              <strong>ระบบ Hybrid (ไฮบริด):</strong> มีแบตเตอรี่สำรองไฟ เหมาะกับพื้นที่ที่ไฟดับบ่อย หรือต้องการเก็บไฟไว้ใช้ตอนกลางคืน แต่จะมีต้นทุนสูงกว่าระบบ On-Grid ประมาณ 1.5 - 2 เท่า
+            </p>
+          </div>
+        </div>
+
+        <!-- FAQ: เน้นใช้ไฟกลางวัน VS กลางคืน (NEW HIGHLIGHT) -->
+        <div class="faq-item border-2 border-emerald-400 rounded-2xl overflow-hidden transition-all bg-emerald-50/20 shadow-sm">
+          <button class="faq-btn w-full p-6 text-left flex justify-between items-center gap-4 hover:bg-emerald-50/50">
+            <span class="font-bold text-base sm:text-lg text-slate-900 flex items-center gap-3">
+              <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-black">☀️🌙</span>
+              บ้านเน้นใช้ไฟกลางวัน VS เน้นใช้ไฟกลางคืน ควรติดแบบไหน? กลางวันไม่มีคนอยู่บ้านคุ้มไหม?
+            </span>
+            <i class="fa-solid fa-chevron-down faq-icon text-slate-400 transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer hidden px-6 pb-6 pt-1 text-slate-600 text-sm leading-relaxed border-t border-emerald-100 bg-white space-y-3">
+            <div>
+              <strong class="text-emerald-800 text-base flex items-center gap-1.5 mb-1">
+                ☀️ 1. ถ้าบ้านเน้นใช้ไฟกลางวัน (WFH / เลี้ยงลูก / ผู้สูงอายุ / ร้านค้า / คลินิก):
+              </strong>
+              <p class="text-xs sm:text-sm pl-4">
+                <strong>แนะนำระบบ On-Grid 100% ครับ!</strong> เพราะแผงโซลาร์จะผลิตไฟปุ๊บ แล้วเครื่องใช้ไฟฟ้าในบ้านจะดึงไฟแสงแดดไปใช้ทันที ตัดค่าไฟกลางวันได้มหาศาล คืนทุนไวสุดๆ ภายใน <strong>3.5 - 4 ปี</strong> ไม่ต้องเสียเงินซื้อแบตเตอรี่แพงๆ
+              </p>
+            </div>
+            <div>
+              <strong class="text-blue-800 text-base flex items-center gap-1.5 mb-1">
+                🌙 2. ถ้าบ้านออกไปทำงานเช้า กลับบ้านค่ำ เน้นเปิดแอร์นอนตอนกลางคืน:
+              </strong>
+              <ul class="text-xs sm:text-sm pl-4 space-y-1.5 list-disc list-inside">
+                <li>
+                  <strong>ทางเลือกประหยัดสุด:</strong> ติดระบบ On-Grid ขนาดเริ่มต้น (3.3 kW) เพื่อช่วยตัดค่าไฟพื้นฐานตอนกลางวัน (ตู้เย็น 24 ชม., ปั๊มน้ำ, กล้องวงจรปิด, อุปกรณ์สแตนด์บาย) และแอร์ช่วง 16:00 - 18:30 น. ช่วยลดค่าไฟได้เดือนละ 1,200 - 1,800 บาท
+                </li>
+                <li>
+                  <strong>ทางเลือกใช้ไฟกลางคืน 100%:</strong> ติดตั้งระบบ <strong>Hybrid พร้อมแบตเตอรี่ลิเธียม</strong> เพื่อเก็บพลังงานแสงแดดตอนกลางวันไว้จ่ายไฟให้แอร์ตอนกลางคืน และเป็นไฟสำรองตอนไฟดับ (คืนทุนประมาณ 6 - 8 ปี)
+                </li>
+                <li>
+                  <strong>คำแนะนำจาก 99 Solar:</strong> เลือกระบบ <strong>Hybrid-Ready</strong> ของเรา ติดตั้ง On-Grid คืนทุนไวก่อน พอในอนาคตราคาแบตเตอรี่ถูกลง ค่อยซื้อแบตเตอรี่มาต่อเพิ่มได้ทันที ไม่ต้องเปลี่ยนตู้ Inverter ใหม่ครับ!
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 2: ติดตั้งกี่วัน? หลังคาแบบไหนติดได้บ้าง? -->
+        <div class="faq-item border border-slate-200 rounded-2xl overflow-hidden transition-all bg-white">
+          <button class="faq-btn w-full p-6 text-left flex justify-between items-center gap-4 hover:bg-slate-50">
+            <span class="font-bold text-base sm:text-lg text-slate-900 flex items-center gap-3">
+              <span class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-black">2</span>
+              ใช้เวลาติดตั้งกี่วัน? และหลังคาบ้านแบบไหนสามารถติดได้บ้าง?
+            </span>
+            <i class="fa-solid fa-chevron-down faq-icon text-slate-400 transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer hidden px-6 pb-6 pt-1 text-slate-600 text-sm leading-relaxed border-t border-slate-100 bg-white">
+            <p class="mb-2">
+              <strong>ระยะเวลาการติดตั้งหน้างาน:</strong> ใช้เวลาเพียง <strong>1 ถึง 2 วัน</strong> เท่านั้น ไม่รบกวนการอยู่อาศัย สามารถใช้น้ำใช้ไฟได้ตามปกติ (ดับไฟสั้นๆ 15-30 นาทีช่วงตัดต่อขนานไฟ)
+            </p>
+            <p>
+              <strong>ประเภทหลังคาที่ติดตั้งได้:</strong> สามารถติดตั้งได้แทบทุกประเภท เช่น กระเบื้องซีแพคโมเนีย, ลอนคู่, กระเบื้องเซรามิก, เมทัลชีท (แบบ Seam Lock ยึดหนีบโดยไม่ต้องเจาะหลังคา ไม่เสี่ยงรั่วซึม 100%) และดาดฟ้าคอนกรีต
+            </p>
+          </div>
+        </div>
+
+        <!-- FAQ 3: การขออนุญาตยุ่งยากไหม? -->
+        <div class="faq-item border border-slate-200 rounded-2xl overflow-hidden transition-all bg-white">
+          <button class="faq-btn w-full p-6 text-left flex justify-between items-center gap-4 hover:bg-slate-50">
+            <span class="font-bold text-base sm:text-lg text-slate-900 flex items-center gap-3">
+              <span class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-black">3</span>
+              การขออนุญาตการไฟฟ้าและหน่วยงานรัฐยุ่งยากไหม?
+            </span>
+            <i class="fa-solid fa-chevron-down faq-icon text-slate-400 transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer hidden px-6 pb-6 pt-1 text-slate-600 text-sm leading-relaxed border-t border-slate-100 bg-white">
+            <p>
+              <strong>ไม่ยุ่งยากเลยครับ!</strong> เจ้าของบ้านเพียงเตรียมสำเนาบัตรประชาชน ทะเบียนบ้าน และบิลค่าไฟ ทางบริษัท 99 Solar มีวิศวกรผู้เชี่ยวชาญดำเนินการยื่นเอกสารทั้ง <strong>การไฟฟ้าส่วนภูมิภาค (PEA), สำนักงาน กกพ. และเทศบาล</strong> ให้ครบทั้งหมดฟรี 100% จนกระทั่งเจ้าหน้าที่การไฟฟ้ามาเปลี่ยนมิเตอร์ดิจิทัล
+            </p>
+          </div>
+        </div>
+
+        <!-- FAQ 4: ค่าไฟประมาณ 3,000 บาท สมควรติดไหม? -->
+        <div class="faq-item border border-emerald-300 rounded-2xl overflow-hidden transition-all bg-emerald-50/40">
+          <button class="faq-btn w-full p-6 text-left flex justify-between items-center gap-4 hover:bg-emerald-50">
+            <span class="font-bold text-base sm:text-lg text-slate-900 flex items-center gap-3">
+              <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-black">4</span>
+              ค่าไฟประมาณ 3,000 บาท สมควรติดไหม? กี่ปีถึงจะคืนทุน?
+            </span>
+            <i class="fa-solid fa-chevron-down faq-icon text-slate-400 transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer hidden px-6 pb-6 pt-1 text-slate-600 text-sm leading-relaxed border-t border-emerald-200 bg-white">
+            <p class="mb-2">
+              <strong>สมควรติดมากครับ!</strong> สำหรับบ้านที่มีค่าไฟ 3,000 บาทขึ้นไป และมีคนอยู่บ้านกลางวัน (เช่น WFH, เปิดแอร์ 1-2 ตัว, ดูแลลูกหรือผู้สูงอายุ) แนะนำระบบ <strong>3.3 kW หรือ 5 kW</strong>
+            </p>
+            <p>
+              ระบบจะช่วยประหยัดเงินค่าไฟได้ประมาณ <strong>1,800 - 2,200 บาทต่อเดือน</strong> (หรือกว่า 22,000 - 26,000 บาทต่อปี) ส่งผลให้ <strong>คืนทุนไวภายใน 3.8 - 4.2 ปี</strong> เท่านั้น หลังจากนั้นแผงจะผลิตไฟฟรีให้คุณใช้ต่อเนื่องไปอีกกว่า 20 ปี!
+            </p>
+          </div>
+        </div>
+
+        <!-- FAQ 5: การขอไฟแนนซ์และการผ่อนชำระ? -->
+        <div class="faq-item border border-slate-200 rounded-2xl overflow-hidden transition-all bg-white">
+          <button class="faq-btn w-full p-6 text-left flex justify-between items-center gap-4 hover:bg-slate-50">
+            <span class="font-bold text-base sm:text-lg text-slate-900 flex items-center gap-3">
+              <span class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-black">5</span>
+              ขอสินเชื่อโซลาร์เซลล์หรือผ่อนจ่ายได้ไหม ต้องดาวน์เท่าไหร่?
+            </span>
+            <i class="fa-solid fa-chevron-down faq-icon text-slate-400 transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer hidden px-6 pb-6 pt-1 text-slate-600 text-sm leading-relaxed border-t border-slate-100 bg-white">
+            <p>
+              สามารถขอไฟแนนซ์ได้ง่ายมากครับ! มีทั้งโปรโมชั่น <strong>ผ่อน 0% นาน 10 เดือน</strong> ผ่านบัตรเครดิต หรือเลือก <strong>สินเชื่อกรีนโลนดอกเบี้ยต่ำ ผ่อนได้ยาวนาน 60 - 84 เดือน โดยไม่ต้องมีเงินดาวน์ (ดาวน์ 0%)</strong> ทำให้ค่างวดผ่อนรายเดือนถูกกว่าค่าไฟที่ประหยัดได้ เสมือนติดตั้งฟรีในระยะยาว
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION (ติดต่อเรา & ที่ตั้ง ต.คลองแห หาดใหญ่) -->
+  <section id="contact" class="py-20 bg-white border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="bg-gradient-to-br from-brand-900 via-slate-900 to-brand-950 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          
+          <div class="lg:col-span-7 space-y-6">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/30 text-xs font-bold">
+              <i class="fa-solid fa-building text-brand-400"></i>
+              <span>สำนักงานใหญ่ อ.หาดใหญ่ จ.สงขลา</span>
+            </div>
+
+            <h2 class="text-3xl sm:text-4xl font-extrabold font-heading text-white">
+              ติดต่อ 99 Solar <br>
+              <span class="text-brand-400">โดย บจก. 99 แมทช์ เมคเกอร์</span>
+            </h2>
+
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+              พร้อมให้คำปรึกษาและเข้าสำรวจหน้างานฟรีในเขต อ.หาดใหญ่, อ.เมืองสงขลา และอำเภอใกล้เคียง มีปัญหาเข้าดูหน้างานใน 24 ชั่วโมง
+            </p>
+
+            <div class="space-y-4 pt-2 text-sm sm:text-base">
+              <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-brand-500/20 text-brand-400 flex items-center justify-center shrink-0 text-lg">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-400">ที่ตั้งสำนักงาน:</div>
+                  <div class="font-bold text-white">ตำบลคลองแห อำเภอหาดใหญ่ จังหวัดสงขลา</div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-brand-500/20 text-brand-400 flex items-center justify-center shrink-0 text-lg">
+                  <i class="fa-solid fa-phone"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-400">สายด่วนวิศวกร:</div>
+                  <a href="tel:0894661491" class="font-bold text-brand-400 text-lg sm:text-xl hover:underline">089-466-1491</a>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 text-lg">
+                  <i class="fa-brands fa-line text-xl"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-400">LINE Official:</div>
+                  <a href="https://line.me/R/ti/p/@99sola" target="_blank" class="font-bold text-emerald-400 text-lg sm:text-xl hover:underline">@99sola</a>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-brand-500/20 text-brand-400 flex items-center justify-center shrink-0 text-lg">
+                  <i class="fa-solid fa-file-contract"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-400">ข้อมูลนิติบุคคล:</div>
+                  <div class="font-medium text-slate-200 text-xs sm:text-sm">บริษัท 99 แมทช์ เมคเกอร์ จำกัด (ทุนจดทะเบียน 3,000,000 บาท)</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Quick Consultation Form Box -->
+          <div class="lg:col-span-5 bg-white text-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl">
+            <h3 class="text-xl font-bold font-heading text-slate-900 mb-1">นัดหมายสำรวจหน้างานฟรี</h3>
+            <p class="text-xs text-slate-500 mb-5">เจ้าหน้าที่วิศวกรจะติดต่อกลับภายใน 15 นาที</p>
+
+            <form onsubmit="event.preventDefault(); alert('ขอบคุณครับ! วิศวกร 99 Solar ได้รับข้อมูลแล้ว จะโทรติดต่อกลับที่เบอร์ของท่านโดยเร็วที่สุดครับ');" class="space-y-3.5 text-xs">
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">ชื่อ - นามสกุล *</label>
+                <input type="text" required placeholder="เช่น คุณสมชาย หาดใหญ่" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">เบอร์โทรศัพท์ติดต่อ *</label>
+                <input type="tel" required placeholder="08x-xxx-xxxx" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">ค่าไฟเฉลี่ย / พื้นที่ติดตั้ง</label>
+                <select class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                  <option>ค่าไฟประมาณ 3,000 บาท (อ.หาดใหญ่)</option>
+                  <option>ค่าไฟ 4,000 - 7,000 บาท (อ.หาดใหญ่)</option>
+                  <option>ค่าไฟ 8,000 - 15,000+ บาท (อ.เมืองสงขลา)</option>
+                  <option>โรงงาน / อาคารพาณิชย์ (พื้นที่อื่นๆ ในสงขลา)</option>
+                </select>
+              </div>
+              <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-brand-600 to-emerald-600 hover:from-brand-700 hover:to-emerald-700 text-white font-bold rounded-xl shadow-lg shadow-brand-500/30 text-sm transition-all mt-2">
+                ส่งข้อมูลขอนัดสำรวจฟรี
+              </button>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-10 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-6">
+      
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-lg bg-brand-500 text-white flex items-center justify-center font-bold text-lg font-heading">
+          99
+        </div>
+        <div>
+          <span class="text-white font-bold text-sm">99 SOLAR</span>
+          <p class="text-[11px] text-slate-500">โดย บริษัท 99 แมทช์ เมคเกอร์ จำกัด (ทุน 3 ล้านบาท)</p>
+        </div>
+      </div>
+
+      <div class="text-center sm:text-right">
+        <p>&copy; 2026 99 Solar. All rights reserved. สำนักงาน ต.คลองแห อ.หาดใหญ่ จ.สงขลา</p>
+        <p class="text-slate-500 mt-1">บริการติดตั้งโซลาร์เซลล์บ้าน อาคาร โรงงาน มาตรฐาน กฟภ. 100% ออกใบกำกับภาษีถูกต้อง</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- =========================================================
+       WALKING & INTERACTIVE MASCOT CONSULTANT (ไอคอน คนเดินไปมาชวนคุย ปรึกษาฟรี)
+       ========================================================= -->
+  <div id="mascotAssistant" class="fixed bottom-16 lg:bottom-6 right-2.5 sm:right-6 z-40 flex flex-col items-end pointer-events-none select-none">
+    
+    <!-- Speech Bubble (ชวนคุย & แนะนำให้ทดลองคำนวณ) - ซ่อนไว้ก่อนบนจอมือถือเพื่อไม่ให้บังเนื้อหา -->
+    <div id="mascotBubble" class="speech-bubble pointer-events-auto bg-white rounded-2xl shadow-2xl border border-emerald-300 p-3 sm:p-4 max-w-[250px] sm:max-w-xs mb-1.5 relative text-slate-800 hidden sm:block">
+      
+      <!-- Close bubble mini button -->
+      <button id="closeMascot" class="absolute top-2 right-2 text-slate-400 hover:text-slate-600 text-xs w-5 h-5 flex items-center justify-center rounded-full hover:bg-slate-100">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <!-- Speech Content -->
+      <div id="mascotSpeechText" class="text-xs sm:text-sm text-slate-700 leading-relaxed pr-3">
+        👋 <strong>สวัสดีครับ! ผมวิศวกร 99 Solar</strong><br>
+        มีบ้านที่หาดใหญ่หรือสงขลา ยินดีให้คำปรึกษาและเข้าวัดหลังคาฟรีครับ!
+      </div>
+
+      <!-- Quick Action Pill Inside Bubble -->
+      <div class="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
+        <button id="mascotActionBtn" class="bg-gradient-to-r from-brand-600 to-emerald-600 hover:from-brand-700 text-white font-bold text-[11px] px-2.5 py-1.5 rounded-lg shadow-sm transition-all active:scale-95 flex items-center gap-1">
+          ⚡ ลองคำนวณค่าไฟ
+        </button>
+        <a href="https://line.me/R/ti/p/@99sola" target="_blank" class="text-[11px] font-bold text-[#06C755] hover:underline flex items-center gap-1">
+          <i class="fa-brands fa-line text-sm"></i> @99sola
+        </a>
+      </div>
+
+      <!-- Speech Bubble Arrow Pointing Down to Mascot -->
+      <div class="absolute -bottom-2 right-6 w-3.5 h-3.5 bg-white border-b border-r border-emerald-300 rotate-45"></div>
+    </div>
+
+    <!-- The Walking Avatar (วิศวกรหมวกเซฟตี้ 99 Solar เดินขยับไปมา) -->
+    <div id="mascotAvatar" class="pointer-events-auto cursor-pointer flex items-end group">
+      
+      <!-- Mini pill badge for mobile so user knows they can tap to chat -->
+      <div class="sm:hidden mr-1 mb-2 px-2 py-0.5 bg-white/95 text-emerald-800 text-[10px] font-bold rounded-full shadow border border-emerald-200 flex items-center gap-1">
+        <span>💬 คุยวิศวกร</span>
+      </div>
+
+      <!-- Mascot Character Container with Walking Animation -->
+      <div class="mascot-walk relative">
+        
+        <!-- Tooltip on hover -->
+        <span class="absolute -top-7 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap hidden sm:block">
+          คลิกคุยกับวิศวกร 99 Solar
+        </span>
+
+        <!-- SVG Engineer Character (ขนาดกะทัดรัดบนมือถือ ไม่เกะกะสายตา) -->
+        <svg class="w-12 h-16 sm:w-[76px] sm:h-[95px] drop-shadow-xl" viewBox="0 0 100 125" fill="none">
+          <!-- Shadow beneath character -->
+          <ellipse cx="50" cy="118" rx="28" ry="6" fill="#0f172a" opacity="0.25"/>
+
+          <!-- Body / Vest (Hi-Vis Safety Green-Yellow) -->
+          <path d="M35 60 L65 60 L70 100 L30 100 Z" fill="#10b981" stroke="#047857" stroke-width="2"/>
+          <rect x="34" y="70" width="32" height="6" fill="#facc15"/>
+          <rect x="32" y="85" width="36" height="6" fill="#facc15"/>
+          <line x1="50" y1="60" x2="50" y2="100" stroke="#ffffff" stroke-width="2"/>
+
+          <!-- Legs with walking movement -->
+          <rect x="36" y="98" width="10" height="20" rx="3" fill="#1e293b"/>
+          <rect x="54" y="98" width="10" height="20" rx="3" fill="#1e293b"/>
+          <!-- Safety Boots -->
+          <rect x="32" y="112" width="16" height="8" rx="3" fill="#78350f"/>
+          <rect x="52" y="112" width="16" height="8" rx="3" fill="#78350f"/>
+
+          <!-- Left Arm holding blueprint/solar tool -->
+          <path d="M35 65 L22 80 L28 85 L38 72 Z" fill="#047857"/>
+          <rect x="18" y="75" width="8" height="18" rx="2" fill="#38bdf8" transform="rotate(25 18 75)"/>
+
+          <!-- Right Arm Waving Hand (animated wave) -->
+          <g class="hand-wave">
+            <path d="M65 65 L78 52 L84 56 L72 72 Z" fill="#047857"/>
+            <circle cx="82" cy="50" r="5" fill="#fbcfe8"/>
+            <rect x="80" y="44" width="3" height="6" rx="1.5" fill="#fbcfe8"/>
+            <rect x="84" y="45" width="3" height="6" rx="1.5" fill="#fbcfe8"/>
+          </g>
+
+          <!-- Head & Friendly Face -->
+          <circle cx="50" cy="42" r="16" fill="#fed7aa" stroke="#ea580c" stroke-width="1"/>
+          <circle cx="45" cy="42" r="2" fill="#0f172a"/>
+          <circle cx="55" cy="42" r="2" fill="#0f172a"/>
+          <path d="M45 47 Q50 52 55 47" stroke="#0f172a" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          <circle cx="42" cy="46" r="2" fill="#fb7185" opacity="0.6"/>
+          <circle cx="58" cy="46" r="2" fill="#fb7185" opacity="0.6"/>
+
+          <!-- Safety Helmet (Yellow Hard Hat) -->
+          <path d="M32 36 Q50 16 68 36 Z" fill="#f59e0b" stroke="#b45309" stroke-width="2"/>
+          <rect x="29" y="34" width="42" height="6" rx="3" fill="#d97706"/>
+          <rect x="46" y="24" width="8" height="5" rx="1" fill="#ffffff" opacity="0.8"/>
+          <text x="47" y="32" font-size="7" font-weight="bold" fill="#0f172a" font-family="sans-serif">99</text>
+        </svg>
+
+        <!-- Online Pulse Badge -->
+        <span class="absolute bottom-5 right-1 flex h-3 w-3">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 border-2 border-white"></span>
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STICKY MOBILE BOTTOM BAR (เพรียวบาง ไม่บังจอ กดโทรและไลน์ได้ทันที) -->
+  <div class="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 py-2 flex items-center gap-2 lg:hidden shadow-lg">
+    <a href="tel:0894661491" class="flex-1 inline-flex items-center justify-center gap-1.5 bg-slate-900 text-white font-bold text-xs py-2.5 rounded-xl active:scale-95 transition-all shadow-sm">
+      <i class="fa-solid fa-phone text-brand-400 text-xs"></i>
+      <span>โทร 089-466-1491</span>
+    </a>
+    <a href="https://line.me/R/ti/p/@99sola" target="_blank" class="flex-1 inline-flex items-center justify-center gap-1.5 bg-[#06C755] text-white font-bold text-xs py-2.5 rounded-xl active:scale-95 transition-all shadow-sm">
+      <i class="fa-brands fa-line text-base"></i>
+      <span>LINE: @99sola</span>
+    </a>
+  </div>
+
+  <!-- REALISTIC LIVE SOCIAL PROOF TICKER (แสดงเฉพาะบนแท็บเล็ตและจอคอม ไม่กวนบนจอมือถือ) -->
+  <div id="socialProofToast" class="hidden md:flex fixed bottom-6 left-6 z-30 max-w-sm bg-white/95 backdrop-blur-md border border-emerald-300 rounded-2xl shadow-2xl p-4 transition-all">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 text-base">
+        <i class="fa-solid fa-bell animate-bounce"></i>
+      </div>
+      <div id="toastContent" class="flex-1">
+        <!-- Javascript populates live activities on desktop -->
+      </div>
+    </div>
+  </div>
+
+  <!-- CONSULTATION & LEAD CAPTURE MODAL -->
+  <div id="consultModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border border-emerald-100">
+      
+      <!-- Close button -->
+      <button id="closeModal" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 text-xl w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-100 transition-colors">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <!-- Form Content View -->
+      <div id="formContent">
+        <div class="text-center mb-6">
+          <span class="px-3 py-1 bg-brand-100 text-brand-800 text-xs font-bold rounded-full">99 Solar (ต.คลองแห หาดใหญ่)</span>
+          <h3 class="text-2xl font-bold font-heading text-slate-900 mt-2">นัดหมายวิศวกรสำรวจหน้างานฟรี</h3>
+          <p class="text-xs text-slate-500 mt-1">วิศวกร กว. จะติดต่อกลับพร้อมแบบร่าง 3D ภายใน 15 นาที</p>
+        </div>
+
+        <form id="consultForm" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">ชื่อ - นามสกุล *</label>
+            <input type="text" id="clientName" required placeholder="เช่น คุณสมชาย ใจดี" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent">
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">เบอร์โทรศัพท์ติดต่อ *</label>
+              <input type="tel" required placeholder="08x-xxx-xxxx" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Line ID</label>
+              <input type="text" placeholder="ไอดีไลน์ของคุณ" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">ค่าไฟเฉลี่ยต่อเดือน</label>
+              <select class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent">
+                <option value="3000">ประมาณ 3,000 บาท/เดือน</option>
+                <option value="5000">ประมาณ 4,000 - 7,000 บาท</option>
+                <option value="10000">ประมาณ 8,000 - 15,000 บาท</option>
+                <option value="20000">มากกว่า 20,000 บาท (ธุรกิจ/โรงงาน)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">สถานที่ติดตั้ง</label>
+              <input type="text" placeholder="เช่น หาดใหญ่, คลองแห, สงขลา" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">ความสนใจเพิ่มเติม</label>
+            <div class="grid grid-cols-2 gap-2 text-xs text-slate-600">
+              <label class="flex items-center gap-1.5"><input type="checkbox" checked class="accent-brand-600"> ขอข้อมูลผ่อน 0% / สินเชื่อ</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" checked class="accent-brand-600"> ให้ยื่นขออนุญาต กฟภ.</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" class="accent-brand-600"> ขอใบกำกับภาษี บจก.</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" checked class="accent-brand-600"> รับโปรโมชั่นล้างแผงฟรี</label>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full bg-gradient-to-r from-brand-600 to-emerald-600 hover:from-brand-700 hover:to-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-brand-500/30 transition-all text-sm mt-2">
+            ส่งข้อมูลขอนัดหมายสำรวจหน้างานฟรี
+          </button>
+        </form>
+      </div>
+
+      <!-- Success View -->
+      <div id="formSuccessView" class="hidden text-center py-6">
+        <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto mb-4 animate-bounce">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <h4 class="text-2xl font-bold font-heading text-slate-900 mb-2">ได้รับข้อมูลเรียบร้อยแล้ว!</h4>
+        <p class="text-sm text-slate-600 leading-relaxed mb-6">
+          ขอบคุณ <strong id="successClientName" class="text-emerald-700">ลูกค้า</strong> ทางวิศวกร 99 Solar จะรีบติดต่อกลับเพื่อนัดหมายเข้าดูหน้างานในพื้นที่หาดใหญ่-สงขลาโดยเร็วที่สุดครับ
+        </p>
+        <button onclick="document.getElementById('consultModal').classList.add('hidden')" class="bg-brand-600 text-white text-xs font-semibold px-6 py-2.5 rounded-xl hover:bg-brand-700 transition-colors">
+          ตกลง
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="app.js"></script>
+</body>
+</html>

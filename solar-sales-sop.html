@@ -1,0 +1,2065 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>99 Solar | ระบบ SOP การขายอัจฉริยะ, สคริปต์ปิดดีล & บอทจำลองการคุย (Sales Copilot)</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              200: '#a7f3d0',
+              300: '#6ee7b7',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+              950: '#022c22'
+            },
+            solar: {
+              gold: '#f59e0b',
+              amber: '#d97706',
+              dark: '#0f172a',
+              card: '#1e293b'
+            }
+          },
+          fontFamily: {
+            heading: ['Kanit', 'sans-serif'],
+            body: ['Prompt', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Prompt & Kanit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    body {
+      font-family: 'Prompt', sans-serif;
+    }
+    h1, h2, h3, h4, h5, h6, .font-heading {
+      font-family: 'Kanit', sans-serif;
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #10b981;
+    }
+    .chat-bubble-user {
+      border-radius: 18px 18px 4px 18px;
+    }
+    .chat-bubble-bot {
+      border-radius: 18px 18px 18px 4px;
+    }
+    .glow-gold {
+      box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.3);
+    }
+    .glow-green {
+      box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-brand-500 selection:text-slate-950">
+
+  <!-- TOP HEADER / NAV -->
+  <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <a href="index.html" class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 text-slate-950 flex items-center justify-center font-bold font-heading text-lg shadow-lg hover:scale-105 transition-transform">
+          99
+        </a>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-heading font-bold text-white tracking-wide text-base sm:text-lg">99 SOLAR SALES SOP & BOT</span>
+            <span class="bg-brand-500/20 text-brand-400 border border-brand-500/30 text-[10px] uppercase font-bold px-2 py-0.5 rounded-full">Pro Copilot</span>
+          </div>
+          <p class="text-[11px] text-slate-400 hidden sm:block">สคริปต์ปิดดีล, บอทถาม-ตอบจำลอง, SOP แยก 5 เลเวลลูกค้า & คู่มือเทคนิค 3.3kW-Hybrid</p>
+        </div>
+      </div>
+
+      <!-- Quick Nav Buttons -->
+      <div class="flex items-center gap-2">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-all flex items-center gap-1.5">
+          <i class="fa-solid fa-home"></i> <span class="hidden md:inline">หน้าแรก</span>
+        </a>
+        <a href="solar-planner.html" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-all flex items-center gap-1.5">
+          <i class="fa-solid fa-solar-panel"></i> <span class="hidden md:inline">ผังหลังคา (Planner)</span>
+        </a>
+        <button onclick="switchTab('bot')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-brand-500 hover:bg-brand-400 text-slate-950 transition-all flex items-center gap-1.5 shadow-md">
+          <i class="fa-solid fa-robot"></i> <span>บอทสนทนาสด</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN MODULE TABS -->
+    <div class="bg-slate-900 border-t border-slate-800/80 overflow-x-auto">
+      <div class="max-w-7xl mx-auto px-4 flex space-x-1 sm:space-x-2 py-2 text-xs sm:text-sm font-medium whitespace-nowrap">
+        <button onclick="switchTab('bot')" id="tab-btn-bot" class="tab-btn active px-3.5 py-2 rounded-lg bg-brand-500/20 text-brand-400 border border-brand-500/40 flex items-center gap-2">
+          <i class="fa-solid fa-comments"></i> <span>1. แชทบอท & ผู้ช่วยเซลส์ (AI Bot)</span>
+        </button>
+        <button onclick="switchTab('personas')" id="tab-btn-personas" class="tab-btn px-3.5 py-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-users-gear"></i> <span>2. SOP 5 เลเวลลูกค้า (Customer Personas)</span>
+        </button>
+        <button onclick="switchTab('flowchart')" id="tab-btn-flowchart" class="tab-btn px-3.5 py-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-diagram-project"></i> <span>3. โฟลว์ชาร์ตการคุย & สเต็ปปิดดีล</span>
+        </button>
+        <button onclick="switchTab('catalogs')" id="tab-btn-catalogs" class="tab-btn px-3.5 py-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-book-open"></i> <span>4. แคตตาล็อก 3 ระดับ (ใหญ่/ย่อย/เฉพาะจุด)</span>
+        </button>
+        <button onclick="switchTab('contracts')" id="tab-btn-contracts" class="tab-btn px-3.5 py-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-file-signature"></i> <span>5. การวางมัดจำ, สัญญา & การขออนุญาต</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+
+    <!-- ========================================== -->
+    <!-- TAB 1: INTERACTIVE AI CHATBOT & SALES COPILOT -->
+    <!-- ========================================== -->
+    <div id="tab-bot" class="tab-content block space-y-6">
+      
+      <!-- Banner Intro -->
+      <div class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xl">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 bg-brand-500/20 text-brand-400 border border-brand-500/30 text-xs rounded-md font-semibold">
+              <i class="fa-solid fa-bolt mr-1"></i> Interactive Q&A Engine
+            </span>
+            <span class="text-xs text-slate-400">รองรับระบบ 3.3 kW, แบตเตอรี่ LiFePO4, ตู้คอมบายเนอร์, งานท่อสแตนเลส</span>
+          </div>
+          <h1 class="text-xl sm:text-2xl font-bold text-white font-heading">บอทสนทนา & ซ้อมตอบข้อโต้แย้ง (Solar Sales Copilot)</h1>
+          <p class="text-slate-400 text-xs sm:text-sm">
+            เลือกโหมดสนทนา: <strong class="text-brand-400">"ลูกค้าคุยกับบอท"</strong> เพื่อดูรูปแบบการตอบ หรือ <strong class="text-solar-gold">"เซลส์ถามบอท"</strong> เพื่อขอคำแนะนำและสคริปต์นำไปตอบลูกค้าทันที
+          </p>
+        </div>
+        
+        <!-- Mode Switcher -->
+        <div class="bg-slate-950 p-1.5 rounded-xl border border-slate-800 flex items-center">
+          <button id="mode-customer-btn" onclick="setChatMode('customer')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-brand-500 text-slate-950 shadow">
+            <i class="fa-solid fa-user mr-1"></i> โหมดลูกค้าสอบถาม
+          </button>
+          <button id="mode-copilot-btn" onclick="setChatMode('copilot')" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition-all">
+            <i class="fa-solid fa-headset mr-1"></i> โหมดคู่หูเซลส์ (Copilot)
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Question Topic Chips -->
+      <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 space-y-2">
+        <div class="flex items-center justify-between text-xs text-slate-400">
+          <span class="font-semibold text-slate-300"><i class="fa-solid fa-wand-magic-sparkles text-solar-gold mr-1"></i> คลิกเลือกหัวข้อคำถามยอดฮิต (กดแล้วบอทตอบทันที):</span>
+          <span class="text-[11px] text-slate-500">คลิกที่การ์ดเพื่อส่งคำถาม</span>
+        </div>
+        <div class="flex flex-wrap gap-2 text-xs">
+          <button onclick="sendQuickPrompt('ระบบ 3.3 kW 1 เฟส เหมาะกับบ้านแบบไหน ประหยัดค่าไฟได้เดือนละเท่าไหร่?')" class="bg-slate-800 hover:bg-brand-900/50 hover:border-brand-500/50 border border-slate-700 text-slate-200 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5">
+            <i class="fa-solid fa-house-chimney text-brand-400"></i> 3.3 kW 1 เฟส ประหยัดกี่บาท?
+          </button>
+          <button onclick="sendQuickPrompt('ถ้าต้องการใช้ไฟกลางคืนด้วย ต้องใช้แบตเตอรี่กี่แอมป์ ระหว่าง 100Ah, 200Ah หรือ 300Ah?')" class="bg-slate-800 hover:bg-brand-900/50 hover:border-brand-500/50 border border-slate-700 text-slate-200 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5">
+            <i class="fa-solid fa-car-battery text-solar-gold"></i> แบตเตอรี่ 100/200/300Ah ใช้กลางคืนยังไง?
+          </button>
+          <button onclick="sendQuickPrompt('ตู้คอมบายเนอร์ (Combiner Box) สำคัญยังไง ทำไมต้องมี และข้างในใส่อุปกรณ์อะไรบ้าง?')" class="bg-slate-800 hover:bg-brand-900/50 hover:border-brand-500/50 border border-slate-700 text-slate-200 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5">
+            <i class="fa-solid fa-shield-halved text-blue-400"></i> ตู้คอมบายเนอร์ใส่อุปกรณ์อะไรบ้าง ปลอดภัยไหม?
+          </button>
+          <button onclick="sendQuickPrompt('บนหลังคาทำไมต้องใช้เคเบิ้ลไทร์สแตนเลส หรือท่อสแตนเลส ต่างกับท่อพลาสติกหน้าบ้านยังไง?')" class="bg-slate-800 hover:bg-brand-900/50 hover:border-brand-500/50 border border-slate-700 text-slate-200 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5">
+            <i class="fa-solid fa-screwdriver-wrench text-amber-400"></i> ท่อสแตนเลส & เคเบิ้ลไทร์สแตนเลสบนหลังคา?
+          </button>
+          <button onclick="sendQuickPrompt('ลูกค้าบอกว่าเจ้าอื่นราคา 3.3kW แค่แปดหมื่น ทำไมของพี่แสนต้นๆ มีสคริปต์ตอบยังไง?')" class="bg-slate-800 hover:bg-brand-900/50 hover:border-brand-500/50 border border-slate-700 text-slate-200 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5">
+            <i class="fa-solid fa-tags text-rose-400"></i> เจอลูกค้าต่อราคา เทียบเจ้าอื่น ตอบยังไง?
+          </button>
+          <button onclick="sendQuickPrompt('การวางเงินมัดจำแบ่งเป็นกี่งวด และขั้นตอนการขออนุญาตการไฟฟ้า/อบต. ต้องทำอะไรบ้าง?')" class="bg-slate-800 hover:bg-brand-900/50 hover:border-brand-500/50 border border-slate-700 text-slate-200 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5">
+            <i class="fa-solid fa-file-contract text-emerald-400"></i> งวดเงินมัดจำ & การขออนุญาต กฟภ.
+          </button>
+        </div>
+      </div>
+
+      <!-- Chat Interface Window -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Main Chat Box (8 cols) -->
+        <div class="lg:col-span-8 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col h-[650px] shadow-2xl overflow-hidden">
+          
+          <!-- Chat Header -->
+          <div class="bg-slate-850 px-5 py-3.5 border-b border-slate-800 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="relative">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center text-slate-950 font-bold text-lg">
+                  <i class="fa-solid fa-robot"></i>
+                </div>
+                <span class="absolute bottom-0 right-0 w-3 h-3 bg-brand-400 border-2 border-slate-900 rounded-full"></span>
+              </div>
+              <div>
+                <h3 class="font-bold text-white text-sm">99 Solar AI Sales Copilot</h3>
+                <p id="chat-mode-indicator" class="text-[11px] text-brand-400">● กำลังอยู่ในโหมด: ลูกค้าสอบถามระบบ (Customer Demo)</p>
+              </div>
+            </div>
+            
+            <!-- Actions -->
+            <div class="flex items-center gap-2">
+              <button onclick="clearChat()" class="text-slate-400 hover:text-rose-400 text-xs px-2.5 py-1 rounded bg-slate-800 border border-slate-700 transition-colors">
+                <i class="fa-solid fa-rotate-right mr-1"></i> ล้างแชท
+              </button>
+            </div>
+          </div>
+
+          <!-- Messages Scroll Area -->
+          <div id="chat-messages" class="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4 text-xs sm:text-sm">
+            
+            <!-- Bot Welcome Bubble -->
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 border border-brand-500/30 flex items-center justify-center shrink-0 text-sm mt-0.5">
+                <i class="fa-solid fa-robot"></i>
+              </div>
+              <div class="max-w-[85%] bg-slate-800 border border-slate-700 text-slate-200 p-4 chat-bubble-bot space-y-2 shadow-sm">
+                <p class="font-semibold text-brand-400 flex items-center gap-1.5">
+                  <i class="fa-solid fa-sun text-solar-gold"></i> สวัสดีครับ! ผมคือ 99 Solar AI Assistant & Sales Copilot
+                </p>
+                <p>
+                  ยินดีต้อนรับสู่ระบบจำลองการขายโซลาร์เซลล์มาตรฐานวิศวกรรมครับ! ไม่ว่าคุณจะเป็น<strong>ลูกค้าที่อยากคำนวณระบบ 3.3 kW 1 เฟส, ระบบไฮบริดกลางคืนแบตเตอรี่ 100Ah-300Ah</strong> หรือเป็น<strong>พนักงานขายที่ต้องการสคริปต์ปิดดีล/ข้อสัญญา/ใบอนุญาต</strong>
+                </p>
+                <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-700/60 text-xs text-slate-300 space-y-1">
+                  <p class="font-bold text-slate-200">💡 คุณสามารถลองพิมพ์ถามได้เลย เช่น:</p>
+                  <p>• "บ้านค่าไฟ 2,500 บาท ติด 3.3kW ประหยัดได้กี่บาท คืนทุนกี่ปี?"</p>
+                  <p>• "กลางคืนเปิดแอร์ 2 ตัว อยากติดแบตเตอรี่ ต้องใช้กี่แอมป์?"</p>
+                  <p>• "ตู้คอมบายเนอร์ทำไมต้องใช้ SPD และ RCBO Type B?"</p>
+                  <p>• "สายไฟบนหลังคาใช้เคเบิ้ลไทร์สแตนเลสยังไง ต่างกับพลาสติกยังไง?"</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Chat Input Area -->
+          <div class="p-3 sm:p-4 bg-slate-850 border-t border-slate-800">
+            <form id="chat-form" onsubmit="handleChatSubmit(event)" class="flex gap-2">
+              <input 
+                type="text" 
+                id="chat-input" 
+                placeholder="พิมพ์คำถามของคุณ หรือพิมพ์ข้อโต้แย้งลูกค้าที่นี่..." 
+                class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
+                autocomplete="off"
+              >
+              <button 
+                type="submit" 
+                class="bg-brand-500 hover:bg-brand-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs sm:text-sm transition-all flex items-center gap-1.5 shrink-0 shadow-lg"
+              >
+                <span>ส่งข้อความ</span> <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </form>
+            <div class="flex items-center justify-between text-[11px] text-slate-500 mt-2 px-1">
+              <span>⚡ ตอบกลับทันทีด้วยความแม่นยำทางวิศวกรรม & สคริปต์ปิดการขาย</span>
+              <span id="char-count">พร้อมใช้งาน</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Sidebar: Quick Simulator & Script Copier (4 cols) -->
+        <div class="lg:col-span-4 space-y-4 flex flex-col">
+          
+          <!-- Mini Calculator / Quick Spec 3.3kW & Battery -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <h3 class="font-bold text-white text-sm font-heading flex items-center gap-2">
+                <i class="fa-solid fa-calculator text-brand-400"></i> เครื่องคำนวณสเปกด่วน 3.3 kW & แบต
+              </h3>
+              <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded">สูตรวิศวกรรม</span>
+            </div>
+
+            <!-- Daytime System -->
+            <div class="space-y-2">
+              <label class="text-xs text-slate-300 font-medium">1. ระบบกลางวัน (On-Grid / Hybrid)</label>
+              <select id="quick-kw-select" onchange="calculateQuickSpec()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-slate-200">
+                <option value="3.3" selected>3.3 kW 1 เฟส (ประหยัด ~1,800 - 2,300 บ./ด.)</option>
+                <option value="5.0">5.0 kW 1 เฟส / 3 เฟส (ประหยัด ~3,000 - 3,800 บ./ด.)</option>
+                <option value="10.0">10.0 kW 3 เฟส (ประหยัด ~6,000 - 7,500 บ./ด.)</option>
+              </select>
+            </div>
+
+            <!-- Night Battery Option -->
+            <div class="space-y-2">
+              <label class="text-xs text-slate-300 font-medium">2. แบตเตอรี่สำรองไฟกลางคืน (LiFePO4 51.2V)</label>
+              <select id="quick-battery-select" onchange="calculateQuickSpec()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-slate-200">
+                <option value="0">ไม่เอาแบตเตอรี่ (ใช้ไฟเฉพาะกลางวัน)</option>
+                <option value="100" selected>แบตเตอรี่ 100 Ah (ความจุ 5.12 kWh - แอร์ 1 ตัว + ไฟบ้าน)</option>
+                <option value="200">แบตเตอรี่ 200 Ah (ความจุ 10.24 kWh - แอร์ 2 ตัวทั้งคืน)</option>
+                <option value="300">แบตเตอรี่ 300 Ah (ความจุ 15.36 kWh - แอร์ 3 ตัว + ฟูลโหลด)</option>
+              </select>
+            </div>
+
+            <!-- Spec Result Card -->
+            <div id="quick-spec-card" class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 space-y-2 text-xs">
+              <div class="flex justify-between items-center text-slate-400">
+                <span>จำนวนแผง (620W N-Type):</span>
+                <span id="spec-panels" class="font-bold text-white">6 แผง (3.72 kWp)</span>
+              </div>
+              <div class="flex justify-between items-center text-slate-400">
+                <span>อินเวอร์เตอร์มาตรฐาน:</span>
+                <span id="spec-inverter" class="font-bold text-brand-400">Hybrid 3.3 kW 1-Phase</span>
+              </div>
+              <div class="flex justify-between items-center text-slate-400">
+                <span>ชั่วโมงเปิดแอร์กลางคืน (Inverter 9000-12000 BTU):</span>
+                <span id="spec-backup" class="font-bold text-solar-gold">~6 - 8 ชั่วโมง</span>
+              </div>
+              <div class="flex justify-between items-center text-slate-400">
+                <span>ประหยัดค่าไฟรวม:</span>
+                <span id="spec-saving" class="font-bold text-emerald-400">~2,800 - 3,500 บาท/เดือน</span>
+              </div>
+              <div class="pt-2 border-t border-slate-800 flex justify-between items-center">
+                <span class="text-slate-300">งบประมาณประมาณการ:</span>
+                <span id="spec-price" class="font-bold text-sm text-brand-400">189,000 - 219,000 บาท</span>
+              </div>
+            </div>
+
+            <button onclick="askBotFromSpec()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-brand-400 border border-brand-500/30 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-comment-dots"></i> <span>ส่งสเปกนี้ให้บอทสร้างสคริปต์เสนอราคา</span>
+            </button>
+          </div>
+
+          <!-- Quick Copy Battle Scripts -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3 flex-1">
+            <h3 class="font-bold text-white text-sm font-heading flex items-center gap-2">
+              <i class="fa-solid fa-copy text-solar-gold"></i> สคริปต์พร้อมก็อปส่ง LINE
+            </h3>
+            <p class="text-xs text-slate-400">กดปุ่มเพื่อคัดลอกข้อความไปวางใน LINE หรือ Messenger ได้ทันที</p>
+            
+            <div class="space-y-2 text-xs">
+              <button onclick="copyPredefinedScript(1)" class="w-full text-left p-2.5 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-lg flex items-center justify-between group transition-colors">
+                <span class="truncate text-slate-300 group-hover:text-white font-medium">📋 สคริปต์เสนอชุด 3.3 kW 1 เฟส (สเปก & จุดคุ้มทุน)</span>
+                <i class="fa-regular fa-clone text-slate-500 group-hover:text-brand-400 ml-2"></i>
+              </button>
+              <button onclick="copyPredefinedScript(2)" class="w-full text-left p-2.5 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-lg flex items-center justify-between group transition-colors">
+                <span class="truncate text-slate-300 group-hover:text-white font-medium">📋 สคริปต์ชี้แจงระบบตู้คอมบาย & ท่อสแตนเลส (ทำไมไม่ใช้พลาสติก)</span>
+                <i class="fa-regular fa-clone text-slate-500 group-hover:text-brand-400 ml-2"></i>
+              </button>
+              <button onclick="copyPredefinedScript(3)" class="w-full text-left p-2.5 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-lg flex items-center justify-between group transition-colors">
+                <span class="truncate text-slate-300 group-hover:text-white font-medium">📋 สคริปต์อธิบายแบตเตอรี่ 100Ah / 200Ah ใช้กลางคืน</span>
+                <i class="fa-regular fa-clone text-slate-500 group-hover:text-brand-400 ml-2"></i>
+              </button>
+              <button onclick="copyPredefinedScript(4)" class="w-full text-left p-2.5 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-lg flex items-center justify-between group transition-colors">
+                <span class="truncate text-slate-300 group-hover:text-white font-medium">📋 สคริปต์แบ่งงวดชำระ 4 งวด & ยื่นเรื่องการไฟฟ้าฟรี</span>
+                <i class="fa-regular fa-clone text-slate-500 group-hover:text-brand-400 ml-2"></i>
+              </button>
+            </div>
+            
+            <div id="copy-toast" class="hidden text-center py-1.5 px-3 bg-brand-500 text-slate-950 font-bold rounded-lg text-xs animate-pulse">
+              ✓ คัดลอกสคริปต์เรียบร้อย นำไปวางส่งลูกค้าได้เลย!
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: 5 CUSTOMER PERSONAS & BATTLE CARDS -->
+    <!-- ========================================== -->
+    <div id="tab-personas" class="tab-content hidden space-y-6">
+      
+      <div class="border-b border-slate-800 pb-4">
+        <span class="px-2.5 py-1 bg-brand-500/20 text-brand-400 border border-brand-500/30 text-xs rounded-md font-semibold">
+          Customer Segmentation & Sales Playbook
+        </span>
+        <h2 class="text-2xl font-bold text-white font-heading mt-2">SOP การแบ่งลูกค้า 5 เลเวล & กลยุทธ์การปิดการขาย</h2>
+        <p class="text-slate-400 text-sm mt-1">
+          เมื่อเจอลูกค้าแต่ละประเภท เซลส์ต้องปรับโทนเสียง คำถามเจาะใจ และไม้ตายปิดการขายให้ตรงจุด ไม่พูดสเปกเทคนิคกับคนกลัว และไม่พูดแค่ความคุ้มค่ากับคนรักเทคโนโลยี
+        </p>
+      </div>
+
+      <!-- Level Selection Tabs -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        
+        <button onclick="showPersonaDetail(1)" id="btn-persona-1" class="persona-tab-btn active p-3.5 rounded-xl border border-brand-500/50 bg-slate-900 hover:bg-slate-850 text-left transition-all">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">L1</span>
+            <span class="text-[10px] text-emerald-400 font-bold">50% ของลูกค้า</span>
+          </div>
+          <h4 class="font-bold text-white text-xs sm:text-sm">มือใหม่ ไม่รู้เรื่องเลย</h4>
+          <p class="text-[11px] text-slate-400 truncate mt-0.5">กลัวไฟไหม้ / กลัวหลังคารั่ว</p>
+        </button>
+
+        <button onclick="showPersonaDetail(2)" id="btn-persona-2" class="persona-tab-btn p-3.5 rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-850 text-left transition-all">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xs">L2</span>
+            <span class="text-[10px] text-blue-400 font-bold">20% ของลูกค้า</span>
+          </div>
+          <h4 class="font-bold text-white text-xs sm:text-sm">กึ่งรู้เรื่อง / นักค้นคว้า</h4>
+          <p class="text-[11px] text-slate-400 truncate mt-0.5">ทำการบ้านมาเยอะ / ถามลึก</p>
+        </button>
+
+        <button onclick="showPersonaDetail(3)" id="btn-persona-3" class="persona-tab-btn p-3.5 rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-850 text-left transition-all">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-xs">L3</span>
+            <span class="text-[10px] text-rose-400 font-bold">15% ของลูกค้า</span>
+          </div>
+          <h4 class="font-bold text-white text-xs sm:text-sm">สายเทียบราคา / งบจำกัด</h4>
+          <p class="text-[11px] text-slate-400 truncate mt-0.5">มีหลายใบเสนอราคา / ต่อแหลก</p>
+        </button>
+
+        <button onclick="showPersonaDetail(4)" id="btn-persona-4" class="persona-tab-btn p-3.5 rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-850 text-left transition-all">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">L4</span>
+            <span class="text-[10px] text-amber-400 font-bold">10% ของลูกค้า</span>
+          </div>
+          <h4 class="font-bold text-white text-xs sm:text-sm">VIP บ้านหรู / มีเงิน</h4>
+          <p class="text-[11px] text-slate-400 truncate mt-0.5">เน้นสวยงาม / งานเนี๊ยบ / พรีเมียม</p>
+        </button>
+
+        <button onclick="showPersonaDetail(5)" id="btn-persona-5" class="persona-tab-btn p-3.5 rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-850 text-left transition-all">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-xs">L5</span>
+            <span class="text-[10px] text-purple-400 font-bold">5% ของลูกค้า</span>
+          </div>
+          <h4 class="font-bold text-white text-xs sm:text-sm">เจ้าของธุรกิจ / โรงงาน</h4>
+          <p class="text-[11px] text-slate-400 truncate mt-0.5">เน้น ROI / หักภาษี / คืนทุนไว</p>
+        </button>
+
+      </div>
+
+      <!-- PERSONA DETAIL CONTAINER -->
+      <div id="persona-content-area" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl">
+        <!-- Rendered by JavaScript dynamically (default: Level 1) -->
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: SALES FLOWCHART & 7-STEP CLOSING -->
+    <!-- ========================================== -->
+    <div id="tab-flowchart" class="tab-content hidden space-y-6">
+      
+      <div class="border-b border-slate-800 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <span class="px-2.5 py-1 bg-brand-500/20 text-brand-400 border border-brand-500/30 text-xs rounded-md font-semibold">
+            Standard Operating Procedure (SOP)
+          </span>
+          <h2 class="text-2xl font-bold text-white font-heading mt-2">โฟลว์ชาร์ตกระบวนการคุย & สเต็ปปิดการขาย 7 ขั้นตอน</h2>
+          <p class="text-slate-400 text-sm mt-1">
+            แผนผังขั้นตอนมาตรฐานตั้งแต่ลูกค้าทักแชท จนถึงติดตั้งและบริการหลังการขาย
+          </p>
+        </div>
+        <button onclick="printFlowchart()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold flex items-center gap-2 self-start sm:self-auto">
+          <i class="fa-solid fa-print"></i> พิมพ์ / เซฟเป็น PDF
+        </button>
+      </div>
+
+      <!-- Interactive Flowchart Steps -->
+      <div class="space-y-4">
+        
+        <!-- Step 1 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-brand-500/40 transition-all">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-brand-500/20 text-brand-400 border border-brand-500/40 flex items-center justify-center font-bold text-base shrink-0">
+              01
+            </div>
+            <div class="space-y-2 flex-1">
+              <div class="flex items-center justify-between flex-wrap gap-2">
+                <h3 class="font-bold text-white text-base font-heading">ขั้นตอนที่ 1: รับทักแชท & สแกนคัดกรองเบื้องต้น (Initial Touch & Filter)</h3>
+                <span class="text-xs bg-slate-800 text-slate-400 px-2.5 py-1 rounded-full">ระยะเวลา: ภายใน 3-5 นาที</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300">
+                <strong>เป้าหมาย:</strong> ตอบกลับทันที สร้างความประทับใจ และขอข้อมูลสำคัญ 3 อย่าง: <em>บิลค่าไฟล่าสุด, แผนที่บ้าน, ช่วงเวลาที่ใช้ไฟหนักสุด (กลางวัน vs กลางคืน)</em>
+              </p>
+              <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80 text-xs text-slate-300">
+                <span class="text-brand-400 font-bold">💬 สคริปต์เปิดบทสนทนา:</span>
+                "สวัสดีครับ ยินดีต้อนรับสู่ 99 Solar ครับผม! ขอบพระคุณที่สนใจลดค่าไฟด้วยพลังงานแสงอาทิตย์นะครับ เพื่อให้ทีมวิศวกรช่วยประเมินความคุ้มค่าและคำนวณขนาดระบบที่เหมาะสมที่สุด รบกวนคุณลูกค้าส่งรูปบิลค่าไฟเดือนล่าสุดให้สักนิดได้ไหมครับ และที่บ้านเน้นใช้ไฟช่วงกลางวัน หรือมีเปิดแอร์กลางคืนเยอะกว่ากันครับ?"
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-brand-500/40 transition-all">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-500/40 flex items-center justify-center font-bold text-base shrink-0">
+              02
+            </div>
+            <div class="space-y-2 flex-1">
+              <div class="flex items-center justify-between flex-wrap gap-2">
+                <h3 class="font-bold text-white text-base font-heading">ขั้นตอนที่ 2: วิเคราะห์ Load Profile & จำแนกระบบ (On-Grid vs Hybrid)</h3>
+                <span class="text-xs bg-slate-800 text-slate-400 px-2.5 py-1 rounded-full">ระยะเวลา: 10-15 นาที</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300">
+                <strong>เป้าหมาย:</strong> กำหนดขนาดระบบ เช่น ค่าไฟ 2,500 - 3,500 บ. แนะนำ <strong>3.3 kW 1 เฟส</strong> แต่ถ้ามีเปิดแอร์กลางคืน ให้เสนอทางเลือกเสริม <strong>แบตเตอรี่ LiFePO4 100Ah หรือ 200Ah</strong>
+              </p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+                  <span class="text-emerald-400 font-bold">กรณีเน้นกลางวัน (Work from Home / ผู้สูงอายุ):</span>
+                  <p class="text-slate-400 mt-1">เสนอ On-Grid 3.3 kW หรือ 5 kW คืนทุนไวสุด 3.5 - 4.5 ปี ไม่ต้องแบกต้นทุนแบตเตอรี่</p>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+                  <span class="text-solar-gold font-bold">กรณีใช้ไฟกลางคืนหนัก (แอร์ 1-3 ตัวตอนนอน):</span>
+                  <p class="text-slate-400 mt-1">เสนอ Hybrid Inverter + แบตเตอรี่ 100Ah (5.12kWh) หรือ 200Ah (10.24kWh) ชูจุดขายไฟไม่ดับตอนฝนตก</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-brand-500/40 transition-all">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center font-bold text-base shrink-0">
+              03
+            </div>
+            <div class="space-y-2 flex-1">
+              <div class="flex items-center justify-between flex-wrap gap-2">
+                <h3 class="font-bold text-white text-base font-heading">ขั้นตอนที่ 3: ล็อคนัดหมายสำรวจหน้างาน (Site Survey Appointment)</h3>
+                <span class="text-xs bg-brand-500/20 text-brand-400 px-2.5 py-1 rounded-full font-bold">จุดเปลี่ยนสำคัญ (Conversion Booster)</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300">
+                <strong>เป้าหมาย:</strong> เปลี่ยนจากแค่คุยแชทเป็นการเข้าพบหน้างาน เพื่อเช็คทิศแดด โครงสร้างหลังคา เมนไฟฟ้าเดิม และจุดวางตู้คอมบายเนอร์
+              </p>
+              <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80 text-xs text-slate-300">
+                <span class="text-solar-gold font-bold">💬 สคริปต์ล็อคนัดสำรวจฟรี:</span>
+                "เพื่อให้ตัวเลขประหยัดค่าไฟและการวางทิศทางแผงแม่นยำ 100% ทาง 99 Solar มีบริการให้วิศวกรนำโดรนเข้าสำรวจองศาหลังคาและตรวจระบบกราวด์ของบ้านฟรี ไม่มีค่าใช้จ่ายครับ สะดวกเป็นวันเสาร์หรือวันอาทิตย์นี้ช่วงเช้าดีครับ?"
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-brand-500/40 transition-all">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 border border-purple-500/40 flex items-center justify-center font-bold text-base shrink-0">
+              04
+            </div>
+            <div class="space-y-2 flex-1">
+              <div class="flex items-center justify-between flex-wrap gap-2">
+                <h3 class="font-bold text-white text-base font-heading">ขั้นตอนที่ 4: เสนอแบบ 3D, แคตตาล็อก & สเปกความปลอดภัย (Engineering Pitch)</h3>
+                <span class="text-xs bg-slate-800 text-slate-400 px-2.5 py-1 rounded-full">ส่งมอบภายใน 24 ชม. หลังสำรวจ</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300">
+                <strong>เป้าหมาย:</strong> ส่งใบเสนอราคา พร้อมชูจุดเด่นที่แตกต่างจากคู่แข่ง: <em>ตู้คอมบายเนอร์ครบเซต, เคเบิ้ลไทร์สแตนเลส 304 ทนแดด 25 ปี, ท่อสแตนเลส/uPVC เรียบร้อยสวยงาม</em>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-brand-500/40 transition-all">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/40 flex items-center justify-center font-bold text-base shrink-0">
+              05
+            </div>
+            <div class="space-y-2 flex-1">
+              <div class="flex items-center justify-between flex-wrap gap-2">
+                <h3 class="font-bold text-white text-base font-heading">ขั้นตอนที่ 5: เคลียร์ข้อโต้แย้ง & ไม้ตายปิดการขาย (Overcoming Objections & Closing)</h3>
+                <span class="text-xs bg-slate-800 text-slate-400 px-2.5 py-1 rounded-full">Handling Doubts</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300">
+                แก้ข้อข้องใจเรื่องราคา, กลัวไฟไหม้, กลัวหลังคารั่ว ด้วยหนังสือรับประกันภัยวิศวกรรม + สัญญาไม่ทิ้งงาน
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-brand-500/40 transition-all">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-base shrink-0">
+              06
+            </div>
+            <div class="space-y-2 flex-1">
+              <div class="flex items-center justify-between flex-wrap gap-2">
+                <h3 class="font-bold text-white text-base font-heading">ขั้นตอนที่ 6: เซ็นสัญญา, วางมัดจำงวดที่ 1 & ยื่นขออนุญาต (Deposit & Permits)</h3>
+                <span class="text-xs bg-slate-800 text-slate-400 px-2.5 py-1 rounded-full">วางมัดจำ 15%</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300">
+                เก็บเอกสารสำเนาบัตร, ทะเบียนบ้าน, โฉนด/บิลไฟ เพื่อเริ่มยื่นขออนุญาต อบต./เทศบาล และยื่นขนานไฟ กฟภ./กฟน.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 7 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-brand-500/40 transition-all">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-solar-gold/20 text-solar-gold border border-solar-gold/40 flex items-center justify-center font-bold text-base shrink-0">
+              07
+            </div>
+            <div class="space-y-2 flex-1">
+              <div class="flex items-center justify-between flex-wrap gap-2">
+                <h3 class="font-bold text-white text-base font-heading">ขั้นตอนที่ 7: ติดตั้ง, ทดสอบ Commissioning, ขนานไฟ & บริการหลังการขาย</h3>
+                <span class="text-xs bg-slate-800 text-slate-400 px-2.5 py-1 rounded-full">ติดตั้ง 1-2 วัน</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300">
+                ติดตั้งตามมาตรฐานความปลอดภัย ส่งมอบแอพพลิเคชันดูผลผลิตไฟบนมือถือ นัดเจ้าหน้าที่การไฟฟ้าเปลี่ยนมิเตอร์ TOU และเข้าสู่ระบบดูแลล้างแผงฟรี
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 4: 3-TIER CATALOGS (MASTER, SUB, SPECIFIC) -->
+    <!-- ========================================== -->
+    <div id="tab-catalogs" class="tab-content hidden space-y-6">
+      
+      <div class="border-b border-slate-800 pb-4">
+        <span class="px-2.5 py-1 bg-brand-500/20 text-brand-400 border border-brand-500/30 text-xs rounded-md font-semibold">
+          Multi-Tier Catalogs
+        </span>
+        <h2 class="text-2xl font-bold text-white font-heading mt-2">แคตตาล็อกนำเสนอ 3 รูปแบบ (ใหญ่สุด / ย่อยด่วน / เจาะจงเฉพาะจุด)</h2>
+        <p class="text-slate-400 text-sm mt-1">
+          เลือกใช้ให้เหมาะกับสถานการณ์: แคตตาล็อกใหญ่สำหรับลูกค้านั่งคุย, แคตตาล็อกย่อยสำหรับส่งไลน์ด่วน และแคตตาล็อกเฉพาะจุดเมื่อลูกค้าถามเจาะจงเรื่องตู้คอมบาย แบตเตอรี่ หรือท่อสายไฟ
+        </p>
+      </div>
+
+      <!-- Catalog Mode Selectors -->
+      <div class="flex flex-wrap gap-2 border-b border-slate-800 pb-3">
+        <button onclick="showCatalogView('master')" id="cat-btn-master" class="cat-nav-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-brand-500 text-slate-950 flex items-center gap-2">
+          <i class="fa-solid fa-layer-group"></i> แคตตาล็อกใหญ่สุด (Full Master)
+        </button>
+        <button onclick="showCatalogView('combiner')" id="cat-btn-combiner" class="cat-nav-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-box-archive"></i> เฉพาะจุด 1: ตู้คอมบายเนอร์ (Combiner Box)
+        </button>
+        <button onclick="showCatalogView('battery')" id="cat-btn-battery" class="cat-nav-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-battery-full"></i> เฉพาะจุด 2: ระบบแบตเตอรี่ 100-300Ah
+        </button>
+        <button onclick="showCatalogView('conduit')" id="cat-btn-conduit" class="cat-nav-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-wrench"></i> เฉพาะจุด 3: ท่อสแตนเลส & เคเบิ้ลไทร์บนหลังคา
+        </button>
+        <button onclick="showCatalogView('quick')" id="cat-btn-quick" class="cat-nav-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-bolt-lightning"></i> แคตตาล็อกด่วน (1-Page Quick Pitch)
+        </button>
+      </div>
+
+      <!-- CATALOG CONTENT CONTAINER -->
+      <div id="catalog-content-area" class="space-y-6">
+        <!-- Rendered dynamically via JavaScript -->
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 5: DEPOSITS, CONTRACTS & PERMITS -->
+    <!-- ========================================== -->
+    <div id="tab-contracts" class="tab-content hidden space-y-6">
+      
+      <div class="border-b border-slate-800 pb-4">
+        <span class="px-2.5 py-1 bg-brand-500/20 text-brand-400 border border-brand-500/30 text-xs rounded-md font-semibold">
+          Financial & Legal Compliance
+        </span>
+        <h2 class="text-2xl font-bold text-white font-heading mt-2">การวางมัดจำ, ข้อสัญญา และคู่มือการขอใบอนุญาตครบวงจร</h2>
+        <p class="text-slate-400 text-sm mt-1">
+          สร้างความมั่นใจให้ลูกค้าด้วยแผนการจ่ายเงินที่โปร่งใส สัญญารัดกุม และระบบจัดการเอกสารราชการแบบวันสต็อปเซอร์วิส
+        </p>
+      </div>
+
+      <!-- Payment Milestones Grid -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <h3 class="text-lg font-bold text-white font-heading flex items-center gap-2">
+            <i class="fa-solid fa-hand-holding-dollar text-emerald-400"></i> แผนแบ่งชำระเงิน 4 งวดมาตรฐาน (Payment Milestones)
+          </h3>
+          <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2.5 py-1 rounded font-bold border border-emerald-500/30">
+            โปร่งใส ปลอดภัย ตรวจงานก่อนจ่าย
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          
+          <!-- Milestone 1 -->
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3 relative overflow-hidden">
+            <div class="absolute top-0 right-0 bg-brand-500 text-slate-950 text-[10px] font-bold px-2 py-0.5 rounded-bl">งวดที่ 1</div>
+            <div class="text-2xl font-bold text-brand-400 font-heading">15%</div>
+            <h4 class="font-bold text-white text-sm">มัดจำทำสัญญา & ยื่นขออนุญาต</h4>
+            <p class="text-xs text-slate-400">ชำระในวันเซ็นสัญญาจ้างติดตั้ง เพื่อส่งทีมวิศวกรเขียนแบบ Single Line Diagram และเริ่มยื่นเอกสาร อบต./เทศบาล และ กฟภ.</p>
+            <div class="pt-2 border-t border-slate-800 text-[11px] text-slate-300">
+              <span class="text-slate-500">สิ่งที่ลูกค้าได้รับ:</span> เล่มสัญญา, ใบเสร็จรับเงิน, แบบร่างระบบ
+            </div>
+          </div>
+
+          <!-- Milestone 2 -->
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3 relative overflow-hidden">
+            <div class="absolute top-0 right-0 bg-blue-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-bl">งวดที่ 2</div>
+            <div class="text-2xl font-bold text-blue-400 font-heading">50%</div>
+            <h4 class="font-bold text-white text-sm">ส่งของเข้าหน้างาน (ก่อนเริ่มติดตั้ง)</h4>
+            <p class="text-xs text-slate-400">ชำระเมื่อแผงโซลาร์, อินเวอร์เตอร์, แบตเตอรี่, ตู้คอมบายเนอร์ และโครงสร้างอลูมิเนียมส่งถึงบ้านลูกค้า ลูกค้าตรวจนับของก่อนจ่าย</p>
+            <div class="pt-2 border-t border-slate-800 text-[11px] text-slate-300">
+              <span class="text-slate-500">สิ่งที่ลูกค้าได้รับ:</span> ของแท้แกะกล่อง มี Serial Number ตรวจสอบได้
+            </div>
+          </div>
+
+          <!-- Milestone 3 -->
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3 relative overflow-hidden">
+            <div class="absolute top-0 right-0 bg-solar-gold text-slate-950 text-[10px] font-bold px-2 py-0.5 rounded-bl">งวดที่ 3</div>
+            <div class="text-2xl font-bold text-solar-gold font-heading">25%</div>
+            <h4 class="font-bold text-white text-sm">ติดตั้งเสร็จ & ทดสอบระบบ</h4>
+            <p class="text-xs text-slate-400">ชำระเมื่องานติดตั้งบนหลังคา ตู้คอมบายเนอร์ และสายไฟเสร็จสิ้น ทดสอบเปิดระบบผลิตไฟจริง ลูกค้าโหลดแอพดูข้อมูลได้ทันที</p>
+            <div class="pt-2 border-t border-slate-800 text-[11px] text-slate-300">
+              <span class="text-slate-500">สิ่งที่ลูกค้าได้รับ:</span> ระบบผลิตไฟใช้งานได้, เอกสารผลเทสต์
+            </div>
+          </div>
+
+          <!-- Milestone 4 -->
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3 relative overflow-hidden">
+            <div class="absolute top-0 right-0 bg-purple-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-bl">งวดที่ 4</div>
+            <div class="text-2xl font-bold text-purple-400 font-heading">10%</div>
+            <h4 class="font-bold text-white text-sm">การไฟฟ้าเปลี่ยนมิเตอร์ TOU เรียบร้อย</h4>
+            <p class="text-xs text-slate-400">ชำระเมื่อเจ้าหน้าที่การไฟฟ้า (PEA/MEA) เข้าตรวจหน้างาน ขนานไฟสำเร็จ และเปลี่ยนมิเตอร์สองทิศทางเสร็จสมบูรณ์ 100%</p>
+            <div class="pt-2 border-t border-slate-800 text-[11px] text-slate-300">
+              <span class="text-slate-500">สิ่งที่ลูกค้าได้รับ:</span> เล่มส่งมอบงาน, ใบรับประกันตัวจริง
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Contract Key Clauses & Terms -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Contract Clauses -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+          <h3 class="text-lg font-bold text-white font-heading flex items-center gap-2">
+            <i class="fa-solid fa-file-contract text-brand-400"></i> ข้อสัญญาสำคัญที่ต้องระบุในใบสัญญาจ้าง
+          </h3>
+          <p class="text-xs text-slate-400">ข้อสัญญาเหล่านี้ช่วยสร้างความไว้วางใจ ป้องกันข้อพิพาท และเป็นจุดขายเทียบกับช่างทั่วไป</p>
+
+          <div class="space-y-3 text-xs">
+            <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1">
+              <div class="font-bold text-brand-400 flex items-center gap-1.5">
+                <i class="fa-solid fa-circle-check"></i> 1. ข้อสัญญาการันตีหลังคาไม่รั่วซึม (Roof Leak Guarantee)
+              </div>
+              <p class="text-slate-300">
+                ระบุชัดเจน: <em>"ผู้รับจ้างรับประกันการรั่วซึมของหลังคาบริเวณจุดยึดติดขาแผงโซลาร์เซลล์ เป็นระยะเวลา 2 ปี หากเกิดการรั่วซึมอันเนื่องมาจากการติดตั้ง ผู้รับจ้างยินดีเข้าซ่อมแซมและชดใช้ค่าเสียหายที่เกิดขึ้นจริงทันทีภายใน 48 ชั่วโมง"</em>
+              </p>
+            </div>
+
+            <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1">
+              <div class="font-bold text-solar-gold flex items-center gap-1.5">
+                <i class="fa-solid fa-circle-check"></i> 2. ข้อสัญญามาตรฐานอุปกรณ์ & Serial Number
+              </div>
+              <p class="text-slate-300">
+                ระบุยี่ห้อ รุ่น และใบรับประกัน: แผงโซลาร์ Tier 1 (ประกันผลผลิตไฟ 25-30 ปี), อินเวอร์เตอร์ที่ผ่านการรับรอง กฟภ./กฟน. (ประกัน 5-10 ปี), แบตเตอรี่ LiFePO4 (ประกัน 5-10 ปี) ห้ามเปลี่ยนเกรดอุปกรณ์โดยไม่ได้รับความยินยอมเป็นลายลักษณ์อักษร
+              </p>
+            </div>
+
+            <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1">
+              <div class="font-bold text-blue-400 flex items-center gap-1.5">
+                <i class="fa-solid fa-circle-check"></i> 3. ข้อสัญญารับผิดชอบการยื่นใบอนุญาต 100%
+              </div>
+              <p class="text-slate-300">
+                ระบุ: <em>"ผู้รับจ้างเป็นผู้ดำเนินการยื่นเอกสารขออนุญาตขนานไฟกับการไฟฟ้า (PEA/MEA), ขออนุญาตดัดแปลงอาคาร และจดแจ้ง กกพ. จนเสร็จสิ้นสมบูรณ์ หากการไฟฟ้าไม่อนุมัติเนื่องจากมาตรฐานงานติดตั้ง ผู้รับจ้างจะแก้ไขให้จนผ่านโดยไม่มีค่าใช้จ่ายเพิ่มเติม"</em>
+              </p>
+            </div>
+
+            <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1">
+              <div class="font-bold text-purple-400 flex items-center gap-1.5">
+                <i class="fa-solid fa-circle-check"></i> 4. บริการล้างแผง & ตรวจเช็คระบบประจำปี
+              </div>
+              <p class="text-slate-300">
+                ฟรีบริการบำรุงรักษา ล้างแผงโซลาร์เซลล์ และใช้กล้องเทอร์โมสแกนตรวจจุดความร้อน (Hotspot) ปีละ 1-2 ครั้ง ตามแพ็กเกจ
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Permits & Document Checklist -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+          <h3 class="text-lg font-bold text-white font-heading flex items-center gap-2">
+            <i class="fa-solid fa-passport text-solar-gold"></i> รายการเอกสาร & ขั้นตอนการขอใบอนุญาต 3 สถาบัน
+          </h3>
+          <p class="text-xs text-slate-400">เราจัดการให้ลูกค้าครบวงจร ลูกค้าเพียงเตรียมสำเนาเอกสารส่วนบุคคล</p>
+
+          <!-- Documents Needed from Customer -->
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2 text-xs">
+            <h4 class="font-bold text-white flex items-center gap-1.5">
+              <i class="fa-solid fa-id-card text-brand-400"></i> เอกสารที่ลูกค้าต้องเตรียม (Customer Checklist):
+            </h4>
+            <ul class="space-y-1 text-slate-300 list-disc list-inside">
+              <li>สำเนาบัตรประชาชน และสำเนาทะเบียนบ้านของผู้ใช้ไฟฟ้า (เซ็นสำเนาถูกต้อง)</li>
+              <li>บิลค่าไฟฟ้าเดือนล่าสุด หรือใบแจ้งค่าไฟ (ที่มีชื่อผู้ใช้ไฟและรหัส CA/PEA ชัดเจน)</li>
+              <li>สำเนาโฉนดที่ดิน หรือสัญญาเช่า / หนังสือยินยอมให้ใช้สถานที่ (กรณีไม่ใช่เจ้าของบ้านคนเดียวกับชื่อมิเตอร์)</li>
+              <li>หนังสือมอบอำนาจ (บริษัทจัดเตรียมแบบฟอร์มให้ ลูกค้าแค่เซ็นชื่อ)</li>
+            </ul>
+          </div>
+
+          <!-- 3 Regulatory Bodies -->
+          <div class="space-y-2.5 text-xs">
+            
+            <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</span>
+              <div>
+                <span class="font-bold text-white">อปท. (เทศบาล หรือ อบต.): ขออนุญาตดัดแปลงอาคาร อ.1</span>
+                <p class="text-slate-400 mt-0.5">กรณีแผงโซลาร์พื้นที่ติดตั้งไม่เกิน 160 ตร.ม. และน้ำหนักไม่เกิน 20 กก./ตร.ม. ได้รับการยกเว้นไม่ต้องขอใบอนุญาตดัดแปลงอาคาร แต่ต้องมี<strong>หนังสือรับรองความมั่นคงแข็งแรงจากวิศวกรโยธา (กว.)</strong> ยื่นแจ้งให้ท้องถิ่นทราบ</p>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
+              <div>
+                <span class="font-bold text-white">กฟภ. (PEA) หรือ กฟน. (MEA): ขอเชื่อมต่อขนานไฟ</span>
+                <p class="text-slate-400 mt-0.5">ยื่นแบบ Single Line Diagram, รายการคำนวณของวิศวกรไฟฟ้า, ใบรับรอง Inverter List ของการไฟฟ้า เพื่อขออนุญาตขนานเครื่องกำเนิดไฟฟ้า และเปลี่ยนเป็นมิเตอร์ TOU สองทาง</p>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-solar-gold/20 text-solar-gold flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</span>
+              <div>
+                <span class="font-bold text-white">สนง.กกพ. (ERC): จดแจ้งยกเว้นการขอรับใบอนุญาต</span>
+                <p class="text-slate-400 mt-0.5">ยื่นระบบอิเล็กทรอนิกส์ขอรับหนังสือยกเว้นการขอรับใบอนุญาตประกอบกิจการพลังงาน สำหรับระบบพลังงานแสงอาทิตย์ขนาดต่ำกว่า 1,000 kVA (บ้านพักอาศัยได้รับการยกเว้นตามกฎหมาย)</p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 border-t border-slate-800 py-6 text-center text-xs text-slate-500 mt-12">
+    <div class="max-w-7xl mx-auto px-4 space-y-2">
+      <div class="flex items-center justify-center gap-2 font-heading text-sm text-slate-300">
+        <span class="w-2 h-2 rounded-full bg-brand-400"></span>
+        <span>99 Solar โดย บริษัท 99 แมทช์ เมคเกอร์ จำกัด | SOP & AI Sales Copilot System</span>
+      </div>
+      <p>มาตรฐานวิศวกรรมการไฟฟ้า กฟภ./กฟน. 100% | อุปกรณ์เกรดอุตสาหกรรม SUS304 | รับประกันผลงานติดตั้ง</p>
+      <div class="flex justify-center gap-4 pt-2">
+        <a href="index.html" class="text-slate-400 hover:text-brand-400">หน้าหลักเว็บไซต์</a>
+        <span>•</span>
+        <a href="solar-planner.html" class="text-slate-400 hover:text-brand-400">โปรแกรมจำลองผังหลังคา</a>
+        <span>•</span>
+        <a href="javascript:void(0)" onclick="switchTab('bot')" class="text-slate-400 hover:text-brand-400">แชทบอทตอบคำถาม</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC & ENGINE -->
+  <script>
+    // Global State
+    let currentChatMode = 'customer'; // 'customer' or 'copilot'
+    let currentPersonaLevel = 1;
+    let currentCatalogView = 'master';
+
+    // Persona Database
+    const personas = {
+      1: {
+        title: "เลเวล 1: มือใหม่ ไม่รู้เรื่องเลย (The Innocent Newbie)",
+        subtitle: "สัดส่วน: ~50% ของลูกค้าทั่วไปที่ทักเข้ามา",
+        badge: "ความกลัวสูง • เข้าใจยาก • ต้องการความไว้วางใจ",
+        behavior: "ไม่รู้ว่า kW คืออะไร, ไม่เข้าใจ On-grid หรือ Hybrid, กังวลเรื่องไฟไหม้, กลัวเจาะหลังคาแล้วน้ำรั่ว, กลัวแผงพังตอนพายุเข้า, ตัดสินใจจากความง่ายและคนรอบข้าง",
+        opening: "สวัสดีครับคุณพี่ ไม่ต้องกังวลเรื่องเทคนิคเลยครับ ทางทีมเราดูแลให้ครบตั้งแต่ขออนุญาตยื่นเอกสารจนถึงติดตั้งเสร็จ สิ่งที่คุณพี่จะได้สัมผัสคือ พอสิ้นเดือน บิลค่าไฟที่เคยจ่าย 3,500 บาท จะลดลงเหลือแค่พันกว่าบาททันทีครับ!",
+        discoveryQuestions: [
+          "ตอนนี้ที่บ้านบิลค่าไฟเฉลี่ยเดือนละกี่บาทครับ?",
+          "ช่วงกลางวันตั้งแต่ 9 โมงเช้าถึงบ่าย 4 โมง มีคนอยู่บ้านหรือเปิดแอร์กี่ตัวครับ?",
+          "เคยมีประสบการณ์หลังคารั่วมาก่อนไหมครับ หรือเป็นห่วงจุดไหนเป็นพิเศษไหมครับ?"
+        ],
+        talkingPoints: [
+          "<strong>เน้นภาษาชาวบ้าน:</strong> ห้ามพูด 'Inverter 3.3kW ค่าสัมประสิทธิ์ 0.8' ให้พูดว่า 'ชุดนี้เปิดแอร์ตัวใหญ่ได้ 2 ตัวทั้งวันฟรีๆ ครับ'",
+          "<strong>สลายความกลัวเรื่องหลังคารั่ว:</strong> โชว์รูปขายึดสแตนเลส พร้อมยางกันซึม EPDM ทนความร้อน และรับประกันน้ำรั่ว 2 ปีเต็ม ถ้าหยดเดียวซ่อมฟรี",
+          "<strong>สลายความกลัวไฟไหม้:</strong> อธิบายว่าเรามีตู้คอมบายเนอร์ตัดไฟ 3 ชั้น เหมือนเซฟทีคัทเกรดโรงงาน ไม่ใช่เอาสายไฟพันเทปดำ",
+          "<strong>ชูจุดคุ้มทุน:</strong> 3.3 kW ประหยัดปีละ 24,000 - 28,000 บาท 4 ปีก็คืนทุน หลังจากนั้นคือได้กำไรใช้ไฟฟรียาว 25 ปี"
+        ],
+        objections: [
+          {
+            q: "กลัวติดแล้วหลังคารั่ว ฟ้าผ่า หรือไฟไหม้บ้านไหม?",
+            a: "จุดนี้สบายใจได้ 100% เลยครับพี่ 1) จุดยึดกระเบื้องเราใช้อุปกรณ์ Solar Mounting มาตรฐานวิศวกรรม ไม่มีการเจาะสุ่ม และมียาง EPDM กันน้ำซึม 2) ระบบเรามีอุปกรณ์ Surge Protection กันฟ้าผ่าและเสิร์จมาตรฐาน กฟภ. พร้อมเบรกเกอร์ตัดไฟทันทีใน 0.02 วินาที 3) เรามีประกันงานติดตั้งและประกันอัคคีภัยคุ้มครองให้ด้วยครับ"
+          },
+          {
+            q: "วันฝนตก หรือแดดไม่ออก ไฟจะดับไหม?",
+            a: "ไม่ดับแน่นอนครับ! ระบบ On-grid จะทำงานควบคู่กับการไฟฟ้าอัตโนมัติ ถ้าแดดน้อย การไฟฟ้าจะจ่ายไฟเข้ามาเสริมแบบไร้รอยต่อ ไม่มีไฟตกหรือกระพริบเลยครับ"
+          }
+        ],
+        closingScript: "ตอนนี้มีโปรโมชั่นฟรีค่าสำรวจ 3D ด้วยโดรน และฟรีล้างแผง 2 ปีแรก คุณพี่สะดวกให้วิศวกรเข้าไปดูทิศแดดที่บ้านวันเสาร์หรืออาทิตย์นี้ดีครับ เพื่อจะได้คำนวณตัวเลขประหยัดค่าไฟให้เห็นเป๊ะๆ เลยครับ?"
+      },
+
+      2: {
+        title: "เลเวล 2: กึ่งรู้เรื่อง / นักค้นคว้า (The Tech Researcher)",
+        subtitle: "สัดส่วน: ~20% ของลูกค้า",
+        badge: "ทำการบ้านมาเยอะ • ดู YouTube มาแน่น • ถามสเปกเจาะลึก",
+        behavior: "รู้เรื่อง On-Grid / Hybrid, รู้จักแผง N-Type TOPCon, Inverter Deye / Huawei, ถามเรื่องค่า DoD แบตเตอรี่, ถามเรื่องตู้คอมบายมี SPD ยี่ห้ออะไร, ท่อร้อยสายไฟเป็นแบบไหน",
+        opening: "ยินดีเลยครับที่คุณลูกค้าศึกษาข้อมูลมาอย่างดีมาก! ทางเราเป็นบริษัทวิศวกรรมที่ใช้เฉพาะอุปกรณ์ Tier 1 มาตรฐาน กฟภ./กฟน. ครบชุด ทั้งแผง N-Type ประสิทธิภาพ 22.5%+, ตู้คอมบายเกรดคัตเอาท์ DC 1000V พร้อม RCBO Type B และงานเดินท่อสแตนเลส/เคเบิ้ลไทร์สแตนเลส 304 บนหลังคาครับ",
+        discoveryQuestions: [
+          "คุณลูกค้าเล็ง Inverter แบรนด์ไหนไว้เป็นพิเศษไหมครับ เช่น Huawei, Deye หรือ Growatt?",
+          "ระบบที่มองไว้เป็น 1 เฟส หรือ 3 เฟส และมีความต้องการ Backup สำรองไฟตอนไฟดับด้วยไหมครับ?",
+          "สนใจแผงโซลาร์สเปก 580W - 620W N-Type Bifacial สองหน้า หรือแบบหน้าเดียวครับ?"
+        ],
+        talkingPoints: [
+          "<strong>คุยภาษาเทคนิคระดับสูง:</strong> โชว์ Datasheet แผง, Inverter List กฟภ., ค่ากราวด์ R < 5 Ohm",
+          "<strong>เน้นงานโครงสร้าง & สายไฟ:</strong> ทำไมสายบนหลังคาต้องเป็นเคเบิ้ลไทร์สแตนเลส 304 เคลือบอีพ็อกซี่ ไม่ใช่พลาสติกสีดำที่กรอบแตกใน 2 ปี",
+          "<strong>เจาะลึกตู้คอมบาย:</strong> มี DC SPD 1000V Type 2, DC Fuse 15A/20A ทั้งขั้วบวกขั้วลบ, AC RCBO Type B ตัดกระแส DC รั่วไหล",
+          "<strong>แบตเตอรี่ LiFePO4:</strong> คุยเรื่อง 6,000 Cycles @ 80% DoD, Smart BMS สื่อสารผ่าน CAN Bus กับ Inverter"
+        ],
+        objections: [
+          {
+            q: "ทำไมไมโครอินเวอร์เตอร์ (Microinverter) ดีกว่าสตริงอินเวอร์เตอร์ หรือสตริงของพี่ดีกว่ายังไง?",
+            a: "Microinverter เหมาะกับหลังคาที่มีเงาบังหลายทิศทางครับ แต่ถ้าหลังคาโล่ง ทิศใต้หรือตะวันตก ระบบ String Inverter แบรนด์ระดับโลกอย่าง Deye/Huawei ร่วมกับแผง N-Type ให้ประสิทธิภาพคุ้มค่าต่อวัตต์สูงกว่ามาก ค่าซ่อมบำรุงในระยะยาวต่ำกว่า และดูแลรักษาง่ายกว่าเพราะตู้และอินเวอร์เตอร์อยู่ระดับพื้นดิน ไม่ต้องปีนขึ้นหลังคาเวลาเซอร์วิสครับ"
+          },
+          {
+            q: "แบตเตอรี่ 100Ah หรือ 200Ah เป็นเซลล์เกรดไหน มี active balance ไหม?",
+            a: "แบตเตอรี่ LiFePO4 ของเราเป็นเกรด Tier 1 A-Grade Brand New เซลล์แท้ 100% มี Smart BMS พร้อม Active Balancer ในตัว รองรับ Peak Discharge 1C และสื่อสารข้อมูลสถานะ Cell Voltage / SOC / Temp เข้า Inverter แบบ Realtime ครับ"
+          }
+        ],
+        closingScript: "ทางเราเตรียมเอกสาร Single Line Diagram และสเปกชีทอุปกรณ์ทุกชิ้นไว้ให้ครบแล้วครับ หากคุณลูกค้าสะดวก ผมส่งไฟล์ Datasheet พร้อมใบเสนอราคาแจกแจงละเอียดทุกบรรทัด (BOQ) ให้พิจารณาได้เลยวันนี้ครับ"
+      },
+
+      3: {
+        title: "เลเวล 3: สายเทียบราคา / งบจำกัด (The Price Hunter)",
+        subtitle: "สัดส่วน: ~15% ของลูกค้า",
+        badge: "มี 3-4 ใบเสนอราคา • ช่างแถวบ้านถูกกว่า • ถามหาส่วนลด",
+        behavior: "ถือใบเสนอราคาเจ้าอื่นมาเทียบ, 'ทำไมเจ้าโน้น 3kW แค่ 89,000 ทำไมพี่ 115,000?', ไม่เข้าใจว่าทำไมอุปกรณ์หน้าตาคล้ายกันแต่ราคาต่างกัน",
+        opening: "เข้าใจเลยครับเรื่องราคา เพราะการติดโซลาร์คือการลงทุนครั้งใหญ่ในรอบ 20-30 ปี แต่เหตุผลที่ราคาต่างกัน 15,000 - 20,000 บาท มันซ่อนอยู่ใน 'อุปกรณ์ความปลอดภัยและค่าซ่อมในอนาคต' ที่หลายเจ้าไม่ได้ใส่มาให้ครับ",
+        discoveryQuestions: [
+          "ใบเสนอราคาที่เทียบอยู่ รวมค่าธรรมเนียมยื่นขออนุญาตการไฟฟ้าและวิศวกรเซ็นรับรองแล้วหรือยังครับ?",
+          "ในใบเสนอราคานั้น ตู้คอมบายเนอร์ใช้เบรกเกอร์ DC แท้ หรือเอาเบรกเกอร์บ้าน AC มาดัดแปลงครับ?",
+          "สายไฟบนหลังคา เขาใช้เคเบิ้ลไทร์พลาสติกมัด หรือใช้เคเบิ้ลไทร์สแตนเลส/ท่อร้อยสายครับ?"
+        ],
+        talkingPoints: [
+          "<strong>ชี้จุดอันตรายของของถูก:</strong> ช่างราคาถูกมักลดต้นทุน 1) ไม่ใส่ Surge Protection 2) ใช้เบรกเกอร์ AC ตัดไฟ DC ทำให้เกิดประกายไฟ Arcing ไฟไหม้ตู้ 3) ใช้เคเบิ้ลไทร์พลาสติก ตากแดด 1-2 ปี กรอบหลุด สายไฟห้อยขูดหลังคาช็อต",
+          "<strong>เปรียบเทียบ Total Cost of Ownership:</strong> ประหยัดตอนซื้อ 15,000 แต่ผ่านไป 3 ปี ต้องเสียค่ารื้อซ่อม 30,000 แถมไม่มีคนรับผิดชอบ",
+          "<strong>บริการ One-Stop:</strong> ของเรารวมค่ายื่น กฟภ. ค่าเปลี่ยนมิเตอร์ ไม่เก็บยิบย่อยหน้างาน",
+          "<strong>ทางเลือกทางการเงิน:</strong> มีโปรผ่อน 0% นาน 10 เดือน หรือผ่อนสบายนาน 84 เดือน ค่างวดถูกกว่าค่าไฟที่ประหยัดได้ เท่ากับติดฟรีตั้งแต่เดือนแรก!"
+        ],
+        objections: [
+          {
+            q: "ลดราคาลงมาเท่าเจ้าอื่นได้ไหม พี่ซื้อสดเลย?",
+            a: "ถ้าจะลดราคาให้เท่ากัน เราจำเป็นต้องตัดสเปกความปลอดภัย เช่น ตัดตู้คอมบายเนอร์ออก หรือใช้สายไฟเกรดต่ำลง ซึ่งทาง 99 Solar เราเป็นบริษัทวิศวกรรม เราไม่สามารถลดเกรดความปลอดภัยของบ้านพี่ได้จริงๆ ครับ แต่ถ้าพี่พร้อมจองวันนี้ ผมขออนุญาตแถมฟรี 'แพ็กเกจล้างแผงและตรวจเช็คระบบฟรีเพิ่มเป็น 3 ปี' มูลค่า 9,000 บาทให้แทน พี่มองว่าโอเคไหมครับ?"
+          }
+        ],
+        closingScript: "พี่ติดโซลาร์เพื่อประหยัดไฟระยะยาว 25 ปี ไม่ใช่แค่ 1-2 ปีแรกครับ ลงทุนกับมาตรฐานความปลอดภัยที่ถูกต้องตั้งแต่วันแรก พี่นอนหลับสบายไม่ต้องกลัวไฟไหม้ ให้เราดูแลดีกว่าครับ ผมล็อคคิวโปรโมชั่นแถมฟรีค่าบริการให้เลยนะครับ"
+      },
+
+      4: {
+        title: "เลเวล 4: VIP บ้านหรู / มีเงิน (The High-End VIP)",
+        subtitle: "สัดส่วน: ~10% ของลูกค้า",
+        badge: "ไม่เกี่ยงราคา • เน้นความสวยงาม • บ้านห้ามช้ำ • พรีเมียม",
+        behavior: "บ้านเดี่ยวหลังใหญ่ คฤหาสน์ ค่าไฟเดือนละ 10,000 - 30,000+ บาท ไม่สนใจเรื่องส่วนลดหมื่นสองหมื่น แต่กลัวช่างทำบ้านเลอะ, ท่อสายไฟโผล่ทัศนียภาพเสีย, กลัวไฟกระพริบเวลาไฟดับ",
+        opening: "สวัสดีครับ สำหรับบ้านระดับพรีเมียม ทาง 99 Solar เรามีทีม 'Master Craft Engineering' ที่ออกแบบงานติดตั้งระดับ Architectural Solar ซ่อนแนวสายไฟเรียบเนียน ใช้ท่อสแตนเลสและท่อ EMT สั่งทำสีกลืนไปกับตัวบ้าน และระบบ Hybrid Energy Storage แบตเตอรี่ดีไซน์หรู ไร้เสียงรบกวน ไฟตกไฟดับระบบสลับอัตโนมัติใน 10 มิลลิวินาที แอร์ไม่ดับ คอมพิวเตอร์ไม่รีสตาร์ทครับ",
+        discoveryQuestions: [
+          "ที่บ้านมีพื้นที่ห้องไฟ หรือจุดติดตั้งตู้แบตเตอรี่ในร่มที่ต้องการความสวยงามเป็นพิเศษไหมครับ?",
+          "มีเครื่องใช้ไฟฟ้าสำคัญ เช่น ตู้แช่ไวน์, ระบบปั๊มสระว่ายน้ำ, หรือเซิร์ฟเวอร์สมาร์ทโฮมที่ห้ามไฟดับเลยไหมครับ?",
+          "มีระเบียบของทางโครงการหมู่บ้านเรื่องความสวยงามของหลังคาและท่อสายไฟด้านนอกไหมครับ?"
+        ],
+        talkingPoints: [
+          "<strong>ความประณีตระดับงานสถาปัตย์:</strong> การวางแนวแผงเรียบขนานองศาหลังคา ไม่เห็นโครงสร้างเกะกะ ท่อร้อยสายไฟลงผนังด้านหน้าใช้ท่อซ่อน หรือท่อสแตนเลส/uPVC สีพิเศษ",
+          "<strong>ระบบ Hybrid + Battery 200Ah - 300Ah:</strong> แบตเตอรี่ LiFePO4 แบบ Wall-mounted ดีไซน์หรูหราเหมือนเครื่องเสียงระดับไฮเอนด์",
+          "<strong>มาตรฐานความปลอดภัยระดับสูงสุด:</strong> Rapid Shutdown System (ปุ่มตัดไฟฉุกเฉินระดับแผง) และระบบตรวจจับ Arc Fault (AFCI) มาตรฐานสากล",
+          "<strong>บริการ Concierge VIP:</strong> มีวิศวกรส่วนตัวดูแล 24/7 มอนิเตอร์ระบบผ่านคลาวด์ มีปัญหาช่างเข้าหน้างานภายใน 24 ชม."
+        ],
+        objections: [
+          {
+            q: "หลังคาบ้านเป็นกระเบื้องแผ่นเรียบ/ชิงเกิ้ลรูฟ ติดแล้วจะแตกหรือดูน่าเกลียดไหม?",
+            a: "เราใช้อุปกรณ์ยึดเฉพาะสำหรับกระเบื้องพรีเมียมของบ้านคุณพี่โดยเฉพาะครับ (เช่น ตะขอ Solar Hook สแตนเลส 304 สอดใต้กระเบื้องโดยไม่ต้องเจาะแผ่นกระเบื้องด้านบน) พร้อมทีมช่างปูพรมกันรอยขณะทำงาน และเก็บกวาดทำความสะอาดหน้างานเรียบร้อย 100% ครับ"
+          }
+        ],
+        closingScript: "ผมขออนุญาตส่ง Master Engineer พร้อมแคตตาล็อกระบบ Hybrid High-Voltage และตัวอย่างวัสดุท่อสแตนเลสเข้าไปพรีเซนต์ให้คุณพี่ที่บ้าน พร้อมตรวจเช็คจุดวางระบบที่สวยงามที่สุด วันพฤหัสบดีหรือวันเสาร์นี้ที่คุณพี่สะดวกดีครับ?"
+      },
+
+      5: {
+        title: "เลเวล 5: เจ้าของธุรกิจ / โรงงาน / โฮมออฟฟิศ (The ROI & Tax Optimizer)",
+        subtitle: "สัดส่วน: ~5% ของลูกค้า",
+        badge: "นักธุรกิจ • มองเป็น Asset • เน้น Payback & สิทธิประโยชน์ภาษี",
+        behavior: "ใช้ไฟกลางวันเยอะมาก (แอร์ออฟฟิศ, เครื่องจักร, ห้องเย็น) มองการติดโซลาร์คือการลดต้นทุน Cost of Goods Sold ถามเรื่องการหักค่าเสื่อมราคา, สิทธิ BOI และ ROI",
+        opening: "สวัสดีครับ สำหรับภาคธุรกิจ การติดโซลาร์เซลล์คือการลงทุนที่ให้ผลตอบแทน Internal Rate of Return (IRR) สูงถึง 20-25% ต่อปี ซึ่งดีกว่าการฝากเงินในธนาคารหรือกองทุน โดยระบบ On-Grid ขนาด 5 kW - 10 kW สามารถลดค่าไฟในเวลางานได้ทันที และยังนำค่าใช้จ่ายไปหักภาษีนิติบุคคลได้สูงสุดตามเกณฑ์กรมสรรพากรครับ",
+        discoveryQuestions: [
+          "มิเตอร์ไฟฟ้าของกิจการเป็นประเภท TOU (Time of Use) หรือแบบอัตราปกติครับ?",
+          "ช่วงวันเสาร์-อาทิตย์ กิจการเปิดทำงานไหมครับ หรือใช้ไฟแค่วันจันทร์-ศุกร์?",
+          "ต้องการตัวเลข Cash Flow Projection และรายงาน Payback Period นำเข้าที่ประชุมผู้บริหารไหมครับ?"
+        ],
+        talkingPoints: [
+          "<strong>ตัวเลข ROI ที่จับต้องได้:</strong> คืนทุนเฉลี่ย 3.2 - 4.0 ปี หลังจากนั้นคือพลังงานฟรีกำไรสุทธิต่อเนื่อง 20+ ปี",
+          "<strong>สิทธิประโยชน์ทางภาษี:</strong> การหักค่าใช้จ่ายการลงทุนเพื่อการประหยัดพลังงาน",
+          "<strong>ระบบมอนิเตอร์ระดับ Enterprise:</strong> มี Dashboard รวมรายวัน รายเดือน รายปี ส่งออกเป็น Excel สำหรับฝ่ายบัญชี",
+          "<strong>สัญญาระดับนิติบุคคล:</strong> ออกใบกำกับภาษีเต็มรูปแบบ และมี SLA (Service Level Agreement) เข้าแก้ไขกรณีระบบขัดข้อง"
+        ],
+        objections: [
+          {
+            q: "อนาคตจะย้ายออฟฟิศ หรือปรับปรุงอาคาร จะคุ้มไหม?",
+            a: "ระบบเราออกแบบเป็น Modular Structure ครับ สามารถถอดประกอบย้ายไปติดตั้งที่อาคารใหม่ได้โดยไม่ทำให้แผงเสียหาย หรือหากอาคารเดิมเป็นกรรมสิทธิ์ของพี่ การมีระบบโซลาร์เซลล์จะช่วยเพิ่มมูลค่าทรัพย์สิน (Asset Value) และค่าเช่าได้ทันทีครับ"
+          }
+        ],
+        closingScript: "ผมได้เตรียมตารางวิเคราะห์กระแสเงินสด (Cash Flow Analysis) และกราฟ Break-Even Point จำลองสำหรับกิจการของพี่ไว้แล้ว สะดวกให้ส่งทางอีเมล หรือนัดพรีเซนต์ผ่าน Zoom 15 นาทีดีครับ?"
+      }
+    };
+
+    // Catalog Views Database
+    const catalogData = {
+      master: `
+        <div class="space-y-6">
+          <div class="bg-gradient-to-r from-slate-900 to-slate-850 p-6 rounded-2xl border border-slate-800">
+            <h3 class="text-xl font-bold text-white font-heading flex items-center gap-2">
+              <i class="fa-solid fa-crown text-solar-gold"></i> แคตตาล็อกใหญ่สุด (Full Master Packages 2026)
+            </h3>
+            <p class="text-xs text-slate-400 mt-1">รวมแพ็กเกจระบบมาตรฐานวิศวกรรม 99 Solar สำหรับบ้านและธุรกิจ</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Package 1: 3.3 kW 1-Phase -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4 hover:border-brand-500/50 transition-all flex flex-col justify-between">
+              <div class="space-y-3">
+                <div class="flex justify-between items-start">
+                  <span class="px-2.5 py-1 bg-brand-500/20 text-brand-400 border border-brand-500/30 text-xs rounded-md font-bold">บ้านขนาดเล็ก-กลาง</span>
+                  <span class="text-xs text-slate-400">1 Phase 220V</span>
+                </div>
+                <h4 class="text-lg font-bold text-white font-heading">On-Grid 3.3 kW Pro</h4>
+                <div class="text-2xl font-bold text-brand-400 font-heading">฿119,000 - 139,000</div>
+                <p class="text-xs text-slate-400">เหมาะกับค่าไฟ 2,500 - 4,500 บ./ด. เปิดแอร์กลางวัน 1-2 ตัว</p>
+                <div class="border-t border-slate-800 pt-3 space-y-1.5 text-xs text-slate-300">
+                  <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> แผง N-Type TOPCon 620W จำนวน 6 แผง</div>
+                  <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> Inverter 3.3 kW กฟภ. Approved</div>
+                  <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> ตู้คอมบายเนอร์ครบชุด (DC+AC SPD)</div>
+                  <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> เคเบิ้ลไทร์สแตนเลส 304 บนหลังคา</div>
+                  <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> ฟรีค่าขออนุญาต กฟภ./อบต.</div>
+                </div>
+              </div>
+              <div class="pt-3 border-t border-slate-800">
+                <div class="text-xs text-emerald-400 font-bold mb-2">ประหยัด ~1,800 - 2,400 บาท/เดือน</div>
+                <button onclick="sendQuickPrompt('ขอรายละเอียดแพ็กเกจ On-Grid 3.3 kW Pro เพิ่มเติม')" class="w-full py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-slate-200 rounded-xl text-xs font-bold transition-all">สอบถามแพ็กเกจนี้</button>
+              </div>
+            </div>
+
+            <!-- Package 2: 3.3 kW Hybrid + Battery 100Ah (Highlighted) -->
+            <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-brand-950/40 border-2 border-brand-500 rounded-2xl p-5 space-y-4 shadow-xl flex flex-col justify-between relative">
+              <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-500 text-slate-950 text-[10px] font-extrabold uppercase px-3 py-1 rounded-full shadow">
+                ★ ยอดนิยม ใช้กลางคืนได้
+              </div>
+              <div class="space-y-3 pt-2">
+                <div class="flex justify-between items-start">
+                  <span class="px-2.5 py-1 bg-solar-gold/20 text-solar-gold border border-solar-gold/30 text-xs rounded-md font-bold">Hybrid Day & Night</span>
+                  <span class="text-xs text-slate-400">1 Phase 220V</span>
+                </div>
+                <h4 class="text-lg font-bold text-white font-heading">Hybrid 3.3 kW + แบต 100Ah</h4>
+                <div class="text-2xl font-bold text-solar-gold font-heading">฿199,000 - 229,000</div>
+                <p class="text-xs text-slate-400">ใช้ไฟกลางวัน + แบตเตอรี่จ่ายแอร์กลางคืน 6-8 ชม. ไฟดับไม่กระตุก</p>
+                <div class="border-t border-slate-800 pt-3 space-y-1.5 text-xs text-slate-300">
+                  <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> แผง N-Type 620W จำนวน 6 แผง (3.72 kWp)</div>
+                  <div class="flex items-center gap-2"><i class="fa-solid fa-check text-solar-gold"></i> <strong>แบต LiFePO4 51.2V 100Ah (5.12 kWh)</strong></div>
+                  <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> Hybrid Inverter 3.3 kW Backup Mode</div>
+                  <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> ตู้คอมบายเนอร์ระบบคู่ (Grid + EPS Backup)</div>
+                  <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> ท่อสแตนเลสบนหลังคา & uPVC หน้าบ้าน</div>
+                </div>
+              </div>
+              <div class="pt-3 border-t border-slate-800">
+                <div class="text-xs text-emerald-400 font-bold mb-2">ประหยัด ~2,800 - 3,600 บาท/เดือน</div>
+                <button onclick="sendQuickPrompt('สนใจชุด Hybrid 3.3 kW + แบตเตอรี่ 100Ah สำหรับเปิดแอร์กลางคืน ขอสเปกหน่อยครับ')" class="w-full py-2 bg-brand-500 hover:bg-brand-400 text-slate-950 rounded-xl text-xs font-bold transition-all shadow-md">เลือกแพ็กเกจยอดฮิตนี้</button>
+              </div>
+            </div>
+
+            <!-- Package 3: 5.0 kW / 10 kW Hybrid Max -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4 hover:border-brand-500/50 transition-all flex flex-col justify-between">
+              <div class="space-y-3">
+                <div class="flex justify-between items-start">
+                  <span class="px-2.5 py-1 bg-purple-500/20 text-purple-400 border border-purple-500/30 text-xs rounded-md font-bold">บ้านใหญ่ / ธุรกิจ</span>
+                  <span class="text-xs text-slate-400">1 or 3 Phase</span>
+                </div>
+                <h4 class="text-lg font-bold text-white font-heading">Hybrid 5 kW + แบต 200Ah</h4>
+                <div class="text-2xl font-bold text-purple-400 font-heading">฿289,000 - 329,000</div>
+                <p class="text-xs text-slate-400">เหมาะกับค่าไฟ 6,000 - 12,000 บ./ด. แอร์ 2-3 ตัวทั้งคืน</p>
+                <div class="border-t border-slate-800 pt-3 space-y-1.5 text-xs text-slate-300">
+                  <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> แผง N-Type 620W จำนวน 10-12 แผง</div>
+                  <div class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-400"></i> <strong>แบต LiFePO4 51.2V 200Ah (10.24 kWh)</strong></div>
+                  <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> Hybrid Inverter 5kW รองรับไฟดับฟูลโหลด</div>
+                  <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> Smart Meter + CT Clamp วัดไฟเรียลไทม์</div>
+                </div>
+              </div>
+              <div class="pt-3 border-t border-slate-800">
+                <div class="text-xs text-emerald-400 font-bold mb-2">ประหยัด ~4,500 - 6,500 บาท/เดือน</div>
+                <button onclick="sendQuickPrompt('ขอรายละเอียด Hybrid 5 kW + แบตเตอรี่ 200Ah หน่อยครับ')" class="w-full py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-slate-200 rounded-xl text-xs font-bold transition-all">สอบถามแพ็กเกจนี้</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+
+      combiner: `
+        <div class="space-y-6">
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-2">
+            <span class="px-2.5 py-1 bg-blue-500/20 text-blue-400 border border-blue-500/30 text-xs rounded-md font-bold">
+              Engineering Deep Dive #1
+            </span>
+            <h3 class="text-xl font-bold text-white font-heading">เจาะลึกเฉพาะจุด: ตู้คอมบายเนอร์ (Combiner Box) มาตรฐาน กฟภ. 100%</h3>
+            <p class="text-xs text-slate-400">ทำไมตู้คอมบายเนอร์ถึงเป็นหัวใจของความปลอดภัย และห้ามประหยัดงบในส่วนนี้เด็ดขาด</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Left: Breakdown of Components -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+              <h4 class="font-bold text-white text-base flex items-center gap-2">
+                <i class="fa-solid fa-microchip text-brand-400"></i> อุปกรณ์ภายในตู้คอมบายเนอร์มาตรฐาน 99 Solar
+              </h4>
+              
+              <div class="space-y-3 text-xs">
+                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex items-start gap-3">
+                  <div class="w-6 h-6 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold shrink-0">1</div>
+                  <div>
+                    <span class="font-bold text-emerald-400">DC Fuse 1000V (15A/20A):</span>
+                    <p class="text-slate-400 mt-0.5">ป้องกันกระแสเกินในฝั่งแผงโซลาร์ ตัดวงจรทันทีเมื่อเกิด Short Circuit ทั้งขั้วบวก (+) และขั้วลบ (-)</p>
+                  </div>
+                </div>
+
+                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex items-start gap-3">
+                  <div class="w-6 h-6 rounded bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold shrink-0">2</div>
+                  <div>
+                    <span class="font-bold text-blue-400">DC Surge Protection Device (SPD Type 2):</span>
+                    <p class="text-slate-400 mt-0.5">ป้องกันฟ้าผ่าและแรงดันกระชากเหนี่ยวนำจากสายแผง ช่วยระบายพลังงานลงดินไม่ให้อินเวอร์เตอร์พัง</p>
+                  </div>
+                </div>
+
+                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex items-start gap-3">
+                  <div class="w-6 h-6 rounded bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold shrink-0">3</div>
+                  <div>
+                    <span class="font-bold text-amber-400">DC Isolator Breaker:</span>
+                    <p class="text-slate-400 mt-0.5">สวิตช์ตัดตอนกระแสตรงความเร็วสูง ออกแบบมาเพื่อดับประกายไฟ (Arc Chute) โดยเฉพาะ</p>
+                  </div>
+                </div>
+
+                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex items-start gap-3">
+                  <div class="w-6 h-6 rounded bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold shrink-0">4</div>
+                  <div>
+                    <span class="font-bold text-purple-400">AC RCBO Type B หรือ Type A:</span>
+                    <p class="text-slate-400 mt-0.5">อุปกรณ์ตัดไฟรั่วสำหรับระบบโซลาร์เซลล์โดยเฉพาะ สามารถดักจับกระแสไฟรั่วทั้งกระแสตรงและกระแสสลับ ปกป้องชีวิตผู้พักอาศัย</p>
+                  </div>
+                </div>
+
+                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex items-start gap-3">
+                  <div class="w-6 h-6 rounded bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold shrink-0">5</div>
+                  <div>
+                    <span class="font-bold text-rose-400">Grounding Bar & แท่งกราวด์ R < 5 Ohm:</span>
+                    <p class="text-slate-400 mt-0.5">บัสบาร์ทองแดงชุบดีบุก ต่อลงดินด้วยแท่งทองแดงแท้ ตอกลึก วัดค่าความต้านทานด้วย Earth Tester ทุกหลัง</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Comparison (Cheap vs 99 Solar) -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+              <h4 class="font-bold text-white text-base flex items-center gap-2">
+                <i class="fa-solid fa-scale-unbalanced text-solar-gold"></i> ตารางเปรียบเทียบ: ช่างราคาถูก vs 99 Solar
+              </h4>
+
+              <div class="space-y-3 text-xs">
+                <div class="p-3.5 bg-rose-950/20 border border-rose-900/40 rounded-xl space-y-1">
+                  <div class="font-bold text-rose-400 flex items-center gap-1.5">
+                    <i class="fa-solid fa-triangle-exclamation"></i> ช่างราคาถูกทั่วไป (ลดต้นทุน):
+                  </div>
+                  <ul class="text-slate-300 list-disc list-inside space-y-0.5">
+                    <li>ไม่มีตู้คอมบายเนอร์ หรือใช้กล่องพลาสติกธรรมดาไม่ทนไฟ</li>
+                    <li>ใช้เบรกเกอร์ AC ตัดไฟ DC ทำให้เกิดประกายไฟไหม้ลุกลาม</li>
+                    <li>ไม่ใส่ Surge Protection ฝนตกฟ้าคะนอง Inverter พังบ่อย</li>
+                    <li>ไม่ตอกกราวด์แยก หรือพ่วงกราวบ้านเดิมจนเกิดไฟย้อน</li>
+                  </ul>
+                </div>
+
+                <div class="p-3.5 bg-emerald-950/20 border border-emerald-900/40 rounded-xl space-y-1">
+                  <div class="font-bold text-brand-400 flex items-center gap-1.5">
+                    <i class="fa-solid fa-shield-check"></i> มาตรฐาน 99 Solar:
+                  </div>
+                  <ul class="text-slate-300 list-disc list-inside space-y-0.5">
+                    <li>ตู้เหล็กสเปรย์สีกันสนิม IP65 ปิดสนิทกันฝุ่นกันน้ำ</li>
+                    <li>อุปกรณ์ DC แท้ 1000V แบรนด์ระดับสากล (ABB / Suntree / Schneider)</li>
+                    <li>มีไฟสัญญาณเตือน Lamp Status และระบบตัดฉุกเฉิน</li>
+                    <li>ผ่านการตรวจรับรองขนานไฟจากการไฟฟ้า 100% แน่นอน</li>
+                  </ul>
+                </div>
+
+                <button onclick="copyPredefinedScript(2)" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-brand-400 border border-brand-500/30 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5">
+                  <i class="fa-regular fa-clone"></i> คัดลอกสคริปต์อธิบายเรื่องตู้คอมบายไปส่งลูกค้า
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      `,
+
+      battery: `
+        <div class="space-y-6">
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-2">
+            <span class="px-2.5 py-1 bg-solar-gold/20 text-solar-gold border border-solar-gold/30 text-xs rounded-md font-bold">
+              Engineering Deep Dive #2
+            </span>
+            <h3 class="text-xl font-bold text-white font-heading">เจาะลึกเฉพาะจุด: ระบบแบตเตอรี่สำรองไฟกลางคืน (100Ah, 200Ah, 300Ah)</h3>
+            <p class="text-xs text-slate-400">เลือกขนาดแบตเตอรี่ LiFePO4 ให้ตรงกับพฤติกรรมเปิดแอร์กลางคืน ประหยัดค่าไฟ 24 ชั่วโมง</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+            
+            <!-- Battery 100Ah -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3 flex flex-col justify-between">
+              <div class="space-y-2.5">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-solar-gold text-sm">แบตเตอรี่ 100 Ah (5.12 kWh)</span>
+                  <span class="px-2 py-0.5 bg-slate-800 text-slate-300 rounded text-[10px]">รุ่นเริ่มต้น</span>
+                </div>
+                <div class="text-lg font-bold text-white">แรงดัน 51.2V LiFePO4</div>
+                <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-1">
+                  <p class="text-slate-300 font-semibold">การใช้งานจริงกลางคืน:</p>
+                  <p class="text-slate-400">• แอร์ Inverter 9,000 - 12,000 BTU 1 ตัว: <strong>6 - 8 ชั่วโมง</strong></p>
+                  <p class="text-slate-400">• ร่วมกับตู้เย็น พัดลม ไวไฟ ไฟแสงสว่าง</p>
+                </div>
+                <p class="text-slate-400">เหมาะกับ: บ้านที่เปิดแอร์ห้องนอนห้องเดียวตอนกลางคืน หรือต้องการสำรองไฟตอนไฟดับ</p>
+              </div>
+              <div class="pt-3 border-t border-slate-800">
+                <span class="text-slate-500">Cycle Life:</span> <strong class="text-brand-400">6,000 รอบ (~15 ปี)</strong>
+              </div>
+            </div>
+
+            <!-- Battery 200Ah -->
+            <div class="bg-slate-900 border-2 border-brand-500 rounded-2xl p-5 space-y-3 flex flex-col justify-between shadow-xl">
+              <div class="space-y-2.5">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-brand-400 text-sm">แบตเตอรี่ 200 Ah (10.24 kWh)</span>
+                  <span class="px-2 py-0.5 bg-brand-500 text-slate-950 font-bold rounded text-[10px]">แนะนำสูงสุด</span>
+                </div>
+                <div class="text-lg font-bold text-white">แรงดัน 51.2V LiFePO4 (2 Modules)</div>
+                <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-1">
+                  <p class="text-slate-300 font-semibold">การใช้งานจริงกลางคืน:</p>
+                  <p class="text-slate-400">• แอร์ Inverter 9,000 - 12,000 BTU <strong>2 ตัว: 7 - 9 ชั่วโมง</strong></p>
+                  <p class="text-slate-400">• หรือแอร์ 18,000 BTU 1 ตัว ยาวทั้งคืน</p>
+                </div>
+                <p class="text-slate-400">เหมาะกับ: ครอบครัวที่มี 2 ห้องนอน เปิดแอร์พร้อมกัน หรือเปิดแอร์ตลอดคืนจนถึงเช้า</p>
+              </div>
+              <div class="pt-3 border-t border-slate-800">
+                <span class="text-slate-500">Cycle Life:</span> <strong class="text-brand-400">6,000 รอบ (~15 ปี)</strong>
+              </div>
+            </div>
+
+            <!-- Battery 300Ah -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3 flex flex-col justify-between">
+              <div class="space-y-2.5">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-purple-400 text-sm">แบตเตอรี่ 300 Ah (15.36 kWh)</span>
+                  <span class="px-2 py-0.5 bg-slate-800 text-slate-300 rounded text-[10px]">Full House</span>
+                </div>
+                <div class="text-lg font-bold text-white">แรงดัน 51.2V LiFePO4 (3 Modules)</div>
+                <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-1">
+                  <p class="text-slate-300 font-semibold">การใช้งานจริงกลางคืน:</p>
+                  <p class="text-slate-400">• แอร์ <strong>3 ตัวพร้อมกันตลอดคืน</strong></p>
+                  <p class="text-slate-400">• รองรับ Full Load แทบไม่ต้องพึ่งไฟหลวงกลางคืน</p>
+                </div>
+                <p class="text-slate-400">เหมาะกับ: บ้านเดี่ยวขนาดใหญ่ โฮมออฟฟิศ หรือบ้านที่ต้องการ Zero-Grid Dependency</p>
+              </div>
+              <div class="pt-3 border-t border-slate-800">
+                <span class="text-slate-500">Cycle Life:</span> <strong class="text-brand-400">6,000 รอบ (~15 ปี)</strong>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Battery Tech Specs Callout -->
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-1.5">
+            <div class="font-bold text-brand-400"><i class="fa-solid fa-shield-virus"></i> เทคโนโลยีความปลอดภัยเซลล์ LiFePO4 (Lithium Iron Phosphate):</div>
+            <p>แตกต่างจากแบตเตอรี่ NMC ของโทรศัพท์หรือรถยนต์บางรุ่น แบตเตอรี่ LiFePO4 ทนความร้อนสูงถึง 500°C โดยไม่เกิด Thermal Runaway (ไม่ระเบิด ไม่ลุกติดไฟ) มีระบบ Smart BMS ตัดวงจรทันทีเมื่ออุณหภูมิหรือโวลต์ผิดปกติ ปลอดภัยสำหรับติดตั้งในบ้าน 100%</p>
+          </div>
+        </div>
+      `,
+
+      conduit: `
+        <div class="space-y-6">
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-2">
+            <span class="px-2.5 py-1 bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs rounded-md font-bold">
+              Engineering Deep Dive #3
+            </span>
+            <h3 class="text-xl font-bold text-white font-heading">เจาะลึกเฉพาะจุด: มาตรฐานงานท่อสายไฟ & เคเบิ้ลไทร์สแตนเลส (บนหลังคา vs หน้าบ้าน)</h3>
+            <p class="text-xs text-slate-400">แดดเมืองไทย 60-70°C บนหลังคา ทำไมเคเบิ้ลไทร์พลาสติกถึงเป็นระเบิดเวลา และงานท่อระดับมืออาชีพเป็นอย่างไร</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+            
+            <!-- Roof Zone -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+              <div class="flex items-center gap-2 text-solar-gold font-bold text-sm">
+                <i class="fa-solid fa-sun"></i> ส่วนที่ 1: มาตรฐานงานบนหลังคา (Extreme Zone)
+              </div>
+              <p class="text-slate-400">หลังคาเป็นจุดที่รับรังสี UV สูงสุด อุณหภูมิสะสมใต้แผงสูงถึง 70 องศาเซลเซียส:</p>
+              
+              <div class="space-y-2.5">
+                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                  <span class="font-bold text-white">1. เคเบิ้ลไทร์สแตนเลส SUS304 เคลือบอีพ็อกซี่สีดำ:</span>
+                  <p class="text-slate-400 mt-0.5">ไม่ใช้เคเบิ้ลไทร์พลาสติกเด็ดขาด เพราะพลาสติกจะกรอบแตกภายใน 1-2 ปี ทำให้สายไฟตกไปเสียดสีกับกระเบื้องจนฉนวนถลอก เกิดไฟไหม้ แต่สแตนเลส 304 อยู่ได้ยาวนาน 25 ปี ไม่เป็นสนิม ไม่นำไฟฟ้าสู่สาย</p>
+                </div>
+
+                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                  <span class="font-bold text-white">2. ท่อสแตนเลส หรือท่อเหล็กชุบสังกะสี IMC / EMT กันน้ำ:</span>
+                  <p class="text-slate-400 mt-0.5">ช่วงรวมสายจากหลังคาลงมาใต้ชายคา ร้อยด้วยท่อสแตนเลส 304 หรือท่อเฟล็กซ์เหล็กกันน้ำหุ้ม PVC ทน UV ป้องกันสัตว์กัดแทะ 100%</p>
+                </div>
+
+                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                  <span class="font-bold text-white">3. สายไฟเฉพาะทาง PV1-F / H1Z2Z2-K:</span>
+                  <p class="text-slate-400 mt-0.5">ฉนวนสองชั้น (Double Insulated) ทองแดงชุบดีบุก ทนแรงดัน 1500V ทนความร้อนสูง</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Wall Zone -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+              <div class="flex items-center gap-2 text-brand-400 font-bold text-sm">
+                <i class="fa-solid fa-house"></i> ส่วนที่ 2: มาตรฐานงานลงผนังหน้าบ้าน (Aesthetic Zone)
+              </div>
+              <p class="text-slate-400">ผนังด้านหน้าและจุดเข้าตู้ควบคุม เน้นความสวยงาม เรียบร้อย กลืนกับสถาปัตยกรรมบ้าน:</p>
+
+              <div class="space-y-2.5">
+                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                  <span class="font-bold text-white">1. ท่อร้อยสายไฟ uPVC สีขาว หรือท่อ EMT ทาสีกลืนผนัง:</span>
+                  <p class="text-slate-400 mt-0.5">ผนังภายนอกและภายในบ้าน นิยมใช้ท่อ uPVC ขาวเกรดทน UV หรือท่อ EMT พ่นสีเดียวกับผนังบ้าน ดูเป็นระเบียบ สะอาดตา ไม่ทำให้บ้านดูเหมือนโรงงาน</p>
+                </div>
+
+                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                  <span class="font-bold text-white">2. กล่องพักสายและข้อต่อกันน้ำ IP65:</span>
+                  <p class="text-slate-400 mt-0.5">ทุกจุดเลี้ยวและจุดต่อ ใช้ Fitting กันน้ำ พร้อมยางซีลซิลิโคนคุณภาพสูง ป้องกันน้ำซึมเข้าตัวบ้าน</p>
+                </div>
+
+                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                  <span class="font-bold text-white">3. การตีแนวเลเซอร์ (Laser Level Alignment):</span>
+                  <p class="text-slate-400 mt-0.5">ช่างของ 99 Solar ใช้ระดับเลเซอร์จับแนวดิ่งและแนวนอนทุกเส้น ระยะห่างของแคลมป์จับท่อได้มาตรฐานวิศวกรรม</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      `,
+
+      quick: `
+        <div class="space-y-6">
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-2">
+            <span class="px-2.5 py-1 bg-brand-500/20 text-brand-400 border border-brand-500/30 text-xs rounded-md font-bold">
+              1-Page Sales Card
+            </span>
+            <h3 class="text-xl font-bold text-white font-heading">แคตตาล็อกด่วน (Quick Pitch Card สำหรับส่งทาง LINE)</h3>
+            <p class="text-xs text-slate-400">เนื้อหากระชับ ลูกค้าอ่านเข้าใจใน 30 วินาที พร้อมส่งได้ทันที</p>
+          </div>
+
+          <div class="max-w-2xl mx-auto bg-slate-950 border-2 border-brand-500/60 rounded-2xl p-6 space-y-4 shadow-2xl text-xs sm:text-sm">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-brand-500 text-slate-950 flex items-center justify-center font-bold text-sm">99</span>
+                <div>
+                  <h4 class="font-bold text-white text-base">99 SOLAR ROOFTOP SOLUTIONS</h4>
+                  <p class="text-[10px] text-slate-400">ลดค่าไฟบ้าน & ธุรกิจ มาตรฐานวิศวกรรม กฟภ. 100%</p>
+                </div>
+              </div>
+              <span class="text-brand-400 font-bold text-xs">HOT PROMOTION</span>
+            </div>
+
+            <div class="space-y-3">
+              <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-800 flex justify-between items-center">
+                <div>
+                  <div class="font-bold text-white">⚡ ชุด 3.3 kW 1 เฟส (กลางวัน)</div>
+                  <div class="text-xs text-slate-400">ประหยัด ~1,800 - 2,300 บาท/เดือน | คืนทุน 3.8 - 4.5 ปี</div>
+                </div>
+                <div class="font-bold text-brand-400 text-base">฿119,000.-</div>
+              </div>
+
+              <div class="bg-slate-900 p-3.5 rounded-xl border border-brand-500/50 flex justify-between items-center">
+                <div>
+                  <div class="font-bold text-solar-gold">🔋 ชุด Hybrid 3.3 kW + แบต 100Ah (กลางวัน+กลางคืน)</div>
+                  <div class="text-xs text-slate-400">แอร์กลางคืน 6-8 ชม. | ไฟดับไม่กระตุก | ประหยัด ~3,000+ บ./ด.</div>
+                </div>
+                <div class="font-bold text-solar-gold text-base">฿199,000.-</div>
+              </div>
+
+              <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-800 flex justify-between items-center">
+                <div>
+                  <div class="font-bold text-white">⚡ ชุด 5.0 kW 1 หรือ 3 เฟส</div>
+                  <div class="text-xs text-slate-400">ประหยัด ~3,000 - 3,800 บาท/เดือน | ค่าไฟ 5,000+ บ./ด.</div>
+                </div>
+                <div class="font-bold text-brand-400 text-base">฿169,000.-</div>
+              </div>
+            </div>
+
+            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800 text-xs space-y-1 text-slate-300">
+              <div class="font-bold text-white">🎁 ทุกแพ็กเกจรวมบริการครบ:</div>
+              <p>✓ ฟรี ยื่นขออนุญาตขนานไฟ กฟภ./กฟน. & จดแจ้ง กกพ. 100%</p>
+              <p>✓ เคเบิ้ลไทร์สแตนเลส 304 บนหลังคา ไม่กรอบแตก 25 ปี</p>
+              <p>✓ ตู้คอมบายเนอร์ครบเซต (Surge Protection + RCBO)</p>
+              <p>✓ รับประกันผลงานติดตั้ง 2 ปี + ประกันแผง 25 ปี + ล้างแผงฟรี</p>
+            </div>
+
+            <div class="text-center pt-2">
+              <button onclick="copyPredefinedScript(1)" class="w-full py-2.5 bg-brand-500 hover:bg-brand-400 text-slate-950 font-bold rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+                <i class="fa-regular fa-clone"></i> คัดลอกแคตตาล็อกด่วนนี้ไปส่งลูกค้าใน LINE
+              </button>
+            </div>
+          </div>
+        </div>
+      `
+    };
+
+    // Predefined Scripts for Quick Copy
+    const predefinedScripts = {
+      1: `⚡ 99 Solar ขออนุญาตส่งข้อมูลสรุปแพ็กเกจ Solar Rooftop 3.3 kW 1 เฟส ยอดนิยมครับผม!
+
+🏠 เหมาะสำหรับ: บ้านที่มีค่าไฟ 2,500 - 4,500 บาท/เดือน
+☀️ กำลังผลิต: แผง N-Type TOPCon 620W จำนวน 6 แผง (รวม 3.72 kWp)
+💰 ประหยัดค่าไฟ: ประมาณ 1,800 - 2,400 บาท/เดือน (ปีละเกือบ 28,000 บาท)
+⏱️ ระยะเวลาคืนทุน: ประมาณ 3.8 - 4.5 ปี หลังจากนั้นคือกำไรใช้ไฟฟรียาว 25 ปี!
+
+🎁 สิ่งที่คุณลูกค้าจะได้รับครบชุด:
+1. แผงโซลาร์ Tier 1 ประสิทธิภาพ 22.5%+ ประกันผลผลิตไฟ 25 ปี
+2. Inverter 3.3 kW ผ่านมาตรฐานการไฟฟ้า กฟภ./กฟน. รับประกัน 5-10 ปี
+3. ตู้คอมบายเนอร์มาตรฐานวิศวกรรม (Surge Protection กันฟ้าผ่า + RCBO ตัดไฟรั่ว)
+4. อุปกรณ์ติดตั้งบนหลังคา: รางอลูมิเนียมชุบอะโนไดซ์ และเคเบิ้ลไทร์สแตนเลส 304 ทนแดดไม่กรอบแตก 25 ปี
+5. ฟรี! ดำเนินการยื่นขออนุญาตขนานไฟ กฟภ. และ อบต./เทศบาล ตลอดจนเปลี่ยนมิเตอร์สองทางครบวงจร
+6. ฟรี! บริการล้างแผงและตรวจเช็คระบบ 2 ปีแรก
+
+หากคุณลูกค้าสะดวก ให้ทีมวิศวกรนำโดรนเข้าสำรวจทิศแดดที่บ้านฟรี ไม่มีค่าใช้จ่ายได้เลยนะครับ สะดวกเป็นวันไหนดีครับ? 😊`,
+
+      2: `🛡️ เจาะลึกมาตรฐานความปลอดภัย ทำไม 99 Solar ถึงเลือกใช้ "ตู้คอมบายเนอร์ครบเซต & เคเบิ้ลไทร์สแตนเลสบนหลังคา"?
+
+หลายท่านอาจสงสัยว่าทำไมราคาแต่ละเจ้าถึงต่างกัน เหตุผลสำคัญซ่อนอยู่ใน "ความปลอดภัยระยะยาว 25 ปี" ครับ:
+
+1️⃣ ตู้คอมบายเนอร์ (Combiner Box) ของเรา:
+• ใช้เบรกเกอร์ DC แท้ 1000V และฟิวส์ DC ทั้งขั้วบวก-ลบ (ป้องกันการเกิดประกายไฟ Arcing ไม่ทำให้เกิดเพลิงไหม้)
+• มี DC & AC Surge Protection Device (SPD Type 2) ช่วยระบายไฟกระชากจากฟ้าผ่าลงดิน อินเวอร์เตอร์ไม่พัง
+• มี RCBO Type B ตัดไฟรั่วสำหรับโซลาร์เซลล์โดยเฉพาะ ปกป้องทุกคนในบ้าน
+
+2️⃣ งานบนหลังคา ทำไมต้อง "เคเบิ้ลไทร์สแตนเลส 304"?
+• แดดเมืองไทยบนหลังคาร้อน 65-70°C หากใช้เคเบิ้ลไทร์พลาสติกแบบทั่วไป เพียง 1-2 ปีพลาสติกจะกรอบแตก ทำให้สายไฟห้อยลงมาเสียดสีกับหลังคาจนฉนวนขาดและเกิดไฟฟ้าลัดวงจร
+• เราเลือกใช้เคเบิ้ลไทร์สแตนเลส SUS304 เคลือบอีพ็อกซี่ ทนแดด ทนฝน ไม่เป็นสนิม อยู่ทนเคียงคู่แผงโซลาร์ 25 ปีแน่นอนครับ
+
+3️⃣ งานเดินท่อ:
+• บนหลังคาและจุดเสี่ยง ใช้ท่อสแตนเลส / ท่อเหล็ก IMC กันน้ำและกันหนูกัดแทะ
+• ลงผนังหน้าบ้าน ใช้ท่อ uPVC ขาวหรือท่อ EMT ยิงระดับเลเซอร์ กลืนกับตัวบ้านสวยงาม ไม่เกะกะสายตา
+
+ให้บ้านของคุณปลอดภัยสูงสุดตั้งแต่วันแรก มั่นใจมาตรฐาน 99 Solar ครับ! ⚡`,
+
+      3: `🔋 อยากใช้ไฟฟรีตอนกลางคืนด้วย? แนะนำระบบ "Hybrid Inverter + แบตเตอรี่ LiFePO4" ครับ!
+
+สำหรับบ้านที่กลางวันทำงานนอกบ้าน แล้วกลับมาเปิดแอร์หนักช่วงค่ำ-นอน ระบบไฮบริดจะชาร์จไฟจากแดดกลางวันเก็บไว้ในแบตเตอรี่ แล้วนำมาจ่ายให้แอร์ตอนกลางคืนครับ:
+
+🛌 แบตเตอรี่ 100 Ah (ความจุ 5.12 kWh):
+• เปิดแอร์ Inverter 9,000 - 12,000 BTU ได้ประมาณ 6 - 8 ชั่วโมง
+• ร่วมกับตู้เย็น ไวไฟ และไฟส่องสว่างทั้งบ้าน
+• เหมาะสำหรับบ้านที่มีห้องนอนหลัก 1 ห้อง
+
+🏡 แบตเตอรี่ 200 Ah (ความจุ 10.24 kWh) [ยอดนิยม]:
+• เปิดแอร์ Inverter ได้ 2 ตัวสบายๆ ตลอดทั้งคืน (7 - 9 ชั่วโมง)
+• ประหยัดค่าไฟได้ทั้งกลางวันและกลางคืนรวม 3,500 - 5,500 บาท/เดือน!
+
+✨ ข้อดีพิเศษ:
+• แบตเตอรี่เป็นชนิด LiFePO4 ปลอดภัย ไม่ติดไฟ รอบชาร์จสูง 6,000 รอบ (ใช้ได้นาน 15 ปี)
+• ระบบสลับไฟสำรอง (EPS Backup) อัตโนมัติเมื่อไฟหลวงดับ ภายใน 10-20 มิลลิวินาที แอร์ไม่ดับ ตู้เย็นไม่เสีย ไวไฟไม่ตัดครับ!
+
+สนใจให้วิศวกรคำนวณขนาดแบตเตอรี่ที่พอดีกับแอร์ที่บ้าน ทักแจ้งจำนวนแอร์ได้เลยครับผม 😊`,
+
+      4: `📝 ขั้นตอนการวางมัดจำและยื่นขออนุญาตติดตั้งโซลาร์เซลล์กับ 99 Solar ครับ:
+
+ทางเรามีแผนการชำระเงินที่โปร่งใส แบ่งเป็น 4 งวด เพื่อให้คุณลูกค้าสบายใจที่สุด:
+• งวดที่ 1 (15%): วันทำสัญญาจ้าง เพื่อเริ่มออกแบบวิศวกรรมและยื่นเอกสาร อบต./กฟภ.
+• งวดที่ 2 (50%): วันส่งมอบอุปกรณ์ (แผง, อินเวอร์เตอร์, แบตเตอรี่, ตู้คอมบาย) ถึงบ้านคุณลูกค้า ตรวจนับของแท้แกะกล่องก่อนชำระ
+• งวดที่ 3 (25%): ติดตั้งแล้วเสร็จ ทดสอบระบบผลิตไฟ และเปิดใช้งานเบื้องต้น
+• งวดที่ 4 (10%): การไฟฟ้าเข้าตรวจขนานไฟและเปลี่ยนมิเตอร์ TOU เรียบร้อย 100%
+
+📑 เอกสารที่ลูกค้าต้องเตรียมเพียง 3 อย่าง:
+1. สำเนาบัตรประชาชน + ทะเบียนบ้าน
+2. รูปถ่ายบิลค่าไฟเดือนล่าสุด
+3. หนังสือมอบอำนาจ (ทางเราเตรียมแบบฟอร์มให้ ลูกค้าเพียงเซ็นชื่อ)
+
+ที่เหลือตั้งแต่ยื่น อบต./เทศบาล, ขนานไฟ กฟภ. และจดแจ้ง กกพ. ทางเราจัดการให้ฟรีครบวงจร One-Stop Service ครับ! ⚡`
+    };
+
+    // Initialize Page
+    document.addEventListener('DOMContentLoaded', () => {
+      showPersonaDetail(1);
+      showCatalogView('master');
+      calculateQuickSpec();
+    });
+
+    // Tab Switching Logic
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active', 'bg-brand-500/20', 'text-brand-400', 'border', 'border-brand-500/40');
+        btn.classList.add('text-slate-400');
+      });
+
+      const targetContent = document.getElementById('tab-' + tabId);
+      const targetBtn = document.getElementById('tab-btn-' + tabId);
+      
+      if (targetContent) targetContent.classList.remove('hidden');
+      if (targetBtn) {
+        targetBtn.classList.add('active', 'bg-brand-500/20', 'text-brand-400', 'border', 'border-brand-500/40');
+        targetBtn.classList.remove('text-slate-400');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Set Chat Mode
+    function setChatMode(mode) {
+      currentChatMode = mode;
+      const custBtn = document.getElementById('mode-customer-btn');
+      const copiBtn = document.getElementById('mode-copilot-btn');
+      const indicator = document.getElementById('chat-mode-indicator');
+
+      if (mode === 'customer') {
+        custBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-brand-500 text-slate-950 shadow";
+        copiBtn.className = "px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition-all";
+        indicator.textContent = "● กำลังอยู่ในโหมด: ลูกค้าสอบถามระบบ (Customer Demo)";
+        indicator.className = "text-[11px] text-brand-400";
+      } else {
+        copiBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-solar-gold text-slate-950 shadow";
+        custBtn.className = "px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition-all";
+        indicator.textContent = "● กำลังอยู่ในโหมด: คู่หูเซลส์ / คลังสคริปต์ปิดดีล (Sales Copilot)";
+        indicator.className = "text-[11px] text-solar-gold";
+      }
+    }
+
+    // Handle Chat Submit
+    function handleChatSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendUserMessage(text);
+      input.value = '';
+
+      // Generate Bot Reply
+      setTimeout(() => {
+        const reply = generateSmartSolarResponse(text, currentChatMode);
+        appendBotMessage(reply);
+      }, 500);
+    }
+
+    function sendQuickPrompt(promptText) {
+      switchTab('bot');
+      appendUserMessage(promptText);
+      setTimeout(() => {
+        const reply = generateSmartSolarResponse(promptText, currentChatMode);
+        appendBotMessage(reply);
+      }, 500);
+    }
+
+    function appendUserMessage(text) {
+      const chatBox = document.getElementById('chat-messages');
+      const div = document.createElement('div');
+      div.className = "flex items-start justify-end gap-3";
+      div.innerHTML = `
+        <div class="max-w-[85%] bg-brand-500 text-slate-950 font-medium p-3.5 chat-bubble-user text-xs sm:text-sm shadow-md">
+          ${escapeHTML(text)}
+        </div>
+        <div class="w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 border border-brand-500/30 flex items-center justify-center shrink-0 text-sm mt-0.5">
+          <i class="fa-solid fa-user"></i>
+        </div>
+      `;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function appendBotMessage(htmlContent) {
+      const chatBox = document.getElementById('chat-messages');
+      const div = document.createElement('div');
+      div.className = "flex items-start gap-3";
+      div.innerHTML = `
+        <div class="w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 border border-brand-500/30 flex items-center justify-center shrink-0 text-sm mt-0.5">
+          <i class="fa-solid fa-robot"></i>
+        </div>
+        <div class="max-w-[88%] bg-slate-800 border border-slate-700 text-slate-200 p-4 chat-bubble-bot space-y-3 text-xs sm:text-sm shadow-md">
+          ${htmlContent}
+        </div>
+      `;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function clearChat() {
+      const chatBox = document.getElementById('chat-messages');
+      chatBox.innerHTML = `
+        <div class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 border border-brand-500/30 flex items-center justify-center shrink-0 text-sm mt-0.5">
+            <i class="fa-solid fa-robot"></i>
+          </div>
+          <div class="max-w-[85%] bg-slate-800 border border-slate-700 text-slate-200 p-4 chat-bubble-bot space-y-2 shadow-sm text-xs sm:text-sm">
+            <p class="font-semibold text-brand-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-sun text-solar-gold"></i> รีเซ็ตบทสนทนาเรียบร้อยครับ
+            </p>
+            <p>พิมพ์ถามคำถามใหม่ หรือคลิกที่หัวข้อคำถามด้านบนได้เลยครับ!</p>
+          </div>
+        </div>
+      `;
+    }
+
+    // Smart Solar AI Response Knowledge Base
+    function generateSmartSolarResponse(query, mode) {
+      const q = query.toLowerCase();
+
+      // Case 1: 3.3 kW 1 Phase
+      if (q.includes('3.3') || q.includes('3 kw') || q.includes('3kw') || q.includes('3.3kw') || q.includes('1 เฟส')) {
+        if (mode === 'copilot') {
+          return `
+            <div class="space-y-2">
+              <div class="font-bold text-solar-gold flex items-center gap-1.5">
+                <i class="fa-solid fa-lightbulb"></i> คำแนะนำสำหรับเซลส์ (ชุด 3.3 kW 1 เฟส):
+              </div>
+              <p>• <strong>กลุ่มเป้าหมาย:</strong> บ้านเดี่ยว/ทาวน์โฮม ค่าไฟ 2,500 - 4,500 บาท/เดือน</p>
+              <p>• <strong>สเปกแนะนำ:</strong> แผง N-Type 620W จำนวน 6 แผง (รวม 3.72 kWp), Inverter 3.3 kW 1-Phase กฟภ. Approved</p>
+              <p>• <strong>ผลตอบแทน:</strong> ประหยัด ~1,800 - 2,400 บาท/เดือน (ปีละ ~24,000 - 28,000 บาท) คืนทุน 3.8 - 4.5 ปี</p>
+              <div class="bg-slate-900 p-3 rounded-lg border border-slate-700 text-xs">
+                <strong class="text-brand-400">สคริปต์ปิดการขาย:</strong> "ชุด 3.3 kW ตัวนี้เหมือนพี่ฝากเงินแล้วได้ดอกเบี้ย 25% ทุกปีครับ ติดครั้งเดียว แอร์ 1-2 ตัวตอนกลางวันเปิดฟรี คืนทุนใน 4 ปี หลังจากนั้นใช้ไฟฟรียาว 25 ปีครับ!"
+              </div>
+              <button onclick="copyPredefinedScript(1)" class="px-3 py-1 bg-brand-500/20 text-brand-400 border border-brand-500/30 rounded text-xs font-bold hover:bg-brand-500 hover:text-slate-950 transition-colors">📋 ก็อปปี้สคริปต์ชุด 3.3kW ส่งลูกค้า</button>
+            </div>
+          `;
+        } else {
+          return `
+            <div class="space-y-2">
+              <div class="font-bold text-brand-400 flex items-center gap-1.5">
+                <i class="fa-solid fa-solar-panel"></i> ระบบ On-Grid 3.3 kW 1 เฟส (สำหรับบ้านพักอาศัย)
+              </div>
+              <p>ระบบนี้เหมาะมากสำหรับบ้านที่มีค่าไฟช่วง <strong>2,500 - 4,500 บาท/เดือน</strong> ครับ:</p>
+              <ul class="list-disc list-inside space-y-1 text-slate-300">
+                <li><strong>แผงโซลาร์:</strong> 6 แผง (N-Type TOPCon 620W เทคโนโลยีใหม่ล่าสุด)</li>
+                <li><strong>ประสิทธิภาพ:</strong> ประหยัดค่าไฟได้ <strong>~1,800 - 2,400 บาท/เดือน</strong></li>
+                <li><strong>เครื่องใช้ไฟฟ้า:</strong> รองรับแอร์ 12,000 BTU ได้ 1-2 ตัว พร้อมตู้เย็น ปั๊มน้ำ พัดลม สบายๆ ตลอดทั้งวัน</li>
+                <li><strong>ระยะเวลาคืนทุน:</strong> ประมาณ <strong>3.8 - 4.2 ปี</strong> ประกันแผงยาวนาน 25 ปี</li>
+                <li><strong>การดูแล:</strong> มีแอพมือถือดูผลผลิตไฟแบบเรียลไทม์ และฟรีล้างแผง 2 ปีแรกครับ</li>
+              </ul>
+              <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-700 text-xs text-solar-gold">
+                💡 หากคุณลูกค้ามีการเปิดแอร์กลางคืนด้วย สามารถอัปเกรดเป็นระบบ <strong>Hybrid + แบตเตอรี่ 100Ah หรือ 200Ah</strong> ได้ด้วยนะครับ
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      // Case 2: Batteries 100Ah, 200Ah, 300Ah
+      if (q.includes('แบต') || q.includes('battery') || q.includes('100') || q.includes('200') || q.includes('300') || q.includes('กลางคืน')) {
+        return `
+          <div class="space-y-2">
+            <div class="font-bold text-solar-gold flex items-center gap-1.5">
+              <i class="fa-solid fa-car-battery"></i> ระบบแบตเตอรี่สำรองไฟกลางคืน LiFePO4 51.2V
+            </div>
+            <p>หากต้องการใช้ไฟฟรีในเวลากลางคืน เราแนะนำเป็นแบตเตอรี่ชนิด <strong>LiFePO4 (ลิเธียมไอออนฟอสเฟต)</strong> ปลอดภัย ไม่ระเบิด ใช้งานได้ 6,000 รอบ (~15 ปี) โดยแบ่งตามขนาดดังนี้ครับ:</p>
+            
+            <div class="space-y-2 pt-1 text-xs">
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-700">
+                <span class="font-bold text-solar-gold">1. แบตเตอรี่ 100 Ah (ความจุ 5.12 kWh):</span>
+                <p class="text-slate-300 mt-0.5">• จ่ายแอร์ Inverter 9000-12000 BTU ได้ <strong>6 - 8 ชั่วโมง</strong> (เหมาะกับ 1 ห้องนอน)</p>
+              </div>
+
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-brand-500/40">
+                <span class="font-bold text-brand-400">2. แบตเตอรี่ 200 Ah (ความจุ 10.24 kWh) [แนะนำสูงสุด]:</span>
+                <p class="text-slate-300 mt-0.5">• จ่ายแอร์ Inverter ได้ <strong>2 ตัวพร้อมกันตลอดทั้งคืน</strong> (7 - 9 ชั่วโมง) เหมาะกับครอบครัว 2-3 ห้องนอน</p>
+              </div>
+
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-700">
+                <span class="font-bold text-purple-400">3. แบตเตอรี่ 300 Ah (ความจุ 15.36 kWh):</span>
+                <p class="text-slate-300 mt-0.5">• จ่ายแอร์ <strong>3 ตัว + เครื่องใช้ไฟฟ้าทั้งบ้าน</strong> แทบไม่ต้องพึ่งไฟหลวงกลางคืนเลยครับ</p>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-300 pt-1">
+              ✨ <strong>จุดเด่นพิเศษ:</strong> เมื่อไฟดับ ระบบจะตัดเข้าแบตเตอรี่อัตโนมัติใน 10ms แอร์ไม่ดับ คอมพิวเตอร์ไม่รีสตาร์ทครับ!
+            </p>
+          </div>
+        `;
+      }
+
+      // Case 3: Combiner Box
+      if (q.includes('คอมบาย') || q.includes('combiner') || q.includes('ตู้') || q.includes('เบรกเกอร์') || q.includes('spd') || q.includes('rcbo')) {
+        return `
+          <div class="space-y-2">
+            <div class="font-bold text-blue-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-shield-halved"></i> ตู้คอมบายเนอร์ (Combiner Box) มาตรฐานวิศวกรรม 99 Solar
+            </div>
+            <p>ตู้คอมบายเนอร์คือ <strong>'หัวใจความปลอดภัย'</strong> ของระบบโซลาร์เซลล์ครับ เราไม่ใช้การตัดต่อสายลอยๆ แต่ติดตั้งตู้เหล็กกันน้ำ IP65 ที่ประกอบด้วยอุปกรณ์เกรดสากลครบชุด:</p>
+            <ul class="list-disc list-inside space-y-1 text-slate-300 text-xs">
+              <li><strong>DC Fuse 1000V (15A/20A):</strong> ป้องกันการลัดวงจรทั้งสายบวกและลบ</li>
+              <li><strong>DC Surge Protection Device (SPD Type 2):</strong> ป้องกันแรงดันกระชากและฟ้าผ่าเหนี่ยวนำ ไม่ให้อินเวอร์เตอร์ระเบิด</li>
+              <li><strong>DC Isolator Breaker:</strong> สวิตช์ตัดตอนกระแสตรงความเร็วสูง มีห้องดับประกายไฟ</li>
+              <li><strong>AC RCBO Type B หรือ Type A:</strong> ตัดไฟฟ้ารั่วไหลลงดิน ปกป้องชีวิตคนในบ้าน</li>
+              <li><strong>Grounding Bar:</strong> เชื่อมต่อแท่งกราวด์ทองแดงแท้ ตอกลึก วัดค่าความต้านทาน R < 5 โอห์ม</li>
+            </ul>
+            <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-700 text-xs text-emerald-400">
+              ✓ ผ่านมาตรฐานการไฟฟ้านครหลวง (MEA) และการไฟฟ้าส่วนภูมิภาค (PEA) 100% เจ้าหน้าที่ตรวจผ่านแน่นอนครับ
+            </div>
+          </div>
+        `;
+      }
+
+      // Case 4: Stainless Conduit & Stainless Cable Ties on Roof
+      if (q.includes('ท่อ') || q.includes('เคเบิ้ลไทร์') || q.includes('สแตนเลส') || q.includes('พลาสติก') || q.includes('หลังคา')) {
+        return `
+          <div class="space-y-2">
+            <div class="font-bold text-amber-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-screwdriver-wrench"></i> มาตรฐานท่อสแตนเลส & เคเบิ้ลไทร์บนหลังคา vs ท่อหน้าบ้าน
+            </div>
+            <p>งานติดตั้งของเราแบ่งโซนมาตรฐานชัดเจนเพื่อความคงทนสูงสุด 25 ปีครับ:</p>
+            <div class="space-y-2 text-xs">
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-amber-500/30">
+                <strong class="text-amber-400">1. โซนบนหลังคา (แดดจัด 65-70°C):</strong>
+                <p class="text-slate-300 mt-1">• <strong>เคเบิ้ลไทร์สแตนเลส SUS304 เคลือบอีพ็อกซี่สีดำ:</strong> ไม่ใช้พลาสติกเด็ดขาด เพราะพลาสติกจะกรอบแตกใน 1-2 ปีทำให้สายไฟห้อยเสียดสีหลังคาจนเกิดไฟไหม้ แต่สแตนเลส 304 อยู่ได้ 25 ปีเต็ม</p>
+                <p class="text-slate-300 mt-0.5">• <strong>ท่อสแตนเลส 304 หรือท่อ IMC ชุบสังกะสีหนา:</strong> ช่วงสายรวมลงชายคา ใช้ท่อโลหะทนแดด ทน UV ป้องกันหนูและนกกัดแทะ 100%</p>
+              </div>
+
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-brand-500/30">
+                <strong class="text-brand-400">2. โซนผนังด้านหน้าและในบ้าน (เน้นความสวยงาม):</strong>
+                <p class="text-slate-300 mt-1">• ใช้ <strong>ท่อร้อยสายไฟ uPVC สีขาว หรือท่อ EMT ทาสีเดียวกับผนังบ้าน</strong> เพื่อความสวยงามสะอาดตา กลืนไปกับตัวบ้าน ไม่ดูเกะกะเหมือนโรงงาน พร้อมกล่องพักสายกันน้ำ IP65 ยิงระดับด้วยเลเซอร์ทุกจุดครับ</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Case 5: Price Objections / Cheaper Competitors
+      if (q.includes('ราคา') || q.includes('แพง') || q.includes('เจ้าอื่น') || q.includes('ถูกกว่า') || q.includes('ลด') || q.includes('แปดหมื่น')) {
+        return `
+          <div class="space-y-2">
+            <div class="font-bold text-rose-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-tags"></i> สคริปต์ตอบข้อโต้แย้ง: "ทำไมเจ้าอื่นถูกกว่า / ลดราคาได้ไหม?"
+            </div>
+            <p class="text-slate-300">
+              "เข้าใจเลยครับพี่ เรื่องราคาสำคัญแน่นอน แต่การติดโซลาร์เซลล์คือการลงทุนครั้งเดียวที่อยู่บนหลังคาบ้านเรานาน 25-30 ปี เหตุผลที่ราคาต่างกัน 10,000-20,000 บาท มันซ่อนอยู่ใน 4 จุดที่หลายเจ้าลดต้นทุนครับ:
+            </p>
+            <div class="bg-slate-900 p-3 rounded-lg border border-slate-700 text-xs space-y-1.5">
+              <p>1. <strong>ความปลอดภัย:</strong> ของเรามีตู้คอมบายเนอร์ครบเซต (Surge กันฟ้าผ่า + RCBO ตัดไฟรั่ว) ช่างราคาถูกมักตัดทิ้งหรือใช้เบรกเกอร์ AC ผิดประเภท เสี่ยงไฟไหม้บ้าน</p>
+              <p>2. <strong>วัสดุบนหลังคา:</strong> เราใช้เคเบิ้ลไทร์สแตนเลส 304 ทนแดด 25 ปี เจ้าอื่นใช้พลาสติก 2 ปีแตกสายไฟห้อย</p>
+              <p>3. <strong>ใบอนุญาต:</strong> ของเรารวมค่ายื่น กฟภ. และ อบต. ครบจบ ไม่ทิ้งงานให้ลูกค้าวิ่งเต้นเอง</p>
+              <p>4. <strong>รับประกัน:</strong> มีบริษัทมีตัวตนชัดเจน รับประกันงานติดตั้ง 2 ปี ล้างแผงฟรี ไม่ใช่ช่างรับเหมาช่วงที่เปลี่ยนเบอร์หนีครับ"</p>
+            </div>
+            <p class="text-xs text-brand-400 font-semibold">
+              🎯 <strong>เทคนิคปิดการขาย:</strong> หากลูกค้าต้องการส่วนลด ให้เสนอเป็นของแถม เช่น เพิ่มระยะเวลาล้างแผงฟรีเป็น 3 ปี หรือฟรีกล้องวงจรปิด Solar แทนการลดราคาเงินสด!
+            </p>
+          </div>
+        `;
+      }
+
+      // Case 6: Payment Terms & Permits
+      if (q.includes('มัดจำ') || q.includes('งวด') || q.includes('สัญญา') || q.includes('ใบอนุญาต') || q.includes('อบต') || q.includes('กฟภ') || q.includes('กกพ')) {
+        return `
+          <div class="space-y-2">
+            <div class="font-bold text-emerald-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-file-contract"></i> การวางมัดจำ 4 งวด & การยื่นขอใบอนุญาตครบวงจร
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div class="p-2 bg-slate-900 rounded border border-slate-700">
+                <strong class="text-brand-400">งวด 1 (15%):</strong> มัดจำวันเซ็นสัญญา ออกแบบ & ยื่นขออนุญาต
+              </div>
+              <div class="p-2 bg-slate-900 rounded border border-slate-700">
+                <strong class="text-blue-400">งวด 2 (50%):</strong> ส่งของถึงบ้าน ตรวจนับของแท้ก่อนจ่าย
+              </div>
+              <div class="p-2 bg-slate-900 rounded border border-slate-700">
+                <strong class="text-solar-gold">งวด 3 (25%):</strong> ติดตั้งเสร็จ ทดสอบระบบ เปิดใช้งานเบื้องต้น
+              </div>
+              <div class="p-2 bg-slate-900 rounded border border-slate-700">
+                <strong class="text-purple-400">งวด 4 (10%):</strong> การไฟฟ้าเปลี่ยนมิเตอร์ TOU ขนานไฟเสร็จ
+              </div>
+            </div>
+            <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-700 text-xs text-slate-300">
+              <strong>📑 การขอใบอนุญาตที่เราจัดการให้ 100%:</strong>
+              <p>1. แจ้ง อบต./เทศบาล (พร้อมหนังสือรับรองวิศวกรโครงสร้าง)</p>
+              <p>2. ยื่นขนานไฟ กฟภ./กฟน. ออนไลน์ พร้อมวิศวกรไฟฟ้าเซ็น Single Line Diagram</p>
+              <p>3. จดแจ้งยกเว้นใบอนุญาต สนง.กกพ. (ERC)</p>
+              <p>ลูกค้าเตรียมแค่สำเนาบัตร ปชช., ทะเบียนบ้าน และบิลค่าไฟเท่านั้นครับ!</p>
+            </div>
+          </div>
+        `;
+      }
+
+      // Default Fallback
+      return `
+        <div class="space-y-2">
+          <div class="font-bold text-brand-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-question"></i> ข้อมูลเพิ่มเติมจาก 99 Solar Assistant
+          </div>
+          <p>
+            สำหรับคำถามของคุณ: <em>"${escapeHTML(query)}"</em> ทางทีมวิศวกร 99 Solar ขอสรุปประเด็นสำคัญดังนี้ครับ:
+          </p>
+          <div class="bg-slate-900 p-3 rounded-lg border border-slate-700 text-xs text-slate-300 space-y-1">
+            <p>• หากเป็นเรื่อง<strong>ขนาดระบบ</strong>: แนะนำเริ่มต้นที่ 3.3 kW 1 เฟส สำหรับบ้านค่าไฟ 2,500-4,500 บาท และ 5 kW สำหรับบ้านค่าไฟ 5,000+ บาท</p>
+            <p>• หากเป็นเรื่อง<strong>การใช้ไฟกลางคืน</strong>: สามารถเสริมแบตเตอรี่ LiFePO4 ขนาด 100Ah (แอร์ 1 ตัว) หรือ 200Ah (แอร์ 2 ตัวทั้งคืน)</p>
+            <p>• หากเป็นเรื่อง<strong>ความปลอดภัย</strong>: เราใช้ตู้คอมบายเนอร์ครบชุด และเคเบิ้ลไทร์สแตนเลส 304 บนหลังคามาตรฐานสูงสุด 25 ปี</p>
+          </div>
+          <p class="text-xs text-slate-400">
+            คุณสามารถคลิกที่ปุ่มหัวข้อด้านบน หรือสลับไปดูแท็บ <strong>"SOP 5 เลเวลลูกค้า"</strong> หรือ <strong>"แคตตาล็อก"</strong> ได้เลยครับ!
+          </p>
+        </div>
+      `;
+    }
+
+    // Persona Tab Switching
+    function showPersonaDetail(level) {
+      currentPersonaLevel = level;
+      document.querySelectorAll('.persona-tab-btn').forEach((btn, index) => {
+        if (index + 1 === level) {
+          btn.classList.add('active', 'border-brand-500/50', 'bg-slate-850');
+          btn.classList.remove('border-slate-800', 'bg-slate-900');
+        } else {
+          btn.classList.remove('active', 'border-brand-500/50', 'bg-slate-850');
+          btn.classList.add('border-slate-800', 'bg-slate-900');
+        }
+      });
+
+      const p = personas[level];
+      const container = document.getElementById('persona-content-area');
+      
+      let objectionsHtml = p.objections.map(obj => `
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1.5">
+          <div class="font-bold text-solar-gold text-xs flex items-center gap-1.5">
+            <i class="fa-solid fa-triangle-exclamation"></i> ลูกค้าถาม: "${escapeHTML(obj.q)}"
+          </div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            <strong class="text-brand-400">วิธีตอบ:</strong> ${escapeHTML(obj.a)}
+          </p>
+        </div>
+      `).join('');
+
+      let discQHtml = p.discoveryQuestions.map(q => `
+        <li class="flex items-start gap-2">
+          <i class="fa-solid fa-chevron-right text-brand-400 mt-1 text-[10px]"></i>
+          <span>${escapeHTML(q)}</span>
+        </li>
+      `).join('');
+
+      let talkingHtml = p.talkingPoints.map(point => `
+        <li class="flex items-start gap-2">
+          <i class="fa-solid fa-check text-solar-gold mt-1 text-[10px]"></i>
+          <span>${point}</span>
+        </li>
+      `).join('');
+
+      container.innerHTML = `
+        <div class="space-y-6">
+          <!-- Header -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-4 gap-2">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-brand-500 text-slate-950 font-bold text-xs">Level ${level}</span>
+                <span class="text-xs text-slate-400 font-medium">${p.subtitle}</span>
+              </div>
+              <h3 class="text-xl font-bold text-white font-heading mt-1">${p.title}</h3>
+            </div>
+            <span class="text-xs px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 self-start sm:self-auto font-medium">
+              ${p.badge}
+            </span>
+          </div>
+
+          <!-- Behavior Profile -->
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs sm:text-sm text-slate-300 space-y-1">
+            <strong class="text-white flex items-center gap-1.5"><i class="fa-solid fa-fingerprint text-brand-400"></i> พฤติกรรมและวิธีคิดของลูกค้ากลุ่มนี้:</strong>
+            <p class="text-slate-400">${p.behavior}</p>
+          </div>
+
+          <!-- Opening Pitch -->
+          <div class="space-y-2">
+            <h4 class="font-bold text-white text-xs sm:text-sm flex items-center gap-2">
+              <i class="fa-solid fa-comments text-brand-400"></i> 1. สคริปต์เปิดบทสนทนา (Opening Script):
+            </h4>
+            <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 text-xs sm:text-sm text-brand-300 font-medium">
+              "${p.opening}"
+            </div>
+          </div>
+
+          <!-- Discovery & Talking Points Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+              <h5 class="font-bold text-white flex items-center gap-1.5">
+                <i class="fa-solid fa-circle-question text-blue-400"></i> คำถามเจาะใจ (Discovery Questions):
+              </h5>
+              <ul class="space-y-2 text-slate-300">
+                ${discQHtml}
+              </ul>
+            </div>
+
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+              <h5 class="font-bold text-white flex items-center gap-1.5">
+                <i class="fa-solid fa-bullseye text-solar-gold"></i> ประเด็นที่ต้องขยี้ (Key Talking Points):
+              </h5>
+              <ul class="space-y-2 text-slate-300">
+                ${talkingHtml}
+              </ul>
+            </div>
+          </div>
+
+          <!-- Objection Handling -->
+          <div class="space-y-3">
+            <h4 class="font-bold text-white text-xs sm:text-sm flex items-center gap-2">
+              <i class="fa-solid fa-shield-halved text-rose-400"></i> 2. ข้อโต้แย้งที่พบบ่อย & สคริปต์สลายข้อโต้แย้ง (Objection Handling):
+            </h4>
+            <div class="space-y-2.5">
+              ${objectionsHtml}
+            </div>
+          </div>
+
+          <!-- Closing Script Hook -->
+          <div class="space-y-2">
+            <h4 class="font-bold text-white text-xs sm:text-sm flex items-center gap-2">
+              <i class="fa-solid fa-trophy text-emerald-400"></i> 3. ไม้ตายปิดการขาย (Closing Script Hook):
+            </h4>
+            <div class="bg-gradient-to-r from-slate-950 to-brand-950/40 p-4 rounded-xl border border-brand-500/40 text-xs sm:text-sm text-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="italic">"${p.closingScript}"</div>
+              <button onclick="sendQuickPrompt('ขอซ้อมบทสนทนาปิดดีลกับลูกค้าระดับ Level ${level}')" class="px-4 py-2 bg-brand-500 hover:bg-brand-400 text-slate-950 font-bold rounded-lg text-xs shrink-0 transition-colors shadow">
+                <i class="fa-solid fa-play mr-1"></i> ซ้อมบทนี้กับบอท
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Catalog View Switching
+    function showCatalogView(viewKey) {
+      currentCatalogView = viewKey;
+      document.querySelectorAll('.cat-nav-btn').forEach(btn => {
+        btn.classList.remove('active', 'bg-brand-500', 'text-slate-950');
+        btn.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-800');
+      });
+
+      const activeBtn = document.getElementById('cat-btn-' + viewKey);
+      if (activeBtn) {
+        activeBtn.classList.add('active', 'bg-brand-500', 'text-slate-950');
+        activeBtn.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-slate-800');
+      }
+
+      const container = document.getElementById('catalog-content-area');
+      if (catalogData[viewKey]) {
+        container.innerHTML = catalogData[viewKey];
+      }
+    }
+
+    // Quick Spec Calculator
+    function calculateQuickSpec() {
+      const kw = parseFloat(document.getElementById('quick-kw-select').value);
+      const batt = parseInt(document.getElementById('quick-battery-select').value);
+
+      const panelCount = kw === 3.3 ? 6 : (kw === 5.0 ? 10 : 18);
+      const totalWp = (panelCount * 0.62).toFixed(2);
+      
+      let inverterText = kw === 3.3 ? "Hybrid 3.3 kW 1-Phase" : (kw === 5.0 ? "Hybrid 5.0 kW 1/3-Phase" : "Hybrid 10.0 kW 3-Phase");
+      if (batt === 0) inverterText = inverterText.replace("Hybrid", "On-Grid");
+
+      let backupHours = "ไม่มีแบตเตอรี่ (กลางคืนใช้ไฟหลวง)";
+      let saving = "~1,800 - 2,300 บาท/เดือน";
+      let price = "119,000 - 139,000 บาท";
+
+      if (kw === 3.3) {
+        if (batt === 100) {
+          backupHours = "~6 - 8 ชม. (แอร์ 9000-12000 BTU 1 ตัว)";
+          saving = "~2,800 - 3,500 บาท/เดือน";
+          price = "199,000 - 229,000 บาท";
+        } else if (batt === 200) {
+          backupHours = "~8 - 10 ชม. (แอร์ 2 ตัวทั้งคืน)";
+          saving = "~3,600 - 4,500 บาท/เดือน";
+          price = "259,000 - 289,000 บาท";
+        } else if (batt === 300) {
+          backupHours = "ตลอดคืนฟูลโหลด (แอร์ 3 ตัว)";
+          saving = "~4,500 - 5,500 บาท/เดือน";
+          price = "319,000 - 349,000 บาท";
+        }
+      } else if (kw === 5.0) {
+        if (batt === 0) {
+          saving = "~3,000 - 3,800 บาท/เดือน";
+          price = "169,000 - 189,000 บาท";
+        } else if (batt === 100) {
+          backupHours = "~6 - 8 ชม. (แอร์ 1-2 ตัว)";
+          saving = "~3,800 - 4,800 บาท/เดือน";
+          price = "249,000 - 279,000 บาท";
+        } else if (batt === 200) {
+          backupHours = "~8 - 10 ชม. (แอร์ 2-3 ตัวทั้งคืน)";
+          saving = "~4,800 - 6,200 บาท/เดือน";
+          price = "299,000 - 339,000 บาท";
+        } else {
+          backupHours = "ตลอดคืนฟูลโหลดทั้งบ้าน";
+          saving = "~5,800 - 7,500 บาท/เดือน";
+          price = "359,000 - 399,000 บาท";
+        }
+      } else if (kw === 10.0) {
+        if (batt === 0) {
+          saving = "~6,000 - 7,800 บาท/เดือน";
+          price = "299,000 - 349,000 บาท";
+        } else {
+          backupHours = "ฟูลโหลดธุรกิจ/บ้านขนาดใหญ่";
+          saving = "~8,500 - 12,000 บาท/เดือน";
+          price = "420,000 - 550,000 บาท";
+        }
+      }
+
+      document.getElementById('spec-panels').textContent = `${panelCount} แผง (${totalWp} kWp)`;
+      document.getElementById('spec-inverter').textContent = inverterText;
+      document.getElementById('spec-backup').textContent = backupHours;
+      document.getElementById('spec-saving').textContent = saving;
+      document.getElementById('spec-price').textContent = price;
+    }
+
+    function askBotFromSpec() {
+      const kw = document.getElementById('quick-kw-select').value;
+      const batt = document.getElementById('quick-battery-select').value;
+      let prompt = `ขอสคริปต์เสนอราคาสำหรับระบบ ${kw} kW `;
+      if (batt == 0) {
+        prompt += `แบบ On-Grid กลางวัน คืนทุนกี่ปี และประหยัดเท่าไหร่`;
+      } else {
+        prompt += `แบบ Hybrid มีแบตเตอรี่ LiFePO4 ขนาด ${batt}Ah สำหรับเปิดแอร์กลางคืน ขอคำนวณชั่วโมงใช้งานและความคุ้มค่า`;
+      }
+      sendQuickPrompt(prompt);
+    }
+
+    // Copy Predefined Script Toast
+    function copyPredefinedScript(id) {
+      const text = predefinedScripts[id];
+      if (!text) return;
+
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('copy-toast');
+        if (toast) {
+          toast.classList.remove('hidden');
+          setTimeout(() => {
+            toast.classList.add('hidden');
+          }, 3500);
+        }
+      }).catch(err => {
+        console.error('Copy failed:', err);
+      });
+    }
+
+    function printFlowchart() {
+      window.print();
+    }
+
+    // Utility
+    function escapeHTML(str) {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          "'": '&#39;',
+          '"': '&quot;'
+        }[tag] || tag)
+      );
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+/* Custom Styles for Green-White Solar Landing Page */
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary-green: #10b981;
+  --primary-dark: #047857;
+  --accent-lime: #84cc16;
+  --solar-gold: #f59e0b;
+  --bg-cream: #f8fafc;
+}
+
+body {
+  font-family: 'Prompt', sans-serif;
+  color: #1e293b;
+  background-color: #fbfdfc;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: 'Kanit', sans-serif;
+}
+
+/* Glassmorphism */
+.glass-card {
+  background: rgba(255, 255, 255, 0.90);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+.glass-nav {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.12);
+}
+
+/* Solar Pulse & Sunlight Effect */
+@keyframes sunGlow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+    filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.4));
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+    filter: drop-shadow(0 0 40px rgba(245, 158, 11, 0.8));
+  }
+}
+
+.sun-pulse {
+  animation: sunGlow 4s infinite ease-in-out;
+}
+
+/* Energy Flow Beam Animation */
+@keyframes flowDown {
+  0% {
+    stroke-dashoffset: 60;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.energy-flow-line {
+  stroke-dasharray: 6 6;
+  animation: flowDown 1.2s linear infinite;
+}
+
+/* Interactive Slider Style */
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background: linear-gradient(to right, #10b981 0%, #10b981 var(--slider-pct, 20%), #e2e8f0 var(--slider-pct, 20%), #e2e8f0 100%);
+  outline: none;
+  transition: all 0.2s;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #10b981;
+  border: 3px solid #ffffff;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.4);
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.2s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  background: #059669;
+}
+
+/* Floating Badges */
+@keyframes floatAnim {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.float-slow {
+  animation: floatAnim 4s ease-in-out infinite;
+}
+
+.float-delayed {
+  animation: floatAnim 4s ease-in-out infinite 2s;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #10b981;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #047857;
+}
+
+/* Social proof ticker */
+.toast-slide-in {
+  animation: slideInBottom 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideInBottom {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ===================================================
+   WALKING & INTERACTIVE CONSULTANT MASCOT (วิศวกรชวนคุย)
+   =================================================== */
+@keyframes characterWalk {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-5px) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-5px) rotate(3deg);
+  }
+}
+
+.mascot-walk {
+  animation: characterWalk 2.2s infinite ease-in-out;
+  transform-origin: bottom center;
+}
+
+@keyframes handWave {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(18deg); }
+}
+
+.hand-wave {
+  animation: handWave 1.4s infinite ease-in-out;
+  transform-origin: bottom right;
+}
+
+/* Speech Bubble pop effect */
+@keyframes bubblePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.speech-bubble {
+  animation: bubblePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Trust Badges Card Styling */
+.trust-badge-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+}
+
+.trust-badge-card:hover {
+  transform: translateY(-4px);
+  border-color: #10b981;
+  box-shadow: 0 12px 24px -10px rgba(16, 185, 129, 0.2);
+}

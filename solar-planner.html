@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>99 Solar | โปรแกรมจำลองผังหลังคา คำนวณอุปกรณ์ & วางระบบไฟฟ้า (Solar Rooftop Planner)</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              200: '#a7f3d0',
+              300: '#6ee7b7',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+            },
+            solar: {
+              gold: '#f59e0b',
+              amber: '#d97706',
+              dark: '#1e293b'
+            }
+          },
+          fontFamily: {
+            heading: ['Kanit', 'sans-serif'],
+            body: ['Prompt', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Prompt & Kanit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    body { font-family: 'Prompt', sans-serif; background-color: #f8fafc; }
+    h1, h2, h3, h4, .font-heading { font-family: 'Kanit', sans-serif; }
+    
+    /* Grid Canvas Pattern */
+    .roof-canvas-bg {
+      background-size: 20px 20px;
+      background-image: 
+        linear-gradient(to right, rgba(226, 232, 240, 0.8) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(226, 232, 240, 0.8) 1px, transparent 1px);
+    }
+
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; font-size: 12px; }
+      .print-page { break-inside: avoid; page-break-after: always; }
+      .shadow-sm, .shadow-md, .shadow-xl { box-shadow: none !important; }
+    }
+  </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- APP NAVBAR -->
+  <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      
+      <div class="flex items-center space-x-3">
+        <a href="index.html" class="w-10 h-10 rounded-xl bg-brand-500 text-white flex items-center justify-center font-bold font-heading text-lg hover:bg-brand-600 transition-colors">
+          99
+        </a>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-bold font-heading tracking-tight">99 SOLAR <span class="text-brand-400">PLANNER</span></span>
+            <span class="text-[10px] px-2 py-0.5 bg-brand-900 text-brand-300 border border-brand-700 rounded-full font-mono">ENGINEERING v2.4</span>
+          </div>
+          <p class="text-[11px] text-slate-400 hidden sm:block">โปรแกรมคำนวณผังหลังคา จัดสตริงสายไฟ และถอดรายการอุปกรณ์ (BOM)</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <a href="index.html" class="text-xs text-slate-300 hover:text-white px-3 py-1.5 rounded-lg border border-slate-700 hover:border-slate-500 transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-house"></i> <span>กลับหน้าหลัก</span>
+        </a>
+        <a href="solar-sales-sop.html" class="text-xs text-brand-400 hover:text-brand-300 px-3 py-1.5 rounded-lg border border-brand-500/40 hover:border-brand-400 bg-brand-500/10 transition-colors flex items-center gap-1.5 font-medium">
+          <i class="fa-solid fa-robot"></i> <span>SOP & แชทบอท</span>
+        </a>
+        <button onclick="window.print()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs px-3.5 py-2 rounded-lg transition-all flex items-center gap-1.5 shadow-sm">
+          <i class="fa-solid fa-print"></i> <span>พิมพ์ใบสั่งงานช่าง (Print BOM)</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-6">
+    
+    <!-- Top Info Bar -->
+    <div class="bg-white rounded-2xl p-4 mb-6 border border-slate-200/90 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4 no-print">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl shrink-0">
+          <i class="fa-solid fa-drafting-compass"></i>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold font-heading text-slate-900 leading-tight">โปรแกรมออกแบบผังหลังคา & คำนวณอุปกรณ์โซลาร์เซลล์</h1>
+          <p class="text-xs text-slate-500">โดย บจก. 99 แมทช์ เมคเกอร์ (99 Solar หาดใหญ่) ตามมาตรฐาน วสท. และ กฟภ. 100%</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2 text-xs">
+        <span class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg font-medium">
+          <i class="fa-solid fa-hard-hat text-brand-600 mr-1"></i> วิศวกร กว. คุมงาน
+        </span>
+        <span class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg font-medium">
+          <i class="fa-solid fa-bolt text-solar-gold mr-1"></i> DC/AC Surge Protection
+        </span>
+        <span class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg font-medium">
+          <i class="fa-solid fa-shield-virus text-cyan-600 mr-1"></i> กราวด์ &lt; 5 โอห์ม
+        </span>
+      </div>
+    </div>
+
+    <!-- Project Management & LINE Share Bar -->
+    <div class="bg-white rounded-2xl p-4 mb-6 border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3 no-print">
+      <div class="flex-1 w-full flex items-center gap-2">
+        <span class="text-xs font-bold text-slate-700 whitespace-nowrap flex items-center gap-1.5">
+          <i class="fa-solid fa-folder-open text-brand-600"></i> โครงการ/ลูกค้า:
+        </span>
+        <input type="text" id="projectCustomerName" value="บ้านพักอาศัย หาดใหญ่ (ตัวอย่าง)" placeholder="พิมพ์ชื่อลูกค้า/สถานที่ติดตั้ง..." class="flex-1 px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-800 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+      </div>
+      
+      <div class="flex flex-wrap items-center gap-2 w-full md:w-auto justify-end">
+        <button id="btnSaveProject" class="px-3 py-1.5 bg-slate-100 hover:bg-brand-50 text-slate-700 hover:text-brand-700 rounded-xl text-xs font-semibold border border-slate-200 transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-floppy-disk text-brand-600"></i> <span>บันทึกงาน</span>
+        </button>
+        <select id="savedProjectsSelect" class="px-2.5 py-1.5 rounded-xl border border-slate-300 text-xs text-slate-700 font-medium max-w-[160px] truncate">
+          <option value="">📂 โหลดโครงการเก่า...</option>
+        </select>
+        <button id="btnCopyLine" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-sm transition-all flex items-center gap-1.5 active:scale-95">
+          <i class="fa-brands fa-line text-sm"></i> <span>คัดลอกส่ง LINE</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Toast Notification for Actions -->
+    <div id="toastNotification" class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white text-xs px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 transition-all opacity-0 pointer-events-none transform translate-y-3">
+      <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+      <span id="toastMessage">คัดลอกข้อมูลสำเร็จ!</span>
+    </div>
+
+    <!-- 3 COLUMNS / SPLIT LAYOUT -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      
+      <!-- ==============================================
+           LEFT COLUMN: INPUT CONTROLS & SPECIFICATION
+           ============================================== -->
+      <div class="lg:col-span-4 space-y-5 no-print">
+        
+        <!-- STEP 1: ROOF DIMENSION & MATERIAL -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+            <span class="text-xs font-bold font-heading uppercase text-brand-700 tracking-wider flex items-center gap-1.5">
+              <span class="w-5 h-5 rounded-full bg-brand-100 text-brand-800 flex items-center justify-center text-[10px] font-black">1</span>
+              ขนาดหลังคา & ชนิดวัสดุ
+            </span>
+            <span class="text-[11px] text-slate-400">หน่วย: เมตร</span>
+          </div>
+
+          <div class="space-y-3.5 text-xs">
+            <!-- QUICK PRESET TEMPLATES -->
+            <div>
+              <span class="text-[11px] font-bold text-slate-600 block mb-1.5 flex items-center gap-1">
+                <i class="fa-solid fa-wand-magic-sparkles text-brand-600"></i> เลือกเทมเพลตด่วน (Quick Presets):
+              </span>
+              <div class="grid grid-cols-2 gap-1.5">
+                <button type="button" onclick="applyPreset('house2f')" class="px-2 py-1.5 rounded-xl border border-slate-200 hover:border-brand-500 hover:bg-brand-50 text-[11px] text-slate-700 font-semibold flex items-center gap-1.5 transition-all">
+                  <span>🏠 บ้านเดี่ยว 2 ชั้น</span>
+                </button>
+                <button type="button" onclick="applyPreset('townhome')" class="px-2 py-1.5 rounded-xl border border-slate-200 hover:border-brand-500 hover:bg-brand-50 text-[11px] text-slate-700 font-semibold flex items-center gap-1.5 transition-all">
+                  <span>🏢 ทาวน์โฮม 3 ชั้น</span>
+                </button>
+                <button type="button" onclick="applyPreset('carport')" class="px-2 py-1.5 rounded-xl border border-slate-200 hover:border-brand-500 hover:bg-brand-50 text-[11px] text-slate-700 font-semibold flex items-center gap-1.5 transition-all">
+                  <span>🚗 โรงจอดรถ 2 คัน</span>
+                </button>
+                <button type="button" onclick="applyPreset('factory')" class="px-2 py-1.5 rounded-xl border border-slate-200 hover:border-brand-500 hover:bg-brand-50 text-[11px] text-slate-700 font-semibold flex items-center gap-1.5 transition-all">
+                  <span>🏭 โกดัง/โรงงาน</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">ความกว้างหลังคา (ม.)</label>
+                <input type="number" id="roofWidth" value="10.0" step="0.5" min="2" max="50" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-800 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">ความยาวตามสโลป (ม.)</label>
+                <input type="number" id="roofLength" value="6.0" step="0.5" min="2" max="50" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-800 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">ประเภทวัสดุหลังคา & โครงสร้าง (Roof & Mounting Type)</label>
+              <select id="roofType" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                <option value="metalthru">หลังคาเมทัลชีท (ยึด L-Feet + ยาง EPDM + กาว PU)</option>
+                <option value="seamlock">หลังคาเมทัลชีท Seam-Lock (หนีบลอน ไม่เจาะหลังคา 100%)</option>
+                <option value="cpac">หลังคากระเบื้องซีแพคโมเนีย (ใช้ Solar Tile Hook สแตนเลส 304)</option>
+                <option value="corrugated">หลังคากระเบื้องลอนคู่ (ใช้ Solar Hanger Bolt สแตนเลส M10)</option>
+                <option value="concrete">ดาดฟ้าคอนกรีต Flat Roof (ใช้โครงปรับองศา 12-15 องศา)</option>
+                <option value="carport">โครงหลังคาโรงจอดรถ Solar Carport (ยึดแปเหล็ก/C-Channel)</option>
+                <option value="ground">โครงสร้างติดตั้งภายนอกบนพื้นดิน (Ground Mount เสากัลวาไนซ์)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">ระยะเว้นขอบหลังคาปลอดภัย (Setback Margin)</label>
+              <select id="roofMargin" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                <option value="0.3">0.30 เมตร (เว้นขอบมาตรฐาน วสท.)</option>
+                <option value="0.5" selected>0.50 เมตร (แนะนำ มีทางเดินบำรุงรักษา / ล้างแผง)</option>
+                <option value="0.0">0.00 เมตร (เต็มพื้นที่ขอบ)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">ทิศของหลังคารับแดด (Roof Orientation)</label>
+              <select id="roofOrientation" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800 focus:ring-2 focus:ring-brand-500 focus:outline-none font-medium">
+                <option value="south" selected>☀️ ทิศใต้ (South - แดด 100% เต็มวัน) - แนะนำอันดับ 1</option>
+                <option value="southwest">🌤️ ทิศตะวันตกเฉียงใต้ / ตก (95% - ลดค่าไฟแอร์ช่วงบ่าย)</option>
+                <option value="east">🌅 ทิศตะวันออก (88% - แดดช่วงเช้า)</option>
+                <option value="north">⛅ ทิศเหนือ (75% - แดดน้อย แนะนำโครงเสริมปรับองศา)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: SOLAR PANEL SPECIFICATION -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+            <span class="text-xs font-bold font-heading uppercase text-brand-700 tracking-wider flex items-center gap-1.5">
+              <span class="w-5 h-5 rounded-full bg-brand-100 text-brand-800 flex items-center justify-center text-[10px] font-black">2</span>
+              สเปกแผงโซลาร์เซลล์ (Solar Panel)
+            </span>
+            <span class="text-[11px] text-brand-600 font-semibold">Tier 1 N-Type</span>
+          </div>
+
+          <div class="space-y-3.5 text-xs">
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">เลือกขนาดวัตต์แผง (Panel Wattage)</label>
+              <select id="panelPreset" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800 font-bold focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                <option value="650" selected>⚡ แผง 650 วัตต์ (ขนาด ~2.384 x 1.134 ม.) - รุ่นยอดนิยมงานช่าง</option>
+                <option value="600">⚡ แผง 600 วัตต์ (ขนาด ~2.278 x 1.134 ม.)</option>
+                <option value="550">⚡ แผง 550 วัตต์ (ขนาด ~2.278 x 1.134 ม.)</option>
+                <option value="450">⚡ แผง 450 วัตต์ (ขนาด ~2.094 x 1.038 ม.)</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">ความกว้างแผง (ม.)</label>
+                <input type="number" id="panelW" value="1.134" step="0.001" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono text-slate-800">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">ความยาวแผง (ม.)</label>
+                <input type="number" id="panelL" value="2.384" step="0.001" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono text-slate-800">
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">ทิศทางการวางแผงบนหลังคา</label>
+              <div class="grid grid-cols-2 gap-2">
+                <label class="flex items-center gap-2 p-2 rounded-xl border border-slate-300 cursor-pointer hover:bg-slate-50">
+                  <input type="radio" name="panelOrient" value="portrait" checked class="accent-brand-600">
+                  <span class="font-medium">แนวตั้ง (Portrait)</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded-xl border border-slate-300 cursor-pointer hover:bg-slate-50">
+                  <input type="radio" name="panelOrient" value="landscape" class="accent-brand-600">
+                  <span class="font-medium">แนวนอน (Landscape)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: BUILDING HEIGHT & CABLE RUN -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+            <span class="text-xs font-bold font-heading uppercase text-brand-700 tracking-wider flex items-center gap-1.5">
+              <span class="w-5 h-5 rounded-full bg-brand-100 text-brand-800 flex items-center justify-center text-[10px] font-black">3</span>
+              ความสูงอาคาร & การเดินท่อสายไฟ
+            </span>
+            <span class="text-[11px] text-slate-400">คำนวณเมตรสายไฟ</span>
+          </div>
+
+          <div class="space-y-3.5 text-xs">
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">ความสูงของอาคาร (จำนวนชั้น)</label>
+              <select id="buildingFloor" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800 font-medium focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                <option value="1">อาคาร 1 ชั้น (ความสูงแนวท่อดิ่ง ~4 เมตร)</option>
+                <option value="2" selected>อาคาร 2 ชั้น (ความสูงแนวท่อดิ่ง ~8 เมตร) - บ้านเดี่ยวทั่วไป</option>
+                <option value="3">อาคาร 3 ชั้น (ความสูงแนวท่อดิ่ง ~12 เมตร) - ทาวน์โฮม/ตึกแถว</option>
+                <option value="4">อาคาร 4 ชั้นขึ้นไป (ความสูงแนวท่อดิ่ง ~16 เมตร)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">ระยะเดินท่อแนวราบจากหลังคาถึงตู้ Inverter (ม.)</label>
+              <input type="number" id="horizCableRun" value="12" min="1" max="100" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-800">
+              <span class="text-[11px] text-slate-400 mt-1 block">ระยะจากชายคา เดินตามโครงสร้าง/ฝ้า เข้าหาตู้ควบคุม</span>
+            </div>
+
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">ตำแหน่งตู้ Inverter & Combiner Box</label>
+              <select id="inverterLocation" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800">
+                <option value="ground">ชั้น 1 ล่างสุด (เช่น โรงจอดรถ, ห้องไฟฟ้า) - นิยมที่สุด</option>
+                <option value="upper">ชั้น 2 หรือใต้โถงบันได</option>
+                <option value="attic">ใต้โครงหลังคา Attic</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4: PEA METER & BATTERY BACKUP -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+            <span class="text-xs font-bold font-heading uppercase text-brand-700 tracking-wider flex items-center gap-1.5">
+              <span class="w-5 h-5 rounded-full bg-brand-100 text-brand-800 flex items-center justify-center text-[10px] font-black">4</span>
+              มิเตอร์ กฟภ. & แบตเตอรี่สำรอง
+            </span>
+            <span class="text-[11px] text-brand-600 font-semibold">PEA & BESS</span>
+          </div>
+
+          <div class="space-y-3.5 text-xs">
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">ขนาดมิเตอร์ไฟฟ้าเดิมของบ้าน (PEA Meter)</label>
+              <select id="peaMeterSize" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800 focus:ring-2 focus:ring-brand-500 focus:outline-none font-medium">
+                <option value="1p_15_45" selected>1 เฟส 15(45)A (โควต้า กฟภ. สูงสุด 5 kWp)</option>
+                <option value="1p_30_100">1 เฟส 30(100)A (โควต้า กฟภ. สูงสุด 10 kWp)</option>
+                <option value="3p_15_45">3 เฟส 15(45)A (โควต้า กฟภ. สูงสุด 10 kWp)</option>
+                <option value="3p_30_100">3 เฟส 30(100)A (โควต้า กฟภ. สูงสุด 20-30 kWp)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">รูปแบบระบบ (System Type)</label>
+              <div class="grid grid-cols-2 gap-2">
+                <label class="flex items-center gap-1.5 p-2 rounded-xl border border-slate-300 cursor-pointer hover:bg-slate-50">
+                  <input type="radio" name="systemType" value="ongrid" checked class="accent-brand-600">
+                  <span class="font-medium text-[11px]">⚡ On-Grid (กลางวัน)</span>
+                </label>
+                <label class="flex items-center gap-1.5 p-2 rounded-xl border border-slate-300 cursor-pointer hover:bg-slate-50">
+                  <input type="radio" name="systemType" value="hybrid" class="accent-brand-600">
+                  <span class="font-medium text-[11px]">🔋 Hybrid (มีแบต)</span>
+                </label>
+              </div>
+            </div>
+
+            <div id="batteryOptionsRow" class="hidden">
+              <label class="block font-semibold text-slate-700 mb-1">ขนาดแบตเตอรี่ลิเธียม (LiFePO4 Battery)</label>
+              <select id="batteryCapacity" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800 focus:ring-2 focus:ring-brand-500 focus:outline-none font-medium">
+                <option value="5">🔋 5.12 kWh (LiFePO4 51.2V 100Ah) - สำรองไฟ 4-6 ชม.</option>
+                <option value="10">🔋 10.24 kWh (LiFePO4 51.2V 200Ah) - สำรองไฟ 8-12 ชม.</option>
+                <option value="15">🔋 15.36 kWh (LiFePO4 51.2V 300Ah) - สำรองไฟข้ามคืน</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- RE-CALCULATE BUTTON -->
+        <button id="btnRecalculate" class="w-full py-3.5 bg-gradient-to-r from-brand-600 to-emerald-600 hover:from-brand-700 hover:to-emerald-700 text-white font-bold rounded-2xl shadow-lg shadow-brand-500/30 transition-all active:scale-95 text-sm flex items-center justify-center gap-2">
+          <i class="fa-solid fa-arrows-rotate"></i>
+          <span>คำนวณและสเก็ตช์โครงหลังคาใหม่</span>
+        </button>
+
+      </div>
+
+      <!-- ==============================================
+           MIDDLE COLUMN: 2D ROOF SKETCH & STRING DIAGRAM
+           ============================================== -->
+      <div class="lg:col-span-8 space-y-6">
+        
+        <!-- Interactive 2D Roof Layout Sketch -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm print-page">
+          
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <button id="tabRoofPlan" class="px-3.5 py-1.5 rounded-xl font-bold text-xs bg-brand-600 text-white shadow-sm flex items-center gap-1.5 transition-all">
+                  <i class="fa-solid fa-layer-group"></i> <span>1. ผังหลังคา 2D & โครงสร้างราง</span>
+                </button>
+                <button id="tabElevation" class="px-3.5 py-1.5 rounded-xl font-bold text-xs bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-1.5 transition-all">
+                  <i class="fa-solid fa-building"></i> <span>2. จำลองหน้าตัดอาคาร & ท่อสายไฟ (ชั้น 1-3)</span>
+                </button>
+              </div>
+              <p id="viewSubtitle" class="text-xs text-slate-500">คลิกที่แผงเพื่อตัดแผงออก (กรณีติดช่องแสง/แท็งก์น้ำ) หรือดูแนวรางอะลูมิเนียม</p>
+            </div>
+
+            <!-- Quick Sizing Badges & Controls -->
+            <div class="flex flex-wrap items-center gap-2">
+              <button id="btnToggleRails" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium flex items-center gap-1 transition-colors" title="เปิด/ปิดเส้นรางอะลูมิเนียม">
+                <i class="fa-solid fa-bars-staggered text-brand-600"></i> <span>แสดงรางจับยึด</span>
+              </button>
+              <button id="btnResetPanels" class="px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-lg text-xs font-medium flex items-center gap-1 transition-colors" title="รีเซ็ตเปิดแผงทั้งหมด">
+                <i class="fa-solid fa-rotate-left"></i> <span>รีเซ็ตแผง</span>
+              </button>
+              <div class="px-3 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-xl text-xs font-bold">
+                จำนวนแผง: <span id="badgeTotalPanels" class="text-sm font-extrabold text-emerald-600">12</span> แผง
+              </div>
+              <div class="px-3 py-1 bg-amber-50 text-amber-800 border border-amber-200 rounded-xl text-xs font-bold">
+                กำลังผลิต: <span id="badgeTotalKw" class="text-sm font-extrabold text-amber-600">7.80</span> kWp
+              </div>
+            </div>
+          </div>
+
+          <!-- Canvas / SVG Container for 2D Roof Plan -->
+          <div id="containerRoofPlan" class="w-full bg-slate-950 rounded-2xl p-4 sm:p-6 overflow-hidden flex flex-col items-center justify-center relative min-h-[380px] shadow-inner">
+            
+            <!-- Canvas Dimension Indicators -->
+            <div class="absolute top-3 left-4 text-[11px] text-slate-400 font-mono flex items-center gap-1.5 z-10">
+              <i class="fa-solid fa-ruler-combined text-brand-400"></i>
+              <span>พื้นที่หลังคา: <strong id="dispRoofDim" class="text-white">10.0 x 6.0 ม.</strong> (<span id="dispRoofArea">60.0</span> ตร.ม.)</span>
+            </div>
+
+            <div class="absolute top-3 right-4 text-[11px] text-slate-400 font-mono z-10">
+              <span>แผง: <strong id="dispPanelWatt" class="text-amber-400">650W</strong> (<span id="dispPanelDim">2.38 x 1.13 ม.</span>)</span>
+            </div>
+
+            <!-- SVG Roof Sketch Render Area -->
+            <svg id="roofSvgCanvas" viewBox="0 0 800 460" class="w-full h-auto max-h-[380px] drop-shadow-md select-none">
+              <!-- Dynamically populated by JavaScript -->
+            </svg>
+
+            <!-- Legend Info Bar below SVG -->
+            <div class="w-full mt-3 pt-3 border-t border-slate-800 flex flex-wrap items-center justify-between text-[11px] text-slate-400 gap-2">
+              <div class="flex flex-wrap items-center gap-3 sm:gap-4">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-3 h-3 rounded bg-[#0369a1] border border-sky-400"></span> แผงโซลาร์
+                </span>
+                <span class="flex items-center gap-1.5">
+                  <span class="w-3 h-1 bg-amber-400"></span> รางอะลูมิเนียม Rail
+                </span>
+                <span class="flex items-center gap-1.5">
+                  <span class="w-3 h-3 rounded bg-red-900/60 border border-red-500/50"></span> แผงที่ถูกตัดออก (คลิกเพื่อสลับ)
+                </span>
+                <span class="flex items-center gap-1.5">
+                  <span class="w-3 h-1 bg-emerald-400"></span> สาย DC สตริง (+/-)
+                </span>
+              </div>
+              <div class="text-amber-400 text-[11px]">
+                <i class="fa-solid fa-hand-pointer mr-1"></i> คลิกที่แผงเพื่อเปิด/ปิดแผง
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Canvas / SVG Container for Building Elevation (Cross-Section & Cable Conduit) -->
+          <div id="containerElevation" class="hidden w-full bg-slate-950 rounded-2xl p-4 sm:p-6 overflow-hidden flex flex-col items-center justify-center relative min-h-[380px] shadow-inner">
+            <div class="absolute top-3 left-4 text-[11px] text-slate-400 font-mono flex items-center gap-1.5 z-10">
+              <i class="fa-solid fa-building text-brand-400"></i>
+              <span>จำลองหน้าตัดอาคาร: <strong id="dispElevationFloor" class="text-white">2 ชั้น (~8 เมตร)</strong></span>
+            </div>
+
+            <div class="absolute top-3 right-4 text-[11px] text-emerald-400 font-mono z-10">
+              <span>สายดิน: <strong class="text-emerald-300">Ground Rod 2.4 ม. (&lt;5 โอห์ม)</strong></span>
+            </div>
+
+            <svg id="elevationSvgCanvas" viewBox="0 0 800 460" class="w-full h-auto max-h-[420px] drop-shadow-md select-none">
+              <!-- Dynamically populated by JavaScript for Building Cross-section -->
+            </svg>
+
+            <div class="w-full mt-3 pt-3 border-t border-slate-800 flex flex-wrap items-center justify-between text-[11px] text-slate-400 gap-2">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="flex items-center gap-1.5"><span class="w-3 h-1 bg-amber-400"></span> ท่อ EMT / DC PV Cable</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-amber-500"></span> ตู้ DC Combiner</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-emerald-500"></span> Inverter</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-blue-500"></span> ตู้ MDB</span>
+                <span class="flex items-center gap-1.5"><span class="w-3 h-1 bg-emerald-400"></span> สายดินเขียว-เหลือง</span>
+              </div>
+              <div class="text-cyan-400">
+                <i class="fa-solid fa-shield-halved mr-1"></i> มาตรฐานความปลอดภัย วสท. 100%
+              </div>
+            </div>
+          </div>
+
+          <!-- Configuration Status & Roof Area Summary Bar -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 text-xs">
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+              <div class="text-slate-500">จำนวนแถว x หลัก</div>
+              <div id="statGridRowCol" class="text-base font-bold font-heading text-slate-800">2 แถว x 6 คอลัมน์</div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+              <div class="text-slate-500">พื้นที่ติดแผงจริง</div>
+              <div id="statPanelArea" class="text-base font-bold font-heading text-emerald-700">32.4 ตร.ม.</div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+              <div class="text-slate-500">สัดส่วนใช้พื้นที่</div>
+              <div id="statRoofCoverage" class="text-base font-bold font-heading text-blue-700">54.0% ของหลังคา</div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+              <div class="text-slate-500">การจัดวงจร (Strings)</div>
+              <div id="statStringConfig" class="text-base font-bold font-heading text-purple-700">1 String (12 แผง)</div>
+            </div>
+          </div>
+
+          <!-- Electrical Sizing & PEA Meter Compliance Card -->
+          <div class="mt-4 p-4 bg-slate-900 text-white rounded-2xl border border-slate-800 text-xs">
+            <div class="flex flex-wrap items-center justify-between pb-3 mb-3 border-b border-slate-800 gap-2">
+              <span class="font-bold text-amber-400 flex items-center gap-1.5">
+                <i class="fa-solid fa-calculator"></i> สเปกเบรกเกอร์ & สายไฟมาตรฐาน วสท. (Technician Quick Sizing)
+              </span>
+              <span id="peaQuotaBadge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-900 text-emerald-300 border border-emerald-700">
+                🟢 ผ่านเกณฑ์ กฟภ. 100%
+              </span>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-[11px]">
+              <div>
+                <span class="text-slate-400 block">กระแส AC พิกัด (I_ac):</span>
+                <strong id="specAcCurrent" class="text-sm font-mono text-white">21.7 A</strong>
+              </div>
+              <div>
+                <span class="text-slate-400 block">เบรกเกอร์แนะนำ (AC MCB):</span>
+                <strong id="specAcMcb" class="text-sm font-mono text-amber-300">2P 32A</strong>
+              </div>
+              <div>
+                <span class="text-slate-400 block">สายไฟ AC แนะนำ:</span>
+                <strong id="specAcCable" class="text-sm font-mono text-sky-300">NYY / CV 6 sq.mm.</strong>
+              </div>
+              <div>
+                <span class="text-slate-400 block">สายไฟ DC / สายดิน:</span>
+                <strong id="specDcCable" class="text-sm font-mono text-emerald-300">PV 4-6 / THW 10 sq.mm.</strong>
+              </div>
+            </div>
+
+            <div id="peaNoticeText" class="mt-3 pt-2.5 border-t border-slate-800 text-[11px] text-slate-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-circle-info text-cyan-400"></i>
+              <span id="peaNoticeMsg">มิเตอร์ไฟฟ้าเดิม 1 เฟส 15(45)A รองรับกำลังผลิตไม่เกิน 5 kWp (ยื่นขนานไฟ กฟภ. ได้ทันที)</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ==============================================
+             ELECTRICAL STRING & PROTECTION WIRING SCHEMATIC
+             ============================================== -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm print-page">
+          <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+            <div>
+              <h3 class="text-base sm:text-lg font-bold font-heading text-slate-900 flex items-center gap-2">
+                <i class="fa-solid fa-diagram-project text-brand-600"></i>
+                ไดอะแกรมการต่อสายไฟ & ระบบป้องกันความปลอดภัย (Single Line Diagram)
+              </h3>
+              <p class="text-xs text-slate-500">การต่ออนุกรมแผง (DC String), ตู้ Combiner Box, ระบบกันฟ้าผ่า และสายดินตาม วสท.</p>
+            </div>
+            <span class="text-xs px-2.5 py-1 bg-brand-100 text-brand-800 font-bold rounded-lg">มาตรฐาน วสท. / กฟภ.</span>
+          </div>
+
+          <!-- Electrical Safety Status & Inverter MPPT Matching Card -->
+          <div id="mpptSafetyBanner" class="mb-4 p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+            <div class="flex items-center gap-3">
+              <div id="mpptIconWrap" class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-lg shrink-0">
+                <i class="fa-solid fa-circle-check"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <strong id="mpptStatusTitle" class="text-sm font-bold text-slate-900">การจับคู่แรงดัน MPPT สมบูรณ์แบบ (100% Inverter Safe Match)</strong>
+                  <span id="mpptBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">SAFE</span>
+                </div>
+                <p id="mpptDesc" class="text-slate-600 mt-0.5">แรงดัน Voc รวมต่อสตริงไม่เกินพิกัดสูงสุดของ Inverter (~600V) ทำงานนิ่งและปลอดภัย 100%</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 font-mono shrink-0 bg-white/90 px-3.5 py-2 rounded-xl border border-emerald-200 shadow-sm">
+              <div class="text-right">
+                <span class="text-[10px] text-slate-400 block">Voc รวม:</span>
+                <strong id="statMpptVoc" class="text-emerald-700 font-bold">333V</strong>
+              </div>
+              <div class="h-6 w-px bg-slate-200"></div>
+              <div class="text-right">
+                <span class="text-[10px] text-slate-400 block">Vmp เฉลี่ย:</span>
+                <strong id="statMpptVmp" class="text-blue-700 font-bold">279V</strong>
+              </div>
+              <div class="h-6 w-px bg-slate-200"></div>
+              <div class="text-right">
+                <span class="text-[10px] text-slate-400 block">พิกัด Inverter:</span>
+                <strong class="text-slate-700 font-bold">160-600V</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visual Wiring Diagram Mockup -->
+          <div class="bg-slate-900 rounded-2xl p-5 text-white text-xs overflow-x-auto">
+            <div class="min-w-[640px] flex items-center justify-between gap-4 py-2">
+              
+              <!-- 1. Array of Panels -->
+              <div class="w-36 p-3 bg-slate-800 rounded-xl border border-sky-500/50 text-center">
+                <div class="text-sky-400 font-bold text-sm mb-1"><i class="fa-solid fa-solar-panel"></i> Solar Array</div>
+                <div id="diagPanelsTxt" class="text-slate-200 font-semibold">12 แผง (650W)</div>
+                <div id="diagVocTxt" class="text-[10px] text-slate-400 mt-1">Voc: ~590V DC</div>
+                <div class="text-[10px] text-emerald-400 mt-1">ต่ออนุกรม (Series)</div>
+              </div>
+
+              <!-- DC Cable Arrow -->
+              <div class="flex-1 flex flex-col items-center">
+                <span class="text-[10px] text-amber-300 font-mono mb-1">DC Solar Cable 4-6 sq.mm.</span>
+                <div class="w-full flex items-center">
+                  <div class="h-0.5 w-full bg-amber-400"></div>
+                  <i class="fa-solid fa-caret-right text-amber-400 -ml-1 text-sm"></i>
+                </div>
+                <span id="diagDCLength" class="text-[10px] text-slate-400 mt-1">~40 เมตร (+/-)</span>
+              </div>
+
+              <!-- 2. DC Combiner Box -->
+              <div class="w-44 p-3 bg-slate-800 rounded-xl border border-amber-500/50 text-center">
+                <div class="text-amber-400 font-bold text-sm mb-1"><i class="fa-solid fa-box text-xs"></i> DC Combiner</div>
+                <div class="text-[10px] text-slate-300 space-y-0.5 text-left">
+                  <div>• DC Fuse: 15A/20A 1000V</div>
+                  <div>• DC SPD: 1000V กันฟ้าผ่า</div>
+                  <div>• DC Isolator: 32A 1000V</div>
+                </div>
+              </div>
+
+              <!-- DC to Inverter Arrow -->
+              <div class="w-12 flex items-center">
+                <div class="h-0.5 w-full bg-amber-400"></div>
+                <i class="fa-solid fa-caret-right text-amber-400 -ml-1 text-sm"></i>
+              </div>
+
+              <!-- 3. Grid-Tied Inverter -->
+              <div class="w-40 p-3 bg-slate-800 rounded-xl border border-emerald-500/50 text-center">
+                <div class="text-emerald-400 font-bold text-sm mb-1"><i class="fa-solid fa-microchip"></i> On-Grid Inverter</div>
+                <div id="diagInverterSize" class="text-slate-200 font-bold">5 kW - 8 kW</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">กฟภ. รับรอง (MEA/PEA)</div>
+                <div class="text-[10px] text-cyan-300 mt-1">Smart Meter / Zero Export</div>
+              </div>
+
+              <!-- AC Cable Arrow -->
+              <div class="flex-1 flex flex-col items-center">
+                <span class="text-[10px] text-blue-300 font-mono mb-1">AC Cable NYY / CV</span>
+                <div class="w-full flex items-center">
+                  <div class="h-0.5 w-full bg-blue-400"></div>
+                  <i class="fa-solid fa-caret-right text-blue-400 -ml-1 text-sm"></i>
+                </div>
+                <span class="text-[10px] text-slate-400 mt-1">~10-15 เมตร</span>
+              </div>
+
+              <!-- 4. AC Distribution & Main Breaker -->
+              <div class="w-40 p-3 bg-slate-800 rounded-xl border border-blue-500/50 text-center">
+                <div class="text-blue-400 font-bold text-sm mb-1"><i class="fa-solid fa-bolt"></i> AC Panel / MDB</div>
+                <div class="text-[10px] text-slate-300 space-y-0.5 text-left">
+                  <div>• AC MCB / RCBO</div>
+                  <div>• AC SPD กันฟ้าผ่า</div>
+                  <div>• ต่อเชื่อมตู้เมนบ้าน</div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Grounding Circuit Row -->
+            <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-300">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                <span class="text-emerald-300 font-semibold">ระบบสายดิน (Grounding System):</span>
+                <span>สายทองแดง THW เขียว-เหลือง ขนาด 6-10 sq.mm. เชื่อมโครงสร้างรางอะลูมิเนียม + Inverter ลง Ground Rod 2.4 ม. (&lt; 5 โอห์ม)</span>
+              </div>
+              <span class="text-amber-400 font-mono text-[10px]">PEA Certified Standard</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ==============================================
+         BOTTOM SECTION: BILL OF MATERIALS (BOM) & WORK PLAN
+         ============================================== -->
+    <div class="mt-8 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm print-page">
+      
+      <!-- BOTTOM TAB NAVIGATION -->
+      <div class="flex flex-wrap items-center justify-between pb-4 mb-6 border-b border-slate-200 gap-4">
+        <div class="flex items-center gap-2 no-print">
+          <button id="tabBomBtn" class="px-4 py-2 rounded-xl text-xs font-bold bg-brand-600 text-white shadow-sm flex items-center gap-1.5 transition-all">
+            <i class="fa-solid fa-clipboard-list"></i> <span>1. ใบสั่งงานช่าง (BOM & Job Sheet)</span>
+          </button>
+          <button id="tabQuotationBtn" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-1.5 transition-all">
+            <i class="fa-solid fa-file-invoice-dollar"></i> <span>2. ใบเสนอราคาลูกค้า & จุดคุ้มทุน (Quotation & ROI)</span>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-3 no-print">
+          <button onclick="window.print()" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold flex items-center gap-2 transition-all">
+            <i class="fa-solid fa-file-pdf text-red-400"></i> พิมพ์ / เซฟเป็น PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- ==================== TAB 1: BOM CONTENT ==================== -->
+      <div id="bomContainer">
+        <div class="mb-4">
+          <span class="text-xs uppercase tracking-wider text-brand-700 font-bold px-3 py-1 bg-brand-50 rounded-full border border-brand-200">
+            ใบถอดแบบรายการอุปกรณ์และสั่งงานช่าง (BOM & Job Sheet)
+          </span>
+          <h3 class="text-xl sm:text-2xl font-bold font-heading text-slate-900 mt-2">
+            สรุปรายการอุปกรณ์โครงสร้าง สายไฟ และระบบไฟฟ้า (Bill of Materials)
+          </h3>
+          <p class="text-xs text-slate-500 mt-0.5">บริษัท 99 แมทช์ เมคเกอร์ จำกัด (99 Solar ต.คลองแห หาดใหญ่ โทร. 089-466-1491)</p>
+        </div>
+
+        <!-- Job Site Summary Box for Technician -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-200 mb-6 text-xs">
+          <div>
+            <span class="text-slate-500 block">ขนาดระบบที่คำนวณได้:</span>
+            <strong id="bomHeaderKw" class="text-sm font-bold text-slate-900">7.80 kWp (12 แผง)</strong>
+          </div>
+          <div>
+            <span class="text-slate-500 block">ประเภทหลังคาหน้างาน:</span>
+            <strong id="bomHeaderRoofType" class="text-sm font-bold text-slate-900">หลังคาเมทัลชีท</strong>
+          </div>
+          <div>
+            <span class="text-slate-500 block">ความสูงอาคาร:</span>
+            <strong id="bomHeaderFloor" class="text-sm font-bold text-slate-900">2 ชั้น (~8 ม.)</strong>
+          </div>
+          <div>
+            <span class="text-slate-500 block">มาตรฐานการยื่นแบบ:</span>
+            <strong class="text-sm font-bold text-emerald-700">กฟภ. 100% / วสท.</strong>
+          </div>
+        </div>
+
+      <!-- BOM Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs text-slate-700">
+          <thead class="bg-slate-100 text-slate-800 font-bold uppercase text-[11px] border-b border-slate-200">
+            <tr>
+              <th class="py-3 px-4">ลำดับ</th>
+              <th class="py-3 px-4">หมวดหมู่อุปกรณ์</th>
+              <th class="py-3 px-4">รายการอุปกรณ์ / สเปกมาตรฐาน วสท.</th>
+              <th class="py-3 px-4 text-center">จำนวน</th>
+              <th class="py-3 px-4 text-center">หน่วย</th>
+              <th class="py-3 px-4">หมายเหตุสำหรับการติดตั้ง</th>
+            </tr>
+          </thead>
+          <tbody id="bomTableBody" class="divide-y divide-slate-100">
+            <!-- Populated dynamically by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Technician Installation Notes & Checklist -->
+      <div class="mt-8 p-5 bg-emerald-50/60 rounded-2xl border border-emerald-200 text-xs text-slate-700 space-y-2.5">
+        <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+          <i class="fa-solid fa-clipboard-check text-emerald-600"></i> ข้อกำหนดสำคัญสำหรับทีมช่างหน้างาน 99 Solar (Safety & Standard Checklist):
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+          <div class="space-y-1.5">
+            <div class="flex items-start gap-2">
+              <i class="fa-solid fa-circle-check text-emerald-600 mt-0.5"></i>
+              <span><strong>การยึดรางและหลังคา:</strong> ตรวจเช็คน็อตสแตนเลส 304 ขันด้วยทอร์กประแจตามมาตรฐาน ไม่ขันแน่นเกินไปจนแผงร้าว (Micro-crack Free)</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <i class="fa-solid fa-circle-check text-emerald-600 mt-0.5"></i>
+              <span><strong>กันรั่วซึม 100%:</strong> หลังคาเจาะต้องอัดกาว PU ยาแนว และแผ่นยาง EPDM กันน้ำซึมทุกลักษณะ หากเป็น Seam-Lock ให้ขันก้ามปูหนีบ</span>
+            </div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="flex items-start gap-2">
+              <i class="fa-solid fa-circle-check text-emerald-600 mt-0.5"></i>
+              <span><strong>การต่อขั้วสาย MC4:</strong> ใช้คีมย้ำขั้ว MC4 เฉพาะทาง ไม่ใช้คีมธรรมดา เพื่อป้องกันความต้านทานสัมผัสสูงและความร้อนสะสม</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <i class="fa-solid fa-circle-check text-emerald-600 mt-0.5"></i>
+              <span><strong>การวัดค่ากราวด์:</strong> ทดสอบ Earth Tester ต้องได้ค่าความต้านทานดินไม่เกิน 5 โอห์ม ตามเกณฑ์ของการไฟฟ้าส่วนภูมิภาค</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Signatures Footer for Job Acceptance -->
+      <div class="mt-8 pt-6 border-t border-slate-200 grid grid-cols-2 sm:grid-cols-3 gap-6 text-center text-xs">
+        <div>
+          <div class="h-14 border-b border-slate-300 mb-2"></div>
+          <span class="font-semibold text-slate-800">วิศวกรผู้ออกแบบ (กว.)</span>
+          <p class="text-[11px] text-slate-400">บจก. 99 แมทช์ เมคเกอร์</p>
+        </div>
+        <div>
+          <div class="h-14 border-b border-slate-300 mb-2"></div>
+          <span class="font-semibold text-slate-800">หัวหน้าช่างติดตั้งหน้างาน</span>
+          <p class="text-[11px] text-slate-400">ทีมช่างหาดใหญ่ 99 Solar</p>
+        </div>
+        <div class="col-span-2 sm:col-span-1">
+          <div class="h-14 border-b border-slate-300 mb-2"></div>
+          <span class="font-semibold text-slate-800">เจ้าของบ้าน / ผู้ว่าจ้าง</span>
+          <p class="text-[11px] text-slate-400">ผู้รับมอบงานติดตั้ง</p>
+        </div>
+      </div>
+      <!-- END BOM CONTAINER -->
+
+      <!-- ==================== TAB 2: QUOTATION & ROI CONTENT ==================== -->
+      <div id="quotationContainer" class="hidden">
+        <div class="mb-6">
+          <span class="text-xs uppercase tracking-wider text-emerald-700 font-bold px-3 py-1 bg-emerald-50 rounded-full border border-emerald-200">
+            ใบเสนอราคาติดตั้งโซลาร์เซลล์ & การวิเคราะห์ผลตอบแทน (Quotation & Solar ROI)
+          </span>
+          <h3 class="text-xl sm:text-2xl font-bold font-heading text-slate-900 mt-2">
+            ใบเสนอราคาทางการและสรุปจุดคุ้มทุน (Solar Investment & Payback Proposal)
+          </h3>
+          <p class="text-xs text-slate-500 mt-0.5">บริษัท 99 แมทช์ เมคเกอร์ จำกัด (99 Solar ต.คลองแห หาดใหญ่ โทร. 089-466-1491)</p>
+        </div>
+
+        <!-- 4 Key ROI & Savings Metrics Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="p-4 bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl border border-amber-200">
+            <div class="flex items-center gap-2 text-amber-800 text-xs font-bold mb-1">
+              <i class="fa-solid fa-bolt"></i> ผลิตพลังงานเฉลี่ย
+            </div>
+            <div id="roiDailyUnits" class="text-2xl font-black font-heading text-slate-900">35.1 <span class="text-xs font-normal text-slate-500">kWh/วัน</span></div>
+            <div id="roiMonthlyUnits" class="text-[11px] text-amber-700 mt-0.5 font-medium">~1,053 หน่วย/เดือน</div>
+          </div>
+
+          <div class="p-4 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl border border-emerald-200">
+            <div class="flex items-center gap-2 text-emerald-800 text-xs font-bold mb-1">
+              <i class="fa-solid fa-wallet"></i> ประหยัดค่าไฟเฉลี่ย
+            </div>
+            <div id="roiMonthlySavings" class="text-2xl font-black font-heading text-emerald-700">฿4,950 <span class="text-xs font-normal text-slate-500">/เดือน</span></div>
+            <div id="roiAnnualSavings" class="text-[11px] text-emerald-600 mt-0.5 font-medium">~59,400 บาท/ปี</div>
+          </div>
+
+          <div class="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-200">
+            <div class="flex items-center gap-2 text-blue-800 text-xs font-bold mb-1">
+              <i class="fa-solid fa-hourglass-half"></i> ระยะเวลาคืนทุน
+            </div>
+            <div id="roiPaybackYears" class="text-2xl font-black font-heading text-blue-700">3.6 <span class="text-xs font-normal text-slate-500">ปี</span></div>
+            <div class="text-[11px] text-blue-600 mt-0.5 font-medium">กำไรค่าไฟฟรีอีก 21+ ปี</div>
+          </div>
+
+          <div class="p-4 bg-gradient-to-br from-purple-50 to-fuchsia-50 rounded-2xl border border-purple-200">
+            <div class="flex items-center gap-2 text-purple-800 text-xs font-bold mb-1">
+              <i class="fa-solid fa-leaf"></i> ลดคาร์บอน (CO₂)
+            </div>
+            <div id="roiCo2" class="text-2xl font-black font-heading text-purple-700">6.2 <span class="text-xs font-normal text-slate-500">ตัน/ปี</span></div>
+            <div class="text-[11px] text-purple-600 mt-0.5 font-medium">เทียบเท่าปลูกต้นไม้ ~280 ต้น</div>
+          </div>
+        </div>
+
+        <!-- Quotation Price Breakdown Table -->
+        <div class="overflow-x-auto rounded-2xl border border-slate-200 mb-6">
+          <table class="w-full text-left text-xs text-slate-700">
+            <thead class="bg-slate-100 text-slate-800 font-bold uppercase text-[11px] border-b border-slate-200">
+              <tr>
+                <th class="py-3 px-4">ลำดับ</th>
+                <th class="py-3 px-4">รายการสินค้า & ขอบเขตงานติดตั้ง</th>
+                <th class="py-3 px-4 text-center">จำนวน</th>
+                <th class="py-3 px-4 text-right">ราคาต่อหน่วย</th>
+                <th class="py-3 px-4 text-right">รวมเป็นเงิน (บาท)</th>
+              </tr>
+            </thead>
+            <tbody id="quotationTableBody" class="divide-y divide-slate-100">
+              <!-- Dynamically populated by JS -->
+            </tbody>
+            <tfoot class="bg-slate-50 font-bold text-slate-900 border-t border-slate-200">
+              <tr>
+                <td colspan="4" class="py-3 px-4 text-right text-xs">รวมราคาก่อนภาษีมูลค่าเพิ่ม:</td>
+                <td id="quoteSubtotal" class="py-3 px-4 text-right font-mono text-sm">฿214,000</td>
+              </tr>
+              <tr>
+                <td colspan="4" class="py-2.5 px-4 text-right text-xs text-slate-500 font-normal">ภาษีมูลค่าเพิ่ม VAT 7%:</td>
+                <td id="quoteVat" class="py-2.5 px-4 text-right font-mono text-slate-600">฿14,980</td>
+              </tr>
+              <tr class="bg-emerald-50/70 text-emerald-900 text-sm">
+                <td colspan="4" class="py-3.5 px-4 text-right font-extrabold font-heading text-base">ยอดเงินสุทธิทั้งสิ้น (Net Total):</td>
+                <td id="quoteGrandTotal" class="py-3.5 px-4 text-right font-black font-mono text-xl text-emerald-700">฿228,980</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Guarantees & Free Perks Badge Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs mb-6">
+          <div class="flex items-center gap-2.5">
+            <i class="fa-solid fa-shield-halved text-brand-600 text-lg"></i>
+            <div>
+              <strong>รับประกันแผง 25-30 ปี</strong>
+              <span class="text-slate-500 block text-[11px]">รับประกันอินเวอร์เตอร์ 5-10 ปี</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <i class="fa-solid fa-soap text-cyan-600 text-lg"></i>
+            <div>
+              <strong>ฟรีล้างแผงและตรวจเช็ค 2 ปี</strong>
+              <span class="text-slate-500 block text-[11px]">ตรวจสุขภาพระบบไฟฟ้าปีละ 2 ครั้ง</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <i class="fa-solid fa-file-signature text-amber-600 text-lg"></i>
+            <div>
+              <strong>ฟรีดำเนินการขอขนานไฟ กฟภ.</strong>
+              <span class="text-slate-500 block text-[11px]">วิศวกร กว. เซ็นรับรองแบบ 100%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quotation Signature Signoff -->
+        <div class="pt-6 border-t border-slate-200 grid grid-cols-2 gap-6 text-center text-xs">
+          <div>
+            <div class="h-14 border-b border-slate-300 mb-2"></div>
+            <span class="font-semibold text-slate-800">ผู้เสนอราคา (บริษัท 99 แมทช์ เมคเกอร์ จำกัด)</span>
+            <p class="text-[11px] text-slate-400">โทร. 089-466-1491 (99 Solar หาดใหญ่)</p>
+          </div>
+          <div>
+            <div class="h-14 border-b border-slate-300 mb-2"></div>
+            <span class="font-semibold text-slate-800">ผู้อนุมัติสั่งซื้อ / ผู้ว่าจ้าง</span>
+            <p class="text-[11px] text-slate-400">ตกลงรับราคาและเงื่อนไขตามใบเสนอราคานี้</p>
+          </div>
+        </div>
+
+      </div>
+      <!-- END QUOTATION CONTAINER -->
+
+    </div>
+
+  </main>
+
+  <!-- APP FOOTER -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-8 mt-12 border-t border-slate-800 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div>
+        <span class="text-white font-bold">99 SOLAR PLANNER SYSTEM</span> — โดย บริษัท 99 แมทช์ เมคเกอร์ จำกัด
+        <p class="text-[11px] text-slate-500 mt-0.5">สำนักงาน: ต.คลองแห อ.หาดใหญ่ จ.สงขลา | โทร. 089-466-1491 | LINE: @99sola</p>
+      </div>
+      <div>
+        <a href="index.html" class="text-brand-400 hover:underline">ไปยังหน้าเว็บไซต์ 99 Solar หลัก &rarr;</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT LOGIC FOR PLANNER -->
+  <script src="planner.js"></script>
+</body>
+</html>
