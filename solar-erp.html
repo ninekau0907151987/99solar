@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>99 Solar ERP | ระบบจัดการคลังสต็อก เบิกจ่าย จัดซื้อ POS และเวลาช่างครบวงจร</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              200: '#a7f3d0',
+              300: '#6ee7b7',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+              950: '#022c22'
+            },
+            solar: {
+              gold: '#f59e0b',
+              amber: '#d97706',
+              dark: '#0f172a',
+              card: '#1e293b'
+            }
+          },
+          fontFamily: {
+            heading: ['Kanit', 'sans-serif'],
+            body: ['Prompt', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Prompt & Kanit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    body { font-family: 'Prompt', sans-serif; background-color: #f1f5f9; }
+    h1, h2, h3, h4, h5, .font-heading { font-family: 'Kanit', sans-serif; }
+    .badge-pulse {
+      animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulse-ring {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .5; }
+    }
+  </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- TOP HEADER / SUITE BAR -->
+  <header class="bg-slate-900 text-white sticky top-0 z-50 shadow-md border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center text-white shadow-md shadow-brand-500/20 font-black text-xl font-heading">
+          99
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-bold font-heading text-white">99 SOLAR <span class="text-brand-400">ERP</span></span>
+            <span class="text-[10px] px-2 py-0.5 bg-brand-900 text-brand-300 border border-brand-700 rounded font-semibold uppercase tracking-wider">ระบบจัดการธุรกิจโซลาร์</span>
+          </div>
+          <p class="text-[11px] text-slate-400">บจก. 99 แมทช์ เมคเกอร์ | หาดใหญ่-สงขลา</p>
+        </div>
+      </div>
+
+      <!-- Quick Switcher to Other Systems in Workspace -->
+      <div class="hidden md:flex items-center space-x-2">
+        <a href="index.html" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition flex items-center gap-1.5 border border-slate-700">
+          <i class="fa-solid fa-house"></i> เว็บหน้าร้าน
+        </a>
+        <a href="solar-planner.html" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition flex items-center gap-1.5 border border-slate-700">
+          <i class="fa-solid fa-solar-panel text-amber-400"></i> โปรแกรมคำนวณผังหลังคา
+        </a>
+        <a href="solar-sales-sop.html" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition flex items-center gap-1.5 border border-slate-700">
+          <i class="fa-solid fa-comments-dollar text-emerald-400"></i> Sales SOP & ปิดการขาย
+        </a>
+      </div>
+
+      <!-- User Profile / System Status -->
+      <div class="flex items-center gap-3">
+        <div class="text-right hidden sm:block">
+          <p class="text-xs font-semibold text-white">ผู้จัดการระบบ (Admin)</p>
+          <span class="text-[11px] text-emerald-400 flex items-center gap-1 justify-end">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> คลังออนไลน์
+          </span>
+        </div>
+        <button onclick="resetDemoData()" title="รีเซ็ตข้อมูลตัวอย่าง" class="p-2 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-amber-400 rounded-lg text-xs transition border border-slate-700">
+          <i class="fa-solid fa-rotate"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- MAIN MODULE TABS NAVIGATION -->
+    <div class="bg-slate-800 px-4 sm:px-6 lg:px-8 overflow-x-auto border-t border-slate-700">
+      <div class="max-w-7xl mx-auto flex space-x-1 sm:space-x-2 py-2 text-xs sm:text-sm font-medium">
+        <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn px-3 py-2 rounded-lg text-white bg-brand-600 font-semibold flex items-center gap-2 whitespace-nowrap shadow-sm">
+          <i class="fa-solid fa-chart-pie"></i> 1. แดชบอร์ดภาพรวม
+        </button>
+        <button onclick="switchTab('catalog')" id="tab-catalog" class="tab-btn px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-boxes-stacked"></i> 2. แคตตาล็อก & สเปก
+        </button>
+        <button onclick="switchTab('inventory')" id="tab-inventory" class="tab-btn px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-warehouse"></i> 3. สต็อก & เบิกใช้วัสดุ
+        </button>
+        <button onclick="switchTab('tools')" id="tab-tools" class="tab-btn px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-toolbox"></i> 4. คลังเครื่องมือช่าง (ยืม-คืน)
+        </button>
+        <button onclick="switchTab('technician')" id="tab-technician" class="tab-btn px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-user-clock text-amber-300"></i> 5. งานช่าง & จับเวลา (Time Tracking)
+        </button>
+        <button onclick="switchTab('purchasing')" id="tab-purchasing" class="tab-btn px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-file-invoice-dollar"></i> 6. จัดซื้อ & รับของเข้า (PO)
+        </button>
+        <button onclick="switchTab('pos')" id="tab-pos" class="tab-btn px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-cash-register text-emerald-300"></i> 7. POS หน้าร้าน & เบิกตามจ็อบ
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- ==================== TAB 1: DASHBOARD ==================== -->
+    <section id="view-dashboard" class="space-y-6">
+      <!-- Welcome & Alert Banner -->
+      <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-brand-950 p-6 rounded-2xl text-white shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <span class="px-2.5 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold rounded-lg uppercase tracking-wider mb-2 inline-block">
+            <i class="fa-solid fa-bolt text-amber-400"></i> โซลูชันบริหารงานติดตั้ง & คลังสินค้าโซลาร์
+          </span>
+          <h2 class="text-2xl font-bold font-heading">ศูนย์ควบคุมระบบ 99 Solar All-in-One ERP</h2>
+          <p class="text-slate-300 text-sm mt-1">ติดตามสต็อกแผง/อินเวอร์เตอร์/น็อต คุมการเบิกจ่าย บันทึกชั่วโมงทำงานช่าง และตัดยอดขายแบบเรียลไทม์</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="quickActionModal('requisition')" class="px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
+            <i class="fa-solid fa-dolly"></i> บันทึกเบิกของด่วน
+          </button>
+          <button onclick="quickActionModal('clockin')" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
+            <i class="fa-solid fa-stopwatch"></i> ช่างเริ่มงาน (Check-in)
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Summary Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Card 1: สต็อกสินค้าหลัก -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+          <div class="flex items-center justify-between text-slate-500 mb-2">
+            <span class="text-xs font-medium">แผง & อินเวอร์เตอร์ในคลัง</span>
+            <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+              <i class="fa-solid fa-solar-panel"></i>
+            </div>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <h3 id="kpi-main-stock" class="text-2xl font-black font-heading text-slate-900">73 รายการ</h3>
+            <span class="text-xs text-emerald-600 font-semibold"><i class="fa-solid fa-check"></i> พร้อมติดตั้ง</span>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-2">รวม Microinverter, String, แผง N-Type</p>
+        </div>
+
+        <!-- Card 2: อุปกรณ์เตือนใกล้หมด (Low Stock) -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+          <div class="flex items-center justify-between text-slate-500 mb-2">
+            <span class="text-xs font-medium">อุปกรณ์ต่ำกว่าเกณฑ์</span>
+            <div class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <h3 id="kpi-low-stock" class="text-2xl font-black font-heading text-red-600">2 รายการ</h3>
+            <span class="text-xs text-red-500 font-medium">ต้องสั่งซื้อด่วน</span>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-2">น็อตสแตนเลส M8, หัวต่อ MC4</p>
+        </div>
+
+        <!-- Card 3: เครื่องมือช่างที่ถูกยืมออกไป -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+          <div class="flex items-center justify-between text-slate-500 mb-2">
+            <span class="text-xs font-medium">เครื่องมือช่างหน้างาน</span>
+            <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
+              <i class="fa-solid fa-screwdriver-wrench"></i>
+            </div>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <h3 id="kpi-tools-out" class="text-2xl font-black font-heading text-amber-600">3 ชุด</h3>
+            <span class="text-xs text-slate-500">จากทั้งหมด 6 ชุด</span>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-2">สว่าน, คีมย้ำ, เครื่องวัดแสง</p>
+        </div>
+
+        <!-- Card 4: ช่างที่กำลังทำงานอยู่ขณะนี้ -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+          <div class="flex items-center justify-between text-slate-500 mb-2">
+            <span class="text-xs font-medium">ช่างหน้างานขณะนี้</span>
+            <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <i class="fa-solid fa-helmet-safety"></i>
+            </div>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <h3 id="kpi-active-techs" class="text-2xl font-black font-heading text-brand-600">2 ทีม (4 คน)</h3>
+            <span class="text-xs text-emerald-600 font-semibold flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span> กำลังจับเวลา
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-2">ไซต์หาดใหญ่ใน & ไซต์น้ำน้อย</p>
+        </div>
+      </div>
+
+      <!-- Quick Action Grid & Live Activities -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left 2 Cols: Live Job & Time Tracker -->
+        <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-bold font-heading text-slate-900 text-lg flex items-center gap-2">
+                <i class="fa-solid fa-stopwatch text-amber-500"></i> งานติดตั้งที่กำลังจับเวลาช่าง (Active Job Timers)
+              </h3>
+              <p class="text-xs text-slate-500">ตรวจดูระยะเวลาการทำงานจริงของช่าง เพื่อคำนวณค่าแรงและต้นทุนไซต์งาน</p>
+            </div>
+            <button onclick="switchTab('technician')" class="text-brand-600 hover:text-brand-700 text-xs font-bold">
+              ดูทั้งหมด &rarr;
+            </button>
+          </div>
+
+          <div id="dashboard-active-jobs" class="space-y-3">
+            <!-- Dynamic injected jobs -->
+          </div>
+        </div>
+
+        <!-- Right 1 Col: Low Stock Alerts & Quick Reorder -->
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold font-heading text-slate-900 text-lg flex items-center gap-2">
+              <i class="fa-solid fa-bell text-red-500"></i> รายการของต้องสั่งเพิ่ม
+            </h3>
+            <span class="text-xs px-2 py-0.5 bg-red-100 text-red-700 rounded-full font-bold">แจ้งเตือนด่วน</span>
+          </div>
+          <p class="text-xs text-slate-500">ป้องกันปัญหาช่างขึ้นหลังคาแล้วของไม่พอ ต้องเสียเวลาหยุดงาน</p>
+
+          <div id="dashboard-low-stock-list" class="space-y-2.5">
+            <!-- Dynamic injected low stock -->
+          </div>
+
+          <button onclick="switchTab('purchasing')" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-cart-plus text-amber-400"></i> เปิดใบสั่งซื้อ (PO) ซัพพลายเออร์
+          </button>
+        </div>
+      </div>
+
+      <!-- Suite Integration Banner (Connecting to Planner & Sales SOP) -->
+      <div class="bg-gradient-to-r from-brand-900 to-slate-900 rounded-2xl p-6 text-white shadow-sm border border-brand-800 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-brand-500/20 text-brand-300 flex items-center justify-center text-2xl border border-brand-500/30">
+            <i class="fa-solid fa-network-wired"></i>
+          </div>
+          <div>
+            <h4 class="font-bold font-heading text-base">ระบบเชื่อมโยงอัตโนมัติ (99 Solar Integrated Ecosystem)</h4>
+            <p class="text-xs text-slate-300">เมื่อฝ่ายขายใช้ <b>Solar Planner</b> คำนวณผังหลังคาเสร็จ สามารถส่งรายการ BOM อุปกรณ์มาตัดเบิกใน <b>ERP</b> นี้ได้ทันที</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="solar-planner.html" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-draw-polygon"></i> เปิด Solar Planner
+          </a>
+          <a href="solar-sales-sop.html" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold transition flex items-center gap-1.5 border border-slate-700">
+            <i class="fa-solid fa-book-open"></i> เปิด Sales SOP
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: CATALOG & SPECS ==================== -->
+    <section id="view-catalog" class="space-y-6 hidden">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-bold font-heading text-slate-900">แคตตาล็อก & สเปกอุปกรณ์โซลาร์ (Product Catalog)</h2>
+          <p class="text-slate-500 text-sm">รวบรวมสเปกอินเวอร์เตอร์ (Micro / String / Hybrid), แผงโซลาร์เซลล์ และอุปกรณ์โครงสร้าง</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="text" id="catalog-search" oninput="renderCatalog()" placeholder="ค้นหาชื่อ, รหัส, สเปก..." class="px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-brand-500 outline-none w-56">
+          <button onclick="openAddCatalogModal()" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-plus"></i> เพิ่มสินค้าใหม่
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter Categories -->
+      <div class="flex flex-wrap gap-2">
+        <button onclick="filterCatalog('all')" id="cat-btn-all" class="cat-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white">ทั้งหมด</button>
+        <button onclick="filterCatalog('inverter')" id="cat-btn-inverter" class="cat-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100">อินเวอร์เตอร์ (Micro & String)</button>
+        <button onclick="filterCatalog('panel')" id="cat-btn-panel" class="cat-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100">แผงโซลาร์ (Solar Panels)</button>
+        <button onclick="filterCatalog('mounting')" id="cat-btn-mounting" class="cat-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100">โครงสร้าง, ราง & น็อตยึด</button>
+        <button onclick="filterCatalog('electrical')" id="cat-btn-electrical" class="cat-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100">สายไฟ & อุปกรณ์ระบบไฟฟ้า (BOS)</button>
+      </div>
+
+      <!-- Catalog Cards Grid -->
+      <div id="catalog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: INVENTORY & REQUISITION ==================== -->
+    <section id="view-inventory" class="space-y-6 hidden">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-bold font-heading text-slate-900">คลังสต็อกอุปกรณ์ & บันทึกการเบิกจ่าย (Inventory & Requisition)</h2>
+          <p class="text-slate-500 text-sm">ตรวจสอบจำนวนคงเหลือ จุดสั่งซื้อซ้ำ (Reorder point) และบันทึกการเบิกใช้หน้างาน</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="openRequisitionModal()" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-arrow-up-from-bracket"></i> ทำรายการเบิกของหน้างาน
+          </button>
+        </div>
+      </div>
+
+      <!-- Inventory Table Card -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="p-4 border-b border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+            <i class="fa-solid fa-cubes text-brand-600"></i> รายการสินค้าคงเหลือในคลัง (Stock Balances)
+          </span>
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <input type="text" id="inventory-search" oninput="renderInventoryTable()" placeholder="ค้นหารหัส, ชื่ออุปกรณ์..." class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-brand-500 w-full sm:w-64">
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-100 text-slate-600 uppercase font-semibold text-[11px] border-b border-slate-200">
+              <tr>
+                <th class="p-3.5">รหัสสินค้า</th>
+                <th class="p-3.5">รายการอุปกรณ์ & สเปก</th>
+                <th class="p-3.5">หมวดหมู่</th>
+                <th class="p-3.5 text-center">คงเหลือในคลัง</th>
+                <th class="p-3.5 text-center">จุดสั่งเพิ่ม (Min)</th>
+                <th class="p-3.5 text-right">ราคาทุนเฉลี่ย</th>
+                <th class="p-3.5 text-center">สถานะสต็อก</th>
+                <th class="p-3.5 text-center">จัดการ</th>
+              </tr>
+            </thead>
+            <tbody id="inventory-tbody" class="divide-y divide-slate-100">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Requisition History Log -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="font-bold font-heading text-slate-900 text-lg flex items-center gap-2">
+            <i class="fa-solid fa-clock-rotate-left text-slate-600"></i> ประวัติการเบิกใช้วัสดุ (Material Requisition Logs)
+          </h3>
+          <span class="text-xs text-slate-400">ระบุผู้เบิก, ไซต์งาน และจำนวนที่ตัดสต็อก</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-600 uppercase font-semibold text-[11px] border-b border-slate-200">
+              <tr>
+                <th class="p-3">วันที่-เวลา</th>
+                <th class="p-3">เลขที่ใบเบิก</th>
+                <th class="p-3">ไซต์งาน / วัตถุประสงค์</th>
+                <th class="p-3">ผู้เบิก (ช่าง)</th>
+                <th class="p-3">รายการอุปกรณ์ที่เบิก</th>
+                <th class="p-3 text-center">สถานะ</th>
+              </tr>
+            </thead>
+            <tbody id="requisition-history-tbody" class="divide-y divide-slate-100">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: TOOLS & EQUIPMENT (CHECK-IN / OUT) ==================== -->
+    <section id="view-tools" class="space-y-6 hidden">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-bold font-heading text-slate-900">คลังเครื่องมือช่าง & ระบบยืม-คืน (Tools & Assets)</h2>
+          <p class="text-slate-500 text-sm">เครื่องมือช่าง สว่าน คีมย้ำ MC4 บันได เครื่องมือวัด — ใครเอาไป ไซต์ไหน ต้องส่งคืนเมื่อไหร่</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="openBorrowToolModal()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-hand-holding-hand"></i> ทำรายการยืมเครื่องมือ
+          </button>
+          <button onclick="openAddToolModal()" class="px-3 py-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-plus"></i> ลงทะเบียนเครื่องมือใหม่
+          </button>
+        </div>
+      </div>
+
+      <!-- Tools Grid -->
+      <div id="tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- ==================== TAB 5: TECHNICIAN & TIME TRACKING ==================== -->
+    <section id="view-technician" class="space-y-6 hidden">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-bold font-heading text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-user-clock text-amber-500"></i> บริหารงานช่าง & บันทึกเวลาทำงาน (Technician Time Tracking)
+          </h2>
+          <p class="text-slate-500 text-sm">จับเวลาการทำงานจริงของช่างแต่ละไซต์ บันทึกขั้นตอนติดตั้ง (ขึ้นโครงสร้าง, เดินไฟ DC/AC, ทดสอบระบบ)</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="openNewJobModal()" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-calendar-plus"></i> เปิดใบงานติดตั้งใหม่ (Work Order)
+          </button>
+        </div>
+      </div>
+
+      <!-- Technician Live Punch Clock Section -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Clock In Widget -->
+        <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-6 text-white shadow-sm border border-slate-700 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-stopwatch"></i> เครื่องบันทึกเวลาหน้างาน
+            </span>
+            <span id="live-clock" class="text-xs font-mono bg-slate-800 px-2 py-1 rounded text-slate-300">00:00:00</span>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">เลือกใบงานติดตั้ง (Site / Job):</label>
+            <select id="clock-job-select" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white outline-none focus:ring-2 focus:ring-brand-500">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">หัวหน้าช่าง / ผู้บันทึก:</label>
+            <input type="text" id="clock-tech-name" placeholder="เช่น ช่างเอก (ทีมติดตั้ง A)" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white outline-none focus:ring-2 focus:ring-brand-500">
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">ขั้นตอนที่เริ่มทำ (Phase):</label>
+            <select id="clock-phase-select" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white outline-none focus:ring-2 focus:ring-brand-500">
+              <option value="สำรวจหน้างาน / ตรวจหลังคา">1. สำรวจหน้างาน / ตรวจหลังคา</option>
+              <option value="ติดตั้งโครงสร้าง & รางยึด (Mounting)">2. ติดตั้งโครงสร้าง & รางยึด (Mounting)</option>
+              <option value="วางแผงโซลาร์ & ขันแคลมป์">3. วางแผงโซลาร์ & ขันแคลมป์</option>
+              <option value="เดินสายไฟ DC / ติดตั้ง Inverter">4. เดินสายไฟ DC / ติดตั้ง Inverter</option>
+              <option value="เข้าตู้ Combiner / ตู้ MDB / ระบบกราวด์">5. เข้าตู้ Combiner / ตู้ MDB / ระบบกราวด์</option>
+              <option value="ทดสอบระบบ (Commissioning) & ส่งมอบ">6. ทดสอบระบบ (Commissioning) & ส่งมอบ</option>
+            </select>
+          </div>
+
+          <button onclick="startJobClock()" class="w-full py-3 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-brand-500/20">
+            <i class="fa-solid fa-play"></i> กดเริ่มงานทันที (Clock-In)
+          </button>
+        </div>
+
+        <!-- Active Timers & Jobs List -->
+        <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold font-heading text-slate-900 text-lg flex items-center gap-2">
+              <i class="fa-solid fa-bars-progress text-brand-600"></i> งานที่กำลังติดตั้งอยู่ (In-Progress Jobs)
+            </h3>
+            <span class="text-xs text-slate-500">กดหยุดเพื่อบันทึกชั่วโมงทำงานและสรุปงาน</span>
+          </div>
+
+          <div id="tech-jobs-container" class="space-y-3">
+            <!-- Dynamically populated active work orders -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Job History & Work Duration Logs -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="font-bold font-heading text-slate-900 text-lg flex items-center gap-2">
+            <i class="fa-solid fa-clipboard-check text-emerald-600"></i> ประวัติการทำงานช่าง & สรุปชั่วโมงทำงาน (Timesheets)
+          </h3>
+          <span class="text-xs text-slate-400">ใช้สำหรับคิดค่าแรงช่าง และคำนวณต้นทุนค่าแรงต่อไซต์งาน</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-600 uppercase font-semibold text-[11px] border-b border-slate-200">
+              <tr>
+                <th class="p-3">วันที่</th>
+                <th class="p-3">รหัสงาน / ลูกค้า</th>
+                <th class="p-3">ช่างผู้รับผิดชอบ</th>
+                <th class="p-3">ขั้นตอนที่ทำ</th>
+                <th class="p-3">เวลาเริ่ม - เวลาจบ</th>
+                <th class="p-3 text-center">ระยะเวลารวม</th>
+                <th class="p-3">หมายเหตุ / ปัญหาหน้างาน</th>
+              </tr>
+            </thead>
+            <tbody id="timesheet-history-tbody" class="divide-y divide-slate-100">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 6: PURCHASING (PO) & INBOUND ==================== -->
+    <section id="view-purchasing" class="space-y-6 hidden">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-bold font-heading text-slate-900">ระบบจัดซื้อ & รับของเข้าคลัง (Purchasing & Inbound PO)</h2>
+          <p class="text-slate-500 text-sm">เปิดใบสั่งซื้อซัพพลายเออร์ เมื่อของส่งถึงโกดัง กดรับเข้าสต็อกเพื่อเพิ่มยอดอัตโนมัติ</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="openNewPOModal()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-file-circle-plus text-amber-400"></i> เปิดใบสั่งซื้อ (PO) ใหม่
+          </button>
+        </div>
+      </div>
+
+      <!-- PO List -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-100 text-slate-600 uppercase font-semibold text-[11px] border-b border-slate-200">
+              <tr>
+                <th class="p-3.5">เลขที่ PO</th>
+                <th class="p-3.5">วันที่สั่งซื้อ</th>
+                <th class="p-3.5">ซัพพลายเออร์ / ตัวแทนจำหน่าย</th>
+                <th class="p-3.5">รายการอุปกรณ์ที่สั่ง</th>
+                <th class="p-3.5 text-right">ยอดรวม (บาท)</th>
+                <th class="p-3.5 text-center">สถานะ</th>
+                <th class="p-3.5 text-center">การกระทำ</th>
+              </tr>
+            </thead>
+            <tbody id="po-tbody" class="divide-y divide-slate-100">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 7: POS & JOB DISPATCH ==================== -->
+    <section id="view-pos" class="space-y-6 hidden">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-bold font-heading text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-cash-register text-emerald-600"></i> ระบบ POS หน้าร้าน & จ่ายของตามไซต์งาน (POS & Job Dispatch)
+          </h2>
+          <p class="text-slate-500 text-sm">ขายอะไหล่หน้าร้าน หรือเลือกแพ็กเกจติดตั้งเพื่อตัดสต็อกทั้งชุดไปไซต์งาน</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="loadTemplateBOM('5kw-micro')" class="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 rounded-lg text-xs font-bold transition flex items-center gap-1">
+            <i class="fa-solid fa-bolt"></i> โหลดชุดมาตรฐาน 5kW Micro
+          </button>
+          <button onclick="loadTemplateBOM('10kw-string')" class="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-300 rounded-lg text-xs font-bold transition flex items-center gap-1">
+            <i class="fa-solid fa-bolt"></i> โหลดชุดมาตรฐาน 10kW String
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left 2 Cols: Product Selection Grid -->
+        <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <h3 class="font-bold font-heading text-slate-900 text-base">เลือกสินค้าลงตะกร้า / รายการเบิก</h3>
+            <input type="text" id="pos-search" oninput="renderPosCatalog()" placeholder="ค้นหาสินค้าเพื่อเพิ่ม..." class="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs w-full sm:w-60 outline-none focus:ring-1 focus:ring-brand-500">
+          </div>
+
+          <div id="pos-products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-h-[520px] overflow-y-auto p-1">
+            <!-- Dynamically populated POS items -->
+          </div>
+        </div>
+
+        <!-- Right 1 Col: Current Cart / Job Dispatch Slip -->
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between space-y-4">
+          <div>
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+              <h3 class="font-bold font-heading text-slate-900 text-base flex items-center gap-2">
+                <i class="fa-solid fa-receipt text-slate-500"></i> ตะกร้าสินค้า / ใบตัดจ่าย
+              </h3>
+              <button onclick="clearPosCart()" class="text-xs text-red-500 hover:text-red-700 font-semibold">ล้างรายการ</button>
+            </div>
+
+            <!-- Destination Choice: Retail POS vs Site Job -->
+            <div class="mt-3 space-y-2">
+              <label class="block text-xs font-bold text-slate-700">ประเภทการตัดจ่าย:</label>
+              <div class="grid grid-cols-2 gap-2">
+                <label class="flex items-center gap-1.5 p-2 rounded-lg border border-slate-200 cursor-pointer text-xs font-semibold has-[:checked]:bg-emerald-50 has-[:checked]:border-emerald-500 has-[:checked]:text-emerald-800">
+                  <input type="radio" name="pos-type" value="job" checked class="text-emerald-600">
+                  <span>เบิกไปหน้างาน</span>
+                </label>
+                <label class="flex items-center gap-1.5 p-2 rounded-lg border border-slate-200 cursor-pointer text-xs font-semibold has-[:checked]:bg-blue-50 has-[:checked]:border-blue-500 has-[:checked]:text-blue-800">
+                  <input type="radio" name="pos-type" value="retail" class="text-blue-600">
+                  <span>ขายหน้าร้าน (เงินสด)</span>
+                </label>
+              </div>
+
+              <div class="mt-2">
+                <label class="block text-[11px] text-slate-500 mb-1">ระบุชื่อลูกค้า / เลขที่ไซต์งาน:</label>
+                <input type="text" id="pos-reference" placeholder="เช่น ไซต์บ้านคุณเกรียงไกร (สงขลา)" class="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs outline-none focus:ring-1 focus:ring-brand-500">
+              </div>
+            </div>
+
+            <!-- Cart Items List -->
+            <div id="pos-cart-items" class="mt-4 space-y-2 max-h-56 overflow-y-auto pr-1">
+              <!-- Dynamically populated cart items -->
+            </div>
+          </div>
+
+          <!-- Total & Checkout Action -->
+          <div class="border-t border-slate-200 pt-4 space-y-3">
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-slate-500">จำนวนชิ้นรวม:</span>
+              <span id="pos-total-qty" class="font-bold text-slate-900">0 รายการ</span>
+            </div>
+            <div class="flex justify-between items-center text-base">
+              <span class="font-bold font-heading text-slate-800">มูลค่ารวม (บาท):</span>
+              <span id="pos-total-amount" class="font-black font-heading text-xl text-brand-600">฿0.00</span>
+            </div>
+
+            <button onclick="processPosCheckout()" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-brand-500/20">
+              <i class="fa-solid fa-check"></i> ยืนยันตัดสต็อก & บันทึกรายการ
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODALS -->
+  <!-- 1. Modal: Requisition Form (เบิกของ) -->
+  <div id="modal-requisition" class="fixed inset-0 bg-slate-950/70 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <h3 class="font-bold font-heading text-slate-900 text-lg flex items-center gap-2">
+          <i class="fa-solid fa-dolly text-brand-600"></i> ทำรายการเบิกใช้วัสดุหน้างาน
+        </h3>
+        <button onclick="closeModal('modal-requisition')" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-medium text-slate-700 mb-1">เลือกไซต์งาน / โครงการ:</label>
+          <input type="text" id="req-job-name" placeholder="เช่น ติดตั้ง 5kW บ้านคุณสุรศักดิ์ หาดใหญ่" class="w-full px-3 py-2 border border-slate-300 rounded-xl outline-none focus:ring-1 focus:ring-brand-500">
+        </div>
+        <div>
+          <label class="block font-medium text-slate-700 mb-1">ชื่อช่างผู้เบิก:</label>
+          <input type="text" id="req-tech-name" placeholder="เช่น ช่างเอก (ทีมติดตั้ง 1)" class="w-full px-3 py-2 border border-slate-300 rounded-xl outline-none focus:ring-1 focus:ring-brand-500">
+        </div>
+        <div>
+          <label class="block font-medium text-slate-700 mb-1">เลือกอุปกรณ์ที่ต้องการเบิก:</label>
+          <select id="req-item-select" class="w-full px-3 py-2 border border-slate-300 rounded-xl outline-none focus:ring-1 focus:ring-brand-500">
+            <!-- Dynamically populated -->
+          </select>
+        </div>
+        <div>
+          <label class="block font-medium text-slate-700 mb-1">จำนวนที่เบิก:</label>
+          <input type="number" id="req-qty" value="1" min="1" class="w-full px-3 py-2 border border-slate-300 rounded-xl outline-none focus:ring-1 focus:ring-brand-500">
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2 border-t border-slate-200">
+        <button onclick="closeModal('modal-requisition')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold">ยกเลิก</button>
+        <button onclick="submitRequisition()" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold">บันทึกเบิกของ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Modal: Borrow Tool (ยืมเครื่องมือ) -->
+  <div id="modal-tool-borrow" class="fixed inset-0 bg-slate-950/70 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <h3 class="font-bold font-heading text-slate-900 text-lg flex items-center gap-2">
+          <i class="fa-solid fa-hand-holding-hand text-amber-500"></i> ทำรายการยืมเครื่องมือช่าง
+        </h3>
+        <button onclick="closeModal('modal-tool-borrow')" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-medium text-slate-700 mb-1">เลือกเครื่องมือที่ต้องการยืม:</label>
+          <select id="borrow-tool-select" class="w-full px-3 py-2 border border-slate-300 rounded-xl outline-none focus:ring-1 focus:ring-brand-500">
+            <!-- Dynamically populated -->
+          </select>
+        </div>
+        <div>
+          <label class="block font-medium text-slate-700 mb-1">ชื่อช่างผู้ยืม:</label>
+          <input type="text" id="borrow-tech-name" placeholder="เช่น ช่างบอย" class="w-full px-3 py-2 border border-slate-300 rounded-xl outline-none focus:ring-1 focus:ring-brand-500">
+        </div>
+        <div>
+          <label class="block font-medium text-slate-700 mb-1">นำไปใช้ที่ไหน (ไซต์งาน):</label>
+          <input type="text" id="borrow-site" placeholder="เช่น ไซต์น้ำน้อย งาน 10kW" class="w-full px-3 py-2 border border-slate-300 rounded-xl outline-none focus:ring-1 focus:ring-brand-500">
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2 border-t border-slate-200">
+        <button onclick="closeModal('modal-tool-borrow')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold">ยกเลิก</button>
+        <button onclick="submitToolBorrow()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-xl text-xs font-bold">ยืนยันการยืม</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Modal: Add New Product to Catalog -->
+  <div id="modal-add-catalog" class="fixed inset-0 bg-slate-950/70 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <h3 class="font-bold font-heading text-slate-900 text-lg flex items-center gap-2">
+          <i class="fa-solid fa-plus text-brand-600"></i> เพิ่มรายการสินค้า & อุปกรณ์ใหม่
+        </h3>
+        <button onclick="closeModal('modal-add-catalog')" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-medium text-slate-700 mb-1">รหัสสินค้า (SKU):</label>
+            <input type="text" id="new-sku" placeholder="เช่น INV-HOY-2000" class="w-full px-3 py-2 border border-slate-300 rounded-xl outline-none focus:ring-1 focus:ring-brand-500">
+          </div>
+          <div>
+            <label class="block font-medium text-slate-700 mb-1">หมวดหมู่:</label>
+            <select id="new-category" class="w-full px-3 py-2 border border-slate-300 rounded-xl outline-none focus:ring-1 focus:ring-brand-500">
+              <option value="inverter">อินเวอร์เตอร์ (Inverter)</option>
+              <option value="panel">แผงโซลาร์ (Panel)</option>
+              <option value="mounting">โครงสร้าง & น็อตยึด</option>
+              <option value="electrical">สายไฟ & ไฟฟ้า BOS</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block font-medium text-slate-700 mb-1">ชื่ออุปกรณ์:</label>
+          <input type="text" id="new-name" placeholder="เช่น Hoymiles 2000W Microinverter 4T" class="w-full px-3 py-2 border border-slate-300 rounded-xl outline-none focus:ring-1 focus:ring-brand-500">
+        </div>
+        <div>
+          <label class="block font-medium text-slate-700 mb-1">สเปกทางเทคนิคย่อ:</label>
+          <input type="text" id="new-spec" placeholder="เช่น 4 MPPT, ต่อ 4 แผง, รับประกัน 12 ปี" class="w-full px-3 py-2 border border-slate-300 rounded-xl outline-none focus:ring-1 focus:ring-brand-500">
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <div>
+            <label class="block font-medium text-slate-700 mb-1">จำนวนเริ่มต้น:</label>
+            <input type="number" id="new-stock" value="10" min="0" class="w-full px-3 py-2 border border-slate-300 rounded-xl outline-none focus:ring-1 focus:ring-brand-500">
+          </div>
+          <div>
+            <label class="block font-medium text-slate-700 mb-1">จุดเตือนสั่งเพิ่ม (Min):</label>
+            <input type="number" id="new-min" value="5" min="1" class="w-full px-3 py-2 border border-slate-300 rounded-xl outline-none focus:ring-1 focus:ring-brand-500">
+          </div>
+          <div>
+            <label class="block font-medium text-slate-700 mb-1">ราคาทุน (บาท):</label>
+            <input type="number" id="new-cost" value="12000" min="0" class="w-full px-3 py-2 border border-slate-300 rounded-xl outline-none focus:ring-1 focus:ring-brand-500">
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2 border-t border-slate-200">
+        <button onclick="closeModal('modal-add-catalog')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold">ยกเลิก</button>
+        <button onclick="submitNewProduct()" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold">บันทึกสินค้า</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="font-bold text-white">99 SOLAR ALL-IN-ONE SUITE</span>
+        <span>• โดย บริษัท 99 แมทช์ เมคเกอร์ จำกัด</span>
+      </div>
+      <div class="flex items-center gap-4 text-[11px]">
+        <a href="index.html" class="hover:text-white">หน้าเว็บหลัก</a>
+        <a href="solar-planner.html" class="hover:text-white">คำนวณผังหลังคา</a>
+        <a href="solar-sales-sop.html" class="hover:text-white">สคริปต์ปิดการขาย</a>
+        <span class="text-slate-600">|</span>
+        <span class="text-brand-400"><i class="fa-solid fa-shield-halved"></i> ข้อมูลบันทึกปลอดภัยใน LocalStorage</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT LOGIC (ERP CONTROLLER) -->
+  <script>
+    // ==================== DEFAULT INITIAL SEED DATA ====================
+    const DEFAULT_CATALOG = [
+      { id: 'p1', sku: 'INV-HOY-HMS2000', name: 'Hoymiles HMS-2000-4T Microinverter', category: 'inverter', spec: 'Micro 2.0kW, 4 MPPT, ต่อได้ 4 แผง, รับประกัน 12 ปี', stock: 8, min: 3, unit: 'เครื่อง', cost: 12500, price: 14500, icon: 'fa-microchip', brand: 'Hoymiles' },
+      { id: 'p2', sku: 'INV-HUA-5KTL', name: 'Huawei SUN2000-5KTL-L1 String Inverter', category: 'inverter', spec: 'String 5.0kW 1-Phase, 2 MPPT, ผ่านการไฟฟ้า PEA/MEA', stock: 3, min: 2, unit: 'เครื่อง', cost: 32000, price: 37500, icon: 'fa-bolt-lightning', brand: 'Huawei' },
+      { id: 'p3', sku: 'INV-DEYE-10K', name: 'Deye 10kW Hybrid Inverter SUN-10K-SG04LP3', category: 'inverter', spec: 'Hybrid 3-Phase รองรับ Battery แบ็คอัพดับไฟไม่ตัด', stock: 2, min: 1, unit: 'เครื่อง', cost: 68000, price: 78000, icon: 'fa-car-battery', brand: 'Deye' },
+      { id: 'p4', sku: 'PAN-JIN-585W', name: 'Jinko 585W Tiger Neo N-Type Bifacial', category: 'panel', spec: '585W N-Type สองหน้า (Bifacial) ทนร้อน ประกันไฟ 30 ปี', stock: 42, min: 20, unit: 'แผง', cost: 2850, price: 3400, icon: 'fa-solar-panel', brand: 'Jinko Solar' },
+      { id: 'p5', sku: 'PAN-LON-550W', name: 'Longi 550W Hi-MO 6 Explorer', category: 'panel', spec: '550W Mono Half-Cell ประสิทธิภาพ 21.3%', stock: 18, min: 15, unit: 'แผง', cost: 2650, price: 3100, icon: 'fa-solar-panel', brand: 'Longi' },
+      { id: 'p6', sku: 'MNT-RAIL-42M', name: 'รางอะลูมิเนียมยึดแผงโซลาร์ 4.2 เมตร', category: 'mounting', spec: 'Anodized Aluminum 6005-T5 หนา แข็งแรง ไม่เป็นสนิม', stock: 65, min: 30, unit: 'เส้น', cost: 280, price: 380, icon: 'fa-bars', brand: 'Standard Solar' },
+      { id: 'p7', sku: 'MNT-MID-35', name: 'Mid Clamp ขนาด 35 มม. อะลูมิเนียม', category: 'mounting', spec: 'ตัวยึดกลางระหว่างแผง พร้อมน็อตสแตนเลสและสปริง', stock: 140, min: 80, unit: 'ตัว', cost: 18, price: 28, icon: 'fa-grip-lines', brand: 'Standard Solar' },
+      { id: 'p8', sku: 'MNT-END-35', name: 'End Clamp ขนาด 35 มม. อะลูมิเนียม', category: 'mounting', spec: 'ตัวยึดริมปิดหัวท้ายแผง พร้อมน็อต', stock: 80, min: 50, unit: 'ตัว', cost: 18, price: 28, icon: 'fa-grip-lines-vertical', brand: 'Standard Solar' },
+      { id: 'p9', sku: 'MNT-SCREW-M8', name: 'น็อตสแตนเลส SUS304 หัวหกเหลี่ยม M8x25', category: 'mounting', spec: 'สแตนเลสแท้ เกรด 304 ทนแดด ทนฝน ไม่เป็นสนิมตลอดชีพ', stock: 150, min: 300, unit: 'ตัว', cost: 5, price: 10, icon: 'fa-screwdriver', brand: 'SUS304' },
+      { id: 'p10', sku: 'BOS-MC4-PAIR', name: 'หัวคอนเนคเตอร์ MC4 (คู่ผู้-เมีย)', category: 'electrical', spec: 'IP68 กันน้ำ 1500V DC เคลือบเงินสัมผัสดี', stock: 35, min: 60, unit: 'คู่', cost: 22, price: 35, icon: 'fa-plug', brand: 'Staubli Standard' },
+      { id: 'p11', sku: 'BOS-CBL-4MM', name: 'สายไฟโซลาร์เซลล์ PV1-F 4.0 sq.mm (ดำ/แดง)', category: 'electrical', spec: 'สายทองแดงแท้เคลือบดีบุก ฉนวน 2 ชั้น ทน UV ความร้อนสูง', stock: 420, min: 200, unit: 'เมตร', cost: 18, price: 25, icon: 'fa-bezier-curve', brand: 'Link Solar' }
+    ];
+
+    const DEFAULT_TOOLS = [
+      { id: 't1', code: 'TOOL-01', name: 'สว่านกระแทกไร้สาย Makita 18V DHP484', status: 'borrowed', borrower: 'ช่างเอก (ทีม 1)', site: 'ไซต์บ้านคุณสมศักดิ์ หาดใหญ่ใน', dateOut: '26/09/2026 08:15', condition: 'สมบูรณ์ดี' },
+      { id: 't2', code: 'TOOL-02', name: 'คีมย้ำหัว MC4 KNIPEX พร้อมตัวล็อค', status: 'borrowed', borrower: 'ช่างบอย (ทีม 2)', site: 'ไซต์น้ำน้อย สงขลา 10kW', dateOut: '26/09/2026 08:30', condition: 'สมบูรณ์ดี' },
+      { id: 't3', code: 'TOOL-03', name: 'บันไดสไลด์อะลูมิเนียม 5.4 ม. ทรง A/I', status: 'available', borrower: '-', site: '-', dateOut: '-', condition: 'พร้อมใช้งาน' },
+      { id: 't4', code: 'TOOL-04', name: 'เครื่องวัดความเข้มแสงโซลาร์ Solar Power Meter', status: 'available', borrower: '-', site: '-', dateOut: '-', condition: 'พร้อมใช้งาน' },
+      { id: 't5', code: 'TOOL-05', name: 'สว่านโรตารี่ Bosch GBH 220 เจาะปูน/เหล็ก', status: 'borrowed', borrower: 'ช่างหนุ่ม (ทีม 3)', site: 'ไซต์บ้านคอหงส์', dateOut: '25/09/2026 14:00', condition: 'สมบูรณ์' },
+      { id: 't6', code: 'TOOL-06', name: 'แคลมป์มิเตอร์วัดไฟ DC/AC Fluke 376 FC', status: 'available', borrower: '-', site: '-', dateOut: '-', condition: 'พร้อมใช้งาน' }
+    ];
+
+    const DEFAULT_JOBS = [
+      { id: 'job-101', code: 'JOB-2609-01', customer: 'บ้านคุณสมศักดิ์ (หาดใหญ่ใน)', system: '5kW Hoymiles Microinverter (แผง 9 แผง)', techs: 'ช่างเอก, ช่างบอล', status: 'active', startTime: '08:30', startTimestamp: Date.now() - 75 * 60 * 1000, currentPhase: 'วางแผงโซลาร์ & ขันแคลมป์' },
+      { id: 'job-102', code: 'JOB-2609-02', customer: 'ร้านทองพาณิชย์ (น้ำน้อย)', system: '10kW Huawei String (แผง 18 แผง)', techs: 'ช่างบอย, ช่างวัฒน์', status: 'active', startTime: '09:00', startTimestamp: Date.now() - 45 * 60 * 1000, currentPhase: 'ติดตั้งโครงสร้าง & รางยึด (Mounting)' },
+      { id: 'job-103', code: 'JOB-2609-03', customer: 'บ้านคุณหมอพิมล (คอหงส์)', system: '3kW Hoymiles (แผง 5 แผง)', techs: 'ช่างหนุ่ม', status: 'completed', startTime: '08:00', finishTime: '13:30', duration: '5 ชม. 30 นาที', currentPhase: 'ส่งมอบงานแล้ว' }
+    ];
+
+    const DEFAULT_REQS = [
+      { id: 'req-01', date: '26/09/2026 08:20', code: 'REQ-0089', site: 'บ้านคุณสมศักดิ์ (หาดใหญ่ใน)', tech: 'ช่างเอก', items: 'Hoymiles HMS2000 (2 เครื่อง), แผง Jinko 585W (9 แผง), ราง 4.2m (8 เส้น), Mid Clamp (16 ตัว)' },
+      { id: 'req-02', date: '26/09/2026 08:45', code: 'REQ-0090', site: 'ร้านทองพาณิชย์ (น้ำน้อย)', tech: 'ช่างบอย', items: 'Huawei 5KTL (2 เครื่อง), แผง Longi 550W (18 แผง), สาย PV1-F (80 เมตร), MC4 (12 คู่)' }
+    ];
+
+    const DEFAULT_POS = [
+      { id: 'po-01', code: 'PO-2026-0901', date: '25/09/2026', supplier: 'บจก. กรีน โซลาร์ ซัพพลาย (ไทยแลนด์)', items: 'แผง Jinko 585W (30 แผง), Hoymiles 2000W (5 เครื่อง)', total: 148000, status: 'received' },
+      { id: 'po-02', code: 'PO-2026-0902', date: '26/09/2026', supplier: 'ไทยฮาร์ดแวร์ แอนด์ โซลาร์ มาร์ท', items: 'น็อตสแตนเลส M8 (1,000 ตัว), MC4 Connector (100 คู่)', total: 7200, status: 'pending' }
+    ];
+
+    // ==================== APP STATE & STORAGE ====================
+    let catalog = JSON.parse(localStorage.getItem('solar_catalog')) || DEFAULT_CATALOG;
+    let tools = JSON.parse(localStorage.getItem('solar_tools')) || DEFAULT_TOOLS;
+    let jobs = JSON.parse(localStorage.getItem('solar_jobs')) || DEFAULT_JOBS;
+    let requisitions = JSON.parse(localStorage.getItem('solar_requisitions')) || DEFAULT_REQS;
+    let purchaseOrders = JSON.parse(localStorage.getItem('solar_pos')) || DEFAULT_POS;
+    let posCart = [];
+
+    function saveState() {
+      localStorage.setItem('solar_catalog', JSON.stringify(catalog));
+      localStorage.setItem('solar_tools', JSON.stringify(tools));
+      localStorage.setItem('solar_jobs', JSON.stringify(jobs));
+      localStorage.setItem('solar_requisitions', JSON.stringify(requisitions));
+      localStorage.setItem('solar_pos', JSON.stringify(purchaseOrders));
+      updateKpis();
+    }
+
+    function resetDemoData() {
+      if (confirm('คุณต้องการรีเซ็ตข้อมูลตัวอย่างทั้งหมดกลับเป็นค่าเริ่มต้นหรือไม่?')) {
+        localStorage.clear();
+        catalog = [...DEFAULT_CATALOG];
+        tools = [...DEFAULT_TOOLS];
+        jobs = [...DEFAULT_JOBS];
+        requisitions = [...DEFAULT_REQS];
+        purchaseOrders = [...DEFAULT_POS];
+        posCart = [];
+        saveState();
+        initApp();
+        alert('รีเซ็ตข้อมูลตัวอย่างเรียบร้อยแล้ว!');
+      }
+    }
+
+    // ==================== TAB NAVIGATION ====================
+    function switchTab(tabId) {
+      const views = ['dashboard', 'catalog', 'inventory', 'tools', 'technician', 'purchasing', 'pos'];
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        const btn = document.getElementById(`tab-${v}`);
+        if (el) el.classList.toggle('hidden', v !== tabId);
+        if (btn) {
+          if (v === tabId) {
+            btn.className = 'tab-btn px-3 py-2 rounded-lg text-white bg-brand-600 font-semibold flex items-center gap-2 whitespace-nowrap shadow-sm';
+          } else {
+            btn.className = 'tab-btn px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-2 whitespace-nowrap';
+          }
+        }
+      });
+
+      // Tab specific re-render
+      if (tabId === 'dashboard') renderDashboard();
+      if (tabId === 'catalog') renderCatalog();
+      if (tabId === 'inventory') renderInventoryTable();
+      if (tabId === 'tools') renderTools();
+      if (tabId === 'technician') renderTechnicianTab();
+      if (tabId === 'purchasing') renderPurchasing();
+      if (tabId === 'pos') renderPosCatalog();
+    }
+
+    // ==================== DASHBOARD & KPIS ====================
+    function updateKpis() {
+      const mainStockCount = catalog.filter(p => p.category === 'inverter' || p.category === 'panel')
+        .reduce((sum, p) => sum + p.stock, 0);
+      const lowStockCount = catalog.filter(p => p.stock <= p.min).length;
+      const toolsBorrowed = tools.filter(t => t.status === 'borrowed').length;
+      const activeJobs = jobs.filter(j => j.status === 'active').length;
+
+      document.getElementById('kpi-main-stock').innerText = `${mainStockCount} ชิ้น/แผง`;
+      document.getElementById('kpi-low-stock').innerText = `${lowStockCount} รายการ`;
+      document.getElementById('kpi-tools-out').innerText = `${toolsBorrowed} ชิ้น`;
+      document.getElementById('kpi-active-techs').innerText = `${activeJobs} ไซต์งาน`;
+    }
+
+    function renderDashboard() {
+      updateKpis();
+
+      // Render Active Jobs in Dashboard
+      const activeJobsContainer = document.getElementById('dashboard-active-jobs');
+      const activeList = jobs.filter(j => j.status === 'active');
+      if (activeList.length === 0) {
+        activeJobsContainer.innerHTML = '<div class="p-4 text-center text-slate-400 text-xs">ไม่มีงานติดตั้งที่กำลังจับเวลาในขณะนี้</div>';
+      } else {
+        activeJobsContainer.innerHTML = activeList.map(j => {
+          const minutes = Math.floor((Date.now() - (j.startTimestamp || Date.now())) / 60000);
+          const hrs = Math.floor(minutes / 60);
+          const mins = minutes % 60;
+          return `
+            <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-900 text-sm font-heading">${j.customer}</span>
+                  <span class="px-2 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-full">${j.code}</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-0.5"><i class="fa-solid fa-solar-panel text-brand-600"></i> ${j.system}</p>
+                <div class="flex items-center gap-3 text-[11px] text-slate-400 mt-1">
+                  <span><i class="fa-solid fa-user-gear"></i> ทีมช่าง: <b>${j.techs}</b></span>
+                  <span><i class="fa-solid fa-wrench"></i> ขั้นตอน: <b class="text-slate-700">${j.currentPhase}</b></span>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="text-right">
+                  <div class="text-xs font-mono font-bold text-amber-600 flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span> ทำงานแล้ว ${hrs} ชม. ${mins} นาที
+                  </div>
+                  <span class="text-[10px] text-slate-400">เริ่มเวลา ${j.startTime} น.</span>
+                </div>
+                <button onclick="finishJobClock('${j.id}')" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition">
+                  เสร็จสิ้นงาน
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // Render Low Stock in Dashboard
+      const lowStockContainer = document.getElementById('dashboard-low-stock-list');
+      const lowItems = catalog.filter(p => p.stock <= p.min);
+      if (lowItems.length === 0) {
+        lowStockContainer.innerHTML = '<div class="p-3 text-center text-emerald-600 text-xs font-medium">อุปกรณ์ทุกรายการมีสต็อกเพียงพอ</div>';
+      } else {
+        lowStockContainer.innerHTML = lowItems.map(p => `
+          <div class="p-2.5 bg-red-50/70 border border-red-200 rounded-xl flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center text-xs">
+                <i class="fa-solid ${p.icon}"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold text-slate-900">${p.name}</p>
+                <p class="text-[10px] text-red-600">เหลือ <b>${p.stock} ${p.unit}</b> (เกณฑ์ขั้นต่ำ ${p.min} ${p.unit})</p>
+              </div>
+            </div>
+            <button onclick="quickOrderPO('${p.sku}')" class="px-2.5 py-1 bg-white border border-red-300 hover:bg-red-50 text-red-700 rounded-lg text-[11px] font-bold">
+              สั่งเพิ่ม
+            </button>
+          </div>
+        `).join('');
+      }
+    }
+
+    // ==================== CATALOG MODULE ====================
+    let currentCatFilter = 'all';
+
+    function filterCatalog(category) {
+      currentCatFilter = category;
+      document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+        btn.className = 'cat-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100';
+      });
+      const activeBtn = document.getElementById(`cat-btn-${category}`);
+      if (activeBtn) {
+        activeBtn.className = 'cat-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white';
+      }
+      renderCatalog();
+    }
+
+    function renderCatalog() {
+      const search = (document.getElementById('catalog-search')?.value || '').toLowerCase();
+      const grid = document.getElementById('catalog-grid');
+      
+      const filtered = catalog.filter(p => {
+        const matchesCategory = currentCatFilter === 'all' || p.category === currentCatFilter;
+        const matchesSearch = p.name.toLowerCase().includes(search) || 
+                              p.sku.toLowerCase().includes(search) || 
+                              p.spec.toLowerCase().includes(search);
+        return matchesCategory && matchesSearch;
+      });
+
+      grid.innerHTML = filtered.map(p => `
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between hover:border-brand-400 transition group">
+          <div>
+            <div class="flex items-start justify-between gap-2 mb-3">
+              <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center text-lg group-hover:bg-brand-50 group-hover:text-brand-600 transition">
+                  <i class="fa-solid ${p.icon}"></i>
+                </div>
+                <div>
+                  <span class="text-[10px] font-mono px-2 py-0.5 bg-slate-100 text-slate-600 rounded font-semibold">${p.sku}</span>
+                  <p class="text-xs font-bold text-slate-400 mt-0.5">${p.brand}</p>
+                </div>
+              </div>
+              <span class="text-xs px-2 py-0.5 rounded-full font-bold ${p.stock <= p.min ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-800'}">
+                ${p.stock <= p.min ? 'ของใกล้หมด' : 'มีในคลัง'}
+              </span>
+            </div>
+
+            <h3 class="font-bold font-heading text-slate-900 text-base mb-1.5">${p.name}</h3>
+            <p class="text-xs text-slate-500 mb-4 line-clamp-2">${p.spec}</p>
+          </div>
+
+          <div class="border-t border-slate-100 pt-3">
+            <div class="flex justify-between items-center text-xs mb-2">
+              <span class="text-slate-400">คงเหลือในคลัง:</span>
+              <span class="font-bold ${p.stock <= p.min ? 'text-red-600 font-mono text-sm' : 'text-slate-900 font-mono text-sm'}">${p.stock} ${p.unit}</span>
+            </div>
+            <div class="flex justify-between items-center text-xs mb-3">
+              <span class="text-slate-400">ราคาขายหน้าร้าน:</span>
+              <span class="font-black text-brand-700 text-sm">฿${p.price.toLocaleString()}</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="quickRequisitionItem('${p.id}')" class="py-1.5 bg-slate-100 hover:bg-brand-50 hover:text-brand-700 text-slate-700 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1">
+                <i class="fa-solid fa-dolly"></i> เบิกของ
+              </button>
+              <button onclick="addToPosCart('${p.id}')" class="py-1.5 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 shadow-sm">
+                <i class="fa-solid fa-cart-plus"></i> เพิ่มลง POS
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ==================== INVENTORY TABLE & REQUISITIONS ====================
+    function renderInventoryTable() {
+      const search = (document.getElementById('inventory-search')?.value || '').toLowerCase();
+      const tbody = document.getElementById('inventory-tbody');
+
+      const filtered = catalog.filter(p => 
+        p.name.toLowerCase().includes(search) || 
+        p.sku.toLowerCase().includes(search) || 
+        p.category.toLowerCase().includes(search)
+      );
+
+      tbody.innerHTML = filtered.map(p => `
+        <tr class="hover:bg-slate-50/80 transition">
+          <td class="p-3.5 font-mono text-slate-600">${p.sku}</td>
+          <td class="p-3.5">
+            <div class="font-bold text-slate-900">${p.name}</div>
+            <div class="text-[11px] text-slate-400">${p.spec}</div>
+          </td>
+          <td class="p-3.5">
+            <span class="px-2 py-0.5 bg-slate-100 text-slate-700 rounded text-[11px] font-medium capitalize">${p.category}</span>
+          </td>
+          <td class="p-3.5 text-center font-bold font-mono text-sm ${p.stock <= p.min ? 'text-red-600 bg-red-50/50' : 'text-slate-800'}">
+            ${p.stock} <span class="text-xs font-normal text-slate-400">${p.unit}</span>
+          </td>
+          <td class="p-3.5 text-center font-mono text-slate-500">${p.min} ${p.unit}</td>
+          <td class="p-3.5 text-right font-mono font-medium text-slate-700">฿${p.cost.toLocaleString()}</td>
+          <td class="p-3.5 text-center">
+            ${p.stock <= p.min 
+              ? '<span class="px-2 py-0.5 bg-red-100 text-red-700 rounded-full font-bold text-[10px]"><i class="fa-solid fa-triangle-exclamation"></i> ต่ำกว่าเกณฑ์</span>'
+              : '<span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[10px]"><i class="fa-solid fa-check"></i> ปกติ</span>'}
+          </td>
+          <td class="p-3.5 text-center">
+            <div class="flex items-center justify-center gap-1.5">
+              <button onclick="quickRequisitionItem('${p.id}')" title="เบิกใช้วัสดุ" class="p-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 rounded-md">
+                <i class="fa-solid fa-arrow-up-from-bracket"></i>
+              </button>
+              <button onclick="quickAdjustStock('${p.id}')" title="ปรับสต็อก" class="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md">
+                <i class="fa-solid fa-sliders"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+
+      renderRequisitionHistory();
+    }
+
+    function renderRequisitionHistory() {
+      const tbody = document.getElementById('requisition-history-tbody');
+      tbody.innerHTML = requisitions.map(r => `
+        <tr class="hover:bg-slate-50">
+          <td class="p-3 text-slate-500 whitespace-nowrap">${r.date}</td>
+          <td class="p-3 font-mono font-bold text-slate-700">${r.code}</td>
+          <td class="p-3 font-semibold text-slate-900">${r.site}</td>
+          <td class="p-3 text-slate-700"><i class="fa-solid fa-user-helmet-safety text-slate-400"></i> ${r.tech}</td>
+          <td class="p-3 text-slate-600 max-w-xs truncate" title="${r.items}">${r.items}</td>
+          <td class="p-3 text-center">
+            <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[10px]">ตัดจ่ายแล้ว</span>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // ==================== TOOLS & EQUIPMENT ====================
+    function renderTools() {
+      const grid = document.getElementById('tools-grid');
+      grid.innerHTML = tools.map(t => {
+        const isBorrowed = t.status === 'borrowed';
+        return `
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between ${isBorrowed ? 'border-amber-200 bg-amber-50/20' : ''}">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="font-mono text-xs font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded">${t.code}</span>
+                <span class="text-xs px-2.5 py-0.5 rounded-full font-bold ${isBorrowed ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
+                  ${isBorrowed ? '<i class="fa-solid fa-person-walking-arrow-right"></i> กำลังถูกยืม' : '<i class="fa-solid fa-check"></i> พร้อมใช้งานในคลัง'}
+                </span>
+              </div>
+              <h3 class="font-bold font-heading text-slate-900 text-base mb-1">${t.name}</h3>
+              <p class="text-xs text-slate-500 mb-4">สภาพ: <span class="font-medium text-slate-700">${t.condition}</span></p>
+
+              ${isBorrowed ? `
+                <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs space-y-1.5 mb-4">
+                  <div class="flex items-center justify-between text-amber-900">
+                    <span class="font-semibold"><i class="fa-solid fa-user"></i> ผู้ยืม:</span>
+                    <b>${t.borrower}</b>
+                  </div>
+                  <div class="flex items-center justify-between text-amber-800">
+                    <span><i class="fa-solid fa-location-dot"></i> ไซต์งาน:</span>
+                    <span>${t.site}</span>
+                  </div>
+                  <div class="flex items-center justify-between text-[11px] text-amber-700">
+                    <span>เวลายืม:</span>
+                    <span>${t.dateOut}</span>
+                  </div>
+                </div>
+              ` : `
+                <div class="p-3 bg-slate-50 rounded-xl text-xs text-slate-400 mb-4 flex items-center gap-2">
+                  <i class="fa-solid fa-warehouse"></i> อุปกรณ์เก็บอยู่ที่ตู้คลังเครื่องมือ 99 Solar
+                </div>
+              `}
+            </div>
+
+            <div class="pt-3 border-t border-slate-100">
+              ${isBorrowed ? `
+                <button onclick="returnTool('${t.id}')" class="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm">
+                  <i class="fa-solid fa-rotate-left"></i> กดรับคืนเครื่องมือเข้าคลัง
+                </button>
+              ` : `
+                <button onclick="borrowSpecificTool('${t.id}')" class="w-full py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm">
+                  <i class="fa-solid fa-hand-holding-hand"></i> ทำรายการยืมเครื่องมือ
+                </button>
+              `}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function returnTool(toolId) {
+      const tool = tools.find(t => t.id === toolId);
+      if (tool) {
+        if (confirm(`ยืนยันการรับคืน "${tool.name}" จาก ${tool.borrower} เข้าคลัง?`)) {
+          tool.status = 'available';
+          tool.borrower = '-';
+          tool.site = '-';
+          tool.dateOut = '-';
+          saveState();
+          renderTools();
+          updateKpis();
+          alert('รับเครื่องมือคืนเข้าคลังเรียบร้อยแล้ว!');
+        }
+      }
+    }
+
+    // ==================== TECHNICIAN & TIME TRACKING ====================
+    function renderTechnicianTab() {
+      // Populate select job
+      const select = document.getElementById('clock-job-select');
+      const unassignedOrActive = jobs.filter(j => j.status === 'active');
+      select.innerHTML = jobs.map(j => `
+        <option value="${j.id}">${j.code} - ${j.customer} (${j.system})</option>
+      `).join('');
+
+      // Populate Tech Jobs
+      const container = document.getElementById('tech-jobs-container');
+      container.innerHTML = jobs.map(j => {
+        const isActive = j.status === 'active';
+        const minutes = isActive ? Math.floor((Date.now() - (j.startTimestamp || Date.now())) / 60000) : 0;
+        const hrs = Math.floor(minutes / 60);
+        const mins = minutes % 60;
+
+        return `
+          <div class="p-4 bg-slate-50 border ${isActive ? 'border-amber-300 ring-1 ring-amber-200' : 'border-slate-200'} rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="font-bold font-heading text-slate-900 text-base">${j.customer}</span>
+                <span class="px-2 py-0.5 bg-slate-200 text-slate-700 text-xs font-mono font-bold rounded">${j.code}</span>
+                ${isActive 
+                  ? '<span class="px-2 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-full flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span> กำลังจับเวลา</span>'
+                  : '<span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-full">เสร็จสิ้นงานแล้ว</span>'}
+              </div>
+              <p class="text-xs text-slate-600"><i class="fa-solid fa-solar-panel text-brand-600"></i> ${j.system}</p>
+              <div class="flex flex-wrap gap-3 text-xs text-slate-500 pt-1">
+                <span><i class="fa-solid fa-users-gear text-slate-400"></i> ทีมช่าง: <b>${j.techs}</b></span>
+                <span><i class="fa-solid fa-list-check text-slate-400"></i> ขั้นตอนปัจจุบัน: <b class="text-brand-700">${j.currentPhase}</b></span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-3 md:pt-0">
+              <div class="text-right">
+                ${isActive ? `
+                  <div class="text-sm font-mono font-bold text-amber-600">
+                    <i class="fa-solid fa-stopwatch"></i> ${hrs} ชม. ${mins} นาที
+                  </div>
+                  <span class="text-[11px] text-slate-400">เริ่มเมื่อเวลา ${j.startTime} น.</span>
+                ` : `
+                  <div class="text-sm font-mono font-bold text-slate-700">
+                    ใช้เวลารวม: ${j.duration}
+                  </div>
+                  <span class="text-[11px] text-slate-400">เสร็จสิ้นเมื่อ ${j.finishTime || '-'} น.</span>
+                `}
+              </div>
+
+              ${isActive ? `
+                <button onclick="finishJobClock('${j.id}')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+                  <i class="fa-solid fa-check"></i> บันทึกเสร็จงาน
+                </button>
+              ` : `
+                <button onclick="reopenJob('${j.id}')" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs font-semibold transition">
+                  เปิดงานซ้ำ
+                </button>
+              `}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      renderTimesheetHistory();
+    }
+
+    function renderTimesheetHistory() {
+      const tbody = document.getElementById('timesheet-history-tbody');
+      tbody.innerHTML = jobs.filter(j => j.status === 'completed').map(j => `
+        <tr class="hover:bg-slate-50">
+          <td class="p-3 text-slate-500 whitespace-nowrap">26/09/2026</td>
+          <td class="p-3">
+            <span class="font-bold text-slate-900">${j.customer}</span>
+            <span class="text-[10px] text-slate-400 block">${j.code}</span>
+          </td>
+          <td class="p-3 text-slate-700">${j.techs}</td>
+          <td class="p-3 text-slate-700">${j.currentPhase}</td>
+          <td class="p-3 font-mono text-slate-600">${j.startTime} - ${j.finishTime || '16:00'}</td>
+          <td class="p-3 text-center font-mono font-bold text-emerald-700">${j.duration || '6 ชม.'}</td>
+          <td class="p-3 text-slate-500 text-[11px]">ผ่านการทดสอบ Grid-tie เรียบร้อย ไม่พบกระแสไฟรั่ว</td>
+        </tr>
+      `).join('');
+    }
+
+    function startJobClock() {
+      const jobId = document.getElementById('clock-job-select').value;
+      const techName = document.getElementById('clock-tech-name').value.trim();
+      const phase = document.getElementById('clock-phase-select').value;
+
+      if (!techName) {
+        alert('กรุณากรอกชื่อช่าง / หัวหน้าทีมผู้บันทึก');
+        return;
+      }
+
+      const job = jobs.find(j => j.id === jobId);
+      if (job) {
+        const now = new Date();
+        const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+        job.status = 'active';
+        job.techs = techName;
+        job.currentPhase = phase;
+        job.startTime = timeStr;
+        job.startTimestamp = Date.now();
+        saveState();
+        renderTechnicianTab();
+        updateKpis();
+        alert(`บันทึกเวลาเริ่มงาน (Clock-in) สำหรับ "${job.customer}" เรียบร้อยแล้ว!`);
+      }
+    }
+
+    function finishJobClock(jobId) {
+      const job = jobs.find(j => j.id === jobId);
+      if (job) {
+        const notes = prompt(`บันทึกผลการทำงานหรือปัญหาหน้างาน (${job.customer}):`, 'ติดตั้งโครงสร้างและแผงเสร็จเรียบร้อย ทดสอบอินเวอร์เตอร์จ่ายไฟปกติ');
+        if (notes !== null) {
+          const now = new Date();
+          const finishStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+          const elapsedMins = Math.max(15, Math.floor((Date.now() - (job.startTimestamp || (Date.now() - 3600000))) / 60000));
+          const hrs = Math.floor(elapsedMins / 60);
+          const mins = elapsedMins % 60;
+
+          job.status = 'completed';
+          job.finishTime = finishStr;
+          job.duration = `${hrs} ชม. ${mins} นาที`;
+          job.currentPhase = 'ส่งมอบงานแล้ว';
+          saveState();
+          renderTechnicianTab();
+          renderDashboard();
+          updateKpis();
+          alert(`บันทึกจบงานเรียบร้อย! ใช้เวลาปฏิบัติงานทั้งสิ้น ${job.duration}`);
+        }
+      }
+    }
+
+    function reopenJob(jobId) {
+      const job = jobs.find(j => j.id === jobId);
+      if (job && confirm(`ต้องการเปิดงาน "${job.customer}" เพื่อเริ่มจับเวลาต่อหรือไม่?`)) {
+        job.status = 'active';
+        job.startTimestamp = Date.now();
+        const now = new Date();
+        job.startTime = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+        saveState();
+        renderTechnicianTab();
+        updateKpis();
+      }
+    }
+
+    // ==================== PURCHASING (PO) ====================
+    function renderPurchasing() {
+      const tbody = document.getElementById('po-tbody');
+      tbody.innerHTML = purchaseOrders.map(po => `
+        <tr class="hover:bg-slate-50">
+          <td class="p-3.5 font-mono font-bold text-slate-800">${po.code}</td>
+          <td class="p-3.5 text-slate-500">${po.date}</td>
+          <td class="p-3.5 font-semibold text-slate-900">${po.supplier}</td>
+          <td class="p-3.5 text-slate-600 max-w-sm">${po.items}</td>
+          <td class="p-3.5 text-right font-mono font-bold text-slate-800">฿${po.total.toLocaleString()}</td>
+          <td class="p-3.5 text-center">
+            ${po.status === 'received' 
+              ? '<span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[10px]"><i class="fa-solid fa-check"></i> รับเข้าคลังแล้ว</span>'
+              : '<span class="px-2.5 py-0.5 bg-amber-100 text-amber-800 rounded-full font-bold text-[10px]"><i class="fa-solid fa-truck"></i> รอของมาส่ง</span>'}
+          </td>
+          <td class="p-3.5 text-center">
+            ${po.status === 'pending' ? `
+              <button onclick="receivePO('${po.id}')" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition">
+                รับของเข้าสต็อก
+              </button>
+            ` : `
+              <span class="text-slate-400 text-xs">-</span>
+            `}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function receivePO(poId) {
+      const po = purchaseOrders.find(p => p.id === poId);
+      if (po) {
+        if (confirm(`ยืนยันการตรวจรับสินค้าจาก ${po.supplier} เข้าคลัง 99 Solar? สต็อกจะถูกปรับเพิ่มอัตโนมัติ`)) {
+          po.status = 'received';
+          // auto replenish mock for bolts / mc4
+          const bolt = catalog.find(c => c.sku === 'MNT-SCREW-M8');
+          if (bolt) bolt.stock += 1000;
+          const mc4 = catalog.find(c => c.sku === 'BOS-MC4-PAIR');
+          if (mc4) mc4.stock += 100;
+          saveState();
+          renderPurchasing();
+          renderDashboard();
+          updateKpis();
+          alert('ตรวจรับสินค้าเข้าคลัง และปรับปรุงสต็อกเรียบร้อยแล้ว!');
+        }
+      }
+    }
+
+    function quickOrderPO(sku) {
+      switchTab('purchasing');
+      const item = catalog.find(p => p.sku === sku);
+      if (item) {
+        const qty = prompt(`ระบุจำนวนที่ต้องการสั่งซื้อเพิ่มสำหรับ ${item.name}:`, '100');
+        if (qty && parseInt(qty) > 0) {
+          const newPo = {
+            id: `po-${Date.now()}`,
+            code: `PO-${new Date().getFullYear()}-${String(purchaseOrders.length + 1).padStart(4, '0')}`,
+            date: new Date().toLocaleDateString('th-TH'),
+            supplier: 'ตัวแทนจำหน่ายอุปกรณ์โซลาร์เซลล์ (หาดใหญ่)',
+            items: `${item.name} (${qty} ${item.unit})`,
+            total: item.cost * parseInt(qty),
+            status: 'pending'
+          };
+          purchaseOrders.unshift(newPo);
+          saveState();
+          renderPurchasing();
+          alert(`เปิดใบสั่งซื้อ ${newPo.code} เรียบร้อยแล้ว!`);
+        }
+      }
+    }
+
+    // ==================== POS & CART DISPATCH ====================
+    function renderPosCatalog() {
+      const search = (document.getElementById('pos-search')?.value || '').toLowerCase();
+      const grid = document.getElementById('pos-products-grid');
+
+      const filtered = catalog.filter(p => 
+        p.name.toLowerCase().includes(search) || 
+        p.sku.toLowerCase().includes(search)
+      );
+
+      grid.innerHTML = filtered.map(p => `
+        <div onclick="addToPosCart('${p.id}')" class="p-3 bg-slate-50 hover:bg-brand-50 border border-slate-200 hover:border-brand-400 rounded-xl cursor-pointer transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-[11px] mb-1">
+              <span class="font-mono text-slate-500 font-bold">${p.sku}</span>
+              <span class="${p.stock <= p.min ? 'text-red-600 font-bold' : 'text-slate-500'}">เหลือ: ${p.stock}</span>
+            </div>
+            <h4 class="font-bold text-xs text-slate-800 line-clamp-1 mb-1">${p.name}</h4>
+          </div>
+          <div class="flex justify-between items-center mt-2 pt-2 border-t border-slate-200/60">
+            <span class="text-xs font-black text-brand-700">฿${p.price.toLocaleString()}</span>
+            <span class="text-[11px] px-2 py-0.5 bg-brand-600 text-white rounded font-bold">+ เพิ่ม</span>
+          </div>
+        </div>
+      `).join('');
+
+      renderPosCart();
+    }
+
+    function addToPosCart(productId, count = 1) {
+      const product = catalog.find(p => p.id === productId);
+      if (!product) return;
+
+      const existing = posCart.find(i => i.id === productId);
+      if (existing) {
+        existing.qty += count;
+      } else {
+        posCart.push({
+          id: product.id,
+          sku: product.sku,
+          name: product.name,
+          unit: product.unit,
+          price: product.price,
+          qty: count
+        });
+      }
+      renderPosCart();
+    }
+
+    function renderPosCart() {
+      const container = document.getElementById('pos-cart-items');
+      const totalQtyEl = document.getElementById('pos-total-qty');
+      const totalAmountEl = document.getElementById('pos-total-amount');
+
+      if (posCart.length === 0) {
+        container.innerHTML = '<div class="py-8 text-center text-slate-400 text-xs">ยังไม่มีสินค้าในตะกร้า คลิกเลือกจากรายการซ้ายมือ</div>';
+        totalQtyEl.innerText = '0 ชิ้น';
+        totalAmountEl.innerText = '฿0.00';
+        return;
+      }
+
+      let totalQty = 0;
+      let totalAmount = 0;
+
+      container.innerHTML = posCart.map(item => {
+        totalQty += item.qty;
+        totalAmount += item.qty * item.price;
+        return `
+          <div class="flex items-center justify-between p-2 bg-slate-50 rounded-lg text-xs">
+            <div class="flex-1 mr-2">
+              <p class="font-bold text-slate-800 truncate">${item.name}</p>
+              <p class="text-[11px] text-slate-500">฿${item.price.toLocaleString()} / ${item.unit}</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="number" value="${item.qty}" min="1" onchange="updatePosQty('${item.id}', this.value)" class="w-14 px-1.5 py-1 text-center bg-white border border-slate-300 rounded font-mono font-bold">
+              <button onclick="removePosItem('${item.id}')" class="text-red-500 hover:text-red-700 p-1">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      totalQtyEl.innerText = `${totalQty} ชิ้น`;
+      totalAmountEl.innerText = `฿${totalAmount.toLocaleString()}`;
+    }
+
+    function updatePosQty(id, qty) {
+      const item = posCart.find(i => i.id === id);
+      if (item) {
+        item.qty = Math.max(1, parseInt(qty) || 1);
+        renderPosCart();
+      }
+    }
+
+    function removePosItem(id) {
+      posCart = posCart.filter(i => i.id !== id);
+      renderPosCart();
+    }
+
+    function clearPosCart() {
+      posCart = [];
+      renderPosCart();
+    }
+
+    function loadTemplateBOM(templateKey) {
+      clearPosCart();
+      if (templateKey === '5kw-micro') {
+        addToPosCart('p1', 2);  // 2x Hoymiles 2000W
+        addToPosCart('p4', 9);  // 9x Jinko 585W
+        addToPosCart('p6', 8);  // 8x Rail 4.2m
+        addToPosCart('p7', 16); // 16x Mid clamp
+        addToPosCart('p8', 8);  // 8x End clamp
+        addToPosCart('p10', 8); // 8x MC4
+        document.getElementById('pos-reference').value = 'งานติดตั้งชุด 5kW Microinverter (บ้านลูกค้า)';
+      } else if (templateKey === '10kw-string') {
+        addToPosCart('p2', 2);  // 2x Huawei 5KTL
+        addToPosCart('p5', 18); // 18x Longi 550W
+        addToPosCart('p6', 16); // 16x Rail 4.2m
+        addToPosCart('p7', 32); // 32x Mid clamp
+        addToPosCart('p8', 12); // 12x End clamp
+        addToPosCart('p10', 16);// 16x MC4
+        document.getElementById('pos-reference').value = 'งานติดตั้งชุด 10kW String Inverter (บ้านลูกค้า)';
+      }
+      switchTab('pos');
+    }
+
+    function processPosCheckout() {
+      if (posCart.length === 0) {
+        alert('กรุณาเลือกสินค้าใส่ตะกร้าก่อนทำการตัดจ่าย');
+        return;
+      }
+
+      const ref = document.getElementById('pos-reference').value.trim() || 'ลูกค้าหน้าร้านทั่วไป';
+      const posType = document.querySelector('input[name="pos-type"]:checked').value;
+
+      // Validate stock
+      for (const item of posCart) {
+        const prod = catalog.find(p => p.id === item.id);
+        if (prod && prod.stock < item.qty) {
+          alert(`สินค้า "${prod.name}" มีในคลังเพียง ${prod.stock} ${prod.unit} (ไม่พอเบิก ${item.qty} ${prod.unit})`);
+          return;
+        }
+      }
+
+      // Deduct stock
+      posCart.forEach(item => {
+        const prod = catalog.find(p => p.id === item.id);
+        if (prod) prod.stock -= item.qty;
+      });
+
+      // Record requisition log
+      const itemsSummary = posCart.map(i => `${i.name} (${i.qty} ${i.unit})`).join(', ');
+      requisitions.unshift({
+        id: `req-${Date.now()}`,
+        date: new Date().toLocaleString('th-TH'),
+        code: `REQ-${String(requisitions.length + 91).padStart(4, '0')}`,
+        site: ref,
+        tech: posType === 'retail' ? 'พนักงานหน้าร้าน' : 'ช่างเบิกติดตั้ง',
+        items: itemsSummary
+      });
+
+      saveState();
+      alert(`ตัดสต็อกและบันทึกรายการ "${ref}" เรียบร้อยแล้ว!`);
+      clearPosCart();
+      document.getElementById('pos-reference').value = '';
+      switchTab('inventory');
+    }
+
+    // ==================== MODAL HELPERS ====================
+    function openModal(id) {
+      document.getElementById(id)?.classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id)?.classList.add('hidden');
+    }
+
+    function quickActionModal(action) {
+      if (action === 'requisition') {
+        openRequisitionModal();
+      } else if (action === 'clockin') {
+        switchTab('technician');
+      }
+    }
+
+    function openRequisitionModal() {
+      const select = document.getElementById('req-item-select');
+      select.innerHTML = catalog.map(p => `
+        <option value="${p.id}">${p.name} (คงเหลือ: ${p.stock} ${p.unit})</option>
+      `).join('');
+      openModal('modal-requisition');
+    }
+
+    function quickRequisitionItem(productId) {
+      openRequisitionModal();
+      document.getElementById('req-item-select').value = productId;
+    }
+
+    function submitRequisition() {
+      const jobName = document.getElementById('req-job-name').value.trim() || 'ไซต์งานทั่วไป';
+      const techName = document.getElementById('req-tech-name').value.trim() || 'ช่างประจำทีม';
+      const itemId = document.getElementById('req-item-select').value;
+      const qty = parseInt(document.getElementById('req-qty').value) || 1;
+
+      const item = catalog.find(p => p.id === itemId);
+      if (!item) return;
+
+      if (item.stock < qty) {
+        alert(`สต็อกคงเหลือไม่พอ (${item.name} มีเพียง ${item.stock} ${item.unit})`);
+        return;
+      }
+
+      item.stock -= qty;
+      requisitions.unshift({
+        id: `req-${Date.now()}`,
+        date: new Date().toLocaleString('th-TH'),
+        code: `REQ-${String(requisitions.length + 91).padStart(4, '0')}`,
+        site: jobName,
+        tech: techName,
+        items: `${item.name} (${qty} ${item.unit})`
+      });
+
+      saveState();
+      closeModal('modal-requisition');
+      renderInventoryTable();
+      renderDashboard();
+      updateKpis();
+      alert(`บันทึกการเบิก ${item.name} จำนวน ${qty} ${item.unit} สำเร็จ!`);
+    }
+
+    function openBorrowToolModal() {
+      const select = document.getElementById('borrow-tool-select');
+      const availableTools = tools.filter(t => t.status === 'available');
+      if (availableTools.length === 0) {
+        alert('ขณะนี้ไม่มีเครื่องมือว่างในคลัง (ถูกยืมออกไปหมดแล้ว)');
+        return;
+      }
+      select.innerHTML = availableTools.map(t => `
+        <option value="${t.id}">${t.code} - ${t.name}</option>
+      `).join('');
+      openModal('modal-tool-borrow');
+    }
+
+    function borrowSpecificTool(toolId) {
+      openBorrowToolModal();
+      document.getElementById('borrow-tool-select').value = toolId;
+    }
+
+    function submitToolBorrow() {
+      const toolId = document.getElementById('borrow-tool-select').value;
+      const techName = document.getElementById('borrow-tech-name').value.trim();
+      const site = document.getElementById('borrow-site').value.trim() || 'ไซต์งานติดตั้ง';
+
+      if (!techName) {
+        alert('กรุณากรอกชื่อช่างผู้ยืม');
+        return;
+      }
+
+      const tool = tools.find(t => t.id === toolId);
+      if (tool) {
+        tool.status = 'borrowed';
+        tool.borrower = techName;
+        tool.site = site;
+        tool.dateOut = new Date().toLocaleString('th-TH');
+        saveState();
+        closeModal('modal-tool-borrow');
+        renderTools();
+        updateKpis();
+        alert(`บันทึกการยืม "${tool.name}" โดย ${techName} เรียบร้อย!`);
+      }
+    }
+
+    function openAddCatalogModal() {
+      openModal('modal-add-catalog');
+    }
+
+    function submitNewProduct() {
+      const sku = document.getElementById('new-sku').value.trim();
+      const name = document.getElementById('new-name').value.trim();
+      const spec = document.getElementById('new-spec').value.trim();
+      const category = document.getElementById('new-category').value;
+      const stock = parseInt(document.getElementById('new-stock').value) || 0;
+      const min = parseInt(document.getElementById('new-min').value) || 5;
+      const cost = parseFloat(document.getElementById('new-cost').value) || 0;
+
+      if (!sku || !name) {
+        alert('กรุณากรอกรหัสสินค้าและชื่อสินค้า');
+        return;
+      }
+
+      let icon = 'fa-boxes-stacked';
+      let unit = 'ชิ้น';
+      if (category === 'inverter') { icon = 'fa-microchip'; unit = 'เครื่อง'; }
+      else if (category === 'panel') { icon = 'fa-solar-panel'; unit = 'แผง'; }
+      else if (category === 'mounting') { icon = 'fa-bars'; unit = 'ตัว/เส้น'; }
+      else if (category === 'electrical') { icon = 'fa-plug'; unit = 'ชิ้น/เมตร'; }
+
+      catalog.push({
+        id: `p-${Date.now()}`,
+        sku,
+        name,
+        category,
+        spec,
+        stock,
+        min,
+        unit,
+        cost,
+        price: cost * 1.25,
+        icon,
+        brand: '99 Solar Standard'
+      });
+
+      saveState();
+      closeModal('modal-add-catalog');
+      renderCatalog();
+      renderInventoryTable();
+      updateKpis();
+      alert('เพิ่มสินค้าใหม่ลงในแคตตาล็อกเรียบร้อยแล้ว!');
+    }
+
+    function quickAdjustStock(productId) {
+      const prod = catalog.find(p => p.id === productId);
+      if (prod) {
+        const val = prompt(`ระบุจำนวนคงเหลือที่แท้จริงในคลังของ "${prod.name}":`, prod.stock);
+        if (val !== null && !isNaN(val)) {
+          prod.stock = parseInt(val);
+          saveState();
+          renderInventoryTable();
+          renderDashboard();
+          updateKpis();
+        }
+      }
+    }
+
+    // Live clock in technician tab
+    setInterval(() => {
+      const now = new Date();
+      const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+      const el = document.getElementById('live-clock');
+      if (el) el.innerText = timeStr;
+    }, 1000);
+
+    // Init App on Load
+    function initApp() {
+      renderDashboard();
+      renderCatalog();
+      renderInventoryTable();
+      renderTools();
+      renderTechnicianTab();
+      renderPurchasing();
+      renderPosCatalog();
+    }
+
+    window.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
