@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCalculator();
   initFAQ();
   initModal();
+  initQuickContactForm();
   initSocialProofToast();
   initSmoothScroll();
   initMascotHelper();
@@ -126,6 +127,32 @@ function initCalculator() {
       btn.classList.remove('border-slate-300');
     });
   });
+
+  // Handle direct send calculation result to LINE
+  const sendCalcToLineBtn = document.getElementById('sendCalcToLineBtn');
+  if (sendCalcToLineBtn) {
+    sendCalcToLineBtn.addEventListener('click', () => {
+      const bill = Number(slider?.value || 3000);
+      const kw = recommendedKw?.textContent || '3.3 kW';
+      const panels = panelCount?.textContent || '6 แผง (Tier 1)';
+      const saveM = monthlySavings?.textContent || '2,100 บาท/เดือน';
+      const saveY = yearlySavings?.textContent || '25,200 บาท/ปี';
+      const breakEven = breakevenYears?.textContent || '3.9 ปี';
+
+      const lineMessage = 
+`☀️ สนใจติดตั้งโซลาร์เซลล์ 99 Solar (หาดใหญ่-สงขลา)
+━━━━━━━━━━━━━━━━━━
+⚡ บิลค่าไฟปัจจุบัน: ${bill.toLocaleString()} บาท/เดือน
+💡 ระบบที่เหมาะสม: ${kw} (${panels})
+💵 ประมาณการประหยัด: ${saveM} (ปีละ ${saveY})
+⏳ ระยะเวลาคืนทุน: ~${breakEven}
+📍 พื้นที่: หาดใหญ่-สงขลา
+━━━━━━━━━━━━━━━━━━
+รบกวนวิศวกร 99 Solar ช่วยประเมินหน้างาน หรือแนะนำโปรโมชั่นผ่อน 0% ด้วยครับ`;
+
+      openLineChatWithMessage(lineMessage);
+    });
+  }
 }
 
 // 2. FAQ Accordion
@@ -214,14 +241,83 @@ function initModal() {
     consultForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const customerName = document.getElementById('clientName')?.value || 'ลูกค้า';
+      const phone = document.getElementById('clientPhone')?.value || '';
+      const lineId = document.getElementById('clientLine')?.value || '-';
+      const billSelect = document.getElementById('clientBill');
+      const billText = billSelect?.options[billSelect.selectedIndex]?.text || '3,000 บาท/เดือน';
+      const location = document.getElementById('clientLocation')?.value || 'หาดใหญ่-สงขลา';
       
+      const interests = [];
+      if (document.getElementById('chkLoan')?.checked) interests.push('ผ่อน 0%/สินเชื่อ');
+      if (document.getElementById('chkPea')?.checked) interests.push('ยื่นขอ กฟภ.');
+      if (document.getElementById('chkTax')?.checked) interests.push('ใบกำกับภาษี บจก.');
+      if (document.getElementById('chkClean')?.checked) interests.push('รับสิทธิ์ล้างแผงฟรี');
+
+      const lineMessage = 
+`☀️ นัดหมายสำรวจหน้างานฟรี (99 Solar หาดใหญ่)
+━━━━━━━━━━━━━━━━━━
+👤 ชื่อลูกค้า: ${customerName}
+📞 เบอร์โทรศัพท์: ${phone}
+💬 Line ID: ${lineId}
+⚡ ค่าไฟเฉลี่ย: ${billText}
+📍 พิกัดติดตั้ง: ${location}
+📝 สิ่งที่สนใจ: ${interests.join(', ') || 'สำรวจหน้างานทั่วไป'}
+━━━━━━━━━━━━━━━━━━
+รบกวนวิศวกร 99 Solar ติดต่อกลับเพื่อนัดหมายเข้าดูหน้างานครับ`;
+
+      // Save locally
+      saveLeadLocally({
+        type: 'consultation',
+        name: customerName,
+        phone,
+        lineId,
+        bill: billText,
+        location,
+        interests: interests.join(', '),
+        date: new Date().toLocaleString('th-TH')
+      });
+
+      // Send to optional Google Sheet
+      sendLeadToBackend({
+        form: 'นัดหมายสำรวจหน้างาน (Modal)',
+        name: customerName,
+        phone,
+        lineId,
+        bill: billText,
+        location,
+        notes: interests.join(', ')
+      });
+
       // Show success view
       if (formContent) formContent.classList.add('hidden');
       if (formSuccessView) {
         formSuccessView.classList.remove('hidden');
         const successClientName = document.getElementById('successClientName');
         if (successClientName) successClientName.textContent = customerName;
+
+        const summaryBox = document.getElementById('successSummaryBox');
+        if (summaryBox) {
+          summaryBox.innerHTML = `
+            <div><strong>👤 ชื่อ:</strong> ${customerName} (โทร: ${phone})</div>
+            <div><strong>⚡ ค่าไฟ:</strong> ${billText}</div>
+            <div><strong>📍 พิกัด:</strong> ${location}</div>
+            <div class="text-[11px] text-emerald-700 pt-1 border-t border-emerald-200 mt-1">✓ ระบบจัดเตรียมข้อความส่งให้ช่างทาง LINE @99sola เรียบร้อยแล้ว</div>
+          `;
+        }
+
+        const btnLine = document.getElementById('btnSuccessLineChat');
+        if (btnLine) {
+          btnLine.onclick = (ev) => {
+            ev.preventDefault();
+            openLineChatWithMessage(lineMessage);
+          };
+        }
       }
+
+      // Automatically open LINE chat after 800ms
+      setTimeout(() => {
+        openLineChatWithMessage(lineMessage);
+      }, 800);
     });
   }
 }
@@ -518,6 +614,40 @@ function initReferralSystem() {
       if (succAgent) succAgent.textContent = agentName;
       if (succFriend) succFriend.textContent = friendName;
 
+      const refLineMessage = 
+`🤝 แนะนำเพื่อนติดตั้งโซลาร์เซลล์ (รับค่าคอมมิชชั่น 99 Solar)
+━━━━━━━━━━━━━━━━━━
+👤 ผู้แนะนำ: ${agentName} (โทร: ${agentPhone})
+💳 บัญชีรับเงินคอมฯ: ${agentBank || 'แจ้งทางแชต'}
+━━━━━━━━━━━━━━━━━━
+👥 เพื่อนที่แนะนำ: ${friendName} (โทร: ${friendPhone})
+⚡ ค่าไฟเพื่อน: ~${friendBill === 'business' ? '20,000+ (ธุรกิจ)' : Number(friendBill).toLocaleString() + ' บาท/เดือน'}
+📍 พิกัดเพื่อน: ${friendLoc}
+💰 ประมาณการค่าคอมฯ: ${estCommission}
+━━━━━━━━━━━━━━━━━━
+ฝากทีมงาน 99 Solar ติดต่อเพื่อนเพื่อแนะนำและสำรวจหน้างานด้วยครับ`;
+
+      const btnRefLine = document.getElementById('btnRefSendLine');
+      if (btnRefLine) {
+        btnRefLine.onclick = (ev) => {
+          ev.preventDefault();
+          openLineChatWithMessage(refLineMessage);
+        };
+      }
+
+      // Send to optional Google Sheet
+      sendLeadToBackend({
+        form: 'แนะนำเพื่อน (Affiliate Referral)',
+        agentName,
+        agentPhone,
+        agentBank,
+        friendName,
+        friendPhone,
+        friendBill,
+        location: friendLoc,
+        estCommission
+      });
+
       successAlert.classList.remove('hidden');
       refForm.classList.add('hidden');
     });
@@ -636,3 +766,109 @@ function initReferralSystem() {
     });
   }
 }
+
+// -------------------------------------------------------------
+// LINE INTEGRATION & LEAD MANAGEMENT HELPERS
+// -------------------------------------------------------------
+
+// Quick Contact Form Handler
+function initQuickContactForm() {
+  const form = document.getElementById('quickContactForm');
+  if (!form) return;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('quickName')?.value || 'ลูกค้า';
+    const phone = document.getElementById('quickPhone')?.value || '';
+    const opt = document.getElementById('quickOption')?.value || 'ค่าไฟประมาณ 3,000 บาท (อ.หาดใหญ่)';
+
+    const lineMessage = 
+`☀️ ขอนัดหมายสำรวจหน้างานด่วน (99 Solar หาดใหญ่)
+━━━━━━━━━━━━━━━━━━
+👤 ชื่อลูกค้า: ${name}
+📞 เบอร์โทรศัพท์: ${phone}
+⚡ ข้อมูลค่าไฟ/พื้นที่: ${opt}
+━━━━━━━━━━━━━━━━━━
+รบกวนวิศวกร 99 Solar ติดต่อกลับเพื่อนัดหมายเข้าสำรวจหน้างานครับ`;
+
+    // Save locally
+    saveLeadLocally({
+      type: 'quick_contact',
+      name,
+      phone,
+      details: opt,
+      date: new Date().toLocaleString('th-TH')
+    });
+
+    // Send to backend/sheet
+    sendLeadToBackend({
+      form: 'ขอนัดสำรวจหน้างานด่วน (หน้าหลัก)',
+      name,
+      phone,
+      details: opt
+    });
+
+    // Open LINE
+    openLineChatWithMessage(lineMessage);
+  });
+}
+
+// Universal LINE Messaging Opener
+function openLineChatWithMessage(messageText) {
+  // 1. Copy to clipboard
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(messageText);
+    }
+  } catch (err) {
+    console.warn('Clipboard write error:', err);
+  }
+
+  // 2. Open LINE OA Chat Deeplink with pre-filled message
+  const encoded = encodeURIComponent(messageText);
+  const lineOaUrl = `https://line.me/R/oaMessage/@99sola/?${encoded}`;
+  
+  const opened = window.open(lineOaUrl, '_blank');
+  if (!opened || opened.closed || typeof opened.closed === 'undefined') {
+    // Popup blocked, fallback to standard link
+    window.location.href = lineOaUrl;
+  }
+}
+
+// Local Storage Lead Backup (ฟรี ปลอดภัย เก็บไว้ในเครื่อง)
+function saveLeadLocally(leadData) {
+  try {
+    const list = JSON.parse(localStorage.getItem('solar_customer_leads') || '[]');
+    list.unshift(leadData);
+    localStorage.setItem('solar_customer_leads', JSON.stringify(list));
+  } catch (e) {
+    console.warn('Local lead storage error:', e);
+  }
+}
+
+// Optional Google Sheet Webhook (เมื่อคุณมี Google Apps Script Webhook URL แค่ใส่ URL ตรงนี้)
+const GOOGLE_SHEET_WEBHOOK_URL = ''; // เช่น 'https://script.google.com/macros/s/AKfycbx.../exec'
+
+function sendLeadToBackend(leadData) {
+  if (!GOOGLE_SHEET_WEBHOOK_URL) return;
+  try {
+    fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...leadData,
+        submittedAt: new Date().toISOString()
+      })
+    }).catch(err => console.log('Sheet push skipped:', err));
+  } catch (e) {}
+}
+
+// Helper for store owner: view all leads in browser console
+window.viewSolarLeads = function() {
+  const leads = JSON.parse(localStorage.getItem('solar_customer_leads') || '[]');
+  const refs = JSON.parse(localStorage.getItem('solar_referrals') || '[]');
+  console.table(leads);
+  console.table(refs);
+  return { leads, referrals: refs };
+};

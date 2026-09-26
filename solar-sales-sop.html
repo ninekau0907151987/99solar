@@ -143,7 +143,64 @@
   </header>
 
   <!-- MAIN CONTAINER -->
-  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+
+    <!-- VOICE & MULTILINGUAL TTS CONTROL BAR (แถบเสียงอ่าน & แปลภาษาเรียกราคา 4 ภาษา) -->
+    <div class="bg-gradient-to-r from-slate-900 via-emerald-950/40 to-slate-900 border border-emerald-500/30 rounded-2xl p-3.5 sm:p-4 shadow-xl flex flex-wrap items-center justify-between gap-3 text-xs">
+      
+      <!-- Left: Language Buttons -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="text-slate-300 font-semibold flex items-center gap-1.5">
+          <i class="fa-solid fa-language text-brand-400 text-sm"></i> แปลภาษา / Language:
+        </span>
+        <div class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800">
+          <button onclick="setGlobalLanguage('th')" id="lang-btn-th" class="lang-btn active px-2.5 py-1 rounded-lg text-xs font-bold bg-brand-500 text-slate-950 transition-all flex items-center gap-1 shadow">
+            🇹🇭 <span>ไทย</span>
+          </button>
+          <button onclick="setGlobalLanguage('en')" id="lang-btn-en" class="lang-btn px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all flex items-center gap-1">
+            🇬🇧 <span>English</span>
+          </button>
+          <button onclick="setGlobalLanguage('zh')" id="lang-btn-zh" class="lang-btn px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all flex items-center gap-1">
+            🇨🇳 <span>中文</span>
+          </button>
+          <button onclick="setGlobalLanguage('ms')" id="lang-btn-ms" class="lang-btn px-2.5 py-1 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all flex items-center gap-1">
+            🇲🇾 <span>Melayu</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Center: Voice Speed & Speaking Indicator -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <div id="tts-speaking-badge" class="hidden items-center gap-1.5 px-3 py-1 bg-brand-500/20 text-brand-400 border border-brand-500/40 rounded-full animate-pulse">
+          <i class="fa-solid fa-volume-high"></i>
+          <span class="font-bold text-[11px]" id="tts-speaking-text">กำลังอ่านออกเสียง...</span>
+        </div>
+
+        <!-- Voice Speed -->
+        <div class="flex items-center gap-1 text-[11px] text-slate-400">
+          <span>ความเร็ว:</span>
+          <select id="tts-rate-select" onchange="setTtsRate(this.value)" class="bg-slate-950 text-slate-200 border border-slate-700 rounded-lg px-2 py-1 text-xs focus:outline-none">
+            <option value="0.85">0.85x (ช้าชัด)</option>
+            <option value="1.0" selected>1.0x (ปกติ)</option>
+            <option value="1.2">1.2x (เร็ว)</option>
+          </select>
+        </div>
+
+        <!-- Stop Audio Button -->
+        <button onclick="stopTTS()" class="px-2.5 py-1 bg-slate-800 hover:bg-rose-900/60 text-slate-300 hover:text-rose-300 border border-slate-700 rounded-lg text-xs transition-all flex items-center gap-1">
+          <i class="fa-solid fa-stop text-rose-400"></i> หยุดเสียง
+        </button>
+      </div>
+
+      <!-- Right: Quick Instant Voice Pitch Button (เรียกราคาด้วยเสียงทันที) -->
+      <div class="flex items-center gap-2">
+        <button onclick="playQuotationVoicePitch()" class="px-3.5 py-1.5 bg-gradient-to-r from-solar-gold to-solar-amber hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-md active:scale-95 transition-all">
+          <i class="fa-solid fa-bullhorn text-sm"></i>
+          <span>🗣️ เรียกราคา 3.3kW / 5kW ด้วยเสียง</span>
+        </button>
+      </div>
+
+    </div>
 
     <!-- ========================================== -->
     <!-- TAB 1: INTERACTIVE AI CHATBOT & SALES COPILOT -->
@@ -1203,9 +1260,14 @@
                   <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> ฟรีค่าขออนุญาต กฟภ./อบต.</div>
                 </div>
               </div>
-              <div class="pt-3 border-t border-slate-800">
-                <div class="text-xs text-emerald-400 font-bold mb-2">ประหยัด ~1,800 - 2,400 บาท/เดือน</div>
-                <button onclick="sendQuickPrompt('ขอรายละเอียดแพ็กเกจ On-Grid 3.3 kW Pro เพิ่มเติม')" class="w-full py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-slate-200 rounded-xl text-xs font-bold transition-all">สอบถามแพ็กเกจนี้</button>
+              <div class="pt-3 border-t border-slate-800 space-y-2">
+                <div class="text-xs text-emerald-400 font-bold">ประหยัด ~1,800 - 2,400 บาท/เดือน</div>
+                <div class="flex gap-2">
+                  <button onclick="speakQuotationPackage('3.3')" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-brand-400 border border-brand-500/30 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5" title="ฟังเสียงเรียกราคา 4 ภาษา">
+                    <i class="fa-solid fa-volume-high"></i> <span>ฟังเสียงเรียกราคา</span>
+                  </button>
+                  <button onclick="sendQuickPrompt('ขอรายละเอียดแพ็กเกจ On-Grid 3.3 kW Pro เพิ่มเติม')" class="flex-1 py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-slate-200 rounded-xl text-xs font-bold transition-all">สอบถาม</button>
+                </div>
               </div>
             </div>
 
@@ -1230,9 +1292,14 @@
                   <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> ท่อสแตนเลสบนหลังคา & uPVC หน้าบ้าน</div>
                 </div>
               </div>
-              <div class="pt-3 border-t border-slate-800">
-                <div class="text-xs text-emerald-400 font-bold mb-2">ประหยัด ~2,800 - 3,600 บาท/เดือน</div>
-                <button onclick="sendQuickPrompt('สนใจชุด Hybrid 3.3 kW + แบตเตอรี่ 100Ah สำหรับเปิดแอร์กลางคืน ขอสเปกหน่อยครับ')" class="w-full py-2 bg-brand-500 hover:bg-brand-400 text-slate-950 rounded-xl text-xs font-bold transition-all shadow-md">เลือกแพ็กเกจยอดฮิตนี้</button>
+              <div class="pt-3 border-t border-slate-800 space-y-2">
+                <div class="text-xs text-emerald-400 font-bold">ประหยัด ~2,800 - 3,600 บาท/เดือน</div>
+                <div class="flex gap-2">
+                  <button onclick="speakQuotationPackage('hybrid3.3')" class="px-3 py-2 bg-slate-900 hover:bg-slate-800 text-solar-gold border border-solar-gold/40 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow" title="ฟังเสียงเรียกราคา 4 ภาษา">
+                    <i class="fa-solid fa-volume-high"></i> <span>ฟังเสียงเรียกราคา</span>
+                  </button>
+                  <button onclick="sendQuickPrompt('สนใจชุด Hybrid 3.3 kW + แบตเตอรี่ 100Ah สำหรับเปิดแอร์กลางคืน ขอสเปกหน่อยครับ')" class="flex-1 py-2 bg-brand-500 hover:bg-brand-400 text-slate-950 rounded-xl text-xs font-bold transition-all shadow-md">เลือกแพ็กเกจนี้</button>
+                </div>
               </div>
             </div>
 
@@ -1253,9 +1320,14 @@
                   <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> Smart Meter + CT Clamp วัดไฟเรียลไทม์</div>
                 </div>
               </div>
-              <div class="pt-3 border-t border-slate-800">
-                <div class="text-xs text-emerald-400 font-bold mb-2">ประหยัด ~4,500 - 6,500 บาท/เดือน</div>
-                <button onclick="sendQuickPrompt('ขอรายละเอียด Hybrid 5 kW + แบตเตอรี่ 200Ah หน่อยครับ')" class="w-full py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-slate-200 rounded-xl text-xs font-bold transition-all">สอบถามแพ็กเกจนี้</button>
+              <div class="pt-3 border-t border-slate-800 space-y-2">
+                <div class="text-xs text-emerald-400 font-bold">ประหยัด ~4,500 - 6,500 บาท/เดือน</div>
+                <div class="flex gap-2">
+                  <button onclick="speakQuotationPackage('hybrid5.0')" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-purple-400 border border-purple-500/30 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5" title="ฟังเสียงเรียกราคา 4 ภาษา">
+                    <i class="fa-solid fa-volume-high"></i> <span>ฟังเสียงเรียกราคา</span>
+                  </button>
+                  <button onclick="sendQuickPrompt('ขอรายละเอียด Hybrid 5 kW + แบตเตอรี่ 200Ah หน่อยครับ')" class="flex-1 py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-slate-200 rounded-xl text-xs font-bold transition-all">สอบถาม</button>
+                </div>
               </div>
             </div>
           </div>
@@ -1780,7 +1852,18 @@
           <i class="fa-solid fa-robot"></i>
         </div>
         <div class="max-w-[88%] bg-slate-800 border border-slate-700 text-slate-200 p-4 chat-bubble-bot space-y-3 text-xs sm:text-sm shadow-md">
-          ${htmlContent}
+          <div class="bot-msg-content">${htmlContent}</div>
+          <div class="pt-2 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400">
+            <div class="flex items-center gap-2">
+              <button onclick="speakBubbleText(this)" class="hover:text-brand-400 transition-colors flex items-center gap-1 px-2 py-0.5 rounded bg-slate-900 border border-slate-750" title="ฟังเสียงอ่านข้อความ">
+                <i class="fa-solid fa-volume-high text-brand-400"></i> <span>ฟังเสียง</span>
+              </button>
+              <button onclick="translateAndSpeakBubble(this)" class="hover:text-solar-gold transition-colors flex items-center gap-1 px-2 py-0.5 rounded bg-slate-900 border border-slate-750" title="แปลภาษา & ฟังเสียง (TH / EN / 中文 / Melayu)">
+                <i class="fa-solid fa-language text-solar-gold"></i> <span>แปล & ฟังเสียง</span>
+              </button>
+            </div>
+            <span class="text-[10px] text-slate-500">99 Solar Voice Copilot</span>
+          </div>
         </div>
       `;
       chatBox.appendChild(div);
@@ -2111,9 +2194,14 @@
 
           <!-- Opening Pitch -->
           <div class="space-y-2">
-            <h4 class="font-bold text-white text-xs sm:text-sm flex items-center gap-2">
-              <i class="fa-solid fa-comments text-brand-400"></i> 1. สคริปต์เปิดบทสนทนา (Opening Script):
-            </h4>
+            <div class="flex justify-between items-center">
+              <h4 class="font-bold text-white text-xs sm:text-sm flex items-center gap-2">
+                <i class="fa-solid fa-comments text-brand-400"></i> 1. สคริปต์เปิดบทสนทนา (Opening Script):
+              </h4>
+              <button onclick="speakPersonaText(personas[${level}].opening, currentGlobalLang)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-brand-400 border border-brand-500/30 rounded-lg text-xs flex items-center gap-1.5 transition-all">
+                <i class="fa-solid fa-volume-high"></i> <span>ฟังเสียงพูดเปิดดีล</span>
+              </button>
+            </div>
             <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 text-xs sm:text-sm text-brand-300 font-medium">
               "${p.opening}"
             </div>
@@ -2157,9 +2245,14 @@
             </h4>
             <div class="bg-gradient-to-r from-slate-950 to-brand-950/40 p-4 rounded-xl border border-brand-500/40 text-xs sm:text-sm text-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div class="italic">"${p.closingScript}"</div>
-              <button onclick="sendQuickPrompt('ขอซ้อมบทสนทนาปิดดีลกับลูกค้าระดับ Level ${level}')" class="px-4 py-2 bg-brand-500 hover:bg-brand-400 text-slate-950 font-bold rounded-lg text-xs shrink-0 transition-colors shadow">
-                <i class="fa-solid fa-play mr-1"></i> ซ้อมบทนี้กับบอท
-              </button>
+              <div class="flex items-center gap-2 shrink-0">
+                <button onclick="speakPersonaText(personas[${level}].closingScript, currentGlobalLang)" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-solar-gold border border-solar-gold/40 rounded-lg text-xs transition-colors flex items-center gap-1">
+                  <i class="fa-solid fa-volume-high"></i> <span>ฟังเสียง</span>
+                </button>
+                <button onclick="sendQuickPrompt('ขอซ้อมบทสนทนาปิดดีลกับลูกค้าระดับ Level ${level}')" class="px-4 py-2 bg-brand-500 hover:bg-brand-400 text-slate-950 font-bold rounded-lg text-xs shrink-0 transition-colors shadow">
+                  <i class="fa-solid fa-play mr-1"></i> ซ้อมบทนี้กับบอท
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -2284,6 +2377,267 @@
       window.print();
     }
 
+    // =========================================================
+    // MULTILINGUAL & TEXT-TO-SPEECH (TTS) AUDIO ENGINE
+    // =========================================================
+    let currentGlobalLang = 'th';
+    let ttsRate = 1.0;
+    let synth = window.speechSynthesis;
+    let currentUtterance = null;
+
+    const quotationPitches = {
+      '3.3': {
+        th: "99 Solar ขอเสนอระบบโซลาร์เซลล์ On-Grid ขนาด 3.3 กิโลวัตต์ 1 เฟส ใช้แผง N-Type TOPCon 620 วัตต์ จำนวน 6 แผง ราคาเริ่มต้น 119,000 บาท ประหยัดค่าไฟได้เดือนละประมาณ 1,800 ถึง 2,400 บาท คืนทุนใน 4 ปี อุปกรณ์มาตรฐาน กฟภ. พร้อมตู้คอมบายเนอร์ ท่อและเคเบิ้ลไทร์สแตนเลส 304 บนหลังคา ทนทาน 25 ปี ฟรีดำเนินการยื่นขออนุญาตการไฟฟ้าครบวงจรครับ",
+        en: "99 Solar proudly presents our 3.3 kilowatt 1-phase On-Grid solar rooftop system, featuring 6 high-efficiency 620-watt N-Type TOPCon panels. Starting at just 119,000 Baht, it saves approximately 1,800 to 2,400 Baht on your monthly electric bill, achieving full payback in around 4 years. Built to strict PEA engineering standards with full combiner box and 25-year UV-resistant 304 stainless steel conduits and ties. All government permits and bidirectional meter installation included.",
+        zh: "99 Solar 为您推荐 3.3千瓦单相并网光伏发电系统，采用6块 620瓦 N型超高效光伏组件，起售价仅 119,000 泰铢。每月为您节省约 1,800 至 2,400 泰铢电费，约4年即可完全收回投资成本。系统严格符合泰国电力局PEA标准，配备专业直流配电箱、屋顶304不锈钢线管与扎带，安全寿命长达25年。我们免费为您代办全部政府并网审批手续。",
+        ms: "99 Solar mempersembahkan sistem solar atas bumbung On-Grid 3.3 kilowatt 1 fasa, menggunakan 6 keping panel N-Type 620 watt berkecekapan tinggi. Harga bermula dari 119,000 Baht sahaja, menjimatkan kira-kira 1,800 hingga 2,400 Baht bil elektrik bulanan anda dengan tempoh pulangan modal sekitar 4 tahun. Mengikut piawaian kejuruteraan PEA, lengkap dengan combiner box dan paip keluli tahan karat 304 tahan 25 tahun. Semua urusan permit elektrik kami uruskan secara percuma."
+      },
+      'hybrid3.3': {
+        th: "ระบบ Hybrid 3.3 กิโลวัตต์ พร้อมแบตเตอรี่ลิเธียม LiFePO4 ขนาด 100 แอมป์ ความจุ 5.12 กิโลวัตต์ชั่วโมง ราคาพิเศษ 199,000 บาท สำหรับใช้ไฟฟรีตอนกลางวัน และจ่ายแอร์ห้องนอนได้ 6 ถึง 8 ชั่วโมงในตอนกลางคืน เมื่อไฟหลวงดับระบบจะสลับจ่ายไฟสำรองอัตโนมัติภายใน 10 มิลลิวินาที แอร์ไม่ดับ คอมพิวเตอร์ไม่รีสตาร์ท ประหยัดค่าไฟได้เดือนละ 2,800 ถึง 3,500 บาท ปลอดภัยสูงสุดด้วยเซลล์แบตเตอรี่เกรด A และตู้คอมบายเนอร์มาตรฐานวิศวกรรมครับ",
+        en: "Our Hybrid 3.3 kilowatt system with 100 Amp-hour LiFePO4 lithium battery provides 5.12 kilowatt-hours of storage for only 199,000 Baht. It powers your home during the day and runs your bedroom air conditioner for 6 to 8 hours at night. In case of grid power outages, the intelligent EPS backup switches automatically within 10 milliseconds without any interruption. Saves approximately 2,800 to 3,500 Baht per month with supreme Tier-1 battery safety.",
+        zh: "99 Solar 3.3千瓦混合型光储一体系统，配备 100安时磷酸铁锂电池，储能容量达 5.12度电，特惠售价 199,000 泰铢。白天利用太阳能用电，夜间电池供电开空调 6至8小时。电网停电时，系统在10毫秒内自动无缝切换备用电源，空调不关机，电脑不重启。每月节省 2,800 至 3,500 泰铢电费，安全可靠零火灾风险。",
+        ms: "Sistem Hybrid 3.3 kilowatt bersama bateri litium LiFePO4 100 Amp-jam berkapasiti 5.12 kilowatt-jam berharga 199,000 Baht. Menjana elektrik percuma pada waktu siang dan membekalkan kuasa untuk pendingin hawa bilik tidur selama 6 hingga 8 jam pada waktu malam. Sekiranya bekalan elektrik terputus, sistem beralih secara automatik dalam 10 milisaat tanpa gangguan. Menjimatkan 2,800 hingga 3,500 Baht sebulan dengan keselamatan gred A."
+      },
+      '5.0': {
+        th: "แพ็กเกจยอดนิยมสำหรับบ้านครอบครัว On-Grid ขนาด 5.0 กิโลวัตต์ รองรับทั้งไฟ 1 เฟส และ 3 เฟส ใช้แผง N-Type 620 วัตต์ จำนวน 10 แผง ราคาเริ่มต้น 169,000 บาท ประหยัดค่าไฟได้เดือนละ 3,000 ถึง 4,000 บาท เหมาะสำหรับบ้านที่มีค่าไฟ 5,000 ถึง 8,000 บาท เปิดแอร์ 2 ถึง 3 ตัวตอนกลางวันสบายใจ คืนทุนไวภายใน 3.5 ถึง 4 ปี พร้อมการรับประกันผลงานติดตั้งและล้างแผงฟรีครับ",
+        en: "Our best-selling family package: 5.0 kilowatt On-Grid system, compatible with both 1-phase and 3-phase supplies, featuring 10 N-Type 620-watt panels starting at 169,000 Baht. It saves between 3,000 and 4,000 Baht monthly, ideal for homes with electricity bills around 5,000 to 8,000 Baht. Run 2 to 3 air conditioners all day freely with a fast payback of 3.5 to 4 years and full installation warranty.",
+        zh: "99 Solar 最畅销家庭套餐：5.0千瓦并网系统，支持单相和三相电，采用10块 620瓦N型组件，起售价仅 169,000 泰铢。每月省电 3,000 至 4,000 泰铢，非常适合月电费 5,000至8,000泰铢的家庭。白天可轻松开启2至3台空调，约3.5至4年快速回本，享免费清洗与全套质保服务。",
+        ms: "Pakej paling popular untuk kediaman keluarga: Sistem On-Grid 5.0 kilowatt untuk bekalan 1 fasa atau 3 fasa, mengandungi 10 panel 620 watt N-Type bermula pada 169,000 Baht. Menjimatkan 3,000 hingga 4,000 Baht setiap bulan, sesuai untuk rumah dengan bil elektrik 5,000 hingga 8,000 Baht. Pasang penyaman udara 2 hingga 3 unit sepanjang hari dengan pulangan modal 3.5 hingga 4 tahun."
+      },
+      'hybrid5.0': {
+        th: "ระบบ Hybrid 5.0 กิโลวัตต์ พร้อมแบตเตอรี่ LiFePO4 ขนาด 200 แอมป์ ความจุสูงถึง 10.24 กิโลวัตต์ชั่วโมง ราคาพิเศษ 289,000 บาท จ่ายแอร์ 2 ตัวพร้อมกันตลอดทั้งคืน 8 ถึง 10 ชั่วโมง หมดกังวลเรื่องไฟดับและค่าไฟกลางคืน ประหยัดค่าไฟได้เดือนละ 4,500 ถึง 6,000 บาท เหมาะสำหรับบ้านเดี่ยวและครอบครัวขนาดใหญ่ครับ",
+        en: "Our flagship Hybrid 5.0 kilowatt system with massive 200 Amp-hour LiFePO4 storage (10.24 kilowatt-hours) for 289,000 Baht. Seamlessly powers 2 air conditioners throughout the entire night for 8 to 10 hours. Never worry about blackouts or night-time electricity tariffs again, saving 4,500 to 6,000 Baht monthly. Perfect for detached houses and modern families.",
+        zh: "旗舰级 5.0千瓦混合光储系统，配备 200安时磷酸铁锂大电池，总储能高达 10.24度电，特惠价 289,000 泰铢。夜间可同时带动2台空调运行 8至10小时整夜清凉。彻底告别夜间高额电费和突发停电，每月省电 4,500 至 6,000 泰铢，是独栋别墅与大型家庭的理想首选。",
+        ms: "Sistem mercu tanda Hybrid 5.0 kilowatt bersama storan bateri LiFePO4 200 Amp-jam berkapasiti 10.24 kilowatt-jam pada harga 289,000 Baht. Membekalkan kuasa kepada 2 unit penyaman udara sepanjang malam selama 8 hingga 10 jam. Tiada lagi kerisauan tentang elektrik terputus atau tarif malam, menjimatkan 4,500 hingga 6,000 Baht sebulan."
+      },
+      '10.0': {
+        th: "ระบบ On-Grid ขนาด 10.0 กิโลวัตต์ 3 เฟส 380 โวลต์ สำหรับบ้านขนาดใหญ่ คลินิก หรือโฮมออฟฟิศ ราคาเริ่มต้น 299,000 บาท ประหยัดค่าไฟได้เดือนละ 6,000 ถึง 7,800 บาท หรือปีละเกือบ 90,000 บาท คืนทุนไวใน 3.2 ถึง 3.8 ปี ช่วยลดค่าใช้จ่ายและสามารถนำไปหักภาษีนิติบุคคลได้เต็มรูปแบบครับ",
+        en: "Our commercial-grade 10.0 kilowatt 3-phase 380-volt On-Grid system is designed for large residences, clinics, and home offices starting at 299,000 Baht. Saves approximately 6,000 to 7,800 Baht monthly, totaling nearly 90,000 Baht annually, with payback in 3.2 to 3.8 years. Fully eligible for corporate tax deductions with official tax invoice.",
+        zh: "10.0千瓦三相380伏工商业并网系统，专为大型豪宅、诊所、办公楼或工厂设计，起售价 299,000 泰铢。每月节省电费 6,000 至 7,800 泰铢，年均节电近90,000泰铢，投资回收期仅3.2至3.8年。可全额开具正规税务发票用于企业抵税与成本核销。",
+        ms: "Sistem On-Grid 10.0 kilowatt 3 fasa 380V gred komersial untuk banglo besar, klinik, pejabat atau kedai bermula dari 299,000 Baht. Menjimatkan kira-kira 6,000 hingga 7,800 Baht sebulan (hampir 90,000 Baht setahun), dengan pulangan modal 3.2 hingga 3.8 tahun. Boleh ditolak cukai perniagaan sepenuhnya dengan invois rasmi."
+      }
+    };
+
+    function setGlobalLanguage(lang) {
+      currentGlobalLang = lang;
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active', 'bg-brand-500', 'text-slate-950', 'shadow');
+        btn.classList.add('text-slate-400');
+      });
+      const activeBtn = document.getElementById('lang-btn-' + lang);
+      if (activeBtn) {
+        activeBtn.classList.add('active', 'bg-brand-500', 'text-slate-950', 'shadow');
+        activeBtn.classList.remove('text-slate-400');
+      }
+
+      // Update Modal if open
+      updateVoiceModalContent();
+    }
+
+    function setTtsRate(rate) {
+      ttsRate = parseFloat(rate) || 1.0;
+      if (synth && synth.speaking) {
+        // restart with new rate if currently speaking
+        const currentText = currentUtterance ? currentUtterance.text : '';
+        const currentLang = currentUtterance ? currentUtterance.lang : 'th-TH';
+        stopTTS();
+        if (currentText) speakText(currentText, currentLang);
+      }
+    }
+
+    function speakText(text, langCode = 'th-TH') {
+      if (!('speechSynthesis' in window)) {
+        alert('เบราว์เซอร์ของคุณยังไม่รองรับระบบสังเคราะห์เสียงอ่าน (Web Speech API) กรุณาลองใช้ Google Chrome, Safari หรือ Microsoft Edge ครับ');
+        return;
+      }
+
+      stopTTS();
+
+      const cleanText = text.replace(/<[^>]*>?/gm, '').replace(/[\*•#]/g, '').trim();
+      if (!cleanText) return;
+
+      const utter = new SpeechSynthesisUtterance(cleanText);
+      utter.rate = ttsRate;
+      utter.pitch = 1.0;
+
+      // Assign matching language voice code
+      let targetLang = langCode;
+      if (langCode === 'th' || langCode === 'th-TH') targetLang = 'th-TH';
+      else if (langCode === 'en' || langCode === 'en-US') targetLang = 'en-US';
+      else if (langCode === 'zh' || langCode === 'zh-CN') targetLang = 'zh-CN';
+      else if (langCode === 'ms' || langCode === 'ms-MY') targetLang = 'ms-MY';
+      
+      utter.lang = targetLang;
+
+      // Try selecting a native voice if available
+      const voices = synth.getVoices();
+      if (voices && voices.length > 0) {
+        const matchedVoice = voices.find(v => v.lang.toLowerCase().startsWith(targetLang.slice(0, 2).toLowerCase()));
+        if (matchedVoice) utter.voice = matchedVoice;
+      }
+
+      // UI state
+      const badge = document.getElementById('tts-speaking-badge');
+      const badgeText = document.getElementById('tts-speaking-text');
+      if (badge) {
+        badge.classList.remove('hidden');
+        badge.classList.add('flex');
+        if (badgeText) badgeText.textContent = `กำลังอ่าน (${targetLang})...`;
+      }
+
+      utter.onend = () => {
+        if (badge) {
+          badge.classList.add('hidden');
+          badge.classList.remove('flex');
+        }
+      };
+
+      utter.onerror = () => {
+        if (badge) {
+          badge.classList.add('hidden');
+          badge.classList.remove('flex');
+        }
+      };
+
+      currentUtterance = utter;
+      synth.speak(utter);
+    }
+
+    function stopTTS() {
+      if (synth) {
+        synth.cancel();
+      }
+      const badge = document.getElementById('tts-speaking-badge');
+      if (badge) {
+        badge.classList.add('hidden');
+        badge.classList.remove('flex');
+      }
+    }
+
+    // Speak single chat bubble
+    function speakBubbleText(btn) {
+      const bubble = btn.closest('.chat-bubble-bot');
+      if (!bubble) return;
+      const text = bubble.innerText || bubble.textContent || '';
+      speakText(text, currentGlobalLang);
+    }
+
+    function translateAndSpeakBubble(btn) {
+      const bubble = btn.closest('.chat-bubble-bot');
+      if (!bubble) return;
+      const text = bubble.innerText || bubble.textContent || '';
+      
+      // If currently Thai, switch to English, or cycle through
+      let target = currentGlobalLang === 'th' ? 'en' : (currentGlobalLang === 'en' ? 'zh' : (currentGlobalLang === 'zh' ? 'ms' : 'th'));
+      setGlobalLanguage(target);
+      
+      // If quotation pitch keyword found, speak specific pitch
+      if (text.includes('3.3') && text.includes('แบต')) {
+        speakQuotationPackage('hybrid3.3');
+      } else if (text.includes('3.3')) {
+        speakQuotationPackage('3.3');
+      } else if (text.includes('5.0') || text.includes('5 kw')) {
+        speakQuotationPackage('5.0');
+      } else {
+        speakText(text, target);
+      }
+    }
+
+    function speakQuotationPackage(pkgKey) {
+      const pitchObj = quotationPitches[pkgKey] || quotationPitches['3.3'];
+      const text = pitchObj[currentGlobalLang] || pitchObj['th'];
+      openVoicePitchModal(pkgKey);
+      speakText(text, currentGlobalLang);
+    }
+
+    function speakPersonaText(text, lang = 'th') {
+      speakText(text, lang);
+    }
+
+    // Modal Control Logic
+    let currentModalPkg = 'hybrid3.3';
+    let currentModalLang = 'th';
+
+    function playQuotationVoicePitch() {
+      openVoicePitchModal('hybrid3.3');
+      playCurrentModalPitch();
+    }
+
+    function openVoicePitchModal(pkgKey = 'hybrid3.3') {
+      currentModalPkg = pkgKey;
+      currentModalLang = currentGlobalLang;
+      const modal = document.getElementById('voicePitchModal');
+      const pkgSelect = document.getElementById('modal-pkg-select');
+      if (pkgSelect) pkgSelect.value = pkgKey;
+      if (modal) modal.classList.remove('hidden');
+
+      // Sync active button
+      document.querySelectorAll('.modal-lang-btn').forEach(btn => {
+        btn.className = 'modal-lang-btn py-2 px-1 rounded-xl bg-slate-950 border border-slate-700 text-slate-300 font-medium text-center transition-all hover:text-white';
+      });
+      const activeBtn = Array.from(document.querySelectorAll('.modal-lang-btn')).find(b => b.textContent.toLowerCase().includes(currentModalLang === 'zh' ? '中文' : (currentModalLang === 'ms' ? 'melayu' : currentModalLang)));
+      if (activeBtn) {
+        activeBtn.className = 'modal-lang-btn active py-2 px-1 rounded-xl bg-brand-500 text-slate-950 font-bold text-center transition-all shadow';
+      }
+
+      updateVoiceModalContent();
+    }
+
+    function closeVoicePitchModal() {
+      stopTTS();
+      const modal = document.getElementById('voicePitchModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function setModalLang(lang, btn) {
+      currentModalLang = lang;
+      setGlobalLanguage(lang);
+      document.querySelectorAll('.modal-lang-btn').forEach(b => {
+        b.className = 'modal-lang-btn py-2 px-1 rounded-xl bg-slate-950 border border-slate-700 text-slate-300 font-medium text-center transition-all hover:text-white';
+      });
+      if (btn) {
+        btn.className = 'modal-lang-btn active py-2 px-1 rounded-xl bg-brand-500 text-slate-950 font-bold text-center transition-all shadow';
+      }
+      updateVoiceModalContent();
+      playCurrentModalPitch();
+    }
+
+    function updateVoiceModalContent() {
+      const pkgSelect = document.getElementById('modal-pkg-select');
+      if (pkgSelect) currentModalPkg = pkgSelect.value;
+      
+      const pitchObj = quotationPitches[currentModalPkg] || quotationPitches['3.3'];
+      const text = pitchObj[currentModalLang] || pitchObj['th'];
+
+      const textDisplay = document.getElementById('modal-pitch-text');
+      const langLabel = document.getElementById('modal-lang-label');
+
+      if (textDisplay) textDisplay.textContent = text;
+      
+      const langNames = {
+        th: 'ภาษาไทย (th-TH)',
+        en: 'English (en-US)',
+        zh: '中文普通话 (zh-CN)',
+        ms: 'Bahasa Melayu (ms-MY)'
+      };
+      if (langLabel) langLabel.textContent = langNames[currentModalLang] || currentModalLang;
+    }
+
+    function playCurrentModalPitch() {
+      const textDisplay = document.getElementById('modal-pitch-text');
+      if (!textDisplay) return;
+      const text = textDisplay.textContent || '';
+      speakText(text, currentModalLang);
+    }
+
+    function copyModalPitchText() {
+      const textDisplay = document.getElementById('modal-pitch-text');
+      if (!textDisplay) return;
+      navigator.clipboard.writeText(textDisplay.textContent).then(() => {
+        alert('คัดลอกสคริปต์เรียบร้อยครับ!');
+      });
+    }
+
     // Utility
     function escapeHTML(str) {
       return str.replace(/[&<>'"]/g, 
@@ -2297,5 +2651,77 @@
       );
     }
   </script>
+  <!-- MULTILINGUAL AUDIO QUOTATION PITCH MODAL (หน้าต่างเรียกราคาและพรีเซนต์ด้วยเสียง) -->
+  <div id="voicePitchModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-2xl w-full p-6 sm:p-8 space-y-6 shadow-2xl relative">
+      <!-- Close Button -->
+      <button onclick="closeVoicePitchModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center transition-colors">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <!-- Modal Header -->
+      <div class="space-y-1">
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-0.5 rounded-full bg-solar-gold/20 text-solar-gold border border-solar-gold/30 text-[11px] font-bold">
+            <i class="fa-solid fa-bullhorn mr-1"></i> Multilingual Voice Quotation Pitch
+          </span>
+          <span class="text-xs text-slate-400">ระบบเรียกราคาและสรุปสเปกด้วยเสียง 4 ภาษา</span>
+        </div>
+        <h3 class="text-xl sm:text-2xl font-bold text-white font-heading">เครื่องมือพรีเซนต์ราคา & สรุปสเปกด้วยเสียง</h3>
+      </div>
+
+      <!-- Controls: System Size & Language -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">เลือกระบบที่ต้องการเรียกราคา:</label>
+          <select id="modal-pkg-select" onchange="updateVoiceModalContent()" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-brand-500">
+            <option value="3.3">⚡ On-Grid 3.3 kW 1 เฟส (เริ่มต้น 119,000 บ.)</option>
+            <option value="hybrid3.3" selected>🔋 Hybrid 3.3 kW + แบตเตอรี่ 100Ah (199,000 บ.)</option>
+            <option value="5.0">⚡ On-Grid 5.0 kW 1/3 เฟส (เริ่มต้น 169,000 บ.)</option>
+            <option value="hybrid5.0">🔋 Hybrid 5.0 kW + แบตเตอรี่ 200Ah (289,000 บ.)</option>
+            <option value="10.0">⚡ 10 kW 3 เฟส สำหรับธุรกิจ (299,000 บ.)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">เลือกภาษาที่ต้องการให้อ่านออกเสียง:</label>
+          <div class="grid grid-cols-4 gap-1.5 pt-0.5">
+            <button type="button" onclick="setModalLang('th', this)" class="modal-lang-btn active py-2 px-1 rounded-xl bg-brand-500 text-slate-950 font-bold text-center transition-all">🇹🇭 ไทย</button>
+            <button type="button" onclick="setModalLang('en', this)" class="modal-lang-btn py-2 px-1 rounded-xl bg-slate-950 border border-slate-700 text-slate-300 font-medium text-center transition-all hover:text-white">🇬🇧 Eng</button>
+            <button type="button" onclick="setModalLang('zh', this)" class="modal-lang-btn py-2 px-1 rounded-xl bg-slate-950 border border-slate-700 text-slate-300 font-medium text-center transition-all hover:text-white">🇨🇳 中文</button>
+            <button type="button" onclick="setModalLang('ms', this)" class="modal-lang-btn py-2 px-1 rounded-xl bg-slate-950 border border-slate-700 text-slate-300 font-medium text-center transition-all hover:text-white">🇲🇾 Melayu</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Speech Preview Text Area -->
+      <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-2 relative">
+        <div class="flex justify-between items-center text-[11px] text-slate-400 border-b border-slate-800 pb-2">
+          <span class="flex items-center gap-1.5"><i class="fa-solid fa-volume-high text-brand-400"></i> ข้อความที่ระบบจะอ่านออกเสียง (Script Preview):</span>
+          <span id="modal-lang-label" class="font-bold text-brand-400">ภาษาไทย (th-TH)</span>
+        </div>
+        <p id="modal-pitch-text" class="text-xs sm:text-sm text-slate-200 leading-relaxed font-light min-h-[90px]">
+          กำลังโหลด...
+        </p>
+      </div>
+
+      <!-- Playback Controls -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <button id="modal-play-btn" onclick="playCurrentModalPitch()" class="flex-1 sm:flex-initial px-5 py-2.5 bg-brand-500 hover:bg-brand-400 text-slate-950 font-bold rounded-xl text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-lg">
+            <i class="fa-solid fa-play"></i> <span>เล่นเสียงอ่านออกเสียง</span>
+          </button>
+          <button onclick="stopTTS()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs sm:text-sm transition-all flex items-center gap-1.5">
+            <i class="fa-solid fa-stop"></i> <span>หยุด</span>
+          </button>
+        </div>
+
+        <button onclick="copyModalPitchText()" class="w-full sm:w-auto px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all">
+          <i class="fa-regular fa-clone"></i> <span>คัดลอกสคริปต์นี้</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
 </body>
 </html>

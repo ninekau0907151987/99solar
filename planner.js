@@ -380,11 +380,16 @@ function setupProjectManagement() {
 👷‍♂️ ควบคุมงานโดยวิศวกร กว. (บจก. 99 แมทช์ เมคเกอร์ หาดใหญ่)
 📞 โทร: 089-466-1491 | LINE: @99sola`;
 
-      navigator.clipboard.writeText(lineText).then(() => {
-        showToast('คัดลอกข้อความสรุปสำหรับส่ง LINE สำเร็จแล้ว!');
-      }).catch(() => {
-        showToast('คัดลอกข้อมูลสำเร็จ');
-      });
+      try {
+        navigator.clipboard.writeText(lineText);
+      } catch (err) {}
+      
+      showToast('คัดลอกสรุปใบเสนอราคาแล้ว กำลังเปิด LINE...');
+      
+      const lineUrl = `https://line.me/R/oaMessage/@99sola/?${encodeURIComponent(lineText)}`;
+      setTimeout(() => {
+        window.open(lineUrl, '_blank');
+      }, 400);
     });
   }
 
