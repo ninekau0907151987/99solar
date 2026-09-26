@@ -7,6 +7,7 @@
 let disabledPanels = new Set();
 let showRails = true;
 let currentView = 'roof'; // 'roof' or 'elevation'
+let latestRfqData = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   initPlanner();
@@ -103,27 +104,30 @@ function initPlanner() {
   const tabRoofPlan = document.getElementById('tabRoofPlan');
   const tabElevation = document.getElementById('tabElevation');
 
-  // Bottom Tabs (BOM vs Quotation)
+  // Bottom Tabs (BOM vs Quotation vs RFQ)
   const tabBomBtn = document.getElementById('tabBomBtn');
   const tabQuotationBtn = document.getElementById('tabQuotationBtn');
+  const tabRfqBtn = document.getElementById('tabRfqBtn');
   const bomContainer = document.getElementById('bomContainer');
   const quotationContainer = document.getElementById('quotationContainer');
+  const rfqContainer = document.getElementById('rfqContainer');
 
-  if (tabBomBtn && tabQuotationBtn && bomContainer && quotationContainer) {
-    tabBomBtn.addEventListener('click', () => {
-      tabBomBtn.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-brand-600 text-white shadow-sm flex items-center gap-1.5 transition-all';
-      tabQuotationBtn.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-1.5 transition-all';
-      bomContainer.classList.remove('hidden');
-      quotationContainer.classList.add('hidden');
-    });
+  function switchBottomTab(activeTab) {
+    const activeClass = 'px-3.5 sm:px-4 py-2 rounded-xl text-xs font-bold bg-brand-600 text-white shadow-sm flex items-center gap-1.5 transition-all';
+    const inactiveClass = 'px-3.5 sm:px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-1.5 transition-all';
 
-    tabQuotationBtn.addEventListener('click', () => {
-      tabQuotationBtn.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-brand-600 text-white shadow-sm flex items-center gap-1.5 transition-all';
-      tabBomBtn.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-1.5 transition-all';
-      quotationContainer.classList.remove('hidden');
-      bomContainer.classList.add('hidden');
-    });
+    if (tabBomBtn) tabBomBtn.className = activeTab === 'bom' ? activeClass : inactiveClass;
+    if (tabQuotationBtn) tabQuotationBtn.className = activeTab === 'quotation' ? activeClass : inactiveClass;
+    if (tabRfqBtn) tabRfqBtn.className = activeTab === 'rfq' ? activeClass : inactiveClass;
+
+    if (bomContainer) bomContainer.classList.toggle('hidden', activeTab !== 'bom');
+    if (quotationContainer) quotationContainer.classList.toggle('hidden', activeTab !== 'quotation');
+    if (rfqContainer) rfqContainer.classList.toggle('hidden', activeTab !== 'rfq');
   }
+
+  if (tabBomBtn) tabBomBtn.addEventListener('click', () => switchBottomTab('bom'));
+  if (tabQuotationBtn) tabQuotationBtn.addEventListener('click', () => switchBottomTab('quotation'));
+  if (tabRfqBtn) tabRfqBtn.addEventListener('click', () => switchBottomTab('rfq'));
 
   // Visual Area Tab Switcher
   if (tabRoofPlan && tabElevation) {
@@ -394,6 +398,146 @@ function setupProjectManagement() {
     });
   }
 
+  // Default RFQ Delivery Date (Today + 3 Days)
+  const rfqDateInput = document.getElementById('rfqRequiredDate');
+  if (rfqDateInput && !rfqDateInput.value) {
+    const d = new Date();
+    d.setDate(d.getDate() + 3);
+    rfqDateInput.value = d.toISOString().split('T')[0];
+  }
+
+  // Copy Material RFQ to LINE
+  const btnCopyRfqLine = document.getElementById('btnCopyRfqLine');
+  if (btnCopyRfqLine) {
+    btnCopyRfqLine.addEventListener('click', () => {
+      const vendor = document.getElementById('rfqVendorName')?.value.trim() || 'ร้านค้า / ตัวแทนจำหน่ายอุปกรณ์โซลาร์เซลล์';
+      const site = document.getElementById('rfqDeliverySite')?.value.trim() || 'หน้างาน';
+      const reqDate = document.getElementById('rfqRequiredDate')?.value || 'ตามตกลง';
+      const docNo = document.getElementById('rfqDocNumber')?.value.trim() || 'PR-SOLAR-001';
+      const projName = document.getElementById('projectCustomerName')?.value.trim() || 'โครงการติดตั้งโซลาร์เซลล์';
+
+      let itemsText = '';
+      if (latestRfqData && latestRfqData.items && latestRfqData.items.length > 0) {
+        itemsText = latestRfqData.items.map((it, i) => `${i + 1}. ${it.spec} = ${it.qty} ${it.unit} (สเปก: ${it.brand})`).join('\n');
+      } else {
+        itemsText = '1. แผงโซลาร์เซลล์ Tier 1 Monocrystalline N-Type\n2. อินเวอร์เตอร์ Grid-Tied / Hybrid + Smart Meter\n3. รางอะลูมิเนียมและชุดยึดหลังคา\n4. ตู้ Combiner Box + สายไฟ PV1-F + ท่อ EMT + Ground Rod';
+      }
+
+      const totalVal = latestRfqData ? `฿${latestRfqData.grandTotal.toLocaleString()}` : 'ตามราคาเสนอ';
+
+      const rfqMsg = 
+`📋 ใบขอสั่งซื้อวัสดุ / ขอราคาอุปกรณ์โซลาร์เซลล์ (Material RFQ)
+━━━━━━━━━━━━━━━━━━
+🏢 ส่งถึง: ${vendor}
+📄 เลขที่เอกสาร: ${docNo}
+📌 โครงการ: ${projName}
+📍 สถานที่จัดส่ง: ${site}
+📅 วันที่ต้องการสินค้าหน้างาน: ${reqDate}
+━━━━━━━━━━━━━━━━━━
+รายการอุปกรณ์ที่ต้องการสั่งซื้อ / ขอราคา:
+${itemsText}
+━━━━━━━━━━━━━━━━━━
+💰 มูลค่าประมาณการจัดซื้อ: ${totalVal}
+รบกวนทางร้านตรวจสอบสต็อกและจัดทำใบเสนอราคาพร้อมกำหนดส่งให้ด้วยครับ ขอบคุณครับ 🙏`;
+
+      try {
+        navigator.clipboard.writeText(rfqMsg);
+      } catch (e) {}
+
+      showToast('คัดลอกรายการขอซื้อวัสดุแล้ว กำลังเปิด LINE...');
+
+      const lineUrl = `https://line.me/R/msg/text/?${encodeURIComponent(rfqMsg)}`;
+      setTimeout(() => {
+        window.open(lineUrl, '_blank');
+      }, 400);
+    });
+  }
+
+  // Customer RFQ Modal
+  const btnOpenCustomerRfqModal = document.getElementById('btnOpenCustomerRfqModal');
+  const btnCloseCustomerRfqModal = document.getElementById('btnCloseCustomerRfqModal');
+  const btnCancelCustomerRfq = document.getElementById('btnCancelCustomerRfq');
+  const customerRfqModal = document.getElementById('customerRfqModal');
+  const formCustomerRfq = document.getElementById('formCustomerRfq');
+
+  if (btnOpenCustomerRfqModal && customerRfqModal) {
+    btnOpenCustomerRfqModal.addEventListener('click', () => {
+      customerRfqModal.classList.remove('hidden');
+    });
+  }
+
+  if (btnCloseCustomerRfqModal && customerRfqModal) {
+    btnCloseCustomerRfqModal.addEventListener('click', () => {
+      customerRfqModal.classList.add('hidden');
+    });
+  }
+
+  if (btnCancelCustomerRfq && customerRfqModal) {
+    btnCancelCustomerRfq.addEventListener('click', () => {
+      customerRfqModal.classList.add('hidden');
+    });
+  }
+
+  if (customerRfqModal) {
+    customerRfqModal.addEventListener('click', (e) => {
+      if (e.target === customerRfqModal) {
+        customerRfqModal.classList.add('hidden');
+      }
+    });
+  }
+
+  if (formCustomerRfq) {
+    formCustomerRfq.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const custName = document.getElementById('custName')?.value.trim() || 'ลูกค้า';
+      const custPhone = document.getElementById('custPhone')?.value.trim() || '-';
+      const custLine = document.getElementById('custLine')?.value.trim() || '-';
+      const custLocation = document.getElementById('custLocation')?.value.trim() || '-';
+      const custBill = document.getElementById('custBill')?.value.trim() || '0';
+      const custBuilding = document.getElementById('custBuilding')?.value || 'บ้านเดี่ยว 1-2 ชั้น';
+      const custSysType = document.getElementById('custSysType')?.value || 'On-Grid ลดค่าไฟกลางวัน';
+      const custNotes = document.getElementById('custNotes')?.value.trim() || 'ไม่มี';
+
+      const panels = document.getElementById('badgeTotalPanels')?.textContent || '0';
+      const kw = document.getElementById('badgeTotalKw')?.textContent || '0.00';
+      const panelWatt = document.getElementById('dispPanelWatt')?.textContent || '650W';
+      const floors = document.getElementById('buildingFloor')?.value || '2';
+      const roofType = document.getElementById('bomHeaderRoofType')?.textContent || 'หลังคาเมทัลชีท';
+
+      const inquiryMsg = 
+`📝 แบบฟอร์มขอใบเสนอราคาติดตั้งโซลาร์เซลล์ (Customer RFQ)
+━━━━━━━━━━━━━━━━━━
+👤 ลูกค้า: คุณ${custName}
+📞 เบอร์โทรศัพท์: ${custPhone}
+💬 LINE ID: ${custLine}
+📍 สถานที่ติดตั้ง: ${custLocation}
+🏠 ประเภทอาคาร: ${custBuilding} (${floors} ชั้น)
+⚡ ค่าไฟเฉลี่ย: ฿${parseInt(custBill || 0).toLocaleString()} บาท/เดือน
+🔋 ความต้องการระบบ: ${custSysType}
+━━━━━━━━━━━━━━━━━━
+📐 ข้อมูลจำลองระบบเบื้องต้นจาก 99 Solar Planner:
+• กำลังผลิตแนะนำ: ~${kw} kWp (${panels} แผง @ ${panelWatt})
+• โครงสร้างหลังคา: ${roofType}
+• หมายเหตุเพิ่มเติม: ${custNotes}
+━━━━━━━━━━━━━━━━━━
+(ส่งจากระบบ 99 Solar Planner - บจก. 99 แมทช์ เมคเกอร์ หาดใหญ่)`;
+
+      try {
+        navigator.clipboard.writeText(inquiryMsg);
+      } catch (err) {}
+
+      showToast('คัดลอกข้อมูลขอใบเสนอราคาแล้ว กำลังส่งผ่าน LINE...');
+
+      const lineUrl = `https://line.me/R/oaMessage/@99sola/?${encodeURIComponent(inquiryMsg)}`;
+      if (customerRfqModal) customerRfqModal.classList.add('hidden');
+      formCustomerRfq.reset();
+
+      setTimeout(() => {
+        window.open(lineUrl, '_blank');
+      }, 500);
+    });
+  }
+
   refreshProjectsDropdown();
 }
 
@@ -622,6 +766,9 @@ function runPlanner() {
 
   // Render Customer Quotation & ROI Table
   renderQuotationTable(activePanels, panelWatt, totalKwNum, invCap, roofType, floors, orientationSetting, systemType, batteryCap);
+
+  // Render Material Purchase & RFQ Table (ใบขอซื้อวัสดุ)
+  renderRFQTable(activePanels, panelWatt, totalKwNum, invCap, roofType, rows, cols, totalDCCable, groundingCable, acCable, floors, emtConduit, systemType, batteryCap);
 }
 
 // -------------------------------------------------------------
@@ -1531,3 +1678,258 @@ function renderQuotationTable(panels, watt, kw, invCap, roofType, floors, orient
   const roiCo2 = document.getElementById('roiCo2');
   if (roiCo2) roiCo2.innerHTML = `${co2Tons} <span class="text-xs font-normal text-slate-500">ตัน/ปี</span>`;
 }
+
+// -------------------------------------------------------------
+// 5. Render Material Purchase Request & RFQ Table (ใบขอซื้อวัสดุ)
+// -------------------------------------------------------------
+function renderRFQTable(panels, watt, kw, invCap, roofType, rows, cols, dcCable, groundCable, acCable, floors, emtConduit, systemType, batteryCap) {
+  const tbody = document.getElementById('rfqTableBody');
+  if (!tbody) return;
+
+  // Rails & Mounting calculations
+  const railsTotalMeters = (rows * cols * 1.134 * 2).toFixed(1);
+  const standard42mRails = Math.ceil(railsTotalMeters / 4.2);
+  const railsSplices = Math.max(0, rows * 2 * (Math.ceil((cols * 1.134) / 4.2) - 1));
+  const midClamps = Math.max(0, (cols - 1) * rows * 2);
+  const endClamps = rows * 4;
+  const roofFeetCount = Math.ceil(standard42mRails * 3.5);
+  const mc4Pairs = Math.max(4, Math.ceil(panels / 6) * 2 + 2);
+  const conduitBoxes = Math.ceil(floors * 2 + 2);
+
+  let roofFootType = 'L-Feet พร้อมแผ่นยาง EPDM กันน้ำซึม';
+  let footUnitPrice = 85;
+  if (roofType === 'tile') {
+    roofFootType = 'Tile Hook สแตนเลส 304 สำหรับกระเบื้องซีแพค';
+    footUnitPrice = 160;
+  } else if (roofType === 'seam') {
+    roofFootType = 'Standing Seam Clamp สแตนเลส (หนีบสันลอนไม่เจาะหลังคา)';
+    footUnitPrice = 180;
+  } else if (roofType === 'carport' || roofType === 'ground') {
+    roofFootType = 'ชุดเสาและขายึดกัลวาไนซ์ Hot-dip Galvanized';
+    footUnitPrice = 350;
+  }
+
+  // Wholesale estimated costs
+  let panelWholesale = 3100;
+  if (watt >= 650) panelWholesale = 3400;
+  else if (watt >= 600) panelWholesale = 3200;
+  else panelWholesale = 2900;
+
+  let invWholesale = 24000;
+  if (systemType === 'hybrid') {
+    if (kw > 10) invWholesale = 68000;
+    else if (kw > 5) invWholesale = 49000;
+    else invWholesale = 39000;
+  } else {
+    if (kw > 15) invWholesale = 58000;
+    else if (kw > 10) invWholesale = 44000;
+    else if (kw > 7) invWholesale = 34000;
+    else if (kw > 4.5) invWholesale = 26000;
+  }
+
+  const rfqItems = [
+    {
+      cat: 'แผงโซลาร์เซลล์',
+      spec: `แผงโซลาร์เซลล์ Tier 1 Monocrystalline N-Type ${watt}W (Half-Cell / Bifacial)`,
+      brand: 'Jinko Tiger Neo / Longi Hi-MO',
+      qty: panels,
+      unit: 'แผง',
+      unitPrice: panelWholesale,
+      total: panels * panelWholesale
+    },
+    {
+      cat: 'อินเวอร์เตอร์',
+      spec: systemType === 'hybrid' ? `Hybrid Inverter ${invCap} + Smart Meter Zero Export & CT` : `On-Grid Inverter ${invCap} + Smart Meter Zero Export & CT`,
+      brand: 'Huawei / Deye / Growatt / Solis',
+      qty: 1,
+      unit: 'เครื่อง',
+      unitPrice: invWholesale,
+      total: invWholesale
+    }
+  ];
+
+  if (systemType === 'hybrid') {
+    const battWholesale = batteryCap === 5 ? 42000 : (batteryCap === 10 ? 78000 : 115000);
+    rfqItems.push({
+      cat: 'แบตเตอรี่สำรอง',
+      spec: `แบตเตอรี่ลิเธียม LiFePO4 ${batteryCap} kWh (51.2V พร้อม Smart BMS & ตู้ ATS)`,
+      brand: 'Dyness / Pylontech / Deye',
+      qty: 1,
+      unit: 'ชุด',
+      unitPrice: battWholesale,
+      total: battWholesale
+    });
+  }
+
+  rfqItems.push(
+    {
+      cat: 'โครงสร้างจับยึด',
+      spec: 'รางอะลูมิเนียมแอนอไดซ์ Solar Rail อัลลอย 6005-T5 ยาว 4.2 เมตร',
+      brand: 'มาตรฐาน มอก./UL2703',
+      qty: standard42mRails,
+      unit: 'เส้น',
+      unitPrice: 380,
+      total: standard42mRails * 380
+    },
+    {
+      cat: 'โครงสร้างจับยึด',
+      spec: `ชุดยึดหลังคา: ${roofFootType}`,
+      brand: 'สแตนเลส SUS304',
+      qty: roofFeetCount,
+      unit: 'ชุด',
+      unitPrice: footUnitPrice,
+      total: roofFeetCount * footUnitPrice
+    },
+    {
+      cat: 'โครงสร้างจับยึด',
+      spec: 'ตัวต่อราง Rail Splice Kit พร้อมน็อตสแตนเลส M8',
+      brand: 'อะลูมิเนียมแอนอไดซ์',
+      qty: Math.max(2, railsSplices),
+      unit: 'ชุด',
+      unitPrice: 55,
+      total: Math.max(2, railsSplices) * 55
+    },
+    {
+      cat: 'อุปกรณ์ล็อกแผง',
+      spec: 'Mid Clamp ตัวหนีบระหว่างแผง พร้อมแผ่น Earthing Clip',
+      brand: 'Alloy 6005-T5 / SUS304',
+      qty: midClamps,
+      unit: 'ตัว',
+      unitPrice: 28,
+      total: midClamps * 28
+    },
+    {
+      cat: 'อุปกรณ์ล็อกแผง',
+      spec: 'End Clamp ตัวหนีบขอบหัว-ท้ายแผง (30/35 มม.)',
+      brand: 'Alloy 6005-T5 / SUS304',
+      qty: endClamps,
+      unit: 'ตัว',
+      unitPrice: 28,
+      total: endClamps * 28
+    },
+    {
+      cat: 'ตู้ควบคุม DC',
+      spec: 'ตู้ DC Combiner Box IP65 (DC Fuse 15A/20A 1000V + DC SPD Type II + DC Isolator 1000V)',
+      brand: 'Suntree / CNC / Suntree IP65',
+      qty: 1,
+      unit: 'ตู้',
+      unitPrice: 4200,
+      total: 4200
+    },
+    {
+      cat: 'ตู้ควบคุม AC',
+      spec: 'ตู้ AC Distribution Box (AC MCB/RCBO ตามพิกัด + AC SPD 275V/420V Type II)',
+      brand: 'Schneider / ABB / Chint',
+      qty: 1,
+      unit: 'ตู้',
+      unitPrice: 3800,
+      total: 3800
+    },
+    {
+      cat: 'สายไฟโซลาร์ DC',
+      spec: 'สายไฟ Solar DC PV1-F / H1Z2Z2-K ขนาด 4 - 6 sq.mm. (สีดำ/สีแดง)',
+      brand: 'Link / Helukabel / Thai Yazaki',
+      qty: dcCable,
+      unit: 'เมตร',
+      unitPrice: 38,
+      total: dcCable * 38
+    },
+    {
+      cat: 'ข้อต่อสายไฟ DC',
+      spec: 'หัวขั้วต่อ MC4 Connector 1000V กันน้ำ IP68',
+      brand: 'Staubli / MC4 Standard',
+      qty: mc4Pairs,
+      unit: 'คู่',
+      unitPrice: 45,
+      total: mc4Pairs * 45
+    },
+    {
+      cat: 'ท่อร้อยสายไฟ',
+      spec: 'ท่อเหล็กร้อยสายไฟ EMT ขนาด 1/2" - 3/4" พร้อมข้อต่อและแคลมป์ประกับ',
+      brand: 'Panasonic / Patkol / Arrow',
+      qty: emtConduit,
+      unit: 'เมตร',
+      unitPrice: 85,
+      total: emtConduit * 85
+    },
+    {
+      cat: 'กล่องพักสาย',
+      spec: 'กล่องพักสาย Junction Box / Pull Box อะลูมิเนียมกันน้ำ',
+      brand: 'IP65 อะลูมิเนียมหล่อ',
+      qty: conduitBoxes,
+      unit: 'กล่อง',
+      unitPrice: 280,
+      total: conduitBoxes * 280
+    },
+    {
+      cat: 'สายดิน Grounding',
+      spec: 'แท่งกราวด์ทองแดงบริสุทธิ์ (Copper Ground Rod) 5/8 นิ้ว ยาว 2.4 ม. พร้อมแคลมป์หัวใจ',
+      brand: 'มาตรฐาน วสท. / กฟภ.',
+      qty: 1,
+      unit: 'ชุด',
+      unitPrice: 550,
+      total: 550
+    },
+    {
+      cat: 'สายดิน Grounding',
+      spec: 'สายดินทองแดง THW สีเขียว-เหลือง ขนาด 6 - 10 sq.mm.',
+      brand: 'BCC / Yazaki / Phelps Dodge',
+      qty: groundCable,
+      unit: 'เมตร',
+      unitPrice: 32,
+      total: groundCable * 32
+    },
+    {
+      cat: 'สายไฟ AC เมน',
+      spec: 'สายไฟ AC เมน NYY / CV (ขนาดตามพิกัด Inverter เข้าตู้ MDB)',
+      brand: 'Yazaki / BCC / CTW',
+      qty: acCable,
+      unit: 'เมตร',
+      unitPrice: 130,
+      total: acCable * 130
+    }
+  );
+
+  tbody.innerHTML = '';
+  let rfqGrandTotalSum = 0;
+
+  rfqItems.forEach((item, idx) => {
+    rfqGrandTotalSum += item.total;
+    const tr = document.createElement('tr');
+    tr.className = idx % 2 === 0 ? 'bg-white hover:bg-amber-50/40' : 'bg-amber-50/20 hover:bg-amber-50/40';
+    tr.innerHTML = `
+      <td class="py-2.5 px-3 text-center font-mono font-bold text-slate-500">${idx + 1}</td>
+      <td class="py-2.5 px-3 text-center">
+        <input type="checkbox" checked class="w-4 h-4 rounded text-amber-600 focus:ring-amber-500 border-slate-300 cursor-pointer">
+      </td>
+      <td class="py-2.5 px-4 font-semibold text-slate-800">
+        <div>${item.spec}</div>
+        <div class="text-[10px] text-slate-500 font-normal mt-0.5">หมวด: ${item.cat} | แบรนด์แนะนำ: ${item.brand}</div>
+      </td>
+      <td class="py-2.5 px-3 text-center font-mono font-bold text-slate-700">${item.qty} ${item.unit}</td>
+      <td class="py-2.5 px-3 text-right font-mono text-slate-600">฿${item.unitPrice.toLocaleString()}</td>
+      <td class="py-2.5 px-4 text-right font-mono font-bold text-amber-900">฿${item.total.toLocaleString()}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  const rfqGrandTotalEl = document.getElementById('rfqGrandTotal');
+  if (rfqGrandTotalEl) {
+    rfqGrandTotalEl.textContent = `฿${rfqGrandTotalSum.toLocaleString()}`;
+  }
+
+  // Update latestRfqData
+  latestRfqData = {
+    items: rfqItems,
+    grandTotal: rfqGrandTotalSum,
+    panels,
+    watt,
+    kw,
+    invCap,
+    roofType,
+    floors,
+    systemType,
+    batteryCap
+  };
+}
+

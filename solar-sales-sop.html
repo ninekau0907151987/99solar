@@ -83,6 +83,29 @@
     .glow-green {
       box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.3);
     }
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #0f172a !important;
+      }
+      header, footer, #voice-control-bar, .no-print, .tab-btn, #quoteFormSidebar {
+        display: none !important;
+      }
+      .tab-content {
+        display: none !important;
+      }
+      #tab-quotation {
+        display: block !important;
+      }
+      #quotationPrintArea {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-brand-500 selection:text-slate-950">
@@ -137,6 +160,9 @@
         </button>
         <button onclick="switchTab('referral')" id="tab-btn-referral" class="tab-btn px-3.5 py-2 rounded-lg text-emerald-400 hover:text-emerald-300 hover:bg-slate-800 flex items-center gap-2 border border-emerald-500/30">
           <i class="fa-solid fa-hand-holding-dollar text-emerald-400"></i> <span>6. แนะนำเพื่อนรับค่าคอมฯ (Referral SOP)</span>
+        </button>
+        <button onclick="switchTab('quotation')" id="tab-btn-quotation" class="tab-btn px-3.5 py-2 rounded-lg text-solar-gold hover:text-amber-300 hover:bg-slate-800 flex items-center gap-2 border border-solar-gold/30">
+          <i class="fa-solid fa-file-invoice-dollar text-solar-gold"></i> <span>7. แบบฟอร์มขอใบเสนอราคา & ไปขอซื้อ (Quotation & RFQ)</span>
         </button>
       </div>
     </div>
@@ -260,6 +286,9 @@
           </button>
           <button onclick="sendQuickPrompt('ระบบแนะนำเพื่อนรับค่าคอมมิชชั่น 3,000 - 15,000 บาท มีเงื่อนไขยังไง และมีสคริปต์ชวนลูกค้าเก่ายังไง?')" class="bg-slate-800 hover:bg-emerald-950/60 hover:border-emerald-500/50 border border-slate-700 text-slate-200 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5">
             <i class="fa-solid fa-hand-holding-dollar text-emerald-400"></i> แนะนำเพื่อนรับคอมฯ 3,000-15,000฿ มีสคริปต์ยังไง?
+          </button>
+          <button onclick="sendQuickPrompt('ขอแบบฟอร์มขอใบเสนอราคา สำหรับนำไปทำเรื่องขอซื้อ / ขออนุมัติงบประมาณ')" class="bg-slate-800 hover:bg-amber-950/60 hover:border-solar-gold/50 border border-slate-700 text-slate-200 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5">
+            <i class="fa-solid fa-file-invoice-dollar text-solar-gold"></i> 📄 ขอใบเสนอราคาไปทำเรื่องขอซื้อ?
           </button>
         </div>
       </div>
@@ -1062,6 +1091,366 @@
 
     </div>
 
+    <!-- ========================================== -->
+    <!-- TAB 7: QUOTATION & PURCHASE ORDER GENERATOR (แบบฟอร์มขอใบเสนอราคา & ไปขอซื้อ) -->
+    <!-- ========================================== -->
+    <div id="tab-quotation" class="tab-content hidden space-y-6">
+      
+      <!-- Top Banner -->
+      <div class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 shadow-xl no-print">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 bg-solar-gold/20 text-solar-gold border border-solar-gold/40 text-xs rounded-md font-bold">
+              <i class="fa-solid fa-file-invoice-dollar mr-1"></i> RFQ & Purchase Requisition Generator
+            </span>
+            <span class="text-xs text-slate-400">บจก. 99 แมทช์ เมคเกอร์ (99 Solar หาดใหญ่)</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-white font-heading">แบบฟอร์มขอใบเสนอราคาติดตั้งโซลาร์เซลล์ (สำหรับไปทำเรื่องขอซื้อ)</h2>
+          <p class="text-slate-400 text-xs sm:text-sm">
+            กรอกข้อมูลเพื่อสร้าง <strong class="text-solar-gold">"ใบเสนอราคาทางการ (Quotation)"</strong> สั่งพิมพ์ PDF ยื่นฝ่ายจัดซื้อ / เสนอผู้บริหาร / ขอสินเชื่อ หรือส่งเข้า LINE OA รับเอกสารประทับตราบริษัทใน 15 นาที
+          </p>
+        </div>
+
+        <!-- Quick Action Toolbar -->
+        <div class="flex items-center gap-2 flex-wrap">
+          <button onclick="printQuotationSheet()" class="px-4 py-2.5 bg-slate-100 hover:bg-white text-slate-900 font-bold rounded-xl text-xs flex items-center gap-2 shadow-lg hover:shadow-xl transition-all active:scale-95">
+            <i class="fa-solid fa-print text-sm text-slate-800"></i>
+            <span>พิมพ์ / เซฟ PDF ใบเสนอราคา</span>
+          </button>
+          <button onclick="sendQuotationViaLine()" class="px-4 py-2.5 bg-[#06C755] hover:bg-[#05b34c] text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-lg transition-all active:scale-95">
+            <i class="fa-brands fa-line text-base"></i>
+            <span>ส่งข้อมูลเข้า LINE (@99sola)</span>
+          </button>
+          <button onclick="speakCurrentQuotation()" class="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 text-solar-gold border border-solar-gold/30 font-bold rounded-xl text-xs flex items-center gap-1.5 transition-all">
+            <i class="fa-solid fa-volume-high"></i>
+            <span>ฟังเสียงสรุปราคา</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Workspace: 2 Columns (Left Form Controls / Right Live A4 Document) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- LEFT: FORM CONTROLS (lg:col-span-5) - Hidden on Print -->
+        <div id="quoteFormSidebar" class="lg:col-span-5 space-y-4 no-print">
+          
+          <!-- Card 1: ข้อมูลผู้ขอซื้อ / บริษัท -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-md">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <h3 class="font-bold text-white text-sm flex items-center gap-2">
+                <i class="fa-solid fa-building-user text-solar-gold"></i> 1. ข้อมูลผู้ขอเสนอราคา / จัดซื้อ
+              </h3>
+              <span class="text-[11px] text-slate-500">กรอกเพื่อระบุในหัวเอกสาร</span>
+            </div>
+
+            <!-- Customer Type Toggle -->
+            <div class="grid grid-cols-2 gap-2 p-1 bg-slate-950 rounded-xl border border-slate-800 text-xs">
+              <button type="button" id="btnTypeCompany" onclick="setQuotationCustType('company')" class="py-2 px-3 rounded-lg font-bold transition-all bg-solar-gold text-slate-950 shadow flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-building"></i> <span>นิติบุคคล / บริษัท / หจก.</span>
+              </button>
+              <button type="button" id="btnTypePerson" onclick="setQuotationCustType('person')" class="py-2 px-3 rounded-lg font-medium text-slate-400 hover:text-white transition-all flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-house-user"></i> <span>บุคคลธรรมดา / บ้านพัก</span>
+              </button>
+            </div>
+
+            <!-- Fields -->
+            <div class="space-y-3 text-xs">
+              <div>
+                <label id="lblCustName" class="block font-semibold text-slate-300 mb-1">ชื่อบริษัท / นิติบุคคล / ผู้ว่าจ้าง <span class="text-rose-400">*</span></label>
+                <input type="text" id="rfqCustName" value="บริษัท พีเค เอ็นจิเนียริ่ง แอนด์ เทรดดิ้ง (หาดใหญ่) จำกัด" oninput="updateQuotationDoc()" placeholder="เช่น บจก. เอบีซี อินดัสตรี้ หรือ คุณสมชาย มั่งมี" class="w-full bg-slate-950 text-slate-100 px-3.5 py-2.5 rounded-xl border border-slate-700 focus:border-solar-gold focus:outline-none transition-colors">
+              </div>
+
+              <!-- Tax ID & Branch (Toggleable for company) -->
+              <div id="companyTaxBox" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">เลขผู้เสียภาษี 13 หลัก</label>
+                  <input type="text" id="rfqTaxId" value="0905562001889" oninput="updateQuotationDoc()" placeholder="09055XXXXXXXX" class="w-full bg-slate-950 text-slate-100 px-3 py-2 rounded-xl border border-slate-700 focus:border-solar-gold focus:outline-none font-mono">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">สำนักงาน / สาขา</label>
+                  <input type="text" id="rfqBranch" value="สำนักงานใหญ่" oninput="updateQuotationDoc()" placeholder="สำนักงานใหญ่ หรือ สาขาที่ 1" class="w-full bg-slate-950 text-slate-100 px-3 py-2 rounded-xl border border-slate-700 focus:border-solar-gold focus:outline-none">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">ผู้ติดต่อ / แผนกจัดซื้อ</label>
+                  <input type="text" id="rfqContactPerson" value="คุณสมชาย (ฝ่ายจัดซื้อ)" oninput="updateQuotationDoc()" placeholder="ชื่อผู้ประสานงาน" class="w-full bg-slate-950 text-slate-100 px-3 py-2 rounded-xl border border-slate-700 focus:border-solar-gold focus:outline-none">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">เบอร์โทรศัพท์ <span class="text-rose-400">*</span></label>
+                  <input type="tel" id="rfqPhone" value="081-999-XXXX" oninput="updateQuotationDoc()" placeholder="08X-XXX-XXXX" class="w-full bg-slate-950 text-slate-100 px-3 py-2 rounded-xl border border-slate-700 focus:border-solar-gold focus:outline-none">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">LINE ID</label>
+                  <input type="text" id="rfqLineId" placeholder="ไอดีไลน์..." class="w-full bg-slate-950 text-slate-100 px-3 py-2 rounded-xl border border-slate-700 focus:border-solar-gold focus:outline-none">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">อีเมลรับเอกสาร PDF</label>
+                  <input type="email" id="rfqEmail" placeholder="procurement@company.com" class="w-full bg-slate-950 text-slate-100 px-3 py-2 rounded-xl border border-slate-700 focus:border-solar-gold focus:outline-none">
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-300 mb-1">สถานที่ติดตั้ง / ที่อยู่ออกใบกำกับภาษี <span class="text-rose-400">*</span></label>
+                <textarea id="rfqAddress" rows="2" oninput="updateQuotationDoc()" placeholder="ระบุเลขที่ ถนน ตำบล อำเภอ จังหวัด..." class="w-full bg-slate-950 text-slate-100 px-3 py-2 rounded-xl border border-slate-700 focus:border-solar-gold focus:outline-none">128/9 หมู่ 2 ต.คอหงส์ อ.หาดใหญ่ จ.สงขลา 90110</textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: สเปกระบบที่ต้องการขอซื้อ -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-md">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <h3 class="font-bold text-white text-sm flex items-center gap-2">
+                <i class="fa-solid fa-solar-panel text-brand-400"></i> 2. สเปกระบบที่ต้องการขอราคา
+              </h3>
+              <span class="text-[11px] text-brand-400 font-semibold">อัปเดตราคาแบบ Realtime</span>
+            </div>
+
+            <div class="space-y-3 text-xs">
+              <div>
+                <label class="block font-semibold text-slate-300 mb-1">เลือกขนาดและประเภทระบบ <span class="text-rose-400">*</span></label>
+                <select id="rfqSystemSelect" onchange="updateQuotationDoc()" class="w-full bg-slate-950 text-slate-100 px-3 py-2.5 rounded-xl border border-slate-700 focus:border-brand-500 focus:outline-none font-medium">
+                  <optgroup label="── ระบบ On-Grid ลดค่าไฟกลางวัน (ยอดนิยม) ──">
+                    <option value="ongrid_3_3">On-Grid 3.3 kW 1-Phase (6 แผง TOPCon 620W) | ~฿129,000</option>
+                    <option value="ongrid_5_0_1p" selected>On-Grid 5.0 kW 1-Phase (9 แผง TOPCon 620W) | ~฿169,000</option>
+                    <option value="ongrid_5_0_3p">On-Grid 5.0 kW 3-Phase (9 แผง TOPCon 620W) | ~฿189,000</option>
+                    <option value="ongrid_10_0_3p">On-Grid 10.0 kW 3-Phase (18 แผง TOPCon 620W) | ~฿299,000</option>
+                    <option value="ongrid_15_0_3p">On-Grid 15.0 kW 3-Phase (27 แผง TOPCon 620W) | ~฿429,000</option>
+                    <option value="ongrid_20_0_3p">On-Grid 20.0 kW 3-Phase (36 แผง TOPCon 620W) | ~฿549,000</option>
+                  </optgroup>
+                  <optgroup label="── ระบบ Hybrid มีแบตเตอรี่สำรองไฟกลางคืน ──">
+                    <option value="hybrid_3_3_bat100">Hybrid 3.3 kW + แบต LiFePO4 100Ah 51.2V (5.12 kWh) | ~฿219,000</option>
+                    <option value="hybrid_5_0_bat200">Hybrid 5.0 kW + แบต LiFePO4 200Ah 51.2V (10.24 kWh) | ~฿319,000</option>
+                    <option value="hybrid_10_0_bat300">Hybrid 10.0 kW + แบต LiFePO4 300Ah 51.2V (15.36 kWh) | ~฿529,000</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">ประเภทโครงสร้างหลังคา</label>
+                  <select id="rfqRoofType" onchange="updateQuotationDoc()" class="w-full bg-slate-950 text-slate-100 px-3 py-2 rounded-xl border border-slate-700 focus:border-brand-500 focus:outline-none">
+                    <option value="หลังคาเมทัลชีท (Klip-lok / สกรูยึด)">เมทัลชีท (Klip-lok/สกรูยึด)</option>
+                    <option value="หลังคากระเบื้องซีแพค / ลอนสเปน">กระเบื้องซีแพค / ลอนสเปน</option>
+                    <option value="หลังคากระเบื้องลอนคู่">กระเบื้องลอนคู่</option>
+                    <option value="ดาดฟ้าคอนกรีต (Solar Slab)">ดาดฟ้าคอนกรีต (Solar Slab)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">วัตถุประสงค์การขอเอกสาร</label>
+                  <select id="rfqPurpose" onchange="updateQuotationDoc()" class="w-full bg-slate-950 text-slate-100 px-3 py-2 rounded-xl border border-slate-700 focus:border-brand-500 focus:outline-none">
+                    <option value="ขออนุมัติจัดซื้อ / เบิกงบประมาณบริษัท (PO)">ขออนุมัติจัดซื้อ / จัดทำ PO</option>
+                    <option value="ยื่นขอสินเชื่อธนาคาร / Green Loan 0%">ยื่นขอสินเชื่อธนาคาร 0%</option>
+                    <option value="ตัดสินใจติดตั้งทันที / นัดสำรวจหน้างาน">ตัดสินใจติดตั้ง / นัดสำรวจด่วน</option>
+                    <option value="เปรียบเทียบสเปกและราคา">เปรียบเทียบสเปกและราคา</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Mandatory Inclusions -->
+              <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-1.5 text-[11px] text-slate-400">
+                <div class="font-bold text-slate-300 flex items-center gap-1.5">
+                  <i class="fa-solid fa-certificate text-solar-gold"></i> รวมอุปกรณ์มาตรฐานพรีเมียม 99 Solar:
+                </div>
+                <div class="grid grid-cols-2 gap-1 text-slate-300">
+                  <span>✓ ตู้ Combiner Box IP65</span>
+                  <span>✓ ท่อสแตนเลส 304 บนหลังคา</span>
+                  <span>✓ สายไฟ PV1-F ทนความร้อน</span>
+                  <span>✓ แท่งกราวด์ R < 5 โอห์ม</span>
+                  <span>✓ วิศวกร กว. เซ็นรับรอง</span>
+                  <span>✓ บริการล้างแผง (ครั้งแรกฟรี)</span>
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-300 mb-1">หมายเหตุเพิ่มเติม หรือข้อกำหนดหน้างาน</label>
+                <textarea id="rfqNotes" rows="2" oninput="updateQuotationDoc()" placeholder="เช่น ต้องการใบเสนอราคาแยกเป็น 2 ชุด, หน้างานเป็นหลังคาสูง 3 ชั้น..." class="w-full bg-slate-950 text-slate-100 px-3 py-2 rounded-xl border border-slate-700 focus:border-solar-gold focus:outline-none">ขอใบเสนอราคาทางการเพื่อนำเสนอผู้บริหารพิจารณาอนุมัติจัดซื้อ พร้อมนัดหมายสำรวจหน้างานจริง</textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Action in Sidebar -->
+          <div class="p-4 bg-gradient-to-r from-solar-gold/10 to-brand-500/10 border border-solar-gold/30 rounded-2xl space-y-2 text-center">
+            <span class="text-xs text-slate-300 block font-medium">ดูใบเสนอราคาทางการที่จำลองไว้ด้านขวา</span>
+            <div class="flex gap-2">
+              <button onclick="printQuotationSheet()" class="flex-1 py-2.5 bg-solar-gold hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition-all">
+                <i class="fa-solid fa-print"></i> <span>พิมพ์ / เซฟ PDF ทันที</span>
+              </button>
+              <button onclick="sendQuotationViaLine()" class="flex-1 py-2.5 bg-[#06C755] hover:bg-[#05b34c] text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition-all">
+                <i class="fa-brands fa-line"></i> <span>ส่งขอไฟล์ผ่าน LINE</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: LIVE OFFICIAL QUOTATION DOCUMENT (lg:col-span-7) -->
+        <div class="lg:col-span-7">
+          
+          <!-- Printable A4 Wrapper -->
+          <div id="quotationPrintArea" class="bg-white text-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200 space-y-5 text-xs">
+            
+            <!-- Document Header: Company & Quotation Meta -->
+            <div class="flex flex-col sm:flex-row justify-between items-start pb-4 border-b-2 border-slate-900 gap-4">
+              <!-- Left: 99 Solar Brand & Legal Info -->
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-lg bg-slate-900 text-amber-400 flex items-center justify-center font-black text-sm">
+                    99
+                  </div>
+                  <div>
+                    <h1 class="text-base sm:text-lg font-black font-heading text-slate-900 tracking-tight leading-none">
+                      บริษัท 99 แมทช์ เมคเกอร์ จำกัด
+                    </h1>
+                    <span class="text-[10px] text-amber-600 font-bold uppercase tracking-wider">99 SOLAR — HAT YAI SONGKHLA</span>
+                  </div>
+                </div>
+                <p class="text-[11px] text-slate-600 leading-tight pt-1">
+                  สำนักงานใหญ่: 99/9 หมู่ 4 ต.คลองแห อ.หาดใหญ่ จ.สงขลา 90110<br>
+                  เลขประจำตัวผู้เสียภาษี: <span class="font-mono font-semibold text-slate-800">0905565002194</span> | โทร. <span class="font-semibold text-slate-800">089-466-1491</span><br>
+                  LINE Official: <span class="font-semibold text-emerald-700">@99sola</span> | อีเมล: 99matchmaker@gmail.com
+                </p>
+              </div>
+
+              <!-- Right: Quotation Badge & Reference -->
+              <div class="sm:text-right shrink-0">
+                <div class="inline-block bg-slate-900 text-white font-heading font-black text-sm sm:text-base px-3.5 py-1 rounded-md mb-1 tracking-wider uppercase">
+                  ใบเสนอราคา / QUOTATION
+                </div>
+                <div class="text-[11px] space-y-0.5 text-slate-600">
+                  <p>เลขที่เอกสาร: <strong id="docQuoteNo" class="text-slate-900 font-mono text-xs">QT-202609-8812</strong></p>
+                  <p>วันที่ออกเอกสาร: <span id="docQuoteDate" class="text-slate-800 font-medium">26 กันยายน 2026</span></p>
+                  <p>กำหนดยืนราคา: <span class="text-emerald-700 font-bold">30 วัน</span></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recipient Information Block -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs">
+              <div class="space-y-1">
+                <span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">เรียน / เสนอราคาถึง (Customer / Procurement):</span>
+                <p id="docCustName" class="font-bold text-slate-900 text-sm">บริษัท พีเค เอ็นจิเนียริ่ง แอนด์ เทรดดิ้ง (หาดใหญ่) จำกัด</p>
+                <p id="docTaxRow" class="text-slate-600">เลขประจำตัวผู้เสียภาษี: <span id="docCustTax" class="font-mono font-medium text-slate-800">0905562001889</span> (<span id="docCustBranch">สำนักงานใหญ่</span>)</p>
+                <p class="text-slate-600">ผู้ติดต่อ: <span id="docContactPerson" class="text-slate-800 font-medium">คุณสมชาย (ฝ่ายจัดซื้อ)</span> | โทร. <span id="docPhone" class="font-mono text-slate-800 font-medium">081-999-XXXX</span></p>
+              </div>
+              <div class="space-y-1">
+                <span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">รายละเอียดสถานที่ติดตั้ง & ขอบเขต:</span>
+                <p class="text-slate-700">สถานที่: <span id="docAddress" class="text-slate-900 font-medium">128/9 หมู่ 2 ต.คอหงส์ อ.หาดใหญ่ จ.สงขลา 90110</span></p>
+                <p class="text-slate-700">ชนิดหลังคา: <span id="docRoofType" class="text-slate-900 font-medium">เมทัลชีท (Klip-lok/สกรูยึด)</span></p>
+                <p class="text-slate-700">วัตถุประสงค์: <span id="docPurpose" class="text-amber-700 font-semibold">ขออนุมัติจัดซื้อ / จัดทำ PO</span></p>
+              </div>
+            </div>
+
+            <!-- Items Table -->
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-700 border-collapse">
+                <thead>
+                  <tr class="bg-slate-900 text-white font-heading font-semibold text-[11px] uppercase tracking-wider">
+                    <th class="py-2.5 px-3 text-center w-10">ลำดับ</th>
+                    <th class="py-2.5 px-3">รายการสินค้า & ขอบเขตงานวิศวกรรมติดตั้ง (Scope of Work)</th>
+                    <th class="py-2.5 px-3 text-center w-16">จำนวน</th>
+                    <th class="py-2.5 px-3 text-right w-24">ราคา/หน่วย</th>
+                    <th class="py-2.5 px-3 text-right w-28">จำนวนเงิน (บาท)</th>
+                  </tr>
+                </thead>
+                <tbody id="docItemsTbody" class="divide-y divide-slate-200 border-b border-slate-200">
+                  <!-- Dynamically populated -->
+                </tbody>
+                <tfoot class="text-slate-900">
+                  <tr class="font-medium bg-slate-50">
+                    <td colspan="3" class="py-2 px-3 text-[11px] text-slate-500">
+                      * ราคานี้รวมค่าอุปกรณ์, งานติดตั้ง, และค่ายื่นขออนุญาต กฟภ./อบต. ครบถ้วน
+                    </td>
+                    <td class="py-2 px-3 text-right font-semibold">รวมราคาก่อนภาษี:</td>
+                    <td id="docSubtotal" class="py-2 px-3 text-right font-mono font-bold text-slate-900">฿157,943.93</td>
+                  </tr>
+                  <tr class="font-medium bg-slate-50">
+                    <td colspan="3" class="py-1.5 px-3 text-[11px] text-slate-500"></td>
+                    <td class="py-1.5 px-3 text-right text-slate-600">ภาษีมูลค่าเพิ่ม (VAT 7%):</td>
+                    <td id="docVat" class="py-1.5 px-3 text-right font-mono text-slate-700 font-semibold">฿11,056.07</td>
+                  </tr>
+                  <tr class="bg-emerald-50 text-emerald-950 font-bold border-t-2 border-emerald-600">
+                    <td colspan="3" class="py-2.5 px-3 text-xs font-heading">
+                      จำนวนเงินรวมทั้งสิ้น (ตัวอักษร): <span id="docThaiBahtText" class="text-emerald-800 font-normal underline ml-1">หนึ่งแสนหกหมื่นเก้าพันบาทถ้วน</span>
+                    </td>
+                    <td class="py-2.5 px-3 text-right text-xs font-heading font-black">ยอดเงินสุทธิ (Net Total):</td>
+                    <td id="docGrandTotal" class="py-2.5 px-3 text-right font-mono font-black text-base text-emerald-700">฿169,000.00</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+            <!-- ROI & Payback Summary Bar -->
+            <div class="grid grid-cols-3 gap-2 p-3 bg-amber-50/80 rounded-xl border border-amber-200 text-center text-xs">
+              <div>
+                <span class="text-[10px] text-amber-800 font-semibold block">ประหยัดค่าไฟประมาณ</span>
+                <strong id="docRoiMonthly" class="text-sm font-black text-emerald-700">~3,200 บ./เดือน</strong>
+                <span id="docRoiAnnual" class="text-[10px] text-slate-500 block">(~38,400 บาท/ปี)</span>
+              </div>
+              <div class="border-x border-amber-200">
+                <span class="text-[10px] text-amber-800 font-semibold block">ระยะเวลาคืนทุน</span>
+                <strong id="docRoiPayback" class="text-sm font-black text-blue-700">~3.8 ปี</strong>
+                <span class="text-[10px] text-slate-500 block">กำไรค่าไฟฟรียาวนานอีก 21+ ปี</span>
+              </div>
+              <div>
+                <span class="text-[10px] text-amber-800 font-semibold block">ลดคาร์บอน (CO₂ Offset)</span>
+                <strong id="docRoiCo2" class="text-sm font-black text-purple-700">~4.5 ตัน/ปี</strong>
+                <span class="text-[10px] text-slate-500 block">เทียบเท่าปลูกต้นไม้ ~210 ต้น</span>
+              </div>
+            </div>
+
+            <!-- Terms & Milestone 4 Payments -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] pt-1 border-t border-slate-200">
+              <div class="space-y-1">
+                <strong class="text-slate-900 block font-heading">เงื่อนไขการชำระเงินมาตรฐาน (4 งวดโปร่งใส):</strong>
+                <ul class="space-y-0.5 text-slate-600 list-disc list-inside">
+                  <li><strong>งวด 1 (15%):</strong> มัดจำวันทำสัญญา ออกแบบวิศวกรรม & ยื่นขออนุญาต</li>
+                  <li><strong>งวด 2 (50%):</strong> วันส่งมอบอุปกรณ์ถึงหน้างาน ตรวจนับของแท้ก่อนเริ่ม</li>
+                  <li><strong>งวด 3 (25%):</strong> วันติดตั้งแล้วเสร็จ ทดสอบระบบและเปิดใช้งานเบื้องต้น</li>
+                  <li><strong>งวด 4 (10%):</strong> การไฟฟ้าเปลี่ยนมิเตอร์ TOU ขนานไฟเสร็จสมบูรณ์</li>
+                </ul>
+              </div>
+              <div class="space-y-1">
+                <strong class="text-slate-900 block font-heading">เงื่อนไขการรับประกัน & บริการหลังการขาย:</strong>
+                <ul class="space-y-0.5 text-slate-600 list-disc list-inside">
+                  <li>รับประกันประสิทธิภาพแผงโซลาร์เซลล์ 25 - 30 ปี (Tier-1 Standard)</li>
+                  <li>รับประกันเครื่องอินเวอร์เตอร์ 5 - 10 ปี (เปลี่ยนเครื่องใหม่ตามเงื่อนไขศูนย์)</li>
+                  <li>รับประกันงานติดตั้งและหลังคารั่วซึม 2 ปี โดยวิศวกรผู้ควบคุมงาน</li>
+                  <li><strong>ฟรี!</strong> บริการล้างแผงและตรวจเช็คระบบไฟฟ้าครั้งแรก 100%</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Signature Lines -->
+            <div class="grid grid-cols-2 gap-6 pt-5 border-t border-slate-300 text-center text-xs">
+              <div class="space-y-1">
+                <div class="h-12 border-b border-dashed border-slate-400 mb-1 flex items-end justify-center pb-1">
+                  <span class="text-[11px] font-mono text-slate-400 italic">วิศวกรโครงการ / บจก. 99 แมทช์ เมคเกอร์</span>
+                </div>
+                <strong class="text-slate-900 block">ผู้เสนอราคา (บจก. 99 แมทช์ เมคเกอร์)</strong>
+                <span class="text-[10px] text-slate-500 block">วิศวกร กว. ควบคุมงาน | โทร. 089-466-1491</span>
+              </div>
+              <div class="space-y-1">
+                <div class="h-12 border-b border-dashed border-slate-400 mb-1 flex items-end justify-center pb-1">
+                  <span class="text-[11px] font-mono text-slate-400 italic">ลงนามอนุมัติจัดซื้อ / ตราประทับ</span>
+                </div>
+                <strong class="text-slate-900 block">ผู้อนุมัติสั่งซื้อ / ผู้ว่าจ้าง</strong>
+                <span class="text-[10px] text-slate-500 block">วันที่ ............ / ............ / ............</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
   </main>
 
   <!-- FOOTER -->
@@ -1760,6 +2149,15 @@
       showPersonaDetail(1);
       showCatalogView('master');
       calculateQuickSpec();
+      initQuotationModule();
+
+      // Check URL hash or query param for tab
+      const hash = window.location.hash.replace('#', '').replace('tab-', '');
+      const urlParams = new URLSearchParams(window.location.search);
+      const tabParam = urlParams.get('tab') || hash;
+      if (tabParam && ['bot', 'personas', 'flowchart', 'catalogs', 'contracts', 'referral', 'quotation'].includes(tabParam)) {
+        switchTab(tabParam);
+      }
     });
 
     // Tab Switching Logic
@@ -1891,6 +2289,39 @@
     // Smart Solar AI Response Knowledge Base
     function generateSmartSolarResponse(query, mode) {
       const q = query.toLowerCase();
+
+      // Case 0: Quotation & Purchase Order Requisition (แบบฟอร์มขอใบเสนอราคา ด้วยไปขอซื้อ)
+      if (q.includes('ใบเสนอราคา') || q.includes('เสนอราคา') || q.includes('ขอซื้อ') || q.includes('จัดซื้อ') || q.includes('อนุมัติ') || q.includes('rfq') || q.includes('quotation') || q.includes('po') || q.includes('แบบฟอร์ม')) {
+        return `
+          <div class="space-y-3">
+            <div class="font-bold text-solar-gold flex items-center gap-1.5 text-sm">
+              <i class="fa-solid fa-file-invoice-dollar"></i> เอกสารใบเสนอราคา & แบบฟอร์มขอซื้อ (Quotation & RFQ)
+            </div>
+            <p class="text-slate-200">
+              สำหรับลูกค้านิติบุคคล บริษัท หรือบ้านพักอาศัยที่ต้องการ <strong>ใบเสนอราคาทางการเพื่อนำไปทำเรื่องขออนุมัติซื้อ, ขอเบิกงบประมาณ, จัดทำ PO หรือยื่นกู้สินเชื่อธนาคาร</strong>:
+            </p>
+            <div class="bg-slate-900 p-3.5 rounded-xl border border-solar-gold/40 text-xs space-y-2">
+              <div class="text-solar-gold font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-check-double"></i> จุดเด่นเอกสารใบเสนอราคา 99 Solar:
+              </div>
+              <ul class="text-slate-300 list-disc list-inside space-y-1">
+                <li>ออกในนาม <strong>บริษัท 99 แมทช์ เมคเกอร์ จำกัด</strong> ถูกต้องตามระเบียบจัดซื้อและภาษีสรรพากร</li>
+                <li>แจกแจงอุปกรณ์พรีเมียมครบชุด: แผง Tier-1, Inverter กฟภ., ตู้คอมบายเนอร์ IP65, ท่อสแตนเลส 304</li>
+                <li>แสดงยอดแยกราคาก่อนภาษี, VAT 7%, และยอดสุทธิ พร้อมคำนวณผลประหยัดรายปีและจุดคุ้มทุน</li>
+                <li>มีลายเซ็นวิศวกร กว. และเงื่อนไขการรับประกัน 25 ปี + งวดเงิน 4 งวดโปร่งใส</li>
+              </ul>
+            </div>
+            <div class="flex flex-wrap gap-2 pt-1">
+              <button onclick="switchTab('quotation')" class="px-4 py-2 bg-gradient-to-r from-solar-gold to-solar-amber text-slate-950 rounded-xl text-xs font-bold hover:brightness-110 transition-all flex items-center gap-1.5 shadow">
+                <i class="fa-solid fa-file-signature"></i> <span>📄 เปิดแบบฟอร์มขอใบเสนอราคา & สั่งพิมพ์ PDF ทันที</span>
+              </button>
+              <button onclick="sendQuotationViaLine()" class="px-3.5 py-2 bg-[#06C755] hover:bg-[#05b34c] text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow">
+                <i class="fa-brands fa-line text-sm"></i> <span>ขอใบเสนอราคาประทับตราผ่าน LINE</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }
 
       // Case 1: 3.3 kW 1 Phase
       if (q.includes('3.3') || q.includes('3 kw') || q.includes('3kw') || q.includes('3.3kw') || q.includes('1 เฟส')) {
@@ -2637,6 +3068,443 @@
       navigator.clipboard.writeText(textDisplay.textContent).then(() => {
         alert('คัดลอกสคริปต์เรียบร้อยครับ!');
       });
+    }
+
+    // ==========================================
+    // MODULE 7: QUOTATION & PURCHASE ORDER LOGIC
+    // ==========================================
+    const quotationCatalog = {
+      ongrid_3_3: {
+        title: "ระบบ On-Grid 3.3 kW 1-Phase (สำหรับบ้านพักอาศัย)",
+        kw: 3.3,
+        panels: "แผงโซลาร์เซลล์ Tier-1 Mono Half-Cell N-Type TOPCon 620W จำนวน 6 แผง (รวม 3.72 kWp)",
+        panelQty: 6,
+        inverter: "Inverter On-Grid 3.3 kW 1-Phase (กฟภ. Approved) พร้อม WiFi Smart Dongle",
+        battery: null,
+        combiner: "ตู้ Combiner Box IP65 (DC Fuse 1000V, DC SPD Type 2, DC Isolator, AC SPD, RCBO Type A)",
+        structure: "โครงสร้างอลูมิเนียม Anodized AL6005-T5 & สลักเกลียวสแตนเลส SUS304",
+        conduit: "ท่อร้อยสายไฟสแตนเลส 304 & เคเบิ้ลไทร์สแตนเลส 304 บนหลังคาทน UV 25 ปี + ท่อ uPVC ในบ้าน",
+        grossPrice: 129000,
+        monthlySavings: 2100,
+        annualSavings: 25200,
+        paybackYears: 4.1,
+        co2: 3.2
+      },
+      ongrid_5_0_1p: {
+        title: "ระบบ On-Grid 5.0 kW 1-Phase (บ้านครอบครัว)",
+        kw: 5.0,
+        panels: "แผงโซลาร์เซลล์ Tier-1 Mono Half-Cell N-Type TOPCon 620W จำนวน 9 แผง (รวม 5.58 kWp)",
+        panelQty: 9,
+        inverter: "Inverter On-Grid 5.0 kW 1-Phase (กฟภ. Approved) พร้อม WiFi Smart Dongle",
+        battery: null,
+        combiner: "ตู้ Combiner Box IP65 (DC Fuse 1000V, DC SPD Type 2, DC Isolator, AC SPD, RCBO Type A)",
+        structure: "โครงสร้างอลูมิเนียม Anodized AL6005-T5 & สลักเกลียวสแตนเลส SUS304",
+        conduit: "ท่อร้อยสายไฟสแตนเลส 304 & เคเบิ้ลไทร์สแตนเลส 304 บนหลังคาทน UV 25 ปี + ท่อ uPVC ในบ้าน",
+        grossPrice: 169000,
+        monthlySavings: 3200,
+        annualSavings: 38400,
+        paybackYears: 3.8,
+        co2: 4.5
+      },
+      ongrid_5_0_3p: {
+        title: "ระบบ On-Grid 5.0 kW 3-Phase (บ้านระบบไฟ 3 เฟส)",
+        kw: 5.0,
+        panels: "แผงโซลาร์เซลล์ Tier-1 Mono Half-Cell N-Type TOPCon 620W จำนวน 9 แผง (รวม 5.58 kWp)",
+        panelQty: 9,
+        inverter: "Inverter On-Grid 5.0 kW 3-Phase 380V (กฟภ. Approved) พร้อม WiFi Smart Dongle",
+        battery: null,
+        combiner: "ตู้ Combiner Box 3-Phase IP65 (DC Fuse, DC SPD, 3P AC SPD, 3P RCBO Type B/A)",
+        structure: "โครงสร้างอลูมิเนียม Anodized AL6005-T5 & สลักเกลียวสแตนเลส SUS304",
+        conduit: "ท่อร้อยสายไฟสแตนเลส 304 & เคเบิ้ลไทร์สแตนเลส 304 บนหลังคาทน UV 25 ปี + ท่อ uPVC ในบ้าน",
+        grossPrice: 189000,
+        monthlySavings: 3200,
+        annualSavings: 38400,
+        paybackYears: 4.2,
+        co2: 4.5
+      },
+      ongrid_10_0_3p: {
+        title: "ระบบ On-Grid 10.0 kW 3-Phase (บ้านหลังใหญ่ / ชาร์จรถ EV)",
+        kw: 10.0,
+        panels: "แผงโซลาร์เซลล์ Tier-1 Mono Half-Cell N-Type TOPCon 620W จำนวน 18 แผง (รวม 11.16 kWp)",
+        panelQty: 18,
+        inverter: "Inverter On-Grid 10.0 kW 3-Phase 380V (กฟภ. Approved) พร้อม Dual MPPT & WiFi",
+        battery: null,
+        combiner: "ตู้ Combiner Box 3-Phase 2-String IP65 (DC Fuse, DC SPD, 3P AC SPD, 3P RCBO)",
+        structure: "โครงสร้างอลูมิเนียม Anodized AL6005-T5 & สลักเกลียวสแตนเลส SUS304",
+        conduit: "ท่อร้อยสายไฟสแตนเลส 304 & เคเบิ้ลไทร์สแตนเลส 304 บนหลังคาทน UV 25 ปี + ท่อ uPVC ในบ้าน",
+        grossPrice: 299000,
+        monthlySavings: 6500,
+        annualSavings: 78000,
+        paybackYears: 3.5,
+        co2: 8.8
+      },
+      ongrid_15_0_3p: {
+        title: "ระบบ On-Grid 15.0 kW 3-Phase (อาคารพาณิชย์ / คลินิก / สำนักงาน)",
+        kw: 15.0,
+        panels: "แผงโซลาร์เซลล์ Tier-1 Mono Half-Cell N-Type TOPCon 620W จำนวน 27 แผง (รวม 16.74 kWp)",
+        panelQty: 27,
+        inverter: "Inverter On-Grid 15.0 kW 3-Phase 380V (กฟภ. Approved) พร้อม WiFi Dongle",
+        battery: null,
+        combiner: "ตู้ Combiner Box 3-Phase Multi-String IP65 ครบชุด",
+        structure: "โครงสร้างอลูมิเนียมเกรดอุตสาหกรรม Anodized AL6005-T5",
+        conduit: "ท่อร้อยสายไฟสแตนเลส 304 / IMC บนหลังคา + ท่อ EMT/uPVC ภายใน",
+        grossPrice: 429000,
+        monthlySavings: 9800,
+        annualSavings: 117600,
+        paybackYears: 3.4,
+        co2: 13.2
+      },
+      ongrid_20_0_3p: {
+        title: "ระบบ On-Grid 20.0 kW 3-Phase (โรงงาน / ธุรกิจ / โกดัง)",
+        kw: 20.0,
+        panels: "แผงโซลาร์เซลล์ Tier-1 Mono Half-Cell N-Type TOPCon 620W จำนวน 36 แผง (รวม 22.32 kWp)",
+        panelQty: 36,
+        inverter: "Inverter On-Grid 20.0 kW 3-Phase 380V (กฟภ. Approved) เกรดโรงงาน",
+        battery: null,
+        combiner: "ตู้ Combiner Box 3-Phase Commercial IP65 พร้อมระบบตัดฉุกเฉิน",
+        structure: "โครงสร้างอลูมิเนียมอุตสาหกรรม AL6005-T5 พร้อมอุปกรณ์จับยึดเฉพาะทาง",
+        conduit: "ท่อร้อยสายไฟสแตนเลส 304 / IMC บนหลังคา + ท่อ EMT ภายใน",
+        grossPrice: 549000,
+        monthlySavings: 13500,
+        annualSavings: 162000,
+        paybackYears: 3.3,
+        co2: 17.6
+      },
+      hybrid_3_3_bat100: {
+        title: "ระบบ Hybrid 3.3 kW 1-Phase + แบตเตอรี่ LiFePO4 100Ah (ใช้กลางคืน)",
+        kw: 3.3,
+        panels: "แผงโซลาร์เซลล์ Tier-1 Mono Half-Cell N-Type TOPCon 620W จำนวน 6 แผง (รวม 3.72 kWp)",
+        panelQty: 6,
+        inverter: "Hybrid Inverter 3.3 kW พร้อมระบบสลับไฟสำรอง EPS Auto-Backup (10ms)",
+        battery: "แบตเตอรี่ลิเธียมฟอสเฟต LiFePO4 51.2V 100Ah (ความจุ 5.12 kWh) BMS อัจฉริยะ",
+        combiner: "ตู้ Combiner Box ระบบคู่ Grid + EPS Backup IP65 พร้อม Surge AC/DC ครบชุด",
+        structure: "โครงสร้างอลูมิเนียม Anodized AL6005-T5 & สลักเกลียวสแตนเลส SUS304",
+        conduit: "ท่อร้อยสายไฟสแตนเลส 304 บนหลังคา + ท่อ uPVC ในบ้าน",
+        grossPrice: 219000,
+        monthlySavings: 3200,
+        annualSavings: 38400,
+        paybackYears: 4.8,
+        co2: 4.2
+      },
+      hybrid_5_0_bat200: {
+        title: "ระบบ Hybrid 5.0 kW 1-Phase + แบตเตอรี่ LiFePO4 200Ah (เปิดแอร์ 2 ตัวทั้งคืน)",
+        kw: 5.0,
+        panels: "แผงโซลาร์เซลล์ Tier-1 Mono Half-Cell N-Type TOPCon 620W จำนวน 9 แผง (รวม 5.58 kWp)",
+        panelQty: 9,
+        inverter: "Hybrid Inverter 5.0 kW พร้อมระบบ EPS Auto-Backup จ่ายไฟต่อเนื่องแม้ไฟดับ",
+        battery: "แบตเตอรี่ลิเธียมฟอสเฟต LiFePO4 51.2V 200Ah (ความจุ 10.24 kWh) BMS ควบคุมความร้อน",
+        combiner: "ตู้ Combiner Box ระบบคู่ Grid + EPS Backup IP65 พร้อม Surge AC/DC ครบชุด",
+        structure: "โครงสร้างอลูมิเนียม Anodized AL6005-T5 & สลักเกลียวสแตนเลส SUS304",
+        conduit: "ท่อร้อยสายไฟสแตนเลส 304 บนหลังคา + ท่อ uPVC ในบ้าน",
+        grossPrice: 319000,
+        monthlySavings: 5200,
+        annualSavings: 62400,
+        paybackYears: 4.5,
+        co2: 6.8
+      },
+      hybrid_10_0_bat300: {
+        title: "ระบบ Hybrid 10.0 kW 3-Phase + แบตเตอรี่ LiFePO4 300Ah (อิสระพลังงาน 24 ชม.)",
+        kw: 10.0,
+        panels: "แผงโซลาร์เซลล์ Tier-1 Mono Half-Cell N-Type TOPCon 620W จำนวน 18 แผง (รวม 11.16 kWp)",
+        panelQty: 18,
+        inverter: "Hybrid Inverter 10.0 kW 3-Phase พร้อมระบบ EPS Auto-Backup 3 เฟสเต็มระบบ",
+        battery: "แบตเตอรี่ลิเธียมฟอสเฟต LiFePO4 51.2V 300Ah (ความจุ 15.36 kWh) อายุใช้งาน 15 ปี",
+        combiner: "ตู้ Combiner Box 3-Phase Heavy Duty IP65 ครบชุด",
+        structure: "โครงสร้างอลูมิเนียม Anodized AL6005-T5 & สลักเกลียวสแตนเลส SUS304",
+        conduit: "ท่อร้อยสายไฟสแตนเลส 304 / IMC บนหลังคา + ท่อ uPVC/EMT",
+        grossPrice: 529000,
+        monthlySavings: 9500,
+        annualSavings: 114000,
+        paybackYears: 4.2,
+        co2: 12.5
+      }
+    };
+
+    let quotationCustType = 'company';
+    let currentQuoteNumber = '';
+
+    function initQuotationModule() {
+      const now = new Date();
+      const yr = now.getFullYear();
+      const mo = String(now.getMonth() + 1).padStart(2, '0');
+      const rand = Math.floor(1000 + Math.random() * 9000);
+      currentQuoteNumber = `QT-${yr}${mo}-${rand}`;
+
+      const quoteNoEl = document.getElementById('docQuoteNo');
+      const quoteDateEl = document.getElementById('docQuoteDate');
+      if (quoteNoEl) quoteNoEl.textContent = currentQuoteNumber;
+      if (quoteDateEl) {
+        const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+        quoteDateEl.textContent = `${now.getDate()} ${thaiMonths[now.getMonth()]} ${yr}`;
+      }
+
+      updateQuotationDoc();
+    }
+
+    function setQuotationCustType(type) {
+      quotationCustType = type;
+      const btnCompany = document.getElementById('btnTypeCompany');
+      const btnPerson = document.getElementById('btnTypePerson');
+      const companyTaxBox = document.getElementById('companyTaxBox');
+      const lblCustName = document.getElementById('lblCustName');
+      const docTaxRow = document.getElementById('docTaxRow');
+
+      if (type === 'company') {
+        if (btnCompany) btnCompany.className = "py-2 px-3 rounded-lg font-bold transition-all bg-solar-gold text-slate-950 shadow flex items-center justify-center gap-1.5";
+        if (btnPerson) btnPerson.className = "py-2 px-3 rounded-lg font-medium text-slate-400 hover:text-white transition-all flex items-center justify-center gap-1.5";
+        if (companyTaxBox) companyTaxBox.classList.remove('hidden');
+        if (lblCustName) lblCustName.innerHTML = 'ชื่อบริษัท / นิติบุคคล / ผู้ว่าจ้าง <span class="text-rose-400">*</span>';
+        if (docTaxRow) docTaxRow.classList.remove('hidden');
+      } else {
+        if (btnPerson) btnPerson.className = "py-2 px-3 rounded-lg font-bold transition-all bg-solar-gold text-slate-950 shadow flex items-center justify-center gap-1.5";
+        if (btnCompany) btnCompany.className = "py-2 px-3 rounded-lg font-medium text-slate-400 hover:text-white transition-all flex items-center justify-center gap-1.5";
+        if (companyTaxBox) companyTaxBox.classList.add('hidden');
+        if (lblCustName) lblCustName.innerHTML = 'ชื่อ-นามสกุล เจ้าของบ้าน / ผู้ว่าจ้าง <span class="text-rose-400">*</span>';
+        if (docTaxRow) docTaxRow.classList.add('hidden');
+      }
+      updateQuotationDoc();
+    }
+
+    function updateQuotationDoc() {
+      const custName = document.getElementById('rfqCustName')?.value.trim() || 'บริษัท พีเค เอ็นจิเนียริ่ง แอนด์ เทรดดิ้ง (หาดใหญ่) จำกัด';
+      const taxId = document.getElementById('rfqTaxId')?.value.trim() || '-';
+      const branch = document.getElementById('rfqBranch')?.value.trim() || 'สำนักงานใหญ่';
+      const contactPerson = document.getElementById('rfqContactPerson')?.value.trim() || 'คุณสมชาย';
+      const phone = document.getElementById('rfqPhone')?.value.trim() || '089-466-1491';
+      const address = document.getElementById('rfqAddress')?.value.trim() || 'อ.หาดใหญ่ จ.สงขลา';
+      const roofType = document.getElementById('rfqRoofType')?.value || 'เมทัลชีท (Klip-lok/สกรูยึด)';
+      const purpose = document.getElementById('rfqPurpose')?.value || 'ขออนุมัติจัดซื้อ / จัดทำ PO';
+      const systemKey = document.getElementById('rfqSystemSelect')?.value || 'ongrid_5_0_1p';
+
+      const sys = quotationCatalog[systemKey] || quotationCatalog['ongrid_5_0_1p'];
+
+      const elDocCustName = document.getElementById('docCustName');
+      const elDocCustTax = document.getElementById('docCustTax');
+      const elDocCustBranch = document.getElementById('docCustBranch');
+      const elDocContactPerson = document.getElementById('docContactPerson');
+      const elDocPhone = document.getElementById('docPhone');
+      const elDocAddress = document.getElementById('docAddress');
+      const elDocRoofType = document.getElementById('docRoofType');
+      const elDocPurpose = document.getElementById('docPurpose');
+
+      if (elDocCustName) elDocCustName.textContent = custName;
+      if (elDocCustTax) elDocCustTax.textContent = taxId;
+      if (elDocCustBranch) elDocCustBranch.textContent = branch;
+      if (elDocContactPerson) elDocContactPerson.textContent = contactPerson;
+      if (elDocPhone) elDocPhone.textContent = phone;
+      if (elDocAddress) elDocAddress.textContent = address;
+      if (elDocRoofType) elDocRoofType.textContent = roofType;
+      if (elDocPurpose) elDocPurpose.textContent = purpose;
+
+      const gross = sys.grossPrice;
+      const subtotal = Math.round((gross / 1.07) * 100) / 100;
+      const vat = Math.round((gross - subtotal) * 100) / 100;
+
+      const elSubtotal = document.getElementById('docSubtotal');
+      const elVat = document.getElementById('docVat');
+      const elGrandTotal = document.getElementById('docGrandTotal');
+      const elThaiBahtText = document.getElementById('docThaiBahtText');
+
+      if (elSubtotal) elSubtotal.textContent = '฿' + subtotal.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      if (elVat) elVat.textContent = '฿' + vat.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      if (elGrandTotal) elGrandTotal.textContent = '฿' + gross.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      if (elThaiBahtText) elThaiBahtText.textContent = thaiBahtText(gross);
+
+      const elRoiMonthly = document.getElementById('docRoiMonthly');
+      const elRoiAnnual = document.getElementById('docRoiAnnual');
+      const elRoiPayback = document.getElementById('docRoiPayback');
+      const elRoiCo2 = document.getElementById('docRoiCo2');
+
+      if (elRoiMonthly) elRoiMonthly.textContent = `~${sys.monthlySavings.toLocaleString()} บ./เดือน`;
+      if (elRoiAnnual) elRoiAnnual.textContent = `(~${sys.annualSavings.toLocaleString()} บาท/ปี)`;
+      if (elRoiPayback) elRoiPayback.textContent = `~${sys.paybackYears} ปี`;
+      if (elRoiCo2) elRoiCo2.textContent = `~${sys.co2} ตัน/ปี`;
+
+      const tbody = document.getElementById('docItemsTbody');
+      if (tbody) {
+        let items = [
+          {
+            name: `<strong>${sys.title}</strong><div class="text-[11px] text-slate-500 mt-0.5">• ${sys.panels} (รับประกันประสิทธิภาพ 30 ปี)</div>`,
+            qty: "1 ชุด",
+            unitPrice: Math.round(subtotal * 0.48),
+            amount: Math.round(subtotal * 0.48)
+          },
+          {
+            name: `<strong>${sys.inverter}</strong><div class="text-[11px] text-slate-500 mt-0.5">• รับประกันศูนย์ไทย 5-10 ปี ดูการผลิตไฟผ่านมือถือแบบ Real-time 24 ชม.</div>`,
+            qty: "1 เครื่อง",
+            unitPrice: Math.round(subtotal * 0.22),
+            amount: Math.round(subtotal * 0.22)
+          }
+        ];
+
+        if (sys.battery) {
+          items.push({
+            name: `<strong>${sys.battery}</strong><div class="text-[11px] text-slate-500 mt-0.5">• สำรองไฟกลางคืนและกรณีไฟดับฉุกเฉิน (EPS 10ms) ปลอดภัยสูง ไม่ติดไฟ</div>`,
+            qty: "1 ชุด",
+            unitPrice: Math.round(subtotal * 0.15),
+            amount: Math.round(subtotal * 0.15)
+          });
+        }
+
+        items.push(
+          {
+            name: `<strong>${sys.combiner}</strong><div class="text-[11px] text-slate-500 mt-0.5">• อุปกรณ์เกรดอุตสาหกรรม 1000V ครบวงจร ผ่านเกณฑ์การไฟฟ้า กฟภ./กฟน. 100%</div>`,
+            qty: "1 ตู้",
+            unitPrice: Math.round(subtotal * 0.08),
+            amount: Math.round(subtotal * 0.08)
+          },
+          {
+            name: `<strong>${sys.structure}</strong><div class="text-[11px] text-slate-500 mt-0.5">• ออกแบบรองรับแรงลมพายุภาคใต้ ยึดสำหรับหลังคา ${roofType} ไม่เจาะทะลุโครงสร้างให้เสี่ยงรั่ว</div>`,
+            qty: "1 ชุด",
+            unitPrice: Math.round(subtotal * 0.07),
+            amount: Math.round(subtotal * 0.07)
+          },
+          {
+            name: `<strong>${sys.conduit}</strong><div class="text-[11px] text-slate-500 mt-0.5">• พร้อมสายไฟ PV1-F สองชั้นทนความร้อนสูง และแท่งกราวด์แท้ R &lt; 5 โอห์ม</div>`,
+            qty: "1 ชุด",
+            unitPrice: Math.round(subtotal * 0.06),
+            amount: Math.round(subtotal * 0.06)
+          },
+          {
+            name: `<strong>งานวิศวกร กว. เซ็นรับรองแบบ Single Line Diagram & ยื่นขออนุญาต กฟภ./อบต.</strong><div class="text-[11px] text-slate-500 mt-0.5">• บริการ One-Stop Service ประสานงานเจ้าหน้าที่จนถึงเปลี่ยนมิเตอร์ TOU ขนานไฟสำเร็จ</div>`,
+            qty: "1 งาน",
+            unitPrice: 0,
+            amount: 0,
+            freeTag: "รวมในแพ็กเกจ (ฟรี)"
+          },
+          {
+            name: `<strong>บริการล้างแผงและตรวจเช็คระบบไฟฟ้า สแกนกล้องอินฟราเรด Hotspot</strong><div class="text-[11px] text-slate-500 mt-0.5">• รับสิทธิ์บริการล้างแผงตรวจเช็คสภาพ ครั้งแรกฟรี 100% เพื่อให้ผลิตไฟเต็มประสิทธิภาพ</div>`,
+            qty: "1 ครั้ง",
+            unitPrice: 0,
+            amount: 0,
+            freeTag: "สิทธิ์พิเศษ (ฟรี)"
+          }
+        );
+
+        let allocated = items.reduce((acc, it) => acc + it.amount, 0);
+        let diff = Math.round(subtotal - allocated);
+        items[0].amount += diff;
+        items[0].unitPrice += diff;
+
+        tbody.innerHTML = items.map((it, idx) => `
+          <tr class="${idx % 2 === 1 ? 'bg-slate-50/50' : 'bg-white'} hover:bg-slate-50">
+            <td class="py-2.5 px-3 text-center font-mono text-slate-500">${idx + 1}</td>
+            <td class="py-2.5 px-3 leading-relaxed text-slate-800">${it.name}</td>
+            <td class="py-2.5 px-3 text-center whitespace-nowrap">${it.qty}</td>
+            <td class="py-2.5 px-3 text-right font-mono whitespace-nowrap text-slate-600">
+              ${it.freeTag ? `<span class="text-emerald-700 font-semibold text-[10px]">${it.freeTag}</span>` : '฿' + it.unitPrice.toLocaleString('th-TH')}
+            </td>
+            <td class="py-2.5 px-3 text-right font-mono font-semibold whitespace-nowrap text-slate-900">
+              ${it.freeTag ? `<span class="text-emerald-700 font-semibold text-[10px]">${it.freeTag}</span>` : '฿' + it.amount.toLocaleString('th-TH')}
+            </td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function printQuotationSheet() {
+      switchTab('quotation');
+      setTimeout(() => {
+        window.print();
+      }, 250);
+    }
+
+    function sendQuotationViaLine() {
+      const custName = document.getElementById('rfqCustName')?.value.trim() || 'ลูกค้า 99 Solar';
+      const taxId = quotationCustType === 'company' ? (document.getElementById('rfqTaxId')?.value.trim() || '-') : 'บุคคลธรรมดา';
+      const branch = quotationCustType === 'company' ? (document.getElementById('rfqBranch')?.value.trim() || 'สำนักงานใหญ่') : '-';
+      const contactPerson = document.getElementById('rfqContactPerson')?.value.trim() || custName;
+      const phone = document.getElementById('rfqPhone')?.value.trim() || '-';
+      const address = document.getElementById('rfqAddress')?.value.trim() || 'หาดใหญ่-สงขลา';
+      const roofType = document.getElementById('rfqRoofType')?.value || 'เมทัลชีท';
+      const purpose = document.getElementById('rfqPurpose')?.value || 'ขออนุมัติจัดซื้อ / จัดทำ PO';
+      const notes = document.getElementById('rfqNotes')?.value.trim() || '-';
+      const systemKey = document.getElementById('rfqSystemSelect')?.value || 'ongrid_5_0_1p';
+      const sys = quotationCatalog[systemKey] || quotationCatalog['ongrid_5_0_1p'];
+      const quoteNo = currentQuoteNumber || 'QT-2026';
+
+      const lineMsg = 
+`☀️ ขอใบเสนอราคาติดตั้งโซลาร์เซลล์ (สำหรับไปขอซื้อ/ขออนุมัติ)
+----------------------------------
+📄 เลขที่อ้างอิง: ${quoteNo}
+🏢 ผู้ขอซื้อ: ${custName}
+${quotationCustType === 'company' ? `📋 เลขผู้เสียภาษี: ${taxId} (${branch})\n` : ''}👤 ผู้ติดต่อ: ${contactPerson}
+📞 เบอร์โทร: ${phone}
+📍 สถานที่ติดตั้ง: ${address}
+🏠 ชนิดหลังคา: ${roofType}
+⚡ ระบบที่ต้องการ: ${sys.title}
+💰 ยอดเงินรวมสุทธิ: ฿${sys.grossPrice.toLocaleString()} บาท (รวม VAT 7%)
+🎯 วัตถุประสงค์: ${purpose}
+📝 หมายเหตุ: ${notes}
+----------------------------------
+(รบกวนทีมวิศวกร 99 Solar ออกใบเสนอราคา PDF พร้อมตราประทับบริษัทส่งกลับให้ทางไลน์ด้วยครับ)`;
+
+      const lineUrl = 'https://line.me/R/ti/p/@99sola?text=' + encodeURIComponent(lineMsg);
+      window.open(lineUrl, '_blank');
+    }
+
+    function speakCurrentQuotation() {
+      const systemKey = document.getElementById('rfqSystemSelect')?.value || 'ongrid_5_0_1p';
+      const sys = quotationCatalog[systemKey] || quotationCatalog['ongrid_5_0_1p'];
+      const custName = document.getElementById('rfqCustName')?.value.trim() || 'ลูกค้า';
+
+      const text = `ใบเสนอราคาทางการสำหรับการติดตั้งโซลาร์เซลล์ของ บริษัท 99 แมทช์ เมคเกอร์ จำกัด เสนอถึง ${custName} ระบบที่แนะนำคือ ${sys.title} ยอดเงินสุทธิทั้งสิ้น ${sys.grossPrice.toLocaleString()} บาท รวมภาษีมูลค่าเพิ่มเจ็ดเปอร์เซ็นต์และค่ายื่นขออนุญาตการไฟฟ้าเรียบร้อยแล้วครับ ระบบนี้จะช่วยให้คุณประหยัดค่าไฟได้ประมาณเดือนละ ${sys.monthlySavings.toLocaleString()} บาท หรือปีละกว่า ${sys.annualSavings.toLocaleString()} บาท คืนทุนอย่างรวดเร็วภายใน ${sys.paybackYears} ปี และรับประกันประสิทธิภาพแผงยาวนานสามสิบปีครับผม`;
+
+      speakText(text, 'th');
+    }
+
+    function thaiBahtText(num) {
+      if (!num || isNaN(num)) return 'ศูนย์บาทถ้วน';
+      num = Math.round(num * 100) / 100;
+      const numbers = ['', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'];
+      const positions = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน'];
+      
+      let [baht, satang] = num.toFixed(2).split('.');
+      let bahtInt = parseInt(baht, 10);
+      if (bahtInt === 0) return 'ศูนย์บาทถ้วน';
+
+      function convertGroup(n) {
+        let s = '';
+        const len = n.length;
+        for (let i = 0; i < len; i++) {
+          const d = parseInt(n[i], 10);
+          const pos = len - i - 1;
+          if (d !== 0) {
+            if (pos === 1 && d === 1) {
+              s += 'สิบ';
+            } else if (pos === 1 && d === 2) {
+              s += 'ยี่สิบ';
+            } else if (pos === 0 && d === 1 && len > 1 && n[len - 2] !== '0') {
+              s += 'เอ็ด';
+            } else {
+              s += numbers[d] + positions[pos];
+            }
+          }
+        }
+        return s;
+      }
+
+      let text = '';
+      if (baht.length > 6) {
+        const millionPart = baht.slice(0, baht.length - 6);
+        const restPart = baht.slice(baht.length - 6);
+        text = convertGroup(millionPart) + 'ล้าน' + convertGroup(restPart);
+      } else {
+        text = convertGroup(baht);
+      }
+      text += 'บาท';
+      
+      if (!satang || satang === '00') {
+        text += 'ถ้วน';
+      } else {
+        const sInt = parseInt(satang, 10);
+        if (sInt > 0) {
+          text += convertGroup(satang) + 'สตางค์';
+        } else {
+          text += 'ถ้วน';
+        }
+      }
+      return text;
     }
 
     // Utility
