@@ -1097,16 +1097,17 @@
     <!-- ========================================== -->
     <!-- TAB 7: QUOTATION & PURCHASE ORDER GENERATOR (แบบฟอร์มขอใบเสนอราคา & ไปขอซื้อ) -->
     <!-- ========================================== -->
-    <div id="tab-quotation" class="tab-content hidden space-y-6 bg-slate-100/90 -mx-4 sm:-mx-6 lg:-mx-8 p-4 sm:p-6 lg:p-8 rounded-3xl border border-slate-200 text-slate-800 shadow-sm">
+    <div id="tab-quotation" class="tab-content hidden space-y-6 bg-white -mx-4 sm:-mx-6 lg:-mx-8 p-4 sm:p-6 lg:p-8 rounded-3xl border border-slate-200 text-slate-800 shadow-xl">
       
       <!-- Top Banner (Clean White Card) -->
       <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 shadow-sm no-print">
         <div class="space-y-1">
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2 flex-wrap">
             <span class="px-2.5 py-1 bg-amber-100 text-amber-800 border border-amber-300 text-xs rounded-md font-bold">
               <i class="fa-solid fa-file-invoice-dollar mr-1"></i> RFQ & Purchase Requisition Generator
             </span>
             <span class="text-xs text-slate-500 font-medium">บจก. 99 แมทช์ เมคเกอร์ (99 Solar หาดใหญ่)</span>
+            <span class="text-[11px] px-2 py-0.5 bg-emerald-100 text-emerald-800 font-bold rounded-full">ธีมสีขาว (Pure White)</span>
           </div>
           <h2 class="text-xl sm:text-2xl font-bold text-slate-900 font-heading">แบบฟอร์มขอใบเสนอราคาติดตั้งโซลาร์เซลล์ (สำหรับไปทำเรื่องขอซื้อ)</h2>
           <p class="text-slate-600 text-xs sm:text-sm">
@@ -1116,13 +1117,17 @@
 
         <!-- Quick Action Toolbar -->
         <div class="flex items-center gap-2 flex-wrap">
+          <a href="quotation.html" target="_blank" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-md transition-all active:scale-95">
+            <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i>
+            <span>เปิดหน้าฟอร์มสีขาวเต็มจอ (quotation.html)</span>
+          </a>
           <button onclick="printQuotationSheet()" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-95">
             <i class="fa-solid fa-print text-sm"></i>
-            <span>พิมพ์ / เซฟ PDF ใบเสนอราคา</span>
+            <span>พิมพ์ / เซฟ PDF</span>
           </button>
           <button onclick="sendQuotationViaLine()" class="px-4 py-2.5 bg-[#06C755] hover:bg-[#05b34c] text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-md transition-all active:scale-95">
             <i class="fa-brands fa-line text-base"></i>
-            <span>ส่งข้อมูลเข้า LINE (@99sola)</span>
+            <span>ส่งเข้า LINE</span>
           </button>
           <button onclick="speakCurrentQuotation()" class="px-3.5 py-2.5 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-bold rounded-xl text-xs flex items-center gap-1.5 transition-all">
             <i class="fa-solid fa-volume-high text-amber-600"></i>
@@ -2178,6 +2183,15 @@
       if (targetBtn) {
         targetBtn.classList.add('active', 'bg-brand-500/20', 'text-brand-400', 'border', 'border-brand-500/40');
         targetBtn.classList.remove('text-slate-400');
+      }
+
+      // Smooth white theme toggle for Quotation Form
+      if (tabId === 'quotation') {
+        document.body.classList.remove('bg-slate-950');
+        document.body.classList.add('bg-slate-100');
+      } else {
+        document.body.classList.remove('bg-slate-100');
+        document.body.classList.add('bg-slate-950');
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
