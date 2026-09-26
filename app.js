@@ -153,6 +153,53 @@ function initCalculator() {
       openLineChatWithMessage(lineMessage);
     });
   }
+
+  // Handle Voice Reading of Calculator Results (TTS)
+  const voiceCalcBtn = document.getElementById('voiceCalcBtn');
+  if (voiceCalcBtn) {
+    let isSpeaking = false;
+    const originalText = voiceCalcBtn.innerHTML;
+
+    voiceCalcBtn.addEventListener('click', () => {
+      if (!('speechSynthesis' in window)) {
+        alert('เบราว์เซอร์ของคุณไม่รองรับเสียงอ่าน (Web Speech API) กรุณาลองใช้ Google Chrome หรือ Microsoft Edge ครับ');
+        return;
+      }
+
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+        voiceCalcBtn.innerHTML = originalText;
+        isSpeaking = false;
+        return;
+      }
+
+      const bill = Number(slider?.value || 3000);
+      const kw = recommendedKw?.textContent || '3.3 กิโลวัตต์';
+      const saveM = monthlySavings?.textContent || '2,100 บาทต่อเดือน';
+      const breakEven = breakevenYears?.textContent || '3.9 ปี';
+      
+      const speechText = `สำหรับบ้านที่มีบิลค่าไฟฟ้าเดือนละ ${bill.toLocaleString()} บาท ทาง 99 Solar ขอแนะนำติดตั้งระบบโซลาร์เซลล์ขนาด ${kw} ซึ่งจะช่วยให้คุณประหยัดค่าไฟได้ประมาณเดือนละ ${saveM} หรือปีละกว่าสองหมื่นบาท คืนทุนคุ้มค่าภายใน ${breakEven} หลังจากนั้นคือกำไรใช้ไฟฟ้าฟรียาวนานยี่สิบห้าปีครับ มีทีมวิศวกร กว. คุมงานมาตรฐานการไฟฟ้าหาดใหญ่ พร้อมบริการยื่นเอกสารให้ฟรีทุกขั้นตอนครับ`;
+      
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(speechText);
+      utter.lang = 'th-TH';
+      utter.rate = 1.0;
+      
+      voiceCalcBtn.innerHTML = '<i class="fa-solid fa-volume-high animate-bounce text-emerald-400"></i> กำลังอ่านออกเสียง... (กดเพื่อหยุด)';
+      isSpeaking = true;
+
+      utter.onend = () => {
+        voiceCalcBtn.innerHTML = originalText;
+        isSpeaking = false;
+      };
+      utter.onerror = () => {
+        voiceCalcBtn.innerHTML = originalText;
+        isSpeaking = false;
+      };
+      
+      window.speechSynthesis.speak(utter);
+    });
+  }
 }
 
 // 2. FAQ Accordion
@@ -248,10 +295,10 @@ function initModal() {
       const location = document.getElementById('clientLocation')?.value || 'หาดใหญ่-สงขลา';
       
       const interests = [];
-      if (document.getElementById('chkLoan')?.checked) interests.push('ผ่อน 0%/สินเชื่อ');
+      if (document.getElementById('chkLoan')?.checked) interests.push('จัดไฟแนนซ์/ผ่อน 0%');
       if (document.getElementById('chkPea')?.checked) interests.push('ยื่นขอ กฟภ.');
       if (document.getElementById('chkTax')?.checked) interests.push('ใบกำกับภาษี บจก.');
-      if (document.getElementById('chkClean')?.checked) interests.push('รับสิทธิ์ล้างแผงฟรี');
+      if (document.getElementById('chkClean')?.checked) interests.push('บริการล้างแผง (ครั้งแรกฟรี)');
 
       const lineMessage = 
 `☀️ นัดหมายสำรวจหน้างานฟรี (99 Solar หาดใหญ่)
