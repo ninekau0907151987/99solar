@@ -65,75 +65,112 @@
   </div>
 
   <!-- NAVIGATION BAR -->
-  <header class="sticky top-0 z-40 glass-nav transition-all duration-300 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all duration-300">
+    <!-- Top Row: Main Nav & Brand -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between gap-4">
       
-      <!-- Brand Logo: 99 Solar (โดย บจก. 99 แมทช์ เมคเกอร์) -->
-      <a href="#" class="flex items-center space-x-3 group">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center text-white shadow-lg shadow-brand-500/25 group-hover:scale-105 transition-transform">
-          <span class="text-2xl font-black font-heading tracking-tighter">99</span>
-        </div>
+      <!-- Brand Logo: 99 Solar Hat Yai (โดย บจก. 99 แมทช์ เมคเกอร์) -->
+      <a href="#" class="flex items-center space-x-3 group shrink-0">
+        <img src="logo.jpg" alt="99 Solar Hat Yai" class="h-11 sm:h-12 w-auto object-contain rounded-lg shadow-sm group-hover:scale-105 transition-transform bg-white p-0.5 border border-slate-200">
         <div>
           <div class="flex items-center gap-1.5">
-            <span class="text-xl sm:text-2xl font-black font-heading text-slate-900 tracking-tight">
+            <span class="text-lg sm:text-xl font-black font-heading text-slate-900 tracking-tight">
               99 <span class="text-brand-600">SOLAR</span>
             </span>
             <span class="text-[10px] px-2 py-0.5 bg-emerald-100 text-emerald-800 font-bold rounded-full">หาดใหญ่-สงขลา</span>
           </div>
-          <p class="text-[11px] text-slate-500 font-medium">โดย บจก. 99 แมทช์ เมคเกอร์ (ทุน 3 ล้าน)</p>
+          <p class="text-[10px] sm:text-[11px] text-slate-500 font-medium">คุณไจ๋ไจ๋ โทร. 090-715-1987 (บจก. 99 แมทช์ เมคเกอร์)</p>
         </div>
       </a>
 
-      <!-- Desktop Nav Menu: หน้าแรก | แพ็กเกจราคา | บริการของเรา | คำนวณค่าไฟ | ผลงาน | แนะนำเพื่อน | ติดต่อเรา -->
-      <nav class="hidden xl:flex items-center space-x-6 font-medium text-sm text-slate-700">
+      <!-- Desktop Nav Menu: เมนูหลักของเว็บ (สะอาด สบายตา ไม่เบียดกับปุ่มฟังก์ชัน) -->
+      <nav class="hidden lg:flex items-center space-x-3 xl:space-x-5 2xl:space-x-6 font-medium text-xs xl:text-sm text-slate-700 whitespace-nowrap">
         <a href="#hero" class="hover:text-brand-600 transition-colors">หน้าแรก</a>
         <a href="#packages" class="hover:text-brand-600 transition-colors">แพ็กเกจราคา</a>
-        <a href="#services" class="hover:text-brand-600 transition-colors">บริการของเรา</a>
         <a href="#calculator" class="hover:text-brand-600 transition-colors flex items-center gap-1 text-brand-700 font-semibold">
           <i class="fa-solid fa-calculator text-brand-500"></i> คำนวณค่าไฟ
         </a>
         <a href="#portfolio" class="hover:text-brand-600 transition-colors">ผลงาน</a>
-        <a href="#referral" class="hover:text-brand-600 transition-colors text-emerald-700 font-bold flex items-center gap-1 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+        <a href="#referral" class="hover:text-brand-600 transition-colors text-emerald-700 font-bold flex items-center gap-1 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-200">
           <i class="fa-solid fa-hand-holding-dollar text-emerald-600"></i> แนะนำเพื่อนรับคอมฯ
         </a>
         <a href="#contact" class="hover:text-brand-600 transition-colors">ติดต่อเรา</a>
-        <a href="solar-planner.html" class="px-3 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-300 rounded-xl transition-all flex items-center gap-1.5 font-bold text-xs">
-          <i class="fa-solid fa-drafting-compass text-brand-600"></i>
-          <span>โปรแกรมผังหลังคา (กว.)</span>
-        </a>
-        <a href="solar-sales-sop.html" class="px-3 py-1.5 bg-solar-light hover:bg-amber-100 text-amber-900 border border-solar-amber/40 rounded-xl transition-all flex items-center gap-1.5 font-bold text-xs shadow-sm">
-          <i class="fa-solid fa-robot text-solar-amber"></i>
-          <span>ระบบ SOP & แชทบอท</span>
-        </a>
-        <a href="solar-erp.html" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-brand-300 border border-slate-700 rounded-xl transition-all flex items-center gap-1.5 font-bold text-xs shadow-sm">
-          <i class="fa-solid fa-warehouse text-brand-400"></i>
-          <span>ระบบ ERP คลัง & ช่าง</span>
-        </a>
-        <a href="quotation.html" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition-all flex items-center gap-1.5 text-xs shadow-md">
-          <i class="fa-solid fa-file-invoice-dollar text-slate-900"></i>
-          <span>ขอใบเสนอราคา (ไปขอซื้อ)</span>
-        </a>
-        <a href="parts-rfq.html" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition-all flex items-center gap-1.5 text-xs shadow-md">
-          <i class="fa-solid fa-tags"></i>
-          <span>ขอราคาอะไหล่ (ดีลร้านค้า)</span>
-        </a>
       </nav>
 
-      <!-- Quick Contact Top-Right Buttons: 📞 โทร 089-466-1491 | 🟢 แอด LINE: @99sola (ซ่อนบนมือถือ เพราะมีปุ่มลอยด้านล่างอยู่แล้ว) -->
-      <div class="hidden sm:flex items-center space-x-2 sm:space-x-3">
+      <!-- Quick Contact Top-Right Buttons: 📞 โทร 090-715-1987 (คุณไจ๋ไจ๋) | 🟢 แอด LINE: @99sola -->
+      <div class="flex items-center space-x-2 sm:space-x-3 shrink-0">
         <!-- Phone Call Button -->
-        <a href="tel:0894661491" class="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs sm:text-sm px-3.5 sm:px-4 py-2 rounded-xl transition-all border border-slate-200 shadow-sm active:scale-95">
-          <i class="fa-solid fa-phone text-brand-600 text-sm"></i>
-          <span class="hidden sm:inline">โทร</span> <span>089-466-1491</span>
+        <a href="tel:0907151987" class="inline-flex items-center gap-1.5 sm:gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-xl transition-all border border-slate-200 shadow-sm active:scale-95">
+          <i class="fa-solid fa-phone text-brand-600 text-xs sm:text-sm"></i>
+          <span class="hidden md:inline">โทร (คุณไจ๋ไจ๋)</span> <span>090-715-1987</span>
         </a>
 
         <!-- LINE Button -->
-        <a href="https://line.me/R/ti/p/@99sola" target="_blank" class="inline-flex items-center gap-2 bg-[#06C755] hover:bg-[#05b34c] text-white font-bold text-xs sm:text-sm px-3.5 sm:px-4 py-2 rounded-xl transition-all shadow-md shadow-green-600/20 active:scale-95">
-          <i class="fa-brands fa-line text-lg"></i>
-          <span class="hidden sm:inline">แอด LINE:</span> <span>@99sola</span>
+        <a href="https://line.me/R/ti/p/@99sola" target="_blank" class="inline-flex items-center gap-1.5 sm:gap-2 bg-[#06C755] hover:bg-[#05b34c] text-white font-bold text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-xl transition-all shadow-md shadow-green-600/20 active:scale-95">
+          <i class="fa-brands fa-line text-sm sm:text-lg"></i>
+          <span class="hidden md:inline">แอด LINE:</span> <span>@99sola</span>
         </a>
       </div>
 
+    </div>
+
+    <!-- DEDICATED QUICK FUNCTION BAR: แถบทางลัดฟังก์ชัน & ระบบงาน 99 Solar (จัดเรียงแบบ Grid 6 คอลัมน์บน PC ไม่ซ้อนกัน 100%) -->
+    <div class="bg-slate-900 border-t border-slate-800 text-slate-200 py-2 sm:py-2.5 px-4 shadow-inner">
+      <div class="max-w-7xl mx-auto space-y-1.5">
+        
+        <!-- Header Sub-Label (Desktop & Mobile) -->
+        <div class="flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-brand-500/20 text-brand-400 font-bold border border-brand-500/30 text-[11px]">
+              <i class="fa-solid fa-layer-group text-brand-400"></i> ทางลัดระบบงาน
+            </span>
+            <span class="text-slate-400 text-[11px] hidden sm:inline">6 แอประบบวิศวกรรม จัดซื้อ และปิดการขาย 99 Solar:</span>
+          </div>
+          <span class="text-[11px] text-slate-400 hidden lg:inline">
+            <i class="fa-solid fa-arrow-pointer text-amber-400 mr-1"></i> คลิกเลือกเปิดระบบที่ต้องการใช้งาน
+          </span>
+        </div>
+
+        <!-- 6 Function Buttons Grid: บน PC แสดง 6 คอลัมน์เรียงกันเป๊ะ ไม่ซ้อนทับกันแน่นอน -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          <!-- 1. ผังหลังคา -->
+          <a href="solar-planner.html" class="group px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-brand-300 hover:text-white border border-slate-700 hover:border-brand-500 transition-all flex items-center justify-center gap-1.5 text-xs font-bold shadow-sm active:scale-95 text-center">
+            <i class="fa-solid fa-drafting-compass text-brand-400 group-hover:scale-110 transition-transform"></i>
+            <span class="truncate">ผังหลังคา (กว.)</span>
+          </a>
+
+          <!-- 2. Sales SOP & บอท -->
+          <a href="solar-sales-sop.html" class="group px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 hover:text-amber-200 border border-slate-700 hover:border-amber-400 transition-all flex items-center justify-center gap-1.5 text-xs font-bold shadow-sm active:scale-95 text-center">
+            <i class="fa-solid fa-robot text-solar-amber group-hover:scale-110 transition-transform"></i>
+            <span class="truncate">Sales SOP & บอท</span>
+          </a>
+
+          <!-- 3. ERP คลัง & ช่าง -->
+          <a href="solar-erp.html" class="group px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-purple-300 hover:text-purple-200 border border-slate-700 hover:border-purple-400 transition-all flex items-center justify-center gap-1.5 text-xs font-bold shadow-sm active:scale-95 text-center">
+            <i class="fa-solid fa-warehouse text-purple-400 group-hover:scale-110 transition-transform"></i>
+            <span class="truncate">ERP คลัง & ช่าง</span>
+          </a>
+
+          <!-- 4. ขอใบเสนอราคาลูกค้า -->
+          <a href="quotation.html" class="group px-2.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold border border-amber-600 transition-all flex items-center justify-center gap-1.5 text-xs shadow-sm active:scale-95 text-center">
+            <i class="fa-solid fa-file-invoice-dollar text-slate-900 group-hover:scale-110 transition-transform"></i>
+            <span class="truncate">ขอใบเสนอราคา</span>
+          </a>
+
+          <!-- 5. ขอราคาอะไหล่ร้านค้า -->
+          <a href="parts-rfq.html" class="group px-2.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold border border-emerald-700 transition-all flex items-center justify-center gap-1.5 text-xs shadow-sm active:scale-95 text-center">
+            <i class="fa-solid fa-tags text-white group-hover:scale-110 transition-transform"></i>
+            <span class="truncate">ดีลอะไหล่ร้านค้า</span>
+          </a>
+
+          <!-- 6. โซลาร์โรงงาน & งานรัฐ -->
+          <a href="solar-enterprise.html" class="group px-2.5 py-1.5 rounded-xl bg-blue-900 hover:bg-blue-800 text-blue-200 font-bold border border-blue-600 transition-all flex items-center justify-center gap-1.5 text-xs shadow-sm active:scale-95 text-center">
+            <i class="fa-solid fa-industry text-amber-400 group-hover:scale-110 transition-transform"></i>
+            <span class="truncate">โรงงาน & งานรัฐ</span>
+          </a>
+        </div>
+
+      </div>
     </div>
   </header>
 
@@ -447,7 +484,7 @@
   </section>
 
   <!-- INTERACTIVE VALUE CALCULATOR (HIGHLIGHT: ค่าไฟ 3,000 สมควรติดไหม?) -->
-  <section id="calculator" class="py-20 bg-slate-50 relative border-b border-slate-200/80">
+  <section id="calculator" class="py-20 bg-slate-50 relative border-b border-slate-200/80 scroll-mt-28 sm:scroll-mt-32">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="text-center max-w-3xl mx-auto mb-14">
@@ -627,7 +664,7 @@
   </section>
 
   <!-- PRICING PACKAGES SECTION (แพ็กเกจราคา & ระบบกิโลวัตต์) -->
-  <section id="packages" class="py-20 bg-white">
+  <section id="packages" class="py-20 bg-white scroll-mt-28 sm:scroll-mt-32">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="text-center max-w-3xl mx-auto mb-16">
@@ -950,7 +987,7 @@
   </section>
 
   <!-- ALL-IN-ONE SERVICES SECTION (บริการของเรา) -->
-  <section id="services" class="py-20 bg-slate-50 border-t border-slate-200">
+  <section id="services" class="py-20 bg-slate-50 border-t border-slate-200 scroll-mt-28 sm:scroll-mt-32">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="text-center max-w-3xl mx-auto mb-16">
@@ -1136,7 +1173,7 @@
   </section>
 
   <!-- PORTFOLIO & REVIEWS (ผลงาน & รีวิวลูกค้าหาดใหญ่-สงขลา + YouTube) -->
-  <section id="portfolio" class="py-20 bg-white">
+  <section id="portfolio" class="py-20 bg-white scroll-mt-28 sm:scroll-mt-32">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="text-center max-w-3xl mx-auto mb-16">
@@ -1538,7 +1575,7 @@
   </section>
 
   <!-- REFERRAL & AFFILIATE COMMISSION SECTION (ช่องทางแนะนำเพื่อน รับค่าคอมมิชชั่น) -->
-  <section id="referral" class="py-20 bg-gradient-to-b from-slate-50 via-emerald-50/40 to-white border-t border-slate-200">
+  <section id="referral" class="py-20 bg-gradient-to-b from-slate-50 via-emerald-50/40 to-white border-t border-slate-200 scroll-mt-28 sm:scroll-mt-32">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="text-center max-w-3xl mx-auto mb-14">
@@ -1756,7 +1793,7 @@
             <div>
               <label class="block text-xs font-semibold text-slate-700 mb-1">เบอร์โทรศัพท์ของคุณ (สำหรับรับค่าคอมฯ)</label>
               <div class="flex gap-2">
-                <input type="tel" id="genAgentPhone" placeholder="ระบุเบอร์โทร เช่น 0894661491" class="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                <input type="tel" id="genAgentPhone" placeholder="ระบุเบอร์โทร เช่น 0907151987" class="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none">
                 <button type="button" id="btnGenerateRefLink" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition-all">
                   สร้างลิงก์
                 </button>
@@ -1767,7 +1804,7 @@
             <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
               <label class="block text-[11px] font-semibold text-slate-600">ลิงก์แนะนำเพื่อนของคุณ:</label>
               <div class="flex items-center gap-2">
-                <input type="text" id="outputRefLink" readonly value="https://ninekau0907151987.github.io/99solar/?ref=0894661491" class="flex-1 px-3 py-2 bg-white rounded-lg border border-slate-300 text-xs font-mono text-slate-700 select-all">
+                <input type="text" id="outputRefLink" readonly value="https://ninekau0907151987.github.io/99solar/?ref=0907151987" class="flex-1 px-3 py-2 bg-white rounded-lg border border-slate-300 text-xs font-mono text-slate-700 select-all">
                 <button type="button" id="btnCopyRefLink" class="px-3.5 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1">
                   <i class="fa-regular fa-copy"></i> คัดลอก
                 </button>
@@ -1775,7 +1812,7 @@
 
               <!-- Instant LINE Share Button -->
               <div class="pt-2">
-                <a id="btnShareLineRef" href="https://line.me/R/share?text=%E0%B9%80%E0%B8%9E%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%99%E0%B9%86%20%E0%B8%9A%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B9%84%E0%B8%AB%E0%B8%99%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B9%84%E0%B8%9F%E0%B9%80%E0%B8%81%E0%B8%B4%E0%B8%99%203,000%20%E0%B8%9A%E0%B8%B2%E0%B8%97%20%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B9%84%E0%B8%9B%E0%B8%84%E0%B8%B3%E0%B8%99%E0%B8%A7%E0%B8%93%E0%B8%A5%E0%B8%94%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B9%84%E0%B8%9F%E0%B8%81%E0%B8%B1%E0%B8%9A%2099%20Solar%20%E0%B8%AB%E0%B8%B2%E0%B8%94%E0%B9%83%E0%B8%87%E0%B8%8D%E0%B9%88%E0%B8%94%E0%B8%B9%E0%B8%99%E0%B8%B0%20%E0%B8%AA%E0%B8%B3%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%9F%E0%B8%A3%E0%B8%B5%20%E0%B8%A2%E0%B8%B7%E0%B9%88%E0%B8%99%20%E0%B8%81%E0%B8%9F%E0%B8%A0.%20%E0%B9%83%E0%B8%AB%E0%B9%89%E0%B8%94%E0%B9%89%E0%B8%A7%E0%B8%A2%20%E0%B8%84%E0%B8%A5%E0%B8%B4%E0%B8%81%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%99%E0%B8%B5%E0%B9%88%E0%B9%80%E0%B8%A5%E0%B8%A2:%20https://ninekau0907151987.github.io/99solar/?ref=0894661491" target="_blank" class="w-full inline-flex items-center justify-center gap-2 bg-[#06C755] hover:bg-[#05b34c] text-white font-bold py-3 rounded-xl shadow-md text-xs transition-all">
+                <a id="btnShareLineRef" href="https://line.me/R/share?text=%E0%B9%80%E0%B8%9E%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%99%E0%B9%86%20%E0%B8%9A%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B9%84%E0%B8%AB%E0%B8%99%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B9%84%E0%B8%9F%E0%B9%80%E0%B8%81%E0%B8%B4%E0%B8%99%203,000%20%E0%B8%9A%E0%B8%B2%E0%B8%97%20%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B9%84%E0%B8%9B%E0%B8%84%E0%B8%B3%E0%B8%99%E0%B8%A7%E0%B8%93%E0%B8%A5%E0%B8%94%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B9%84%E0%B8%9F%E0%B8%81%E0%B8%B1%E0%B8%9A%2099%20Solar%20%E0%B8%AB%E0%B8%B2%E0%B8%94%E0%B9%83%E0%B8%87%E0%B8%8D%E0%B9%88%E0%B8%94%E0%B8%B9%E0%B8%99%E0%B8%B0%20%E0%B8%AA%E0%B8%B3%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%9F%E0%B8%A3%E0%B8%B5%20%E0%B8%A2%E0%B8%B7%E0%B9%88%E0%B8%99%20%E0%B8%81%E0%B8%9F%E0%B8%A0.%20%E0%B9%83%E0%B8%AB%E0%B9%89%E0%B8%94%E0%B9%89%E0%B8%A7%E0%B8%A2%20%E0%B8%84%E0%B8%A5%E0%B8%B4%E0%B8%81%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%99%E0%B8%B5%E0%B9%88%E0%B9%80%E0%B8%A5%E0%B8%A2:%20https://ninekau0907151987.github.io/99solar/?ref=0907151987" target="_blank" class="w-full inline-flex items-center justify-center gap-2 bg-[#06C755] hover:bg-[#05b34c] text-white font-bold py-3 rounded-xl shadow-md text-xs transition-all">
                   <i class="fa-brands fa-line text-lg"></i>
                   <span>คลิกเพื่อส่งแชร์เข้าแอป LINE ให้เพื่อนทันที</span>
                 </a>
@@ -1867,7 +1904,7 @@
 
           <div class="max-w-md mx-auto space-y-4">
             <div class="flex gap-2">
-              <input type="tel" id="trackSearchPhone" placeholder="กรอกเบอร์โทรของคุณ เช่น 0894661491" class="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none">
+              <input type="tel" id="trackSearchPhone" placeholder="กรอกเบอร์โทรของคุณ เช่น 0907151987" class="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none">
               <button type="button" id="btnTrackSearch" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl transition-all flex items-center gap-1.5">
                 <i class="fa-solid fa-search"></i> ค้นหา
               </button>
@@ -1917,7 +1954,7 @@
   </section>
 
   <!-- CONTACT SECTION (ติดต่อเรา & ที่ตั้ง ต.คลองแห หาดใหญ่) -->
-  <section id="contact" class="py-20 bg-white border-t border-slate-200">
+  <section id="contact" class="py-20 bg-white border-t border-slate-200 scroll-mt-28 sm:scroll-mt-32">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="bg-gradient-to-br from-brand-900 via-slate-900 to-brand-950 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
@@ -1955,8 +1992,8 @@
                   <i class="fa-solid fa-phone"></i>
                 </div>
                 <div>
-                  <div class="text-xs text-slate-400">สายด่วนวิศวกร:</div>
-                  <a href="tel:0894661491" class="font-bold text-brand-400 text-lg sm:text-xl hover:underline">089-466-1491</a>
+                  <div class="text-xs text-slate-400">สายด่วนวิศวกร (คุณไจ๋ไจ๋):</div>
+                  <a href="tel:0907151987" class="font-bold text-brand-400 text-lg sm:text-xl hover:underline">090-715-1987</a>
                 </div>
               </div>
 
@@ -2151,9 +2188,9 @@
 
   <!-- STICKY MOBILE BOTTOM BAR (เพรียวบาง ไม่บังจอ กดโทร ไลน์ และแนะนำเพื่อนได้ทันที) -->
   <div class="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 py-2 flex items-center gap-2 lg:hidden shadow-lg">
-    <a href="tel:0894661491" class="flex-1 inline-flex items-center justify-center gap-1.5 bg-slate-900 text-white font-bold text-xs py-2.5 rounded-xl active:scale-95 transition-all shadow-sm">
+    <a href="tel:0907151987" class="flex-1 inline-flex items-center justify-center gap-1.5 bg-slate-900 text-white font-bold text-xs py-2.5 rounded-xl active:scale-95 transition-all shadow-sm">
       <i class="fa-solid fa-phone text-brand-400 text-xs"></i>
-      <span>โทรด่วน</span>
+      <span>โทรคุณไจ๋ไจ๋</span>
     </a>
     <a href="https://line.me/R/ti/p/@99sola" target="_blank" class="flex-1 inline-flex items-center justify-center gap-1.5 bg-[#06C755] text-white font-bold text-xs py-2.5 rounded-xl active:scale-95 transition-all shadow-sm">
       <i class="fa-brands fa-line text-base"></i>

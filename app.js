@@ -467,8 +467,8 @@ function initMascotHelper() {
       isCompare: true
     },
     {
-      text: "📞 <strong>ต้องการสอบถามเร่งด่วน?</strong><br>โทรหาผมสายด่วนได้ที่ <strong>089-466-1491</strong> ได้เลยครับ ยินดีบริการครับ!",
-      ctaText: "📞 โทร 089-466-1491",
+      text: "📞 <strong>ต้องการสอบถามเร่งด่วน?</strong><br>โทรสายด่วนหาคุณไจ๋ไจ๋ได้ที่ <strong>090-715-1987</strong> ได้เลยครับ ยินดีบริการครับ!",
+      ctaText: "📞 โทร 090-715-1987",
       isCall: true
     }
   ];
@@ -487,7 +487,7 @@ function initMascotHelper() {
         if (dialog.isLine) {
           window.open('https://line.me/R/ti/p/@99sola', '_blank');
         } else if (dialog.isCall) {
-          window.location.href = 'tel:0894661491';
+          window.location.href = 'tel:0907151987';
         } else if (dialog.isCompare) {
           const el = document.querySelector('#faq');
           if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -772,7 +772,7 @@ function initReferralSystem() {
   const btnCopy = document.getElementById('btnCopyRefLink');
 
   function updateRefLink(phone) {
-    const cleanPhone = phone.trim().replace(/[^0-9]/g, '') || '0894661491';
+    const cleanPhone = phone.trim().replace(/[^0-9]/g, '') || '0907151987';
     const baseUrl = window.location.href.split('?')[0].split('#')[0];
     const generatedUrl = `${baseUrl}?ref=${cleanPhone}`;
     

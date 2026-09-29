@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>99 Solar Enterprise & B2G | ระบบโซลาร์โรงงานอุตสาหกรรม (BOI/PPA) และประมูลงานราชการ (ปร.4/ปร.5)</title>
+  <meta name="description" content="ระบบวิศวกรรมและข้อเสนอโซลาร์เซลล์ระดับองค์กร โรงงานอุตสาหกรรม (C&I Solar, สิทธิประโยชน์ BOI 50%, Solar PPA) และระบบจัดทำเอกสารราคากลางงานประมูลภาครัฐ (ปร.4, ปร.5, ปร.6, Factor F) โดย บริษัท 99 แมทช์ เมคเกอร์ จำกัด (99 Solar หาดใหญ่)">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              200: '#a7f3d0',
+              300: '#6ee7b7',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+              950: '#022c22'
+            },
+            solar: {
+              gold: '#f59e0b',
+              amber: '#d97706',
+              dark: '#0f172a'
+            }
+          },
+          fontFamily: {
+            heading: ['Kanit', 'sans-serif'],
+            body: ['Prompt', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Prompt & Kanit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: 'Prompt', sans-serif;
+      background-color: #ffffff;
+      color: #1e293b;
+    }
+    h1, h2, h3, h4, h5, h6, .font-heading {
+      font-family: 'Kanit', sans-serif;
+    }
+    .print-break {
+      page-break-after: always;
+      break-after: page;
+    }
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      header, footer, .no-print, #enterpriseNav, #topControlBanner {
+        display: none !important;
+      }
+      .printable-document {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-white text-slate-800 selection:bg-brand-500 selection:text-white">
+
+  <!-- TOP HEADER / NAV (Pure White) -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 py-3 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center space-x-3 group">
+        <img src="logo.jpg" alt="99 Solar Hat Yai Logo" class="w-11 h-11 object-contain rounded-xl border border-slate-200 shadow-sm p-0.5 group-hover:scale-105 transition-transform">
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-lg sm:text-xl font-black font-heading text-slate-900 tracking-tight">
+              99 <span class="text-brand-600">ENTERPRISE</span> & <span class="text-amber-600">B2G</span>
+            </span>
+            <span class="text-[10px] px-2 py-0.5 bg-blue-100 text-blue-800 font-bold rounded-full border border-blue-200">งานโรงงาน & งานประมูลรัฐ</span>
+          </div>
+          <p class="text-[11px] text-slate-500 font-medium">บริษัท 99 แมทช์ เมคเกอร์ จำกัด (ฝ่ายวิศวกรรมโครงการขนาดใหญ่)</p>
+        </div>
+      </a>
+
+      <!-- Quick Nav Links -->
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <a href="index.html" class="px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition-all flex items-center gap-1.5">
+          <i class="fa-solid fa-house"></i> <span class="hidden sm:inline">หน้าแรก</span>
+        </a>
+        <a href="quotation.html" class="px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition-all flex items-center gap-1.5">
+          <i class="fa-solid fa-file-invoice-dollar text-solar-amber"></i> <span class="hidden sm:inline">ใบเสนอราคาลูกค้า</span>
+        </a>
+        <a href="parts-rfq.html" class="px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition-all flex items-center gap-1.5">
+          <i class="fa-solid fa-tags text-emerald-600"></i> <span class="hidden sm:inline">ดีลอะไหล่ร้านค้า</span>
+        </a>
+        <a href="solar-planner.html" class="px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition-all flex items-center gap-1.5">
+          <i class="fa-solid fa-solar-panel text-brand-600"></i> <span class="hidden sm:inline">ผังหลังคา</span>
+        </a>
+        <a href="solar-erp.html" class="px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition-all flex items-center gap-1.5">
+          <i class="fa-solid fa-warehouse text-purple-600"></i> <span class="hidden sm:inline">คลัง ERP</span>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- MODULE SWITCHER BAR -->
+    <div id="enterpriseNav" class="bg-slate-50 border-t border-slate-200 px-4 sm:px-6 lg:px-8 overflow-x-auto">
+      <div class="max-w-7xl mx-auto flex space-x-2 py-2 text-xs sm:text-sm font-semibold">
+        <button onclick="switchEnterpriseTab('factory')" id="tabBtnFactory" class="px-4 py-2 rounded-xl bg-slate-900 text-white flex items-center gap-2 shadow-sm transition-all whitespace-nowrap">
+          <i class="fa-solid fa-industry text-amber-400"></i> 1. โซลาร์โรงงาน & โกดัง (C&I Solar + BOI 50% + PPA)
+        </button>
+        <button onclick="switchEnterpriseTab('gov')" id="tabBtnGov" class="px-4 py-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-200 flex items-center gap-2 transition-all whitespace-nowrap">
+          <i class="fa-solid fa-building-columns text-blue-600"></i> 2. ประมูลงานราชการ e-Bidding (แบบฟอร์ม ปร.4 / ปร.5 / Factor F)
+        </button>
+        <button onclick="switchEnterpriseTab('farm')" id="tabBtnFarm" class="px-4 py-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-200 flex items-center gap-2 transition-all whitespace-nowrap">
+          <i class="fa-solid fa-wheat-awn text-emerald-600"></i> 3. โซลาร์ฟาร์ม & โซลาร์สูบน้ำเกษตร (Agro-Solar / Ground Mount)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN WRAPPER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+
+    <!-- ========================================================================= -->
+    <!-- MODULE 1: COMMERCIAL & INDUSTRIAL (C&I) FACTORY + BOI + PPA               -->
+    <!-- ========================================================================= -->
+    <section id="moduleFactory" class="space-y-6">
+      
+      <!-- Top Action Banner -->
+      <div class="bg-white border border-slate-200 rounded-3xl p-5 sm:p-7 shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5 no-print">
+        <div class="space-y-1.5">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="px-3 py-1 bg-amber-100 text-amber-900 border border-amber-300 text-xs rounded-full font-bold">
+              <i class="fa-solid fa-industry mr-1"></i> Commercial & Industrial Solar (50 kW - 1,000 kW)
+            </span>
+            <span class="text-xs text-slate-500 font-medium">คำนวณอัตราค่าไฟ TOU • สิทธิประโยชน์ BOI 50% 3 ปี • โมเดล Private PPA</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">
+            ระบบวิเคราะห์และข้อเสนอโซลาร์โรงงาน โกดัง และธุรกิจขนาดใหญ่ (C&I)
+          </h1>
+          <p class="text-slate-600 text-xs sm:text-sm max-w-3xl leading-relaxed">
+            ช่วยประเมินการลดค่าไฟช่วง On-Peak, คำนวณภาษีเงินได้นิติบุคคลที่ประหยัดได้ตามมาตรการส่งเสริมการลงทุน <strong class="text-amber-700">BOI (50% ของเงินลงทุน)</strong>, เปรียบเทียบระหว่าง <strong class="text-brand-700">EPC (ซื้อขาด คืนทุน 3 ปี)</strong> vs <strong class="text-blue-700">Solar PPA (ติดฟรี ค่าไฟลดทันที 15-25%)</strong> พร้อมสร้างข้อเสนอโครงการ A4 เสนอบอร์ดผู้บริหาร
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2.5 flex-wrap">
+          <button onclick="printFactoryProposal()" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-95">
+            <i class="fa-solid fa-print text-sm"></i>
+            <span>พิมพ์ข้อเสนอโครงการ (C&I Proposal)</span>
+          </button>
+          <button onclick="copyFactoryLinePitch()" class="px-4 py-2.5 bg-[#06C755] hover:bg-[#05b34c] text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-md transition-all active:scale-95">
+            <i class="fa-brands fa-line text-base"></i>
+            <span>ส่งสรุปให้ผู้บริหารทาง LINE</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Factory Sizing & Calculator Workspace -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- Left: Factory Inputs (Col 5) -->
+        <div class="lg:col-span-5 space-y-5 no-print">
+          
+          <!-- Card: Factory Details -->
+          <div class="bg-white border border-slate-200 rounded-3xl p-5 sm:p-6 space-y-4 shadow-sm">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <h2 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                <i class="fa-solid fa-building text-amber-600"></i> ข้อมูลโรงงาน / อาคารธุรกิจ
+              </h2>
+              <span class="text-[11px] text-slate-500 font-medium">ภาคใต้ & ทั่วประเทศ</span>
+            </div>
+
+            <div class="space-y-3 text-xs">
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">ชื่อโรงงาน / นิติบุคคล / องค์กร</label>
+                <input type="text" id="ciCompanyName" value="บริษัท สยามพาราวูด แอนด์ โคลด์สตอเรจ (หาดใหญ่) จำกัด" oninput="updateCiDoc()" class="w-full bg-white text-slate-900 px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:border-amber-500 focus:outline-none">
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">ประเภทธุรกิจ</label>
+                  <select id="ciBusinessType" onchange="updateCiDoc()" class="w-full bg-white text-slate-900 px-2.5 py-2 rounded-xl border border-slate-300 focus:border-amber-500 focus:outline-none">
+                    <option value="โรงงานแปรรูปไม้ยาง/เฟอร์นิเจอร์">โรงงานแปรรูปไม้ยาง/เฟอร์นิเจอร์</option>
+                    <option value="โรงงานอาหารทะเลแช่แข็ง/ห้องเย็น">โรงงานอาหารแช่แข็ง/ห้องเย็น</option>
+                    <option value="คลังสินค้าและศูนย์กระจายสินค้า">คลังสินค้า/โลจิสติกส์</option>
+                    <option value="โรงแรม/รีสอร์ต/โรงพยาบาลเอกชน">โรงแรม/รพ.เอกชน</option>
+                    <option value="โรงงานผลิตถุงมือยาง/แปรรูปยางพารา">โรงงานถุงมือยาง/น้ำยาง</option>
+                    <option value="ห้างสรรพสินค้า/โชว์รูมยานยนต์">ห้าง/โชว์รูมยานยนต์</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">อัตราค่าไฟปัจจุบัน</label>
+                  <select id="ciTariffType" onchange="updateCiDoc()" class="w-full bg-white text-slate-900 px-2.5 py-2 rounded-xl border border-slate-300 focus:border-amber-500 focus:outline-none font-semibold">
+                    <option value="TOU 4.2.2 (แรงดัน 22-33 kV)">TOU 4.2.2 (22-33 kV)</option>
+                    <option value="TOU 4.2.3 (แรงดัน 69 kV ขึ้นไป)">TOU 4.2.3 (69 kV)</option>
+                    <option value="อัตราปกติ กฟภ. (4.3-4.5 บ./หน่วย)">อัตราปกติ 4.3-4.5 บ.</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">ค่าไฟเฉลี่ยต่อเดือนปัจจุบัน (บาท) <span class="text-rose-500">*</span></label>
+                <div class="relative">
+                  <span class="absolute left-3.5 top-2.5 text-slate-400 font-bold">฿</span>
+                  <input type="number" id="ciMonthlyBill" value="280000" step="10000" oninput="calculateCiMetrics()" class="w-full bg-white text-slate-900 pl-8 pr-3 py-2 rounded-xl border border-slate-300 font-mono font-bold text-base focus:border-amber-500 focus:outline-none">
+                </div>
+              </div>
+
+              <!-- Quick Sizing Preset -->
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">เลือกขนาดติดตั้งโซลาร์ (System Size)</label>
+                <div class="grid grid-cols-3 sm:grid-cols-5 gap-1.5 font-bold">
+                  <button type="button" onclick="setCiSize(50)" class="ci-size-btn py-2 rounded-xl border border-slate-300 hover:border-amber-500 text-slate-700 hover:bg-amber-50 text-xs transition-all" data-size="50">50 kW</button>
+                  <button type="button" onclick="setCiSize(100)" class="ci-size-btn py-2 rounded-xl border border-slate-300 hover:border-amber-500 text-slate-700 hover:bg-amber-50 text-xs transition-all active bg-amber-500 text-slate-950 font-bold border-amber-600 shadow-sm" data-size="100">100 kW</button>
+                  <button type="button" onclick="setCiSize(250)" class="ci-size-btn py-2 rounded-xl border border-slate-300 hover:border-amber-500 text-slate-700 hover:bg-amber-50 text-xs transition-all" data-size="250">250 kW</button>
+                  <button type="button" onclick="setCiSize(500)" class="ci-size-btn py-2 rounded-xl border border-slate-300 hover:border-amber-500 text-slate-700 hover:bg-amber-50 text-xs transition-all" data-size="500">500 kW</button>
+                  <button type="button" onclick="setCiSize(1000)" class="ci-size-btn py-2 rounded-xl border border-slate-300 hover:border-amber-500 text-slate-700 hover:bg-amber-50 text-xs transition-all" data-size="1000">1 MW</button>
+                </div>
+              </div>
+
+              <!-- BOI Benefit Toggle -->
+              <div class="p-3.5 bg-amber-50/80 rounded-2xl border border-amber-200 space-y-2">
+                <div class="flex items-center justify-between">
+                  <label class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                    <i class="fa-solid fa-award text-amber-600"></i> สิทธิประโยชน์ BOI ประหยัดพลังงาน
+                  </label>
+                  <span class="text-[10px] px-2 py-0.5 bg-amber-200 text-amber-900 rounded-full font-bold">ยกเว้นภาษี 50%</span>
+                </div>
+                <p class="text-[11px] text-amber-800 leading-relaxed">
+                  โรงงานสามารถนำ 50% ของเงินลงทุนโซลาร์ ไปหักยกเว้นภาษีเงินได้นิติบุคคล (Corporate Income Tax 20%) ได้นาน 3 ปี ช่วยร่นเวลาคืนทุนเหลือเพียง 2.8 - 3.2 ปี!
+                </p>
+                <div class="flex items-center gap-2">
+                  <input type="checkbox" id="ciApplyBoi" checked onchange="calculateCiMetrics()" class="w-4 h-4 text-amber-600 rounded">
+                  <label for="ciApplyBoi" class="text-xs font-semibold text-slate-800 cursor-pointer">คำนวณการหักลดหย่อนภาษี BOI ในข้อเสนอ</label>
+                </div>
+              </div>
+
+              <!-- PPA vs EPC Selection -->
+              <div class="p-3.5 bg-blue-50/80 rounded-2xl border border-blue-200 space-y-2">
+                <label class="font-bold text-blue-950 text-xs flex items-center gap-1.5">
+                  <i class="fa-solid fa-handshake text-blue-600"></i> รูปแบบสัญญาและการลงทุนที่เสนอ
+                </label>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                  <label class="flex items-center gap-2 p-2 bg-white rounded-xl border border-blue-200 cursor-pointer">
+                    <input type="radio" name="ciContractModel" value="epc" checked onchange="updateCiContractModel('epc')">
+                    <div>
+                      <div class="font-bold text-slate-900">1. ซื้อขาด (EPC)</div>
+                      <div class="text-[10px] text-slate-500">คืนทุน 3 ปี กำไรยาว 25 ปี</div>
+                    </div>
+                  </label>
+                  <label class="flex items-center gap-2 p-2 bg-white rounded-xl border border-blue-200 cursor-pointer">
+                    <input type="radio" name="ciContractModel" value="ppa" onchange="updateCiContractModel('ppa')">
+                    <div>
+                      <div class="font-bold text-slate-900">2. Solar PPA (ติดฟรี)</div>
+                      <div class="text-[10px] text-slate-500">ค่าไฟลด 20% ทันที ไม่ลงทุน</div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Live A4 Industrial Proposal Sheet (Col 7) -->
+        <div class="lg:col-span-7 space-y-4">
+          
+          <div id="ciProposalSheet" class="printable-document bg-white border border-slate-300 rounded-3xl p-6 sm:p-8 md:p-10 shadow-xl space-y-6 text-slate-800 text-xs sm:text-sm">
+            
+            <!-- Document Header -->
+            <div class="border-b-2 border-slate-900 pb-5">
+              <div class="flex justify-between items-start gap-4">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <img src="logo.jpg" alt="99 Solar Hat Yai" class="w-10 h-10 object-contain rounded-xl border border-slate-300 p-0.5">
+                    <div>
+                      <h2 class="text-lg sm:text-xl font-black text-slate-900 font-heading tracking-tight leading-tight">
+                        บริษัท 99 แมทช์ เมคเกอร์ จำกัด (99 SOLAR หาดใหญ่)
+                      </h2>
+                      <span class="text-[11px] font-bold text-amber-700 uppercase tracking-wider">
+                        COMMERCIAL & INDUSTRIAL SOLAR ENGINEERING DIVISION
+                      </span>
+                    </div>
+                  </div>
+                  <p class="text-[11px] text-slate-600 pt-1">
+                    ศูนย์วิศวกรรมโซลาร์เซลล์โรงงานและธุรกิจขนาดใหญ่ ภาคใต้ | โทร. 090-715-1987 (คุณไจ๋ไจ๋)
+                  </p>
+                </div>
+
+                <div class="text-right space-y-1">
+                  <span class="inline-block bg-slate-900 text-amber-400 px-3 py-1 rounded-lg font-bold text-xs uppercase tracking-wider font-heading">
+                    ข้อเสนอโครงการโซลาร์โรงงาน (C&I)
+                  </span>
+                  <p class="text-[10px] text-slate-400 uppercase">SOLAR INVESTMENT & ESG PROPOSAL</p>
+                  <p class="text-xs text-slate-600 pt-1">วันที่: <strong class="docCiDate">26 กันยายน 2569</strong></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Client & System Summary Box -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs">
+              <div class="space-y-1">
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">ลูกค้าองค์กร / สถานประกอบการ:</span>
+                <p id="docCiCompanyName" class="font-bold text-sm text-slate-900">บริษัท สยามพาราวูด แอนด์ โคลด์สตอเรจ (หาดใหญ่) จำกัด</p>
+                <p class="text-slate-600">กลุ่มธุรกิจ: <span id="docCiBusinessType" class="font-medium text-slate-800">โรงงานแปรรูปไม้ยาง/เฟอร์นิเจอร์</span></p>
+                <p class="text-slate-600">อัตราค่าไฟฟ้า: <span id="docCiTariff" class="font-medium text-slate-800">TOU 4.2.2 (แรงดัน 22-33 kV)</span></p>
+              </div>
+              <div class="space-y-1 sm:border-l sm:border-slate-200 sm:pl-4">
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">สเปกระบบโซลาร์ที่นำเสนอ:</span>
+                <p class="text-slate-900 font-bold text-sm">
+                  กำลังผลิต: <span id="docCiSize" class="text-amber-700">100 kWp</span> (On-Grid 3-Phase)
+                </p>
+                <p class="text-slate-600">จำนวนแผง: <span id="docCiPanelCount" class="font-medium text-slate-800">162 แผง (N-Type TOPCon 620W)</span></p>
+                <p class="text-slate-600">พื้นที่หลังคาที่ใช้: <span id="docCiRoofArea" class="font-medium text-slate-800">~520 ตร.ม.</span></p>
+                <p class="text-slate-600">โมเดลสัญญา: <span id="docCiModelText" class="font-bold text-brand-700">ซื้อขาดกรรมสิทธิ์ (Turnkey EPC)</span></p>
+              </div>
+            </div>
+
+            <!-- Financial Key Metrics (4 Cards) -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+              <div class="p-3.5 bg-amber-50/80 rounded-2xl border border-amber-200">
+                <span class="text-[11px] font-bold text-amber-900 block">มูลค่าลงทุนติดตั้ง</span>
+                <span id="docCiCapex" class="text-base sm:text-lg font-black font-mono text-slate-900 mt-1 block">฿2,290,000</span>
+                <span class="text-[10px] text-slate-500">รวมวิศวกรโยธาเซ็นแบบ</span>
+              </div>
+              <div class="p-3.5 bg-emerald-50/80 rounded-2xl border border-emerald-200">
+                <span class="text-[11px] font-bold text-emerald-900 block">ประหยัดค่าไฟ / ปี</span>
+                <span id="docCiYearlySaving" class="text-base sm:text-lg font-black font-mono text-emerald-700 mt-1 block">฿684,000</span>
+                <span class="text-[10px] text-slate-500">~฿57,000 / เดือน</span>
+              </div>
+              <div class="p-3.5 bg-purple-50/80 rounded-2xl border border-purple-200">
+                <span class="text-[11px] font-bold text-purple-900 block">ลดภาษี BOI 50%</span>
+                <span id="docCiBoiSaving" class="text-base sm:text-lg font-black font-mono text-purple-700 mt-1 block">฿1,145,000</span>
+                <span class="text-[10px] text-slate-500">ยกเว้นภาษีนิติบุคคล 3 ปี</span>
+              </div>
+              <div class="p-3.5 bg-blue-50/80 rounded-2xl border border-blue-200">
+                <span class="text-[11px] font-bold text-blue-900 block">ระยะเวลาคืนทุนสุทธิ</span>
+                <span id="docCiPayback" class="text-base sm:text-lg font-black font-mono text-blue-700 mt-1 block">3.3 ปี</span>
+                <span id="docCiPaybackSub" class="text-[10px] text-slate-500">(เมื่อใช้สิทธิ BOI)</span>
+              </div>
+            </div>
+
+            <!-- 25 Years Cash Flow & Savings Forecast Table -->
+            <div>
+              <h3 class="font-bold text-slate-900 text-xs sm:text-sm mb-2 flex items-center justify-between">
+                <span><i class="fa-solid fa-chart-line text-emerald-600 mr-1.5"></i> ตารางประมาณการผลตอบแทนตลอดอายุการใช้งาน 25 ปี</span>
+                <span class="text-[11px] text-slate-500 font-normal">คำนวณเงินเฟ้อค่าไฟฟ้า 3% ต่อปี</span>
+              </h3>
+              <div class="overflow-x-auto rounded-2xl border border-slate-200">
+                <table class="w-full text-left text-xs">
+                  <thead class="bg-slate-100 text-slate-800 font-bold uppercase text-[11px] border-b border-slate-200">
+                    <tr>
+                      <th class="py-2.5 px-3">ระยะเวลา</th>
+                      <th class="py-2.5 px-3 text-right">พลังงานที่ผลิตได้ (kWh)</th>
+                      <th class="py-2.5 px-3 text-right">ประหยัดค่าไฟฟ้า (บาท)</th>
+                      <th class="py-2.5 px-3 text-right">สิทธิประโยชน์ BOI (บาท)</th>
+                      <th class="py-2.5 px-3 text-right">กระแสเงินสดสะสม (Net Cash Flow)</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 text-slate-700">
+                    <tr>
+                      <td class="py-2.5 px-3 font-semibold text-slate-900">ปีที่ 1</td>
+                      <td class="py-2.5 px-3 text-right font-mono" id="cfKwhY1">150,000</td>
+                      <td class="py-2.5 px-3 text-right font-mono" id="cfSavY1">฿684,000</td>
+                      <td class="py-2.5 px-3 text-right font-mono text-purple-700" id="cfBoiY1">฿381,666</td>
+                      <td class="py-2.5 px-3 text-right font-mono font-bold text-slate-900" id="cfNetY1">-฿1,224,334</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2.5 px-3 font-semibold text-slate-900">ปีที่ 3 (จุดคืนทุน)</td>
+                      <td class="py-2.5 px-3 text-right font-mono" id="cfKwhY3">443,000</td>
+                      <td class="py-2.5 px-3 text-right font-mono" id="cfSavY3">฿2,120,000</td>
+                      <td class="py-2.5 px-3 text-right font-mono text-purple-700" id="cfBoiY3">฿1,145,000 (ครบ 50%)</td>
+                      <td class="py-2.5 px-3 text-right font-mono font-bold text-emerald-600" id="cfNetY3">+฿975,000 (คืนทุนแล้ว)</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2.5 px-3 font-semibold text-slate-900">ปีที่ 10</td>
+                      <td class="py-2.5 px-3 text-right font-mono" id="cfKwhY10">1,450,000</td>
+                      <td class="py-2.5 px-3 text-right font-mono" id="cfSavY10">฿7,840,000</td>
+                      <td class="py-2.5 px-3 text-right font-mono text-slate-400">-</td>
+                      <td class="py-2.5 px-3 text-right font-mono font-bold text-emerald-600" id="cfNetY10">+฿6,695,000</td>
+                    </tr>
+                    <tr class="bg-amber-50/50 font-bold">
+                      <td class="py-2.5 px-3 text-slate-900">รวม 25 ปี (ตลอดอายุแผง)</td>
+                      <td class="py-2.5 px-3 text-right font-mono" id="cfKwhY25">3,500,000</td>
+                      <td class="py-2.5 px-3 text-right font-mono text-slate-900" id="cfSavY25">฿22,400,000</td>
+                      <td class="py-2.5 px-3 text-right font-mono text-purple-700">฿1,145,000</td>
+                      <td class="py-2.5 px-3 text-right font-mono font-black text-emerald-700 text-sm" id="cfNetY25">+฿21,255,000</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- ESG & Carbon Credit Offset Badge -->
+            <div class="p-4 bg-emerald-50/70 border border-emerald-200 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-lg">
+                  <i class="fa-solid fa-leaf"></i>
+                </div>
+                <div>
+                  <strong class="text-emerald-950 font-bold text-sm">การขับเคลื่อนองค์กรสู่ความเป็นกลางทางคาร์บอน (Carbon Neutrality & ESG)</strong>
+                  <p class="text-emerald-800 text-[11px]">
+                    ลดการปล่อยก๊าซเรือนกระจกได้ประมาณ <span id="docCiCo2" class="font-bold">75.0 ตัน CO2e / ปี</span> (เทียบเท่าการปลูกต้นไม้ <span id="docCiTree" class="font-bold">3,750 ต้น</span>)
+                  </p>
+                </div>
+              </div>
+              <span class="px-3 py-1 bg-white text-emerald-800 font-bold rounded-lg border border-emerald-300 text-[11px] whitespace-nowrap">
+                Scope 2 Emission Cut
+              </span>
+            </div>
+
+            <!-- Engineering Scope of Work & Guarantees -->
+            <div class="space-y-2 text-xs text-slate-600">
+              <strong class="text-slate-900 block font-heading text-xs">ขอบเขตงานและวิศวกรรมแบบ Turnkey โดย 99 Solar:</strong>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+                <p>✓ สำรวจโครงสร้างหลังคาและเซ็นรับรองโดย <strong>วุฒิวิศวกรโยธา (สย.)</strong> เพื่อยื่น อ.1</p>
+                <p>✓ ยื่นขออนุญาตขนานไฟ กฟภ. (PEA) และใบอนุญาต พค.2 กกพ. ครบวงจร</p>
+                <p>✓ รับประกันอินเวอร์เตอร์ศูนย์ไทย 5-10 ปี และประสิทธิภาพแผง 25 ปี (Tier-1 N-Type)</p>
+                <p>✓ ตรวจสอบระบบด้วยโดรนเทอร์โมสแกน และล้างแผงบำรุงรักษาฟรีตามระยะสัญญา O&M</p>
+              </div>
+            </div>
+
+            <!-- Signatures -->
+            <div class="pt-6 border-t border-slate-200 grid grid-cols-2 gap-8 text-center text-xs">
+              <div>
+                <div class="h-16 border-b border-slate-300 mb-2 flex items-end justify-center pb-1">
+                  <span class="font-script text-slate-700 italic">นายนิรันดร์ ว. (สถ./สย.)</span>
+                </div>
+                <span class="font-bold text-slate-800">ผู้จัดการโครงการ & วิศวกรโครงการ</span>
+                <p class="text-[11px] text-slate-500">บริษัท 99 แมทช์ เมคเกอร์ จำกัด</p>
+              </div>
+              <div>
+                <div class="h-16 border-b border-dashed border-slate-300 mb-2 flex items-end justify-center pb-1 text-slate-400">
+                  (ลงนามตกลงรับข้อเสนอ)
+                </div>
+                <span class="font-bold text-slate-800">กรรมการผู้มีอำนาจลงนาม / ผู้บริหาร</span>
+                <p class="text-[11px] text-slate-500" id="docCiSignClient">บริษัท สยามพาราวูด แอนด์ โคลด์สตอเรจ (หาดใหญ่) จำกัด</p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- MODULE 2: GOVERNMENT TENDERS & EBIDDING (ปร.4, ปร.5, ปร.6, FACTOR F)       -->
+    <!-- ========================================================================= -->
+    <section id="moduleGov" class="space-y-6 hidden">
+      
+      <!-- Top Action Banner -->
+      <div class="bg-white border border-slate-200 rounded-3xl p-5 sm:p-7 shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5 no-print">
+        <div class="space-y-1.5">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="px-3 py-1 bg-blue-100 text-blue-900 border border-blue-300 text-xs rounded-full font-bold">
+              <i class="fa-solid fa-building-columns mr-1"></i> ระบบจัดทำเอกสารราคากลางงานประมูลภาครัฐ (e-Bidding)
+            </span>
+            <span class="text-xs text-slate-500 font-medium">ตาม พ.ร.บ. จัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560 กรมบัญชีกลาง</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">
+            แบบฟอร์มถอดแบบ ปร.4, ปร.5, ปร.6 และสูตรคำนวณ Factor F งานราชการ
+          </h1>
+          <p class="text-slate-600 text-xs sm:text-sm max-w-3xl leading-relaxed">
+            สร้างชุดเอกสารประกวดราคาสำหรับยื่น อบต., เทศบาล, อบจ., โรงเรียน, โรงพยาบาล หรือหน่วยงานราชการ พร้อมคำนวณค่าดำเนินการ ดอกเบี้ย กำไร และภาษีมูลค่าเพิ่ม (Factor F) ตามเกณฑ์ราคากลางพาณิชย์จังหวัดและกรมบัญชีกลาง
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2.5 flex-wrap">
+          <button onclick="printGovSet()" class="px-4 py-2.5 bg-blue-900 hover:bg-blue-800 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-95">
+            <i class="fa-solid fa-print text-sm"></i>
+            <span>พิมพ์ชุดเอกสาร ปร.4 / ปร.5 (A4 ทางการ)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Government Project Type Presets -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 no-print">
+        <button onclick="setGovProjectPreset('pump')" id="btnGovPump" class="p-4 rounded-2xl border-2 border-blue-600 bg-blue-50/60 text-left transition-all group">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-bold text-slate-900 group-hover:text-blue-700">1. โซลาร์สูบน้ำเพื่อการเกษตร (บ่อบาดาล)</span>
+            <i class="fa-solid fa-water text-blue-600"></i>
+          </div>
+          <p class="text-xs text-slate-500">งบประมาณ อบต./กรมทรัพยากรน้ำบาดาล ~฿480,000 - ฿1,200,000</p>
+        </button>
+
+        <button onclick="setGovProjectPreset('street')" id="btnGovStreet" class="p-4 rounded-2xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-slate-50 text-left transition-all group">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-bold text-slate-900 group-hover:text-blue-700">2. โคมไฟถนนโซลาร์เซลล์ (Street Light)</span>
+            <i class="fa-solid fa-lightbulb text-amber-500"></i>
+          </div>
+          <p class="text-xs text-slate-500">งานติดตั้งเสาไฟโซลาร์เซลล์ทางหลวงชนบท/เทศบาล 20-50 ต้น</p>
+        </button>
+
+        <button onclick="setGovProjectPreset('rooftop')" id="btnGovRooftop" class="p-4 rounded-2xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-slate-50 text-left transition-all group">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-bold text-slate-900 group-hover:text-blue-700">3. โซลาร์รูฟท็อปอาคารราชการ / รพ.สต.</span>
+            <i class="fa-solid fa-solar-panel text-brand-600"></i>
+          </div>
+          <p class="text-xs text-slate-500">ระบบ On-Grid 10 kW - 50 kW อาคารสำนักงานภาครัฐ</p>
+        </button>
+      </div>
+
+      <!-- Gov Project Details Inputs -->
+      <div class="bg-white border border-slate-200 rounded-3xl p-5 sm:p-6 shadow-sm no-print space-y-4">
+        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+          <i class="fa-solid fa-pen-to-square text-blue-600"></i> ข้อมูลโครงการและหน่วยงานผู้ว่าจ้าง
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">ชื่อโครงการภาครัฐ</label>
+            <input type="text" id="govProjectTitle" value="โครงการติดตั้งระบบสูบน้ำพลังงานแสงอาทิตย์เพื่อการเกษตร ชุมชนบ้านคลองแห" oninput="updateGovDoc()" class="w-full bg-white text-slate-900 px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:border-blue-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">หน่วยงานเจ้าของโครงการ (อบต./เทศบาล/หน่วยงาน)</label>
+            <input type="text" id="govAgencyName" value="องค์การบริหารส่วนตำบลคลองแห อำเภอหาดใหญ่ จังหวัดสงขลา" oninput="updateGovDoc()" class="w-full bg-white text-slate-900 px-3 py-2 rounded-xl border border-slate-300 focus:border-blue-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">ค่า Factor F (งานอาคาร/ไฟฟ้า กรมบัญชีกลาง)</label>
+            <select id="govFactorF" onchange="calculateGovTotals()" class="w-full bg-white text-slate-900 px-3 py-2 rounded-xl border border-slate-300 font-mono font-bold focus:border-blue-500 focus:outline-none">
+              <option value="1.3056" selected>1.3056 (ค่างานต้นทุนไม่เกิน 5 แสน - 1 ล้านบาท)</option>
+              <option value="1.2842">1.2842 (ค่างานต้นทุน 1 - 2 ล้านบาท)</option>
+              <option value="1.2654">1.2654 (ค่างานต้นทุน 2 - 5 ล้านบาท)</option>
+              <option value="1.2420">1.2420 (ค่างานต้นทุน 5 - 10 ล้านบาท)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Printable A4 Government Document Set (ปร.5 + ปร.4) -->
+      <div id="govPrintSheet" class="printable-document bg-white border border-slate-300 rounded-3xl p-6 sm:p-8 md:p-10 shadow-xl space-y-8 text-slate-900 text-xs">
+        
+        <!-- ==================== FORM ปร.5 (SUMMARY) ==================== -->
+        <div class="space-y-5 print-break">
+          <div class="text-center space-y-1 border-b border-slate-800 pb-3">
+            <span class="font-bold text-sm uppercase tracking-wider block">แบบ ปร.5</span>
+            <h2 class="text-base sm:text-lg font-black font-heading">
+              แบบสรุปค่าก่อสร้าง / ติดตั้งระบบไฟฟ้าพลังงานแสงอาทิตย์
+            </h2>
+            <p class="text-xs">ตามประกาศคณะกรรมการราคากลางและขึ้นทะเบียนผู้ประกอบการ กรมบัญชีกลาง</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 text-xs">
+            <div>
+              <p>กลุ่มงาน / โครงการ: <strong id="docGovTitle">โครงการติดตั้งระบบสูบน้ำพลังงานแสงอาทิตย์เพื่อการเกษตร ชุมชนบ้านคลองแห</strong></p>
+              <p>สถานที่ติดตั้ง: <strong>ต.คลองแห อ.หาดใหญ่ จ.สงขลา</strong></p>
+            </div>
+            <div class="text-right">
+              <p>หน่วยงานเจ้าของโครงการ: <strong id="docGovAgency">องค์การบริหารส่วนตำบลคลองแห อำเภอหาดใหญ่ จังหวัดสงขลา</strong></p>
+              <p>ประมาณราคาโดย: <strong>คณะกรรมการกำหนดราคากลาง</strong> ณ วันที่ <span class="docCiDate">26 กันยายน 2569</span></p>
+            </div>
+          </div>
+
+          <!-- Table ปร.5 -->
+          <div class="overflow-x-auto rounded-xl border border-slate-300">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-100 font-bold border-b border-slate-300 text-center">
+                <tr>
+                  <th class="py-2.5 px-3 w-14">ลำดับที่</th>
+                  <th class="py-2.5 px-4 text-left">รายการ</th>
+                  <th class="py-2.5 px-4 text-right w-36">ค่างานต้นทุน (บาท)</th>
+                  <th class="py-2.5 px-3 text-center w-28">Factor F</th>
+                  <th class="py-2.5 px-4 text-right w-36">ค่าก่อสร้างรวม (บาท)</th>
+                  <th class="py-2.5 px-3 text-center w-28">หมายเหตุ</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200">
+                <tr>
+                  <td class="py-2 px-3 text-center font-bold">1</td>
+                  <td class="py-2 px-4 font-semibold" id="govPr5ItemTitle">งานติดตั้งระบบสูบน้ำพลังงานแสงอาทิตย์ (แผงโซลาร์ + โครงสร้าง + อินเวอร์เตอร์ปั๊ม)</td>
+                  <td class="py-2 px-4 text-right font-mono" id="govPr5Cost">฿420,500.00</td>
+                  <td class="py-2 px-3 text-center font-mono font-bold" id="govPr5FactorF">1.3056</td>
+                  <td class="py-2 px-4 text-right font-mono font-bold text-slate-900" id="govPr5TotalWithFactor">฿549,004.80</td>
+                  <td class="py-2 px-3 text-center text-slate-500 text-[11px]">ถอดจาก ปร.4</td>
+                </tr>
+                <tr class="bg-slate-50 font-bold">
+                  <td colspan="4" class="py-3 px-4 text-right">รวมค่างานก่อสร้างทั้งสิ้น (คำนวณตาม Factor F รวม VAT 7% แล้ว):</td>
+                  <td class="py-3 px-4 text-right font-black font-mono text-sm text-slate-950" id="govPr5GrandTotal">฿549,000.00</td>
+                  <td class="text-center text-[10px] text-slate-500">(ปรับเศษทศนิยม)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Thai Baht Word -->
+          <div class="p-3 bg-slate-50 border border-slate-300 rounded-xl text-xs flex justify-between items-center">
+            <span>ตัวอักษร: <strong id="govPr5ThaiBaht">ห้าแสนสี่หมื่นเก้าพันบาทถ้วน</strong></span>
+            <span class="text-[11px] text-slate-500">* รวมภาษีมูลค่าเพิ่ม (VAT 7%) และค่าใช้จ่ายพิเศษตามเกณฑ์ราชการ</span>
+          </div>
+
+          <!-- Committee Signatures (แบบ ปร.5) -->
+          <div class="pt-6 border-t border-slate-300 grid grid-cols-3 gap-6 text-center text-xs">
+            <div>
+              <div class="h-14 border-b border-slate-400 mb-2"></div>
+              <strong>(......................................................)</strong>
+              <p class="text-slate-600">ประธานกรรมการกำหนดราคากลาง</p>
+            </div>
+            <div>
+              <div class="h-14 border-b border-slate-400 mb-2"></div>
+              <strong>(......................................................)</strong>
+              <p class="text-slate-600">กรรมการกำหนดราคากลาง</p>
+            </div>
+            <div>
+              <div class="h-14 border-b border-slate-400 mb-2"></div>
+              <strong>(......................................................)</strong>
+              <p class="text-slate-600">กรรมการและเลขานุการ</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== FORM ปร.4 (BILL OF QUANTITIES) ==================== -->
+        <div class="space-y-4 pt-6 border-t-2 border-dashed border-slate-400">
+          <div class="text-center space-y-1 border-b border-slate-800 pb-3">
+            <span class="font-bold text-sm uppercase tracking-wider block">แบบ ปร.4</span>
+            <h2 class="text-base sm:text-lg font-black font-heading">
+              แบบแสดงรายการ ปริมาณงาน และราคา (BOQ งานราชการ)
+            </h2>
+          </div>
+
+          <!-- Detailed Items Table ปร.4 -->
+          <div class="overflow-x-auto rounded-xl border border-slate-300">
+            <table class="w-full text-left text-[11px]">
+              <thead class="bg-slate-100 font-bold border-b border-slate-300 text-center">
+                <tr>
+                  <th rowspan="2" class="py-2 px-2 w-10 border-r border-slate-300">ลำดับ</th>
+                  <th rowspan="2" class="py-2 px-3 text-left border-r border-slate-300">รายการพัสดุและค่าใช้จ่าย</th>
+                  <th rowspan="2" class="py-2 px-2 w-12 border-r border-slate-300">จำนวน</th>
+                  <th rowspan="2" class="py-2 px-2 w-12 border-r border-slate-300">หน่วย</th>
+                  <th colspan="2" class="py-1 px-2 border-b border-r border-slate-300">ค่าวัสดุ (บาท)</th>
+                  <th colspan="2" class="py-1 px-2 border-b border-r border-slate-300">ค่าแรงงาน (บาท)</th>
+                  <th rowspan="2" class="py-2 px-3 text-right w-24">รวมค่าวัสดุและค่าแรง (บาท)</th>
+                </tr>
+                <tr>
+                  <th class="py-1 px-2 text-right border-r border-slate-300 w-20">ราคา/หน่วย</th>
+                  <th class="py-1 px-2 text-right border-r border-slate-300 w-20">จำนวนเงิน</th>
+                  <th class="py-1 px-2 text-right border-r border-slate-300 w-20">ราคา/หน่วย</th>
+                  <th class="py-1 px-2 text-right border-r border-slate-300 w-20">จำนวนเงิน</th>
+                </tr>
+              </thead>
+              <tbody id="govPr4Tbody" class="divide-y divide-slate-200">
+                <!-- Dynamically populated -->
+              </tbody>
+              <tfoot class="bg-slate-50 font-bold border-t-2 border-slate-300">
+                <tr>
+                  <td colspan="4" class="py-2.5 px-3 text-right">รวมค่างานต้นทุนทั้งหมด (ยกไปแบบ ปร.5):</td>
+                  <td id="govPr4TotalMat" class="py-2.5 px-2 text-right font-mono border-r border-slate-300">฿350,000.00</td>
+                  <td></td>
+                  <td id="govPr4TotalLabor" class="py-2.5 px-2 text-right font-mono border-r border-slate-300">฿70,500.00</td>
+                  <td colspan="1"></td>
+                  <td id="govPr4GrandCost" class="py-2.5 px-3 text-right font-mono text-xs font-black text-slate-900">฿420,500.00</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- MODULE 3: AGRO-SOLAR & LARGE FARM (GROUND MOUNT / WATER PUMP)             -->
+    <!-- ========================================================================= -->
+    <section id="moduleFarm" class="space-y-6 hidden">
+      
+      <div class="bg-white border border-slate-200 rounded-3xl p-5 sm:p-7 shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5 no-print">
+        <div class="space-y-1.5">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="px-3 py-1 bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs rounded-full font-bold">
+              <i class="fa-solid fa-wheat-awn mr-1"></i> โซลาร์ฟาร์ม & เกษตรอัจฉริยะ (Agro-Solar & Ground Mount)
+            </span>
+            <span class="text-xs text-slate-500 font-medium">บ่อกุ้ง • สวนทุเรียน • สวนปาล์ม • พื้นที่ไม่มีสายส่งไฟฟ้า</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">
+            ระบบโซลาร์เพื่อการเกษตร ฟาร์มขนาดใหญ่ และโครงสร้างตั้งพื้น (Ground Mount)
+          </h1>
+          <p class="text-slate-600 text-xs sm:text-sm max-w-3xl leading-relaxed">
+            โซลูชันลดค่าไฟพัดลมฟาร์มไก่/หมู ระบบสูบน้ำสปริงเกอร์สวนทุเรียน ระบบเติมอากาศบ่อกุ้งภาคใต้ และระบบโซลาร์ฟาร์มเสาเข็มไมโครไพล์ (Micropile Ground Mount) แข็งแรงทนลมพายุและไอทะเล
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <a href="parts-rfq.html" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-sm">
+            <i class="fa-solid fa-tags"></i> ขอราคาแผงยกพาเลท & ปั๊ม VFD
+          </a>
+        </div>
+      </div>
+
+      <!-- 3 Farm Sizing Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Farm 1: ระบบสูบน้ำบาดาลสวนทุเรียน/ปาล์ม -->
+        <div class="bg-white border border-slate-200 rounded-3xl p-6 space-y-4 shadow-sm hover:shadow-md transition-all">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-xl font-bold">
+            <i class="fa-solid fa-water"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 font-heading">ชุดโซลาร์ปั๊มน้ำบาดาล 3HP - 5HP</h3>
+            <p class="text-xs text-slate-500">สำหรับสวนทุเรียน สวนผลไม้ ระบบสปริงเกอร์รดน้ำอัตโนมัติ</p>
+          </div>
+          <div class="space-y-1.5 text-xs text-slate-600 border-t border-slate-100 pt-3">
+            <p>• แผงโซลาร์เซลล์ N-Type 620W จำนวน 8-12 แผง</p>
+            <p>• Inverter Solar Pump VFD 3 เฟส ปรับรอบความเร็วตามแดด</p>
+            <p>• โครงสร้างเหล็กกัลวาไนซ์ยึดพื้นดิน ทนลมพายุ</p>
+            <p>• ทำงานอัตโนมัติตั้งแต่ 08:00 - 16:30 น. ค่าไฟ 0 บาท</p>
+          </div>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-500">งบประมาณเริ่มต้น:</span>
+            <span class="text-base font-black font-mono text-emerald-700">฿89,000 - ฿145,000</span>
+          </div>
+        </div>
+
+        <!-- Farm 2: บ่อกุ้ง & ฟาร์มสัตว์ปีก -->
+        <div class="bg-white border border-slate-200 rounded-3xl p-6 space-y-4 shadow-sm hover:shadow-md transition-all">
+          <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-800 flex items-center justify-center text-xl font-bold">
+            <i class="fa-solid fa-fan"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 font-heading">ระบบโซลาร์ตีน้ำบ่อกุ้ง & พัดลมฟาร์ม 20kW - 50kW</h3>
+            <p class="text-xs text-slate-500">ลดค่าไฟกังหันตีน้ำและพัดลมระบายอากาศ 24 ชม.</p>
+          </div>
+          <div class="space-y-1.5 text-xs text-slate-600 border-t border-slate-100 pt-3">
+            <p>• รองรับไฟ 3 เฟส 380V รันมอเตอร์ใบพัดตีน้ำพร้อมกัน</p>
+            <p>• มีระบบ Hybrid เชื่อมต่อแบตเตอรี่สำรองไฟตอนฝนตก</p>
+            <p>• ลดความเสี่ยงกุ้งน็อคน้ำจากเหตุไฟดับได้อย่างเด็ดขาด</p>
+            <p>• ประหยัดค่าไฟฟาร์มเดือนละ 25,000 - 60,000+ บาท</p>
+          </div>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-500">งบประมาณเริ่มต้น:</span>
+            <span class="text-base font-black font-mono text-blue-700">฿450,000 - ฿1,200,000</span>
+          </div>
+        </div>
+
+        <!-- Farm 3: โซลาร์ฟาร์ม Ground Mount 100kW - 500kW -->
+        <div class="bg-white border border-slate-200 rounded-3xl p-6 space-y-4 shadow-sm hover:shadow-md transition-all">
+          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-xl font-bold">
+            <i class="fa-solid fa-solar-panel"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 font-heading">โซลาร์ฟาร์มตั้งพื้น (Ground Mount Solar)</h3>
+            <p class="text-xs text-slate-500">สำหรับโรงงานที่มีที่ดินว่าง หรือโครงการจำหน่ายไฟเอกชน</p>
+          </div>
+          <div class="space-y-1.5 text-xs text-slate-600 border-t border-slate-100 pt-3">
+            <p>• โครงสร้างตอกเสาเข็มเหล็ก C-Post ชุบ Hot-Dip Galvanized</p>
+            <p>• แผง 620W N-Type Bifacial รับแสงสะท้อนด้านล่างเพิ่ม 10-15%</p>
+            <p>• หม้อแปลงจำหน่ายไฟฟ้า Step-Up Transformer 22kV</p>
+            <p>• ระบบตรวจสอบ Scada Remote Monitoring แบบเรียลไทม์</p>
+          </div>
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-500">งบประมาณเฉลี่ย:</span>
+            <span class="text-base font-black font-mono text-amber-700">~฿2.1 - ฿2.4 ล้าน / 100kW</span>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-slate-200 py-6 mt-12 text-center text-xs text-slate-500 no-print">
+    <div class="max-w-7xl mx-auto px-4 space-y-2">
+      <p class="font-semibold text-slate-700">บริษัท 99 แมทช์ เมคเกอร์ จำกัด (99 Solar หาดใหญ่) | ฝ่ายวิศวกรรมโครงการใหญ่และงานจัดซื้อจัดจ้างภาครัฐ</p>
+      <p>128/9 หมู่ 2 ต.คอหงส์ อ.หาดใหญ่ จ.สงขลา 90110 | โทร. 090-715-1987 (คุณไจ๋ไจ๋) | LINE: @99sola</p>
+      <div class="flex justify-center gap-4 text-xs font-medium text-slate-600 pt-2">
+        <a href="index.html" class="hover:text-brand-600 transition-colors">หน้าแรก</a>
+        <span>•</span>
+        <a href="quotation.html" class="hover:text-brand-600 transition-colors">ใบเสนอราคาลูกค้า</a>
+        <span>•</span>
+        <a href="parts-rfq.html" class="hover:text-brand-600 transition-colors">ขอราคาอะไหล่ & ดีลร้านค้า</a>
+        <span>•</span>
+        <a href="solar-planner.html" class="hover:text-brand-600 transition-colors">ผังหลังคา</a>
+        <span>•</span>
+        <a href="solar-erp.html" class="hover:text-brand-600 transition-colors">ระบบ ERP คลัง</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // State Variables
+    let currentCiSize = 100; // kW
+    let currentCiModel = 'epc'; // epc or ppa
+    let currentGovPreset = 'pump';
+
+    // Helper Number Formatter
+    function formatNumber(num) {
+      return (Number(num) || 0).toLocaleString('th-TH');
+    }
+
+    // Thai Baht Text
+    function thaiBahtText(num) {
+      if (!num || isNaN(num) || num <= 0) return 'ศูนย์บาทถ้วน';
+      const number = Math.round(num * 100) / 100;
+      const [intPart, decPart] = number.toString().split('.');
+      const numbers = ['', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'];
+      const positions = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน'];
+
+      function convertGroup(digits) {
+        let result = '';
+        const len = digits.length;
+        for (let i = 0; i < len; i++) {
+          const digit = parseInt(digits[i]);
+          const pos = len - i - 1;
+          if (digit !== 0) {
+            if (pos === 1 && digit === 1) {
+              result += 'สิบ';
+            } else if (pos === 1 && digit === 2) {
+              result += 'ยี่สิบ';
+            } else if (pos === 0 && digit === 1 && len > 1 && digits[len - 2] !== '0') {
+              result += 'เอ็ด';
+            } else {
+              result += numbers[digit] + positions[pos];
+            }
+          }
+        }
+        return result;
+      }
+
+      let bahtText = '';
+      if (intPart.length > 6) {
+        const millionGroup = intPart.slice(0, intPart.length - 6);
+        const lowerGroup = intPart.slice(intPart.length - 6);
+        bahtText = convertGroup(millionGroup) + 'ล้าน' + convertGroup(lowerGroup);
+      } else {
+        bahtText = convertGroup(intPart);
+      }
+      bahtText += 'บาท';
+
+      if (!decPart || decPart === '0' || decPart === '00') {
+        bahtText += 'ถ้วน';
+      } else {
+        const satang = decPart.padEnd(2, '0').slice(0, 2);
+        bahtText += convertGroup(satang) + 'สตางค์';
+      }
+
+      return bahtText;
+    }
+
+    // Switch Tabs
+    function switchEnterpriseTab(tab) {
+      document.getElementById('moduleFactory').classList.add('hidden');
+      document.getElementById('moduleGov').classList.add('hidden');
+      document.getElementById('moduleFarm').classList.add('hidden');
+
+      document.getElementById('tabBtnFactory').className = "px-4 py-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-200 flex items-center gap-2 transition-all whitespace-nowrap";
+      document.getElementById('tabBtnGov').className = "px-4 py-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-200 flex items-center gap-2 transition-all whitespace-nowrap";
+      document.getElementById('tabBtnFarm').className = "px-4 py-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-200 flex items-center gap-2 transition-all whitespace-nowrap";
+
+      if (tab === 'factory') {
+        document.getElementById('moduleFactory').classList.remove('hidden');
+        document.getElementById('tabBtnFactory').className = "px-4 py-2 rounded-xl bg-slate-900 text-white flex items-center gap-2 shadow-sm transition-all whitespace-nowrap";
+      } else if (tab === 'gov') {
+        document.getElementById('moduleGov').classList.remove('hidden');
+        document.getElementById('tabBtnGov').className = "px-4 py-2 rounded-xl bg-blue-900 text-white flex items-center gap-2 shadow-sm transition-all whitespace-nowrap";
+        renderGovBoqTable();
+        calculateGovTotals();
+      } else if (tab === 'farm') {
+        document.getElementById('moduleFarm').classList.remove('hidden');
+        document.getElementById('tabBtnFarm').className = "px-4 py-2 rounded-xl bg-emerald-900 text-white flex items-center gap-2 shadow-sm transition-all whitespace-nowrap";
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Factory Sizing Buttons
+    function setCiSize(kw) {
+      currentCiSize = kw;
+      document.querySelectorAll('.ci-size-btn').forEach(btn => {
+        if (parseInt(btn.getAttribute('data-size')) === kw) {
+          btn.className = "ci-size-btn py-2 rounded-xl border border-amber-600 bg-amber-500 text-slate-950 font-bold text-xs transition-all shadow-sm";
+        } else {
+          btn.className = "ci-size-btn py-2 rounded-xl border border-slate-300 hover:border-amber-500 text-slate-700 hover:bg-amber-50 text-xs transition-all";
+        }
+      });
+      calculateCiMetrics();
+    }
+
+    // Contract Model Toggle
+    function updateCiContractModel(model) {
+      currentCiModel = model;
+      const modelText = model === 'epc' ? 'ซื้อขาดกรรมสิทธิ์ (Turnkey EPC)' : 'Solar PPA (ติดฟรี ค่าไฟลด 20% สัญญา 15 ปี)';
+      document.getElementById('docCiModelText').textContent = modelText;
+      calculateCiMetrics();
+    }
+
+    // Update Text in C&I Proposal
+    function updateCiDoc() {
+      const name = document.getElementById('ciCompanyName').value;
+      const bType = document.getElementById('ciBusinessType').value;
+      const tariff = document.getElementById('ciTariffType').value;
+
+      document.getElementById('docCiCompanyName').textContent = name;
+      document.getElementById('docCiSignClient').textContent = name;
+      document.getElementById('docCiBusinessType').textContent = bType;
+      document.getElementById('docCiTariff').textContent = tariff;
+
+      calculateCiMetrics();
+    }
+
+    // Calculate C&I Financials
+    function calculateCiMetrics() {
+      const kw = currentCiSize;
+      const applyBoi = document.getElementById('ciApplyBoi').checked;
+
+      // Panels calculation (620W)
+      const panels = Math.ceil((kw * 1000) / 620);
+      const roofArea = Math.round(panels * 3.1); // sq.m
+
+      // Pricing benchmark
+      let ratePerWatt = 23.5; // THB per Watt for EPC 50-100kW
+      if (kw >= 250) ratePerWatt = 21.0;
+      if (kw >= 500) ratePerWatt = 19.5;
+      if (kw >= 1000) ratePerWatt = 18.2;
+
+      const capex = Math.round(kw * 1000 * ratePerWatt);
+      
+      // Energy yield per year (kWh) in Southern Thailand ~ 1,450 kWh/kWp/year
+      const yearlyKwh = Math.round(kw * 1460);
+      // Electricity rate average Peak/Off-peak blended ~ 4.55 THB/kWh
+      const yearlySavings = Math.round(yearlyKwh * 4.55);
+
+      // BOI 50%
+      const boiBenefit = applyBoi ? Math.round(capex * 0.50) : 0;
+      const netInvestment = capex - boiBenefit;
+      const paybackYears = applyBoi ? (netInvestment / yearlySavings).toFixed(1) : (capex / yearlySavings).toFixed(1);
+
+      // Carbon offset
+      const co2Tons = (yearlyKwh * 0.50 / 1000).toFixed(1); // 0.50 kg CO2 / kWh
+      const trees = Math.round(co2Tons * 50);
+
+      // Update UI
+      document.getElementById('docCiSize').textContent = kw >= 1000 ? '1 MWp (' + kw + ' kWp)' : kw + ' kWp';
+      document.getElementById('docCiPanelCount').textContent = panels + ' แผง (N-Type TOPCon 620W)';
+      document.getElementById('docCiRoofArea').textContent = '~' + formatNumber(roofArea) + ' ตร.ม.';
+
+      if (currentCiModel === 'epc') {
+        document.getElementById('docCiCapex').textContent = '฿' + formatNumber(capex);
+        document.getElementById('docCiYearlySaving').textContent = '฿' + formatNumber(yearlySavings);
+        document.getElementById('docCiBoiSaving').textContent = applyBoi ? '฿' + formatNumber(boiBenefit) : 'ไม่ขอสิทธิ';
+        document.getElementById('docCiPayback').textContent = paybackYears + ' ปี';
+        document.getElementById('docCiPaybackSub').textContent = applyBoi ? '(เมื่อใช้สิทธิ BOI 50%)' : '(ซื้อขาดปกติ)';
+      } else {
+        // PPA Model: 0 Capex, discount 20%
+        document.getElementById('docCiCapex').textContent = '฿0 (ติดฟรี 100%)';
+        const ppaSavings = Math.round(yearlySavings * 0.20);
+        document.getElementById('docCiYearlySaving').textContent = '฿' + formatNumber(ppaSavings);
+        document.getElementById('docCiBoiSaving').textContent = 'กองทุนรับสิทธิ';
+        document.getElementById('docCiPayback').textContent = 'ทันที (Day 1)';
+        document.getElementById('docCiPaybackSub').textContent = 'ไม่มีเงินลงทุน';
+      }
+
+      // Cash flow table
+      document.getElementById('cfKwhY1').textContent = formatNumber(yearlyKwh);
+      document.getElementById('cfSavY1').textContent = '฿' + formatNumber(yearlySavings);
+      document.getElementById('cfBoiY1').textContent = applyBoi ? '฿' + formatNumber(Math.round(boiBenefit / 3)) : '-';
+      document.getElementById('cfNetY1').textContent = currentCiModel === 'epc' 
+        ? '-฿' + formatNumber(capex - yearlySavings - Math.round(boiBenefit / 3)) 
+        : '+฿' + formatNumber(Math.round(yearlySavings * 0.20));
+
+      document.getElementById('cfKwhY3').textContent = formatNumber(yearlyKwh * 3);
+      document.getElementById('cfSavY3').textContent = '฿' + formatNumber(yearlySavings * 3);
+      document.getElementById('cfBoiY3').textContent = applyBoi ? '฿' + formatNumber(boiBenefit) : '-';
+      document.getElementById('cfNetY3').textContent = currentCiModel === 'epc' 
+        ? '+฿' + formatNumber((yearlySavings * 3 + boiBenefit) - capex)
+        : '+฿' + formatNumber(Math.round(yearlySavings * 0.20 * 3));
+
+      document.getElementById('cfKwhY10').textContent = formatNumber(yearlyKwh * 10);
+      document.getElementById('cfSavY10').textContent = '฿' + formatNumber(yearlySavings * 10 * 1.12);
+      document.getElementById('cfNetY10').textContent = '+฿' + formatNumber(Math.round((yearlySavings * 10 * 1.12 + boiBenefit) - capex));
+
+      document.getElementById('cfKwhY25').textContent = formatNumber(yearlyKwh * 25);
+      document.getElementById('cfSavY25').textContent = '฿' + formatNumber(yearlySavings * 25 * 1.25);
+      document.getElementById('cfNetY25').textContent = '+฿' + formatNumber(Math.round((yearlySavings * 25 * 1.25 + boiBenefit) - capex));
+
+      document.getElementById('docCiCo2').textContent = co2Tons + ' ตัน CO2e / ปี';
+      document.getElementById('docCiTree').textContent = formatNumber(trees) + ' ต้น';
+    }
+
+    // Print C&I Proposal
+    function printFactoryProposal() {
+      window.print();
+    }
+
+    // Copy LINE Pitch for Executives
+    function copyFactoryLinePitch() {
+      const name = document.getElementById('ciCompanyName').value;
+      const kw = currentCiSize;
+      const capex = document.getElementById('docCiCapex').textContent;
+      const yearly = document.getElementById('docCiYearlySaving').textContent;
+      const boi = document.getElementById('docCiBoiSaving').textContent;
+      const payback = document.getElementById('docCiPayback').textContent;
+
+      let msg = `☀️ [สรุปข้อเสนอโครงการโซลาร์เซลล์โรงงาน - 99 Solar หาดใหญ่]\n`;
+      msg += `เรียน: ผู้บริหาร / ฝ่ายวิศวกรรม ${name}\n`;
+      msg += `─────────────────────────\n`;
+      msg += `• ขนาดระบบติดตั้ง: ${kw} kWp (On-Grid 3-Phase)\n`;
+      msg += `• มูลค่าลงทุน: ${capex}\n`;
+      msg += `• ประหยัดค่าไฟต่อปี: ${yearly}/ปี\n`;
+      msg += `• สิทธิประโยชน์ BOI (ลดหย่อนภาษี 50%): ${boi}\n`;
+      msg += `• ระยะเวลาคืนทุนสุทธิ: ${payback}\n`;
+      msg += `• โมเดลสัญญา: ${document.getElementById('docCiModelText').textContent}\n`;
+      msg += `─────────────────────────\n`;
+      msg += `วิศวกรโยธา (สย.) สำรวจและเซ็นแบบ อ.1 พร้อมยื่น กฟภ. ครบวงจร\n`;
+      msg += `ติดต่อ บจก. 99 แมทช์ เมคเกอร์ โทร 090-715-1987 (คุณไจ๋ไจ๋) หรือ LINE: @99sola ครับ`;
+
+      navigator.clipboard.writeText(msg).then(() => {
+        alert('คัดลอกข้อเสนอส่งผู้บริหารใน LINE เรียบร้อยแล้ว!');
+      }).catch(err => {
+        alert('ข้อความสรุป:\n\n' + msg);
+      });
+    }
+
+    // ==========================================
+    // MODULE 2: GOVERNMENT LOGIC (ปร.4 & ปร.5)
+    // ==========================================
+    const govBoqPresets = {
+      pump: [
+        { name: 'แผงเซลล์แสงอาทิตย์ Tier-1 N-Type TOPCon 620W (มอก./PEA Approved)', qty: 10, unit: 'แผง', matPrice: 3800, laborPrice: 400 },
+        { name: 'อินเวอร์เตอร์ควบคุมเครื่องสูบน้ำ (Solar Pump Inverter VFD 3-Phase 3HP - 5HP)', qty: 1, unit: 'ชุด', matPrice: 38000, laborPrice: 3500 },
+        { name: 'ปั๊มน้ำบาดาลพลังงานแสงอาทิตย์ (Submersible Pump 2.2kW พร้อมมอเตอร์)', qty: 1, unit: 'ชุด', matPrice: 32000, laborPrice: 4500 },
+        { name: 'โครงสร้างเหล็กกัลวาไนซ์ยึดแผงตั้งพื้น (Ground Mount Hot-Dip Galvanized)', qty: 1, unit: 'งาน', matPrice: 28000, laborPrice: 8500 },
+        { name: 'ตู้ควบคุมระบบไฟฟ้า Combiner Box, DC Breaker, DC Surge Arrester ป้องกันฟ้าผ่า', qty: 1, unit: 'ตู้', matPrice: 16500, laborPrice: 2500 },
+        { name: 'สายไฟโซลาร์เซลล์ PV1-F 1x4 sq.mm, ท่อร้อยสาย และอุปกรณ์ประกอบ', qty: 1, unit: 'งาน', matPrice: 18500, laborPrice: 4000 },
+        { name: 'ระบบแท่งกราวด์ลงดิน (Grounding System) ความต้านทานไม่เกิน 5 โอห์ม', qty: 1, unit: 'ชุด', matPrice: 8500, laborPrice: 2500 },
+        { name: 'หอถังน้ำเหล็กกักเก็บน้ำเพื่อการเกษตร หรือ ระบบท่อส่งน้ำจ่ายแปลงเกษตรกร', qty: 1, unit: 'งาน', matPrice: 145000, laborPrice: 32000 },
+        { name: 'ป้ายโครงการมาตรฐานราชการ และแบบแปลน As-Built', qty: 1, unit: 'ชุด', matPrice: 7000, laborPrice: 1500 }
+      ],
+      street: [
+        { name: 'โคมไฟถนนพลังงานแสงอาทิตย์ LED 100W All-In-One (มาตรฐาน มอก. แบตเตอรี่ LiFePO4)', qty: 20, unit: 'ชุด', matPrice: 6500, laborPrice: 800 },
+        { name: 'เสาไฟถนนเหล็กชุบกัลวาไนซ์ สูง 6.00 เมตร พร้อมกิ่งโคมและชุดยึด', qty: 20, unit: 'ต้น', matPrice: 5800, laborPrice: 1200 },
+        { name: 'ฐานรากคอนกรีตเสาไฟถนน พร้อมสตัดโบลท์ Anchor Bolt', qty: 20, unit: 'ฐาน', matPrice: 3200, laborPrice: 1500 },
+        { name: 'งานติดตั้ง ทาสี และทดสอบความสว่างตามมาตรฐานกรมทางหลวงชนบท', qty: 1, unit: 'งาน', matPrice: 8000, laborPrice: 12000 }
+      ],
+      rooftop: [
+        { name: 'แผงเซลล์แสงอาทิตย์ Tier-1 N-Type TOPCon 620W (PEA Approved)', qty: 36, unit: 'แผง', matPrice: 3750, laborPrice: 450 },
+        { name: 'อินเวอร์เตอร์ชนิดเชื่อมต่อสายส่ง 20kW 3-Phase (PEA Verified Inverter List)', qty: 1, unit: 'เครื่อง', matPrice: 78000, laborPrice: 5000 },
+        { name: 'รางอะลูมิเนียม AL6005-T5 อุปกรณ์จับยึดหลังคา น็อตสแตนเลส 304', qty: 1, unit: 'ชุด', matPrice: 42000, laborPrice: 15000 },
+        { name: 'ตู้ Combiner Box AC/DC, เบรกเกอร์, Surge Protection, Smart Meter กันย้อน', qty: 1, unit: 'ตู้', matPrice: 35000, laborPrice: 6000 },
+        { name: 'สายไฟ PV1-F, ท่อร้อยสายโลหะ EMT/IMC และสายกราวด์ครบชุด', qty: 1, unit: 'งาน', matPrice: 38000, laborPrice: 12000 },
+        { name: 'งานขออนุญาตขนานไฟ กฟภ. และวิศวกรโยธา (สย.) เซ็นรับรองโครงสร้างอาคาร', qty: 1, unit: 'งาน', matPrice: 25000, laborPrice: 10000 }
+      ]
+    };
+
+    function setGovProjectPreset(preset) {
+      currentGovPreset = preset;
+      const titles = {
+        pump: 'โครงการติดตั้งระบบสูบน้ำพลังงานแสงอาทิตย์เพื่อการเกษตร ชุมชนบ้านคลองแห',
+        street: 'โครงการติดตั้งโคมไฟถนนพลังงานแสงอาทิตย์ (Solar Street Light) 20 จุด',
+        rooftop: 'โครงการติดตั้งระบบผลิตไฟฟ้าพลังงานแสงอาทิตย์บนหลังคา (Solar Rooftop) อาคารสำนักงาน 20kW'
+      };
+      document.getElementById('govProjectTitle').value = titles[preset];
+      document.getElementById('btnGovPump').className = preset === 'pump' ? 'p-4 rounded-2xl border-2 border-blue-600 bg-blue-50/60 text-left transition-all' : 'p-4 rounded-2xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-slate-50 text-left transition-all';
+      document.getElementById('btnGovStreet').className = preset === 'street' ? 'p-4 rounded-2xl border-2 border-blue-600 bg-blue-50/60 text-left transition-all' : 'p-4 rounded-2xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-slate-50 text-left transition-all';
+      document.getElementById('btnGovRooftop').className = preset === 'rooftop' ? 'p-4 rounded-2xl border-2 border-blue-600 bg-blue-50/60 text-left transition-all' : 'p-4 rounded-2xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-slate-50 text-left transition-all';
+
+      renderGovBoqTable();
+      updateGovDoc();
+    }
+
+    function renderGovBoqTable() {
+      const items = govBoqPresets[currentGovPreset] || govBoqPresets.pump;
+      const tbody = document.getElementById('govPr4Tbody');
+      tbody.innerHTML = '';
+
+      let totalMat = 0;
+      let totalLabor = 0;
+
+      items.forEach((item, index) => {
+        const matSum = item.qty * item.matPrice;
+        const laborSum = item.qty * item.laborPrice;
+        const rowTotal = matSum + laborSum;
+
+        totalMat += matSum;
+        totalLabor += laborSum;
+
+        tbody.innerHTML += `
+          <tr class="hover:bg-slate-50">
+            <td class="py-2 px-2 text-center border-r border-slate-300 font-bold">${index + 1}</td>
+            <td class="py-2 px-3 border-r border-slate-300 font-semibold text-slate-900">${item.name}</td>
+            <td class="py-2 px-2 text-center border-r border-slate-300 font-mono font-bold">${item.qty}</td>
+            <td class="py-2 px-2 text-center border-r border-slate-300">${item.unit}</td>
+            <td class="py-2 px-2 text-right border-r border-slate-300 font-mono">฿${formatNumber(item.matPrice)}</td>
+            <td class="py-2 px-2 text-right border-r border-slate-300 font-mono">฿${formatNumber(matSum)}</td>
+            <td class="py-2 px-2 text-right border-r border-slate-300 font-mono">฿${formatNumber(item.laborPrice)}</td>
+            <td class="py-2 px-2 text-right border-r border-slate-300 font-mono">฿${formatNumber(laborSum)}</td>
+            <td class="py-2 px-3 text-right font-mono font-bold text-slate-950">฿${formatNumber(rowTotal)}</td>
+          </tr>
+        `;
+      });
+
+      const grandCost = totalMat + totalLabor;
+      document.getElementById('govPr4TotalMat').textContent = '฿' + formatNumber(totalMat);
+      document.getElementById('govPr4TotalLabor').textContent = '฿' + formatNumber(totalLabor);
+      document.getElementById('govPr4GrandCost').textContent = '฿' + formatNumber(grandCost);
+
+      calculateGovTotals(grandCost);
+    }
+
+    function calculateGovTotals(baseCost) {
+      if (!baseCost) {
+        const items = govBoqPresets[currentGovPreset] || govBoqPresets.pump;
+        baseCost = items.reduce((acc, it) => acc + (it.qty * it.matPrice) + (it.qty * it.laborPrice), 0);
+      }
+
+      const factorF = parseFloat(document.getElementById('govFactorF').value) || 1.3056;
+      const totalWithFactor = baseCost * factorF;
+      const roundedTotal = Math.round(totalWithFactor / 1000) * 1000; // Round to thousand in gov standard
+
+      document.getElementById('govPr5Cost').textContent = '฿' + formatNumber(baseCost);
+      document.getElementById('govPr5FactorF').textContent = factorF.toFixed(4);
+      document.getElementById('govPr5TotalWithFactor').textContent = '฿' + formatNumber(totalWithFactor.toFixed(2));
+      document.getElementById('govPr5GrandTotal').textContent = '฿' + formatNumber(roundedTotal);
+      document.getElementById('govPr5ThaiBaht').textContent = thaiBahtText(roundedTotal);
+    }
+
+    function updateGovDoc() {
+      const title = document.getElementById('govProjectTitle').value;
+      const agency = document.getElementById('govAgencyName').value;
+
+      document.getElementById('docGovTitle').textContent = title;
+      document.getElementById('govPr5ItemTitle').textContent = title;
+      document.getElementById('docGovAgency').textContent = agency;
+      calculateGovTotals();
+    }
+
+    function printGovSet() {
+      window.print();
+    }
+
+    // Init Date and Defaults
+    window.addEventListener('DOMContentLoaded', () => {
+      const today = new Date();
+      const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+      const dateStr = `${today.getDate()} ${thaiMonths[today.getMonth()]} ${today.getFullYear() + 543}`;
+      
+      document.querySelectorAll('.docCiDate').forEach(el => el.textContent = dateStr);
+
+      calculateCiMetrics();
+      renderGovBoqTable();
+    });
+  </script>
+</body>
+</html>

@@ -65,13 +65,13 @@
 
   <!-- TOP HEADER / SUITE BAR -->
   <header class="bg-slate-900 text-white sticky top-0 z-50 shadow-md border-b border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[4rem] py-2 flex items-center justify-between gap-4">
       
       <!-- Brand & Title -->
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center text-white shadow-md shadow-brand-500/20 font-black text-xl font-heading">
-          99
-        </div>
+      <div class="flex items-center space-x-3 shrink-0">
+        <a href="index.html" class="flex items-center">
+          <img src="logo.jpg" alt="99 Solar Hat Yai Logo" class="w-10 h-10 object-contain rounded-xl bg-white p-0.5 border border-slate-700 shadow-md hover:scale-105 transition-transform">
+        </a>
         <div>
           <div class="flex items-center gap-2">
             <span class="text-lg font-bold font-heading text-white">99 SOLAR <span class="text-brand-400">ERP</span></span>
@@ -82,21 +82,24 @@
       </div>
 
       <!-- Quick Switcher to Other Systems in Workspace -->
-      <div class="hidden md:flex items-center space-x-2">
-        <a href="index.html" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition flex items-center gap-1.5 border border-slate-700">
+      <div class="hidden md:flex items-center space-x-1.5 lg:space-x-2 overflow-x-auto whitespace-nowrap py-1 scrollbar-thin">
+        <a href="index.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition flex items-center gap-1.5 border border-slate-700 shrink-0">
           <i class="fa-solid fa-house"></i> เว็บหน้าร้าน
         </a>
-        <a href="quotation.html" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition flex items-center gap-1.5 border border-slate-700">
+        <a href="quotation.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition flex items-center gap-1.5 border border-slate-700 shrink-0">
           <i class="fa-solid fa-file-invoice-dollar text-amber-400"></i> ใบเสนอราคาลูกค้า
         </a>
-        <a href="parts-rfq.html" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-900/60 hover:bg-emerald-800 text-emerald-300 hover:text-white text-xs font-bold transition flex items-center gap-1.5 border border-emerald-600/50">
+        <a href="parts-rfq.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-emerald-900/60 hover:bg-emerald-800 text-emerald-300 hover:text-white text-xs font-bold transition flex items-center gap-1.5 border border-emerald-600/50 shrink-0">
           <i class="fa-solid fa-tags text-emerald-400"></i> ขอราคาอะไหล่ (RFQ)
         </a>
-        <a href="solar-planner.html" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition flex items-center gap-1.5 border border-slate-700">
+        <a href="solar-planner.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition flex items-center gap-1.5 border border-slate-700 shrink-0">
           <i class="fa-solid fa-solar-panel text-amber-400"></i> ผังหลังคา
         </a>
-        <a href="solar-sales-sop.html" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition flex items-center gap-1.5 border border-slate-700">
+        <a href="solar-sales-sop.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition flex items-center gap-1.5 border border-slate-700 shrink-0">
           <i class="fa-solid fa-comments-dollar text-emerald-400"></i> Sales SOP
+        </a>
+        <a href="solar-enterprise.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-blue-950 hover:bg-blue-900 text-blue-300 hover:text-white text-xs font-bold transition flex items-center gap-1.5 border border-blue-600/50 shrink-0">
+          <i class="fa-solid fa-industry text-amber-400"></i> โซลาร์โรงงาน & งานรัฐ (B2G)
         </a>
       </div>
 

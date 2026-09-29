@@ -114,8 +114,8 @@
   <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <div class="flex items-center space-x-3">
-        <a href="index.html" class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 text-slate-950 flex items-center justify-center font-bold font-heading text-lg shadow-lg hover:scale-105 transition-transform">
-          99
+        <a href="index.html" class="flex items-center">
+          <img src="logo.jpg" alt="99 Solar Hat Yai Logo" class="w-10 h-10 object-contain rounded-xl bg-white p-0.5 border border-slate-700 shadow-lg hover:scale-105 transition-transform">
         </a>
         <div>
           <div class="flex items-center gap-2">
@@ -168,7 +168,10 @@
           <i class="fa-solid fa-file-invoice-dollar text-solar-gold"></i> <span>7. แบบฟอร์มขอใบเสนอราคา & ไปขอซื้อ (Quotation & RFQ)</span>
         </button>
         <a href="parts-rfq.html" target="_blank" class="px-3.5 py-2 rounded-lg text-emerald-300 hover:text-white hover:bg-slate-800 flex items-center gap-2 border border-emerald-500/40 whitespace-nowrap">
-          <i class="fa-solid fa-tags text-emerald-400"></i> <span>8. ใบขอราคาอะไหล่ & ดีลร้านค้า (Supplier RFQ)</span>
+          <i class="fa-solid fa-tags text-emerald-400"></i> <span>8. ดีลอะไหล่ร้านค้า</span>
+        </a>
+        <a href="solar-enterprise.html" target="_blank" class="px-3.5 py-2 rounded-lg text-blue-300 hover:text-white hover:bg-slate-800 flex items-center gap-2 border border-blue-500/40 whitespace-nowrap">
+          <i class="fa-solid fa-industry text-amber-400"></i> <span>9. โซลาร์โรงงาน & ประมูลรัฐ (B2G)</span>
         </a>
       </div>
     </div>
@@ -1310,9 +1313,7 @@
               <!-- Left: 99 Solar Brand & Legal Info -->
               <div class="space-y-1">
                 <div class="flex items-center gap-2">
-                  <div class="w-8 h-8 rounded-lg bg-slate-900 text-amber-400 flex items-center justify-center font-black text-sm">
-                    99
-                  </div>
+                  <img src="logo.jpg" alt="99 Solar Hat Yai" class="w-10 h-10 object-contain rounded-lg border border-slate-300 p-0.5">
                   <div>
                     <h1 class="text-base sm:text-lg font-black font-heading text-slate-900 tracking-tight leading-none">
                       บริษัท 99 แมทช์ เมคเกอร์ จำกัด
@@ -1322,7 +1323,7 @@
                 </div>
                 <p class="text-[11px] text-slate-600 leading-tight pt-1">
                   สำนักงานใหญ่: 99/9 หมู่ 4 ต.คลองแห อ.หาดใหญ่ จ.สงขลา 90110<br>
-                  เลขประจำตัวผู้เสียภาษี: <span class="font-mono font-semibold text-slate-800">0905565002194</span> | โทร. <span class="font-semibold text-slate-800">089-466-1491</span><br>
+                  เลขประจำตัวผู้เสียภาษี: <span class="font-mono font-semibold text-slate-800">0905565002194</span> | โทร. <span class="font-semibold text-slate-800">090-715-1987 (คุณไจ๋ไจ๋)</span><br>
                   LINE Official: <span class="font-semibold text-emerald-700">@99sola</span> | อีเมล: 99matchmaker@gmail.com
                 </p>
               </div>
@@ -1443,7 +1444,7 @@
                   <span class="text-[11px] font-mono text-slate-400 italic">วิศวกรโครงการ / บจก. 99 แมทช์ เมคเกอร์</span>
                 </div>
                 <strong class="text-slate-900 block">ผู้เสนอราคา (บจก. 99 แมทช์ เมคเกอร์)</strong>
-                <span class="text-[10px] text-slate-500 block">วิศวกร กว. ควบคุมงาน | โทร. 089-466-1491</span>
+                <span class="text-[10px] text-slate-500 block">วิศวกร กว. ควบคุมงาน | โทร. 090-715-1987 (คุณไจ๋ไจ๋)</span>
               </div>
               <div class="space-y-1">
                 <div class="h-12 border-b border-dashed border-slate-400 mb-1 flex items-end justify-center pb-1">
@@ -3290,7 +3291,7 @@
       const taxId = document.getElementById('rfqTaxId')?.value.trim() || '-';
       const branch = document.getElementById('rfqBranch')?.value.trim() || 'สำนักงานใหญ่';
       const contactPerson = document.getElementById('rfqContactPerson')?.value.trim() || 'คุณสมชาย';
-      const phone = document.getElementById('rfqPhone')?.value.trim() || '089-466-1491';
+      const phone = document.getElementById('rfqPhone')?.value.trim() || '090-715-1987';
       const address = document.getElementById('rfqAddress')?.value.trim() || 'อ.หาดใหญ่ จ.สงขลา';
       const roofType = document.getElementById('rfqRoofType')?.value || 'เมทัลชีท (Klip-lok/สกรูยึด)';
       const purpose = document.getElementById('rfqPurpose')?.value || 'ขออนุมัติจัดซื้อ / จัดทำ PO';
