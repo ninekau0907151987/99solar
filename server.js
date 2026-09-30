@@ -8,7 +8,9 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 
-const PORT = process.env.PORT || 3000;
+// Render expects port 10000 by default for Node.js Web Services
+const PRIMARY_PORT = parseInt(process.env.PORT, 10) || 10000;
+const FALLBACK_PORT = 3000;
 const HOST = '0.0.0.0';
 const BASE_DIR = __dirname;
 
@@ -30,7 +32,7 @@ const MIME_TYPES = {
   '.txt': 'text/plain; charset=utf-8'
 };
 
-const server = http.createServer((req, res) => {
+const handleRequest = (req, res) => {
   // CORS & Security Headers
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');
@@ -80,7 +82,7 @@ const server = http.createServer((req, res) => {
 
     serveFile(filePath, res);
   });
-});
+};
 
 function serveFile(filePath, res) {
   const ext = path.extname(filePath).toLowerCase();
@@ -101,10 +103,23 @@ function serveFile(filePath, res) {
   });
 }
 
-server.listen(PORT, HOST, () => {
+// 1. Primary Server (Render PORT: 10000 หรือค่าตาม process.env.PORT)
+const primaryServer = http.createServer(handleRequest);
+primaryServer.listen(PRIMARY_PORT, HOST, () => {
   console.log(`===============================================`);
-  console.log(`☀️ 99 Solar Hat Yai Server running on Render`);
-  console.log(`🌐 Address: http://${HOST}:${PORT}`);
+  console.log(`☀️ 99 Solar Hat Yai Server running for Render`);
+  console.log(`🌐 Primary Port (Render): http://${HOST}:${PRIMARY_PORT}`);
   console.log(`📁 Directory: ${BASE_DIR}`);
   console.log(`===============================================`);
 });
+
+// 2. Secondary Server (Fallback Port 3000 สำหรับกรณีรันในเครื่องหรือ Render สแกนพอร์ต 3000)
+if (PRIMARY_PORT !== FALLBACK_PORT) {
+  const fallbackServer = http.createServer(handleRequest);
+  fallbackServer.listen(FALLBACK_PORT, HOST, () => {
+    console.log(`🌐 Fallback Port: http://${HOST}:${FALLBACK_PORT}`);
+  }).on('error', (err) => {
+    // ถ้าพอร์ต 3000 ถูกใช้งานอยู่แล้ว ให้ข้ามได้โดยไม่แครช
+    console.log(`ℹ️ Fallback port ${FALLBACK_PORT} is optional: ${err.message}`);
+  });
+}

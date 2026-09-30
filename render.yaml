@@ -24,13 +24,15 @@ services:
         name: Cache-Control
         value: public, max-age=86400
 
-  # 2. Alternative Service: Node.js Web Service (ถ้าต้องการรันเป็น Server Node.js)
-  # - type: web
-  #   name: solar99-node-service
-  #   runtime: node
-  #   plan: free
-  #   buildCommand: ""
-  #   startCommand: "npm start"
-  #   envVars:
-  #     - key: NODE_VERSION
-  #       value: 20
+  # 2. Alternative Service: Node.js Web Service (พอร์ต 10000 มาตรฐาน Render)
+  - type: web
+    name: solar99-node-service
+    runtime: node
+    plan: free
+    buildCommand: ""
+    startCommand: "npm start"
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: NODE_VERSION
+        value: 20
