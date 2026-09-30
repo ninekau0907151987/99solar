@@ -102,32 +102,34 @@ ALTER TABLE public.referrals ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.erp_inventory ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.erp_requisitions ENABLE ROW LEVEL SECURITY;
 
--- นโยบาย Allow All สำหรับ Public Anon Key
-DO $$ 
-BEGIN
-    DROP POLICY IF EXISTS "Public insert leads" ON public.solar_leads;
-    CREATE POLICY "Public insert leads" ON public.solar_leads FOR INSERT WITH CHECK (true);
-    
-    DROP POLICY IF EXISTS "Public select leads" ON public.solar_leads FOR SELECT USING (true);
+-- นโยบาย Allow All สำหรับ Public Anon Key (แก้ไของค์ประกอบ DROP / CREATE ให้ถูกต้อง 100%)
+DROP POLICY IF EXISTS "Public insert leads" ON public.solar_leads;
+CREATE POLICY "Public insert leads" ON public.solar_leads FOR INSERT WITH CHECK (true);
 
-    DROP POLICY IF EXISTS "Public insert quotations" ON public.quotations;
-    CREATE POLICY "Public insert quotations" ON public.quotations FOR INSERT WITH CHECK (true);
-    
-    DROP POLICY IF EXISTS "Public select quotations" ON public.quotations FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Public select leads" ON public.solar_leads;
+CREATE POLICY "Public select leads" ON public.solar_leads FOR SELECT USING (true);
 
-    DROP POLICY IF EXISTS "Public insert rfq" ON public.parts_rfqs;
-    CREATE POLICY "Public insert rfq" ON public.parts_rfqs FOR INSERT WITH CHECK (true);
-    
-    DROP POLICY IF EXISTS "Public select rfq" ON public.parts_rfqs FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Public insert quotations" ON public.quotations;
+CREATE POLICY "Public insert quotations" ON public.quotations FOR INSERT WITH CHECK (true);
 
-    DROP POLICY IF EXISTS "Public insert referrals" ON public.referrals;
-    CREATE POLICY "Public insert referrals" ON public.referrals FOR INSERT WITH CHECK (true);
-    
-    DROP POLICY IF EXISTS "Public select referrals" ON public.referrals FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Public select quotations" ON public.quotations;
+CREATE POLICY "Public select quotations" ON public.quotations FOR SELECT USING (true);
 
-    DROP POLICY IF EXISTS "Public access inventory" ON public.erp_inventory;
-    CREATE POLICY "Public access inventory" ON public.erp_inventory FOR ALL USING (true);
+DROP POLICY IF EXISTS "Public insert rfq" ON public.parts_rfqs;
+CREATE POLICY "Public insert rfq" ON public.parts_rfqs FOR INSERT WITH CHECK (true);
 
-    DROP POLICY IF EXISTS "Public access requisitions" ON public.erp_requisitions;
-    CREATE POLICY "Public access requisitions" ON public.erp_requisitions FOR ALL USING (true);
-END $$;
+DROP POLICY IF EXISTS "Public select rfq" ON public.parts_rfqs;
+CREATE POLICY "Public select rfq" ON public.parts_rfqs FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public insert referrals" ON public.referrals;
+CREATE POLICY "Public insert referrals" ON public.referrals FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Public select referrals" ON public.referrals;
+CREATE POLICY "Public select referrals" ON public.referrals FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public access inventory" ON public.erp_inventory;
+CREATE POLICY "Public access inventory" ON public.erp_inventory FOR ALL USING (true);
+
+DROP POLICY IF EXISTS "Public access requisitions" ON public.erp_requisitions;
+CREATE POLICY "Public access requisitions" ON public.erp_requisitions FOR ALL USING (true);
+
