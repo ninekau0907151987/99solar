@@ -177,6 +177,37 @@
       return record;
     },
 
+    // บันทึกสัญญาจ้างติดตั้งโซลาร์เซลล์ (E-Contract)
+    async saveContract(contractData) {
+      const record = {
+        contract_no: contractData.contract_no || `CTR-${Date.now()}`,
+        customer_name: contractData.customer_name || '-',
+        customer_phone: contractData.customer_phone || '-',
+        customer_id_card: contractData.customer_id_card || '-',
+        install_address: contractData.install_address || '-',
+        system_title: contractData.system_title || '-',
+        total_price: contractData.total_price || 0,
+        status: contractData.status || 'draft',
+        signed_at: contractData.signed_at || null,
+        created_at: new Date().toISOString()
+      };
+
+      if (supabaseClient) {
+        try {
+          const { data, error } = await supabaseClient
+            .from('solar_contracts')
+            .upsert([record], { onConflict: 'contract_no' });
+          if (error) throw error;
+          console.log('✅ Contract saved to Supabase:', data);
+        } catch (err) {
+          console.warn('⚠️ Supabase saveContract error:', err.message);
+        }
+      }
+
+      saveToLocalHistory('contracts', record);
+      return record;
+    },
+
     // ส่งข้อความเข้า LINE Official / LINE Webhook
     sendToLine(text) {
       const lineUrl = `https://line.me/R/ti/p/@99sola?text=${encodeURIComponent(text)}`;

@@ -133,3 +133,29 @@ CREATE POLICY "Public access inventory" ON public.erp_inventory FOR ALL USING (t
 DROP POLICY IF EXISTS "Public access requisitions" ON public.erp_requisitions;
 CREATE POLICY "Public access requisitions" ON public.erp_requisitions FOR ALL USING (true);
 
+-- 7. ตารางสัญญาจ้างติดตั้งโซลาร์เซลล์ (E-Contracts & Digital Signatures)
+CREATE TABLE IF NOT EXISTS public.solar_contracts (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    contract_no TEXT UNIQUE NOT NULL,
+    customer_name TEXT NOT NULL,
+    customer_phone TEXT NOT NULL,
+    customer_id_card TEXT DEFAULT '-',
+    install_address TEXT DEFAULT '-',
+    system_title TEXT NOT NULL,
+    total_price NUMERIC DEFAULT 0,
+    status TEXT DEFAULT 'draft', -- 'draft', 'signed', 'completed'
+    signed_at TIMESTAMPTZ
+);
+
+ALTER TABLE public.solar_contracts ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public insert contracts" ON public.solar_contracts;
+CREATE POLICY "Public insert contracts" ON public.solar_contracts FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Public select contracts" ON public.solar_contracts;
+CREATE POLICY "Public select contracts" ON public.solar_contracts FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public update contracts" ON public.solar_contracts;
+CREATE POLICY "Public update contracts" ON public.solar_contracts FOR UPDATE USING (true);
+

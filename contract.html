@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบเซ็นสัญญาติดตั้งโซลาร์เซลล์ออนไลน์ | บจก. 99 แมทช์ เมคเกอร์ (99 Solar หาดใหญ่)</title>
+  <meta name="description" content="ระบบจัดทำสัญญาจ้างติดตั้งระบบผลิตไฟฟ้าพลังงานแสงอาทิตย์และเซ็นชื่อออนไลน์ (E-Contract & Digital Signature) บริษัท 99 แมทช์ เมคเกอร์ จำกัด (คุณไจ๋ไจ๋ 090-715-1987)">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              200: '#a7f3d0',
+              300: '#6ee7b7',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+              950: '#022c22'
+            },
+            solar: {
+              gold: '#f59e0b',
+              amber: '#d97706',
+              dark: '#0f172a'
+            }
+          },
+          fontFamily: {
+            heading: ['Kanit', 'sans-serif'],
+            body: ['Prompt', 'sans-serif'],
+            sarabun: ['Sarabun', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Prompt, Kanit, Sarabun -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Supabase Cloud DB & LINE Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
+
+  <style>
+    body {
+      font-family: 'Prompt', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
+    h1, h2, h3, h4, h5, h6, .font-heading {
+      font-family: 'Kanit', sans-serif;
+    }
+    .contract-doc {
+      font-family: 'Sarabun', 'Prompt', sans-serif;
+    }
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+      }
+      header, footer, .no-print, #contractControlSidebar {
+        display: none !important;
+      }
+      #contractPrintArea {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+    }
+    .sig-canvas {
+      touch-action: none;
+      cursor: crosshair;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 selection:bg-brand-500 selection:text-white">
+
+  <!-- TOP HEADER / NAV (Pure Clean White) -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 py-3 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="portal.html" class="flex items-center gap-2.5 sm:gap-3 group shrink-0">
+        <img src="logo.jpg" alt="99 Solar Hat Yai Logo" class="h-8 sm:h-10 w-auto object-contain transition-transform group-hover:scale-102">
+        <div class="hidden sm:flex flex-col border-l border-slate-200 pl-2.5 sm:pl-3">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-bold text-slate-800 tracking-tight">ระบบเซ็นสัญญาออนไลน์ (E-Contract)</span>
+            <span class="text-[9px] px-1.5 py-0.2 bg-emerald-100 text-emerald-800 font-semibold rounded-full">ถูกกฎหมาย</span>
+          </div>
+          <p class="text-[10px] text-slate-500 font-medium">บจก. 99 แมทช์ เมคเกอร์ (คุณไจ๋ไจ๋ 090-715-1987)</p>
+        </div>
+      </a>
+
+      <!-- Quick Nav Buttons -->
+      <div class="flex items-center gap-2">
+        <a href="portal.html" class="px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition-all flex items-center gap-1.5">
+          <i class="fa-solid fa-layer-group text-emerald-600"></i> <span class="hidden sm:inline">Portal ทีมงาน</span>
+        </a>
+        <a href="quotation.html" class="px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition-all flex items-center gap-1.5">
+          <i class="fa-solid fa-file-invoice-dollar text-solar-amber"></i> <span class="hidden sm:inline">ใบเสนอราคา</span>
+        </a>
+        <button type="button" onclick="window.SolarDB && window.SolarDB.openConfigModal()" class="db-status-badge"></button>
+        <a href="https://line.me/R/ti/p/@99sola" target="_blank" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-[#06C755] hover:bg-[#05b34c] text-white transition-all flex items-center gap-1.5 shadow-sm active:scale-95">
+          <i class="fa-brands fa-line text-sm"></i> <span>LINE: @99sola</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN WRAPPER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+
+    <!-- Top Action Bar -->
+    <div class="bg-white border border-slate-200 rounded-3xl p-5 sm:p-7 shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5 no-print">
+      <div class="space-y-1.5">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="px-3 py-1 bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs rounded-full font-bold">
+            <i class="fa-solid fa-signature mr-1 text-emerald-600"></i> สัญญาจ้างติดตั้งโซลาร์เซลล์ (E-Signature Contract)
+          </span>
+          <span class="text-xs text-slate-500 font-medium">เซ็นด้วยนิ้วบนมือถือ หรือเมาส์บนคอมพิวเตอร์ มีผลผูกพันตามกฎหมาย</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">
+          ทำสัญญาจ้างและลงนามออนไลน์ (Online Solar Installation Agreement)
+        </h1>
+        <p class="text-slate-600 text-xs sm:text-sm max-w-2xl leading-relaxed">
+          กรอกข้อมูลลูกค้าและเงื่อนไขการติดตั้ง ให้ลูกค้าเซ็นชื่อลงบนหน้าจอเพื่อทำสัญญาแบบไร้กระดาษ (Paperless) บันทึกเข้าคลาวด์ Supabase และส่งไฟล์สัญญาฉบับสมบูรณ์เข้า LINE ทันที
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2.5 flex-wrap">
+        <button onclick="window.print()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-md transition-all active:scale-95">
+          <i class="fa-solid fa-print"></i>
+          <span>พิมพ์ / เซฟ PDF (A4)</span>
+        </button>
+        <button onclick="sendContractViaLine()" class="px-4 py-2.5 bg-[#06C755] hover:bg-[#05b34c] text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-md transition-all active:scale-95">
+          <i class="fa-brands fa-line text-base"></i>
+          <span>ส่งสรุปสัญญาเข้า LINE</span>
+        </button>
+        <button onclick="saveContractToDatabase()" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-md transition-all active:scale-95">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span>บันทึกลง Supabase DB</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN TWO COLUMNS WORKSPACE -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+      <!-- LEFT: FORM CONTROLS & SIGNATURE PAD (5 Cols) -->
+      <div id="contractControlSidebar" class="lg:col-span-5 space-y-5 no-print">
+
+        <!-- Card 1: Customer & Job Info -->
+        <div class="bg-white border border-slate-200 rounded-3xl p-5 sm:p-6 space-y-4 shadow-sm">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <h2 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+              <i class="fa-solid fa-user-pen text-brand-600"></i> 1. ข้อมูลผู้ว่าจ้าง (ลูกค้า)
+            </h2>
+            <span class="text-[11px] text-slate-500 font-medium">ระบุคู่สัญญา</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">ชื่อ-นามสกุล ผู้ว่าจ้าง / หรือชื่อนิติบุคคล <span class="text-rose-500">*</span></label>
+              <input type="text" id="inputClientName" value="นายสมศักดิ์ มงคลสุข" oninput="updateContractDoc()" placeholder="เช่น นายสมศักดิ์ มงคลสุข หรือ บจก. พีเค โซลาร์" class="w-full bg-white text-slate-900 px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none transition-all font-semibold">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">เลขบัตร ปชช. / เลขนิติบุคคล <span class="text-rose-500">*</span></label>
+                <input type="text" id="inputClientIdCard" value="1-9098-00123-45-6" oninput="updateContractDoc()" placeholder="13 หลัก" class="w-full bg-white text-slate-900 px-3 py-2.5 rounded-xl border border-slate-300 font-mono focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">เบอร์โทรศัพท์ <span class="text-rose-500">*</span></label>
+                <input type="tel" id="inputClientPhone" value="081-234-5678" oninput="updateContractDoc()" placeholder="08X-XXX-XXXX" class="w-full bg-white text-slate-900 px-3 py-2.5 rounded-xl border border-slate-300 font-mono focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none">
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">สถานที่ติดตั้งระบบโซลาร์เซลล์ <span class="text-rose-500">*</span></label>
+              <textarea id="inputClientAddress" rows="2" oninput="updateContractDoc()" placeholder="ระบุบ้านเลขที่ หมู่ที่ ซอย ถนน ตำบล อำเภอ จังหวัด" class="w-full bg-white text-slate-900 px-3.5 py-2 rounded-xl border border-slate-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none leading-relaxed">88/12 หมู่ 2 ต.คอหงส์ อ.หาดใหญ่ จ.สงขลา 90110</textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: System Spec & Payment Terms -->
+        <div class="bg-white border border-slate-200 rounded-3xl p-5 sm:p-6 space-y-4 shadow-sm">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <h2 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+              <i class="fa-solid fa-solar-panel text-amber-500"></i> 2. สเปกระบบ & ค่างวดสัญญา
+            </h2>
+            <span class="text-[11px] text-slate-500 font-medium">มูลค่าและงวดชำระ</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">เลือกระบบโซลาร์เซลล์ที่ทำสัญญา</label>
+              <select id="selContractSystem" onchange="onSystemSelectChange()" class="w-full bg-white text-slate-900 px-3.5 py-2.5 rounded-xl border border-slate-300 font-semibold focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none">
+                <option value="3.3|129000|ระบบ On-Grid 3.3 kW (1 Phase - ลดค่าไฟ ~1,800-2,200 บ./ด.)">On-Grid 3.3 kW (1 เฟส) — ฿129,000</option>
+                <option value="5.0|169000|ระบบ On-Grid 5.0 kW (1 Phase - ลดค่าไฟ ~2,800-3,500 บ./ด.)" selected>On-Grid 5.0 kW (1 เฟส) — ฿169,000</option>
+                <option value="5.0_3p|179000|ระบบ On-Grid 5.0 kW (3 Phase - ลดค่าไฟ ~2,800-3,500 บ./ด.)">On-Grid 5.0 kW (3 เฟส) — ฿179,000</option>
+                <option value="10.0_3p|299000|ระบบ On-Grid 10.0 kW (3 Phase - ลดค่าไฟ ~6,000-7,500 บ./ด.)">On-Grid 10.0 kW (3 เฟส) — ฿299,000</option>
+                <option value="hybrid_5.0|249000|ระบบ Hybrid 5.0 kW + แบตเตอรี่ 5 kWh (สำรองไฟดับ)">Hybrid 5.0 kW + แบตเตอรี่ — ฿249,000</option>
+                <option value="custom|0|ระบุกำหนดเองตามใบเสนอราคา">ระบุราคาและสเปกเองตามใบเสนอราคา</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">ยอดเงินรวมสุทธิทั้งสิ้น (บาท)</label>
+                <input type="number" id="inputTotalPrice" value="169000" oninput="calculateMilestones(); updateContractDoc()" class="w-full bg-white text-slate-900 px-3 py-2.5 rounded-xl border border-slate-300 font-mono font-bold text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">ระยะเวลาติดตั้งแล้วเสร็จ</label>
+                <input type="text" id="inputInstallDays" value="30 วันทำการ" oninput="updateContractDoc()" class="w-full bg-white text-slate-900 px-3 py-2.5 rounded-xl border border-slate-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 focus:outline-none">
+              </div>
+            </div>
+
+            <!-- Auto Payment Milestone Breakdown -->
+            <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 space-y-2 text-[11px]">
+              <span class="font-bold text-slate-800 block">ตารางแบ่งชำระ 3 งวดมาตรฐาน (แก้ไขได้):</span>
+              <div class="flex justify-between items-center text-slate-700">
+                <span>งวดที่ 1 (มัดจำวันทำสัญญา 30%):</span>
+                <strong id="labelM1" class="font-mono text-emerald-700 font-bold">฿50,700</strong>
+              </div>
+              <div class="flex justify-between items-center text-slate-700">
+                <span>งวดที่ 2 (ส่งมอบอุปกรณ์ถึงหน้างาน 50%):</span>
+                <strong id="labelM2" class="font-mono text-emerald-700 font-bold">฿84,500</strong>
+              </div>
+              <div class="flex justify-between items-center text-slate-700">
+                <span>งวดที่ 3 (ติดตั้ง ทดสอบระบบ และส่งมอบ 20%):</span>
+                <strong id="labelM3" class="font-mono text-emerald-700 font-bold">฿33,800</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Interactive Digital Signature Pad -->
+        <div class="bg-white border-2 border-emerald-300 rounded-3xl p-5 sm:p-6 space-y-4 shadow-md">
+          <div class="flex items-center justify-between border-b border-emerald-100 pb-3">
+            <h2 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+              <i class="fa-solid fa-pen-nib text-emerald-600"></i> 3. ลงลายมือชื่อออนไลน์ (ผู้ว่าจ้าง)
+            </h2>
+            <span class="text-[10px] px-2 py-0.5 bg-emerald-100 text-emerald-800 font-bold rounded-full">Touch & Sign</span>
+          </div>
+
+          <p class="text-xs text-slate-500">
+            ใช้ <strong class="text-emerald-700">นิ้วมือลากเซ็นบนหน้าจอมือถือ/แท็บเล็ต</strong> หรือใช้เมาส์ลากเซ็นในกรอบด้านล่างนี้ได้เลยครับ:
+          </p>
+
+          <!-- Signature Canvas Container -->
+          <div class="relative bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl overflow-hidden shadow-inner">
+            <canvas id="sigCanvas" class="sig-canvas w-full h-44 bg-white" width="480" height="180"></canvas>
+            <div id="sigPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-slate-300 text-xs">
+              <i class="fa-solid fa-signature text-3xl mb-1 opacity-40"></i>
+              <span>เซ็นชื่อลงในกรอบนี้</span>
+            </div>
+          </div>
+
+          <!-- Signature Controls -->
+          <div class="flex items-center justify-between gap-2 pt-1">
+            <button type="button" onclick="clearSignature()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition">
+              <i class="fa-solid fa-eraser text-slate-500"></i> <span>ลบลายเซ็น</span>
+            </button>
+            <button type="button" onclick="applySignatureToDoc()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm active:scale-95 transition">
+              <i class="fa-solid fa-check"></i> <span>ประทับลายเซ็นลงสัญญา</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: A4 CONTRACT PREVIEW (7 Cols) -->
+      <div class="lg:col-span-7">
+        
+        <div id="contractPrintArea" class="contract-doc bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-200 space-y-6 text-xs text-slate-800 leading-relaxed">
+          
+          <!-- Document Header -->
+          <div class="border-b-2 border-slate-900 pb-5 flex flex-col sm:flex-row justify-between items-start gap-4">
+            <div class="flex items-center gap-3">
+              <img src="logo.jpg" alt="99 Solar Hat Yai" class="h-12 w-auto object-contain">
+              <div class="border-l-2 border-slate-300 pl-3">
+                <h2 class="text-base sm:text-lg font-black font-heading text-slate-900 tracking-tight leading-none">
+                  บริษัท 99 แมทช์ เมคเกอร์ จำกัด
+                </h2>
+                <span class="text-[10px] text-emerald-700 font-bold uppercase tracking-wider">
+                  99 SOLAR HAT YAI (สำนักงานใหญ่ หาดใหญ่-สงขลา)
+                </span>
+                <p class="text-[10px] text-slate-500 pt-0.5">เลขประจำตัวผู้เสียภาษี 0905562001889 | โทร. 090-715-1987</p>
+              </div>
+            </div>
+
+            <div class="sm:text-right shrink-0">
+              <div class="inline-block bg-slate-900 text-white font-heading font-black text-xs sm:text-sm px-3.5 py-1 rounded-md tracking-wider uppercase">
+                สัญญาจ้างติดตั้งโซลาร์เซลล์
+              </div>
+              <div class="text-[11px] pt-1 text-slate-600">
+                <p>เลขที่สัญญา: <strong id="docContractNo" class="font-mono text-slate-900">CTR-99S-2026-081</strong></p>
+                <p>ทำขึ้นเมื่อ: <span id="docContractDate" class="font-medium text-slate-800">1 ตุลาคม 2569</span></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contract Opening Statement -->
+          <p class="text-justify indent-8 text-slate-700 text-xs">
+            สัญญาฉบับนี้ทำขึ้น ณ บริษัท 99 แมทช์ เมคเกอร์ จำกัด เลขที่ 128/9 หมู่ที่ 2 ถนนกาญจนวนิช ตำบลคอหงส์ อำเภอหาดใหญ่ จังหวัดสงขลา 
+            ระหว่าง <strong>บริษัท 99 แมทช์ เมคเกอร์ จำกัด</strong> โดย <strong>คุณไจ๋ไจ๋ (กรรมการผู้จัดการ)</strong> ซึ่งต่อไปในสัญญานี้เรียกว่า <strong class="text-emerald-800">"ผู้รับจ้าง"</strong> ฝ่ายหนึ่ง 
+            กับ <strong id="docCustomerName" class="text-slate-900 font-bold underline">นายสมศักดิ์ มงคลสุข</strong> 
+            ถือบัตรประจำตัวประชาชนเลขที่ <span id="docCustomerIdCard" class="font-mono font-semibold">1-9098-00123-45-6</span> 
+            ที่อยู่ <span id="docCustomerAddress" class="font-medium">88/12 หมู่ 2 ต.คอหงส์ อ.หาดใหญ่ จ.สงขลา 90110</span> 
+            โทรศัพท์ <span id="docCustomerPhone" class="font-mono font-medium">081-234-5678</span> 
+            ซึ่งต่อไปในสัญญานี้เรียกว่า <strong class="text-emerald-800">"ผู้ว่าจ้าง"</strong> อีกฝ่ายหนึ่ง ทั้งสองฝ่ายตกลงทำสัญญาดังมีข้อความต่อไปนี้:
+          </p>
+
+          <!-- Clause 1: Scope of Work -->
+          <div class="space-y-1">
+            <h4 class="font-bold text-slate-900 text-xs flex items-center gap-1.5 font-heading">
+              <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-800 inline-flex items-center justify-center text-[10px]">1</span>
+              ข้อ 1. วัตถุประสงค์แห่งสัญญาและขอบเขตงาน
+            </h4>
+            <p class="pl-5 text-slate-700 text-justify">
+              ผู้ว่าจ้างตกลงจ้างและผู้รับจ้างตกลงรับจ้างทำการจัดหาอุปกรณ์และติดตั้ง 
+              <strong id="docSystemDesc" class="text-slate-900">ระบบ On-Grid 5.0 kW (1 Phase - ลดค่าไฟ ~2,800-3,500 บ./ด.)</strong> 
+              ตามมาตรฐานวิศวกรรมการไฟฟ้าส่วนภูมิภาค (กฟภ.) ณ สถานที่ติดตั้งของผู้ว่าจ้าง โดยใช้วัสดุอุปกรณ์แผงโซลาร์เซลล์เกรด Tier-1 และอินเวอร์เตอร์มาตรฐานสากล
+            </p>
+          </div>
+
+          <!-- Clause 2: Price & Payments -->
+          <div class="space-y-1">
+            <h4 class="font-bold text-slate-900 text-xs flex items-center gap-1.5 font-heading">
+              <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-800 inline-flex items-center justify-center text-[10px]">2</span>
+              ข้อ 2. ค่าจ้างและการชำระเงิน
+            </h4>
+            <p class="pl-5 text-slate-700">
+              ค่าจ้างติดตั้งทั้งสิ้นเป็นเงินจำนวน <strong id="docTotalPriceText" class="text-slate-900 font-bold">169,000 บาท (หนึ่งแสนหกหมื่นเก้าพันบาทถ้วน)</strong> รวมภาษีมูลค่าเพิ่ม 7% เรียบร้อยแล้ว โดยผู้ว่าจ้างตกลงชำระเงินแบ่งออกเป็น 3 งวด ดังนี้:
+            </p>
+            <ul class="pl-8 list-disc space-y-0.5 text-slate-700 text-[11.5px]">
+              <li><strong>งวดที่ 1 (มัดจำทำสัญญา 30%):</strong> เป็นเงิน <span id="docM1" class="font-bold font-mono text-emerald-800">฿50,700</span> ชำระในวันลงนามสัญญาฉบับนี้</li>
+              <li><strong>งวดที่ 2 (ส่งมอบอุปกรณ์ 50%):</strong> เป็นเงิน <span id="docM2" class="font-bold font-mono text-emerald-800">฿84,500</span> ชำระเมื่อขนส่งแผงและอินเวอร์เตอร์ถึงหน้างาน</li>
+              <li><strong>งวดที่ 3 (ส่งมอบงาน 20%):</strong> เป็นเงิน <span id="docM3" class="font-bold font-mono text-emerald-800">฿33,800</span> ชำระเมื่อติดตั้งเสร็จสมบูรณ์และทดสอบระบบเปิดเครื่องทำงานเรียบร้อย</li>
+            </ul>
+          </div>
+
+          <!-- Clause 3: Warranty & Service -->
+          <div class="space-y-1">
+            <h4 class="font-bold text-slate-900 text-xs flex items-center gap-1.5 font-heading">
+              <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-800 inline-flex items-center justify-center text-[10px]">3</span>
+              ข้อ 3. การรับประกันและบริการหลังการขาย 99 Solar
+            </h4>
+            <p class="pl-5 text-slate-700">
+              ผู้รับจ้างให้การรับประกันคุณภาพอุปกรณ์และผลงานติดตั้งแก่ผู้ว่าจ้าง ดังต่อไปนี้:
+            </p>
+            <ul class="pl-8 list-disc space-y-0.5 text-slate-700 text-[11.5px]">
+              <li>รับประกันประสิทธิภาพการผลิตไฟฟ้าของแผงโซลาร์เซลล์ยาวนาน <strong>25 - 30 ปี</strong></li>
+              <li>รับประกันตัวเครื่องอินเวอร์เตอร์ (Inverter) เป็นเวลา <strong>5 - 10 ปี</strong></li>
+              <li>รับประกันงานติดตั้ง การรั่วซึมหลังคา และระบบไฟฟ้าเป็นเวลา <strong>2 ปีเต็ม</strong></li>
+              <li>บริการล้างแผงและตรวจเช็คระบบฟรีโดยทีมช่างพื้นที่หาดใหญ่ <strong>ปีละ 1 ครั้ง เป็นเวลา 2 ปี</strong></li>
+              <li>ผู้รับจ้างดำเนินการยื่นขออนุญาตขนานไฟกับการไฟฟ้าส่วนภูมิภาค (กฟภ. หาดใหญ่) ให้จนเสร็จสิ้น</li>
+            </ul>
+          </div>
+
+          <!-- Clause 4: Completion Term -->
+          <div class="space-y-1">
+            <h4 class="font-bold text-slate-900 text-xs flex items-center gap-1.5 font-heading">
+              <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-800 inline-flex items-center justify-center text-[10px]">4</span>
+              ข้อ 4. กำหนดเวลาแล้วเสร็จ
+            </h4>
+            <p class="pl-5 text-slate-700">
+              ผู้รับจ้างตกลงจะเข้าดำเนินการและติดตั้งระบบให้แล้วเสร็จภายในกำหนด <strong id="docDaysText" class="text-slate-900">30 วันทำการ</strong> นับแต่วันที่ได้รับเงินมัดจำงวดที่ 1
+            </p>
+          </div>
+
+          <!-- Signatures Section -->
+          <div class="pt-6 border-t border-slate-300">
+            <p class="text-center text-[11px] text-slate-500 mb-6">
+              สัญญานี้ทำขึ้นเป็นสองฉบับมีข้อความถูกต้องตรงกัน ทั้งสองฝ่ายได้อ่านและเข้าใจข้อความโดยละเอียดแล้ว จึงได้ลงลายมือชื่อไว้เป็นหลักฐานต่อหน้าพยาน
+            </p>
+
+            <div class="grid grid-cols-2 gap-8 text-center text-xs">
+              
+              <!-- Left: Customer Signature -->
+              <div class="space-y-2 flex flex-col items-center">
+                <span class="text-slate-600 font-semibold block">ลงชื่อ ..................................................... ผู้ว่าจ้าง</span>
+                
+                <!-- Signature Image Container -->
+                <div class="h-20 w-44 border border-dashed border-slate-300 rounded-xl flex items-center justify-center bg-slate-50 overflow-hidden relative">
+                  <img id="docSigImg" src="" alt="ลายเซ็นผู้ว่าจ้าง" class="max-h-full max-w-full object-contain hidden">
+                  <span id="docSigPendingText" class="text-[11px] text-amber-600 font-medium">รอผู้ว่าจ้างลงนาม</span>
+                </div>
+
+                <div>
+                  <p class="font-bold text-slate-900">(<span id="docSigNameText">นายสมศักดิ์ มงคลสุข</span>)</p>
+                  <p class="text-[10px] text-slate-500">วันที่: <span id="docSigDate">1 ตุลาคม 2569</span></p>
+                </div>
+              </div>
+
+              <!-- Right: 99 Match Maker Signature & Official Seal -->
+              <div class="space-y-2 flex flex-col items-center">
+                <span class="text-slate-600 font-semibold block">ลงชื่อ ..................................................... ผู้รับจ้าง</span>
+                
+                <!-- Contractor Official Stamp & Signature -->
+                <div class="h-20 w-44 border border-slate-200 rounded-xl flex items-center justify-center bg-white relative p-1">
+                  <!-- Simulated Official Signature & Stamp -->
+                  <div class="flex items-center justify-center gap-1.5">
+                    <div class="w-12 h-12 rounded-full border-2 border-rose-500 text-rose-600 flex flex-col items-center justify-center text-[8px] font-bold leading-tight rotate-12 opacity-85 pointer-events-none select-none">
+                      <span>บจก.99</span>
+                      <span>แมทช์เมคเกอร์</span>
+                      <span>ประทับตรา</span>
+                    </div>
+                    <span class="font-serif italic font-bold text-sm text-blue-900 tracking-wider rotate-[-5deg]">JaiJai 99</span>
+                  </div>
+                </div>
+
+                <div>
+                  <p class="font-bold text-slate-900">(คุณไจ๋ไจ๋ / นายเอกชัย สุวรรณรัตน์)</p>
+                  <p class="text-[10px] text-slate-500">กรรมการผู้จัดการ บจก. 99 แมทช์ เมคเกอร์</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- JavaScript -->
+  <script>
+    // Canvas Signature Pad Logic
+    const canvas = document.getElementById('sigCanvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
+    let isDrawing = false;
+    let hasSigned = false;
+
+    if (canvas && ctx) {
+      // Set line style
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.strokeStyle = '#0f172a';
+
+      function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        return {
+          x: (clientX - rect.left) * scaleX,
+          y: (clientY - rect.top) * scaleY
+        };
+      }
+
+      function startDraw(e) {
+        e.preventDefault();
+        isDrawing = true;
+        hasSigned = true;
+        const pos = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+        document.getElementById('sigPlaceholder')?.classList.add('hidden');
+      }
+
+      function draw(e) {
+        if (!isDrawing) return;
+        e.preventDefault();
+        const pos = getPos(e);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+      }
+
+      function endDraw(e) {
+        if (!isDrawing) return;
+        isDrawing = false;
+        ctx.closePath();
+      }
+
+      // Mouse events
+      canvas.addEventListener('mousedown', startDraw);
+      canvas.addEventListener('mousemove', draw);
+      canvas.addEventListener('mouseup', endDraw);
+      canvas.addEventListener('mouseleave', endDraw);
+
+      // Touch events (Mobile & iPad)
+      canvas.addEventListener('touchstart', startDraw, { passive: false });
+      canvas.addEventListener('touchmove', draw, { passive: false });
+      canvas.addEventListener('touchend', endDraw);
+    }
+
+    function clearSignature() {
+      if (!ctx || !canvas) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hasSigned = false;
+      document.getElementById('sigPlaceholder')?.classList.remove('hidden');
+      document.getElementById('docSigImg')?.classList.add('hidden');
+      document.getElementById('docSigPendingText')?.classList.remove('hidden');
+    }
+
+    function applySignatureToDoc() {
+      if (!hasSigned) {
+        alert('กรุณาเซ็นชื่อลงในกรอบก่อนกดยืนยันครับ');
+        return;
+      }
+      const dataUrl = canvas.toDataURL('image/png');
+      const docSigImg = document.getElementById('docSigImg');
+      const pendingText = document.getElementById('docSigPendingText');
+      if (docSigImg) {
+        docSigImg.src = dataUrl;
+        docSigImg.classList.remove('hidden');
+      }
+      if (pendingText) {
+        pendingText.classList.add('hidden');
+      }
+      alert('✅ ประทับลายเซ็นออนไลน์ลงในสัญญาเรียบร้อยแล้วครับ!');
+    }
+
+    function calculateMilestones() {
+      const total = parseInt(document.getElementById('inputTotalPrice')?.value) || 0;
+      const m1 = Math.round(total * 0.30);
+      const m2 = Math.round(total * 0.50);
+      const m3 = total - m1 - m2;
+
+      document.getElementById('labelM1').textContent = '฿' + m1.toLocaleString();
+      document.getElementById('labelM2').textContent = '฿' + m2.toLocaleString();
+      document.getElementById('labelM3').textContent = '฿' + m3.toLocaleString();
+
+      document.getElementById('docM1').textContent = '฿' + m1.toLocaleString();
+      document.getElementById('docM2').textContent = '฿' + m2.toLocaleString();
+      document.getElementById('docM3').textContent = '฿' + m3.toLocaleString();
+    }
+
+    function onSystemSelectChange() {
+      const sel = document.getElementById('selContractSystem');
+      const parts = sel.value.split('|');
+      const kw = parts[0];
+      const price = parseInt(parts[1]);
+      const desc = parts[2];
+
+      if (price > 0) {
+        document.getElementById('inputTotalPrice').value = price;
+      }
+      calculateMilestones();
+      updateContractDoc();
+    }
+
+    function updateContractDoc() {
+      const name = document.getElementById('inputClientName')?.value.trim() || 'ลูกค้า';
+      const idCard = document.getElementById('inputClientIdCard')?.value.trim() || '-';
+      const phone = document.getElementById('inputClientPhone')?.value.trim() || '-';
+      const address = document.getElementById('inputClientAddress')?.value.trim() || '-';
+      const total = parseInt(document.getElementById('inputTotalPrice')?.value) || 0;
+      const days = document.getElementById('inputInstallDays')?.value.trim() || '30 วันทำการ';
+
+      const sel = document.getElementById('selContractSystem');
+      const parts = sel.value.split('|');
+      const desc = parts[2] || 'ระบบโซลาร์เซลล์ตามสเปก';
+
+      document.getElementById('docCustomerName').textContent = name;
+      document.getElementById('docSigNameText').textContent = name;
+      document.getElementById('docCustomerIdCard').textContent = idCard;
+      document.getElementById('docCustomerPhone').textContent = phone;
+      document.getElementById('docCustomerAddress').textContent = address;
+      document.getElementById('docSystemDesc').textContent = desc;
+      document.getElementById('docDaysText').textContent = days;
+      document.getElementById('docTotalPriceText').textContent = `${total.toLocaleString()} บาท (${thaiBahtText(total)})`;
+
+      calculateMilestones();
+    }
+
+    // Save Contract to Supabase
+    async function saveContractToDatabase() {
+      const name = document.getElementById('inputClientName')?.value.trim() || 'ลูกค้า';
+      const phone = document.getElementById('inputClientPhone')?.value.trim() || '-';
+      const idCard = document.getElementById('inputClientIdCard')?.value.trim() || '-';
+      const address = document.getElementById('inputClientAddress')?.value.trim() || '-';
+      const total = parseInt(document.getElementById('inputTotalPrice')?.value) || 0;
+      const contractNo = document.getElementById('docContractNo')?.textContent || 'CTR-2026';
+      const sel = document.getElementById('selContractSystem');
+      const desc = sel.value.split('|')[2] || 'โซลาร์เซลล์';
+
+      const contractRecord = {
+        contract_no: contractNo,
+        customer_name: name,
+        customer_phone: phone,
+        customer_id_card: idCard,
+        install_address: address,
+        system_title: desc,
+        total_price: total,
+        status: hasSigned ? 'signed' : 'draft',
+        signed_at: hasSigned ? new Date().toISOString() : null
+      };
+
+      if (window.SolarDB && window.SolarDB.saveContract) {
+        await window.SolarDB.saveContract(contractRecord);
+        alert('🎉 บันทึกสัญญาลงฐานข้อมูล Supabase เรียบร้อยแล้วครับ!');
+      } else {
+        alert('✅ บันทึกสัญญาลงในเครื่องเรียบร้อยแล้ว');
+      }
+    }
+
+    // Send Contract to LINE
+    function sendContractViaLine() {
+      const name = document.getElementById('inputClientName')?.value.trim() || 'ลูกค้า';
+      const phone = document.getElementById('inputClientPhone')?.value.trim() || '-';
+      const total = parseInt(document.getElementById('inputTotalPrice')?.value) || 0;
+      const contractNo = document.getElementById('docContractNo')?.textContent || 'CTR-2026';
+      const sel = document.getElementById('selContractSystem');
+      const desc = sel.value.split('|')[2] || 'โซลาร์เซลล์';
+
+      const msg = 
+`☀️ สัญญาจ้างติดตั้งโซลาร์เซลล์ (99 Solar หาดใหญ่)
+━━━━━━━━━━━━━━━━━━
+📄 เลขที่สัญญา: ${contractNo}
+👤 ผู้ว่าจ้าง: ${name}
+📞 โทร: ${phone}
+⚡ ระบบ: ${desc}
+💰 มูลค่าสัญญารวม: ฿${total.toLocaleString()} บาท
+✍️ สถานะการลงนาม: ${hasSigned ? 'ลงนามออนไลน์เรียบร้อยแล้ว ✅' : 'รอดำเนินการลงนาม ⏳'}
+━━━━━━━━━━━━━━━━━━
+(บจก. 99 แมทช์ เมคเกอร์ ดำเนินการยื่น กฟภ. หาดใหญ่ และรับประกันงาน 25-30 ปี)`;
+
+      const lineUrl = 'https://line.me/R/ti/p/@99sola?text=' + encodeURIComponent(msg);
+      window.open(lineUrl, '_blank');
+    }
+
+    function thaiBahtText(num) {
+      if (!num || isNaN(num)) return 'ศูนย์บาทถ้วน';
+      num = Math.round(num * 100) / 100;
+      const numbers = ['', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'];
+      const positions = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน'];
+      let [baht, satang] = num.toFixed(2).split('.');
+      let bahtInt = parseInt(baht, 10);
+      if (bahtInt === 0) return 'ศูนย์บาทถ้วน';
+
+      function convertGroup(n) {
+        let s = '';
+        const len = n.length;
+        for (let i = 0; i < len; i++) {
+          const d = parseInt(n[i], 10);
+          const pos = len - i - 1;
+          if (d !== 0) {
+            if (pos === 1 && d === 1) s += 'สิบ';
+            else if (pos === 1 && d === 2) s += 'ยี่สิบ';
+            else if (pos === 0 && d === 1 && len > 1 && n[len - 2] !== '0') s += 'เอ็ด';
+            else s += numbers[d] + positions[pos];
+          }
+        }
+        return s;
+      }
+
+      let text = '';
+      if (baht.length > 6) {
+        text = convertGroup(baht.slice(0, baht.length - 6)) + 'ล้าน' + convertGroup(baht.slice(baht.length - 6));
+      } else {
+        text = convertGroup(baht);
+      }
+      return text + 'บาทถ้วน';
+    }
+
+    // Init Date and Values
+    window.addEventListener('DOMContentLoaded', () => {
+      const today = new Date();
+      const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+      const dateStr = `${today.getDate()} ${thaiMonths[today.getMonth()]} ${today.getFullYear() + 543}`;
+      
+      const docDateEl = document.getElementById('docContractDate');
+      const sigDateEl = document.getElementById('docSigDate');
+      if (docDateEl) docDateEl.textContent = dateStr;
+      if (sigDateEl) sigDateEl.textContent = dateStr;
+
+      calculateMilestones();
+      updateContractDoc();
+    });
+  </script>
+</body>
+</html>
