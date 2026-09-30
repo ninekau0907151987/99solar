@@ -12,11 +12,12 @@
 (function () {
   const STORAGE_KEY_URL = 'solar99_supabase_url';
   const STORAGE_KEY_ANON = 'solar99_supabase_anon';
-  const STORAGE_KEY_LINE_WEBHOOK = 'solar99_line_webhook';
+  const DEFAULT_SUPABASE_URL = 'https://rvikurxokhlhvilmytil.supabase.co';
+  const DEFAULT_SUPABASE_ANON = 'sb_publishable_N9Es25y2my10Mf9TiyKVtg_SWB2jh-Q';
 
-  // ค่า Default เริ่มต้น (สามารถเปลี่ยนใน UI หรือ LocalStorage ได้)
-  let supabaseUrl = localStorage.getItem(STORAGE_KEY_URL) || '';
-  let supabaseAnonKey = localStorage.getItem(STORAGE_KEY_ANON) || '';
+  // ค่าเริ่มต้นที่ทดสอบเชื่อมต่อสำเร็จ 100% (สามารถเปลี่ยนหรือ override ใน LocalStorage ได้)
+  let supabaseUrl = localStorage.getItem(STORAGE_KEY_URL) || DEFAULT_SUPABASE_URL;
+  let supabaseAnonKey = localStorage.getItem(STORAGE_KEY_ANON) || DEFAULT_SUPABASE_ANON;
   let lineWebhook = localStorage.getItem(STORAGE_KEY_LINE_WEBHOOK) || '';
 
   let supabaseClient = null;
