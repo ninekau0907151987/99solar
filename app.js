@@ -312,6 +312,19 @@ function initModal() {
 ━━━━━━━━━━━━━━━━━━
 รบกวนวิศวกร 99 Solar ติดต่อกลับเพื่อนัดหมายเข้าดูหน้างานครับ`;
 
+      // Save to Supabase Cloud DB
+      if (window.SolarDB && window.SolarDB.saveLead) {
+        window.SolarDB.saveLead({
+          name: customerName,
+          phone,
+          line: lineId,
+          bill: parseInt(billText.replace(/[^0-9]/g, '')) || 0,
+          location,
+          interests,
+          source: 'website_consult_modal'
+        });
+      }
+
       // Save locally
       saveLeadLocally({
         type: 'consultation',
@@ -680,6 +693,17 @@ function initReferralSystem() {
           ev.preventDefault();
           openLineChatWithMessage(refLineMessage);
         };
+      }
+
+      // Send to Supabase Cloud DB
+      if (window.SolarDB && window.SolarDB.saveReferral) {
+        window.SolarDB.saveReferral({
+          refPhone: agentPhone,
+          friendName,
+          friendPhone,
+          friendBill,
+          commission: parseInt(estCommission.replace(/[^0-9]/g, '')) || 3000
+        });
       }
 
       // Send to optional Google Sheet

@@ -47,6 +47,10 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
+  <!-- Supabase Cloud DB & LINE Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
+
   <style>
     body { font-family: 'Prompt', sans-serif; background-color: #f8fafc; }
     h1, h2, h3, h4, .font-heading { font-family: 'Kanit', sans-serif; }
@@ -102,6 +106,7 @@
         <a href="solar-enterprise.html" class="bg-blue-50 hover:bg-blue-100 text-blue-900 font-bold text-xs px-2.5 sm:px-3 py-1.5 rounded-lg border border-blue-200 transition-all flex items-center gap-1.5 shadow-sm shrink-0">
           <i class="fa-solid fa-industry text-blue-600"></i> <span>งานโรงงาน & รัฐ</span>
         </a>
+        <button type="button" onclick="window.SolarDB && window.SolarDB.openConfigModal()" class="db-status-badge"></button>
         <button id="btnOpenCustomerRfqModal" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs px-2.5 sm:px-3 py-1.5 rounded-lg border border-slate-200 transition-all flex items-center gap-1.5 shadow-sm shrink-0">
           <i class="fa-solid fa-file-pen text-amber-500"></i> <span>ฟอร์มสำรวจ</span>
         </button>

@@ -49,6 +49,10 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+  <!-- Supabase Cloud DB & LINE Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
+
   <style>
     body {
       font-family: 'Prompt', sans-serif;
@@ -118,6 +122,7 @@
         <a href="solar-erp.html" class="px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition-all flex items-center gap-1.5">
           <i class="fa-solid fa-warehouse text-purple-600"></i> <span class="hidden sm:inline">คลัง ERP</span>
         </a>
+        <button type="button" onclick="window.SolarDB && window.SolarDB.openConfigModal()" class="db-status-badge"></button>
       </div>
 
     </div>

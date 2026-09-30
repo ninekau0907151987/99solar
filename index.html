@@ -119,16 +119,19 @@
       <div class="max-w-7xl mx-auto space-y-2">
         
         <!-- Header Sub-Label (Desktop & Mobile) -->
-        <div class="flex items-center justify-between text-xs">
+        <div class="flex items-center justify-between text-xs flex-wrap gap-2">
           <div class="flex items-center gap-2">
             <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold border border-emerald-200 text-[11px]">
               <i class="fa-solid fa-layer-group text-emerald-600"></i> ทางลัดระบบงาน
             </span>
             <span class="text-slate-600 text-[11px] hidden sm:inline font-medium">6 แอประบบวิศวกรรม จัดซื้อ และปิดการขาย 99 Solar:</span>
           </div>
-          <span class="text-[11px] text-slate-500 hidden lg:inline font-medium">
-            <i class="fa-solid fa-arrow-pointer text-amber-500 mr-1"></i> คลิกเลือกเปิดระบบที่ต้องการใช้งาน
-          </span>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="window.SolarDB && window.SolarDB.openConfigModal()" class="db-status-badge"></button>
+            <span class="text-[11px] text-slate-500 hidden lg:inline font-medium">
+              <i class="fa-solid fa-arrow-pointer text-amber-500 mr-1"></i> คลิกเลือกเปิดระบบที่ต้องการใช้งาน
+            </span>
+          </div>
         </div>
 
         <!-- 6 Function Buttons Grid: บน PC แสดง 6 คอลัมน์เรียงกันเป๊ะ ไม่ซ้อนทับกันแน่นอน -->
@@ -2307,6 +2310,9 @@
     </div>
   </div>
 
+  <!-- Supabase Cloud DB & LINE Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
   <!-- JavaScript -->
   <script src="app.js"></script>
 </body>
