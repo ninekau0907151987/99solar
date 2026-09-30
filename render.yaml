@@ -1,0 +1,36 @@
+# ===================================================================
+# Render Blueprint Specification for 99 Solar Hat Yai
+# บริษัท 99 แมทช์ เมคเกอร์ จำกัด (หาดใหญ่-สงขลา)
+# ===================================================================
+
+services:
+  # 1. Primary Service: Static Site (แนะนำ - ฟรี 100%, โหลดเร็วผ่าน CDN ทั่วโลก)
+  - type: web
+    name: solar99-hatyai
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: .
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*.html
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+      - path: /logo.jpg
+        name: Cache-Control
+        value: public, max-age=86400
+
+  # 2. Alternative Service: Node.js Web Service (ถ้าต้องการรันเป็น Server Node.js)
+  # - type: web
+  #   name: solar99-node-service
+  #   runtime: node
+  #   plan: free
+  #   buildCommand: ""
+  #   startCommand: "npm start"
+  #   envVars:
+  #     - key: NODE_VERSION
+  #       value: 20

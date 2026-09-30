@@ -63,84 +63,84 @@
 </head>
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
-  <!-- TOP HEADER / SUITE BAR -->
-  <header class="bg-slate-900 text-white sticky top-0 z-50 shadow-md border-b border-slate-800">
+  <!-- TOP HEADER / SUITE BAR (Clean White Theme) -->
+  <header class="bg-white/95 backdrop-blur-md text-slate-800 sticky top-0 z-50 shadow-sm border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[4rem] py-2 flex items-center justify-between gap-4">
       
       <!-- Brand & Title -->
       <div class="flex items-center space-x-3 shrink-0">
         <a href="index.html" class="flex items-center">
-          <img src="logo.jpg" alt="99 Solar Hat Yai Logo" class="w-10 h-10 object-contain rounded-xl bg-white p-0.5 border border-slate-700 shadow-md hover:scale-105 transition-transform">
+          <img src="logo.jpg" alt="99 Solar Hat Yai Logo" class="w-10 h-10 object-contain rounded-xl bg-white p-0.5 border border-slate-200 shadow-sm hover:scale-105 transition-transform">
         </a>
         <div>
           <div class="flex items-center gap-2">
-            <span class="text-lg font-bold font-heading text-white">99 SOLAR <span class="text-brand-400">ERP</span></span>
-            <span class="text-[10px] px-2 py-0.5 bg-brand-900 text-brand-300 border border-brand-700 rounded font-semibold uppercase tracking-wider">ระบบจัดการธุรกิจโซลาร์</span>
+            <span class="text-lg font-bold font-heading text-slate-900">99 SOLAR <span class="text-purple-600">ERP</span></span>
+            <span class="text-[10px] px-2 py-0.5 bg-purple-100 text-purple-800 border border-purple-200 rounded-full font-semibold uppercase tracking-wider">ระบบจัดการธุรกิจโซลาร์</span>
           </div>
-          <p class="text-[11px] text-slate-400">บจก. 99 แมทช์ เมคเกอร์ | หาดใหญ่-สงขลา</p>
+          <p class="text-[11px] text-slate-500 font-medium">บจก. 99 แมทช์ เมคเกอร์ | หาดใหญ่-สงขลา (คุณไจ๋ไจ๋ 090-715-1987)</p>
         </div>
       </div>
 
       <!-- Quick Switcher to Other Systems in Workspace -->
       <div class="hidden md:flex items-center space-x-1.5 lg:space-x-2 overflow-x-auto whitespace-nowrap py-1 scrollbar-thin">
-        <a href="index.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition flex items-center gap-1.5 border border-slate-700 shrink-0">
+        <a href="index.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-brand-600 text-xs font-medium transition flex items-center gap-1.5 border border-slate-200 shrink-0">
           <i class="fa-solid fa-house"></i> เว็บหน้าร้าน
         </a>
-        <a href="quotation.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition flex items-center gap-1.5 border border-slate-700 shrink-0">
-          <i class="fa-solid fa-file-invoice-dollar text-amber-400"></i> ใบเสนอราคาลูกค้า
+        <a href="quotation.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition flex items-center gap-1.5 shadow-sm shrink-0">
+          <i class="fa-solid fa-file-invoice-dollar text-slate-950"></i> ใบเสนอราคาลูกค้า
         </a>
-        <a href="parts-rfq.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-emerald-900/60 hover:bg-emerald-800 text-emerald-300 hover:text-white text-xs font-bold transition flex items-center gap-1.5 border border-emerald-600/50 shrink-0">
-          <i class="fa-solid fa-tags text-emerald-400"></i> ขอราคาอะไหล่ (RFQ)
+        <a href="parts-rfq.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-sm shrink-0">
+          <i class="fa-solid fa-tags text-white"></i> ขอราคาอะไหล่ (RFQ)
         </a>
-        <a href="solar-planner.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition flex items-center gap-1.5 border border-slate-700 shrink-0">
-          <i class="fa-solid fa-solar-panel text-amber-400"></i> ผังหลังคา
+        <a href="solar-planner.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-slate-50 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 text-xs font-semibold transition flex items-center gap-1.5 border border-slate-200 shrink-0">
+          <i class="fa-solid fa-solar-panel text-emerald-600"></i> ผังหลังคา
         </a>
-        <a href="solar-sales-sop.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition flex items-center gap-1.5 border border-slate-700 shrink-0">
-          <i class="fa-solid fa-comments-dollar text-emerald-400"></i> Sales SOP
+        <a href="solar-sales-sop.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-slate-50 hover:bg-amber-50 text-slate-700 hover:text-amber-700 text-xs font-semibold transition flex items-center gap-1.5 border border-slate-200 shrink-0">
+          <i class="fa-solid fa-comments-dollar text-amber-500"></i> Sales SOP
         </a>
-        <a href="solar-enterprise.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-blue-950 hover:bg-blue-900 text-blue-300 hover:text-white text-xs font-bold transition flex items-center gap-1.5 border border-blue-600/50 shrink-0">
-          <i class="fa-solid fa-industry text-amber-400"></i> โซลาร์โรงงาน & งานรัฐ (B2G)
+        <a href="solar-enterprise.html" target="_blank" class="px-2.5 lg:px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-900 text-xs font-bold transition flex items-center gap-1.5 border border-blue-200 shrink-0">
+          <i class="fa-solid fa-industry text-blue-600"></i> โซลาร์โรงงาน & งานรัฐ (B2G)
         </a>
       </div>
 
       <!-- User Profile / System Status -->
       <div class="flex items-center gap-3">
         <div class="text-right hidden sm:block">
-          <p class="text-xs font-semibold text-white">ผู้จัดการระบบ (Admin)</p>
-          <span class="text-[11px] text-emerald-400 flex items-center gap-1 justify-end">
+          <p class="text-xs font-semibold text-slate-800">ผู้จัดการระบบ (Admin)</p>
+          <span class="text-[11px] text-emerald-600 font-medium flex items-center gap-1 justify-end">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> คลังออนไลน์
           </span>
         </div>
-        <button onclick="resetDemoData()" title="รีเซ็ตข้อมูลตัวอย่าง" class="p-2 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-amber-400 rounded-lg text-xs transition border border-slate-700">
+        <button onclick="resetDemoData()" title="รีเซ็ตข้อมูลตัวอย่าง" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-amber-600 rounded-lg text-xs transition border border-slate-200">
           <i class="fa-solid fa-rotate"></i>
         </button>
       </div>
 
     </div>
 
-    <!-- MAIN MODULE TABS NAVIGATION -->
-    <div class="bg-slate-800 px-4 sm:px-6 lg:px-8 overflow-x-auto border-t border-slate-700">
+    <!-- MAIN MODULE TABS NAVIGATION (Clean White Theme) -->
+    <div class="bg-white px-4 sm:px-6 lg:px-8 overflow-x-auto border-t border-slate-200">
       <div class="max-w-7xl mx-auto flex space-x-1 sm:space-x-2 py-2 text-xs sm:text-sm font-medium">
         <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn px-3 py-2 rounded-lg text-white bg-brand-600 font-semibold flex items-center gap-2 whitespace-nowrap shadow-sm">
           <i class="fa-solid fa-chart-pie"></i> 1. แดชบอร์ดภาพรวม
         </button>
-        <button onclick="switchTab('catalog')" id="tab-catalog" class="tab-btn px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-2 whitespace-nowrap">
+        <button onclick="switchTab('catalog')" id="tab-catalog" class="tab-btn px-3 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap">
           <i class="fa-solid fa-boxes-stacked"></i> 2. แคตตาล็อก & สเปก
         </button>
-        <button onclick="switchTab('inventory')" id="tab-inventory" class="tab-btn px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-2 whitespace-nowrap">
+        <button onclick="switchTab('inventory')" id="tab-inventory" class="tab-btn px-3 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap">
           <i class="fa-solid fa-warehouse"></i> 3. สต็อก & เบิกใช้วัสดุ
         </button>
-        <button onclick="switchTab('tools')" id="tab-tools" class="tab-btn px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-2 whitespace-nowrap">
+        <button onclick="switchTab('tools')" id="tab-tools" class="tab-btn px-3 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap">
           <i class="fa-solid fa-toolbox"></i> 4. คลังเครื่องมือช่าง (ยืม-คืน)
         </button>
-        <button onclick="switchTab('technician')" id="tab-technician" class="tab-btn px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-2 whitespace-nowrap">
-          <i class="fa-solid fa-user-clock text-amber-300"></i> 5. งานช่าง & จับเวลา (Time Tracking)
+        <button onclick="switchTab('technician')" id="tab-technician" class="tab-btn px-3 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-user-clock text-amber-500"></i> 5. งานช่าง & จับเวลา (Time Tracking)
         </button>
-        <button onclick="switchTab('purchasing')" id="tab-purchasing" class="tab-btn px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-2 whitespace-nowrap">
+        <button onclick="switchTab('purchasing')" id="tab-purchasing" class="tab-btn px-3 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap">
           <i class="fa-solid fa-file-invoice-dollar"></i> 6. จัดซื้อ & รับของเข้า (PO)
         </button>
-        <button onclick="switchTab('pos')" id="tab-pos" class="tab-btn px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-2 whitespace-nowrap">
-          <i class="fa-solid fa-cash-register text-emerald-300"></i> 7. POS หน้าร้าน & เบิกตามจ็อบ
+        <button onclick="switchTab('pos')" id="tab-pos" class="tab-btn px-3 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-cash-register text-emerald-600"></i> 7. POS หน้าร้าน & เบิกตามจ็อบ
         </button>
       </div>
     </div>
@@ -151,20 +151,20 @@
 
     <!-- ==================== TAB 1: DASHBOARD ==================== -->
     <section id="view-dashboard" class="space-y-6">
-      <!-- Welcome & Alert Banner -->
-      <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-brand-950 p-6 rounded-2xl text-white shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <!-- Welcome & Alert Banner (Clean White Theme) -->
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 text-slate-800 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <span class="px-2.5 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold rounded-lg uppercase tracking-wider mb-2 inline-block">
-            <i class="fa-solid fa-bolt text-amber-400"></i> โซลูชันบริหารงานติดตั้ง & คลังสินค้าโซลาร์
+          <span class="px-2.5 py-1 bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold rounded-lg uppercase tracking-wider mb-2 inline-block">
+            <i class="fa-solid fa-bolt text-amber-500"></i> โซลูชันบริหารงานติดตั้ง & คลังสินค้าโซลาร์
           </span>
-          <h2 class="text-2xl font-bold font-heading">ศูนย์ควบคุมระบบ 99 Solar All-in-One ERP</h2>
-          <p class="text-slate-300 text-sm mt-1">ติดตามสต็อกแผง/อินเวอร์เตอร์/น็อต คุมการเบิกจ่าย บันทึกชั่วโมงทำงานช่าง และตัดยอดขายแบบเรียลไทม์</p>
+          <h2 class="text-2xl font-bold font-heading text-slate-900">ศูนย์ควบคุมระบบ 99 Solar All-in-One ERP</h2>
+          <p class="text-slate-500 text-sm mt-1">ติดตามสต็อกแผง/อินเวอร์เตอร์/น็อต คุมการเบิกจ่าย บันทึกชั่วโมงทำงานช่าง และตัดยอดขายแบบเรียลไทม์</p>
         </div>
         <div class="flex flex-wrap gap-2">
-          <button onclick="quickActionModal('requisition')" class="px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
+          <button onclick="quickActionModal('requisition')" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
             <i class="fa-solid fa-dolly"></i> บันทึกเบิกของด่วน
           </button>
-          <button onclick="quickActionModal('clockin')" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
+          <button onclick="quickActionModal('clockin')" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
             <i class="fa-solid fa-stopwatch"></i> ช่างเริ่มงาน (Check-in)
           </button>
         </div>
@@ -783,19 +783,20 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 text-xs">
+  <!-- FOOTER (Clean White Theme) -->
+  <footer class="bg-white text-slate-600 py-6 border-t border-slate-200 text-xs shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-2">
-        <span class="font-bold text-white">99 SOLAR ALL-IN-ONE SUITE</span>
-        <span>• โดย บริษัท 99 แมทช์ เมคเกอร์ จำกัด</span>
+        <img src="logo.jpg" alt="99 Solar Hat Yai Logo" class="h-7 w-7 object-contain rounded-md bg-white p-0.5 border border-slate-200 shadow-sm">
+        <span class="font-bold text-slate-900">99 SOLAR ALL-IN-ONE SUITE</span>
+        <span class="text-slate-500">• บจก. 99 แมทช์ เมคเกอร์ (คุณไจ๋ไจ๋ 090-715-1987)</span>
       </div>
       <div class="flex items-center gap-4 text-[11px]">
-        <a href="index.html" class="hover:text-white">หน้าเว็บหลัก</a>
-        <a href="solar-planner.html" class="hover:text-white">คำนวณผังหลังคา</a>
-        <a href="solar-sales-sop.html" class="hover:text-white">สคริปต์ปิดการขาย</a>
-        <span class="text-slate-600">|</span>
-        <span class="text-brand-400"><i class="fa-solid fa-shield-halved"></i> ข้อมูลบันทึกปลอดภัยใน LocalStorage</span>
+        <a href="index.html" class="text-brand-600 hover:underline">หน้าเว็บหลัก</a>
+        <a href="solar-planner.html" class="text-brand-600 hover:underline">คำนวณผังหลังคา</a>
+        <a href="solar-sales-sop.html" class="text-brand-600 hover:underline">สคริปต์ปิดการขาย</a>
+        <span class="text-slate-300">|</span>
+        <span class="text-emerald-700 font-medium"><i class="fa-solid fa-shield-halved text-emerald-600"></i> ข้อมูลบันทึกปลอดภัยในเครื่อง</span>
       </div>
     </div>
   </footer>
