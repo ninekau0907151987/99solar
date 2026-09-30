@@ -1,0 +1,28 @@
+# robots.txt for 99 Solar Hat Yai (บจก. 99 แมทช์ เมคเกอร์)
+User-agent: *
+Allow: /
+Disallow: /portal.html
+
+# Explicitly allow AI Search Crawlers (ChatGPT Search, Perplexity, Gemini, Claude)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://solar99-hatyai.onrender.com/sitemap.xml
