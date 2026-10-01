@@ -104,8 +104,21 @@ function serveFile(filePath, res) {
   });
 }
 
+// Error handling at process level to ensure server stays online 24/7
+process.on('uncaughtException', (err) => {
+  console.error('⚠️ Uncaught Exception:', err.message);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('⚠️ Unhandled Rejection:', reason);
+});
+
 // 1. Primary Server (Render PORT: 10000 หรือค่าตาม process.env.PORT)
 const primaryServer = http.createServer(handleRequest);
+primaryServer.on('error', (err) => {
+  console.error(`⚠️ Primary server error on port ${PRIMARY_PORT}:`, err.message);
+});
+
 primaryServer.listen(PRIMARY_PORT, HOST, () => {
   console.log(`===============================================`);
   console.log(`☀️ 99 Solar Hat Yai Server running for Render`);
@@ -117,10 +130,11 @@ primaryServer.listen(PRIMARY_PORT, HOST, () => {
 // 2. Secondary Server (Fallback Port 3000 สำหรับกรณีรันในเครื่องหรือ Render สแกนพอร์ต 3000)
 if (PRIMARY_PORT !== FALLBACK_PORT) {
   const fallbackServer = http.createServer(handleRequest);
-  fallbackServer.listen(FALLBACK_PORT, HOST, () => {
-    console.log(`🌐 Fallback Port: http://${HOST}:${FALLBACK_PORT}`);
-  }).on('error', (err) => {
+  fallbackServer.on('error', (err) => {
     // ถ้าพอร์ต 3000 ถูกใช้งานอยู่แล้ว ให้ข้ามได้โดยไม่แครช
     console.log(`ℹ️ Fallback port ${FALLBACK_PORT} is optional: ${err.message}`);
+  });
+  fallbackServer.listen(FALLBACK_PORT, HOST, () => {
+    console.log(`🌐 Fallback Port: http://${HOST}:${FALLBACK_PORT}`);
   });
 }
