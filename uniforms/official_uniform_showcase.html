@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>99 Solar - เสื้อโปโลติดโลโก้จริงของคุณไจ๋ไจ๋ (Official Logo Edition)</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Prompt', sans-serif; }
+    h1, h2, h3, h4, .font-heading { font-family: 'Kanit', sans-serif; }
+    .shirt-shadow { filter: drop-shadow(0 20px 30px rgba(0,0,0,0.3)); }
+    .logo-glow { filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.4)); }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-4 sm:p-6 lg:p-8 flex flex-col items-center">
+
+  <div class="max-w-6xl w-full mx-auto space-y-6">
+
+    <!-- Header Banner -->
+    <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-slate-950 rounded-3xl p-6 sm:p-8 border border-emerald-500/30 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="space-y-2 text-center md:text-left">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          ใช้โลโก้ทางการของคุณไจ๋ไจ๋ (Official Brand Logo) 100%
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-black font-heading text-white tracking-tight">
+          เสื้อโปโล 99 Solar ติดตั้งโลโก้จริงของคุณไจ๋ไจ๋
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-300 max-w-xl">
+          นำไฟล์ภาพโลโก้ต้นฉบับที่คุณไจ๋ไจ๋ส่งมา (เลข 99 แผงโซลาร์ + พระอาทิตย์สีเขียวมะนาว + SOLAR HAT YAI) มาวางบนตำแหน่งอกซ้ายและหลังเสื้ออย่างประณีตและคมชัดสูงสุดครับ
+        </p>
+      </div>
+
+      <!-- User's Real Logo Display Card -->
+      <div class="p-3 bg-white/95 rounded-2xl shadow-xl border border-slate-200 shrink-0 text-center space-y-1">
+        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">โลโก้ต้นฉบับที่คุณไจ๋ไจ๋ให้มา:</span>
+        <img src="logo_transparent.png" alt="99 Solar Official Logo" class="h-12 w-auto object-contain mx-auto">
+        <span class="text-[9px] text-emerald-800 font-semibold block">ไฟล์แท้ • ตัดพื้นหลังโปร่งใสเรียบร้อย</span>
+      </div>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+      <!-- LEFT: Garment Mockup Canvas (7 Cols) -->
+      <div class="lg:col-span-7 bg-slate-900/90 rounded-3xl p-6 sm:p-10 border border-slate-800 shadow-2xl flex flex-col items-center justify-center relative overflow-hidden min-h-[520px]">
+        
+        <!-- Controls: Front / Back View -->
+        <div class="w-full flex items-center justify-between mb-6 z-10">
+          <span class="text-xs font-bold text-slate-400">
+            แสดงมุมมอง: <strong id="lblCurrentView" class="text-emerald-400">ด้านหน้า (อกซ้าย)</strong>
+          </span>
+          <div class="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+            <button id="btnFront" onclick="setView('front')" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white transition shadow">
+              ด้านหน้า (Front)
+            </button>
+            <button id="btnBack" onclick="setView('back')" class="px-4 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">
+              ด้านหลัง (Back)
+            </button>
+          </div>
+        </div>
+
+        <!-- 3D Vector SVG Garment Mockup with Real Logo Embedded -->
+        <div class="w-full max-w-md relative z-10 shirt-shadow transition-all duration-300">
+          
+          <!-- FRONT VIEW -->
+          <svg id="svgFront" viewBox="0 0 500 540" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="shirtBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#082b1b" id="stop1" />
+                <stop offset="50%" stop-color="#041910" id="stop2" />
+                <stop offset="100%" stop-color="#020d08" id="stop3" />
+              </linearGradient>
+
+              <linearGradient id="placketGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#1f2937" id="placketStop1" />
+                <stop offset="100%" stop-color="#111827" id="placketStop2" />
+              </linearGradient>
+            </defs>
+
+            <!-- Shirt Torso Body -->
+            <path d="M 170 55 L 120 75 L 50 185 L 105 215 L 140 145 L 145 510 L 355 510 L 360 145 L 395 215 L 450 185 L 380 75 L 330 55 Z" fill="url(#shirtBodyGrad)" stroke="#113e28" id="shirtStroke" stroke-width="1.5" />
+
+            <!-- Sleeve Minimalist Accents -->
+            <line x1="56" y1="183" x2="102" y2="210" stroke="#34d399" stroke-width="2" opacity="0.7" />
+            <line x1="444" y1="183" x2="398" y2="210" stroke="#34d399" stroke-width="2" opacity="0.7" />
+
+            <!-- Tesla-style Concealed Clean Hidden Placket -->
+            <rect x="238" y="55" width="24" height="150" fill="url(#placketGrad)" rx="4" />
+            <circle cx="250" cy="85" r="4" fill="#374151" stroke="#4b5563" stroke-width="1" />
+            <line x1="250" y1="95" x2="250" y2="200" stroke="#111827" stroke-width="1" />
+
+            <!-- Collar -->
+            <polygon points="170,55 240,65 205,135 150,85" fill="#041f13" id="collarLeft" stroke="#10b981" stroke-width="0.8" />
+            <polygon points="330,55 260,65 295,135 350,85" fill="#041f13" id="collarRight" stroke="#10b981" stroke-width="0.8" />
+
+            <!-- ============================================================ -->
+            <!-- REAL OFFICIAL LOGO: EMBEDDED DIRECTLY ON LEFT CHEST (อกซ้าย) -->
+            <!-- ============================================================ -->
+            <g id="chestLogoContainer" transform="translate(285, 138)">
+              <!-- Silicone Badge Backplate (Option: Subtle dark rounded plate to make colors pop) -->
+              <rect id="badgeBackdrop" x="-8" y="-6" width="102" height="52" rx="10" fill="#020e07" stroke="#10b981" stroke-width="0.8" opacity="0.85" />
+              
+              <!-- USER'S ACTUAL LOGO IMAGE EMBEDDED -->
+              <image href="logo_transparent.png" x="-2" y="-2" width="90" height="45" preserveAspectRatio="xMidYMid meet" class="logo-glow" />
+            </g>
+
+            <!-- Bottom Hem -->
+            <line x1="145" y1="500" x2="355" y2="500" stroke="#04170d" stroke-width="2" />
+          </svg>
+
+          <!-- BACK VIEW -->
+          <svg id="svgBack" viewBox="0 0 500 540" class="w-full h-auto hidden" xmlns="http://www.w3.org/2000/svg">
+            <!-- Shirt Torso Body -->
+            <path d="M 170 55 L 120 75 L 50 185 L 105 215 L 140 145 L 145 510 L 355 510 L 360 145 L 395 215 L 450 185 L 380 75 L 330 55 Z" fill="url(#shirtBodyGrad)" stroke="#113e28" id="shirtStrokeBack" stroke-width="1.5" />
+
+            <!-- Back Collar -->
+            <path d="M 170 55 Q 250 75 330 55 L 320 40 Q 250 55 180 40 Z" fill="#041f13" id="collarBack" stroke="#10b981" stroke-width="0.8" />
+
+            <!-- Back Yoke Seam -->
+            <path d="M 140 145 Q 250 165 360 145" fill="none" stroke="#111827" stroke-width="2" stroke-dasharray="4,2" />
+
+            <!-- ============================================================ -->
+            <!-- REAL OFFICIAL LOGO: EMBEDDED ON BACK OF SHIRT (หลังเสื้อ) -->
+            <!-- ============================================================ -->
+            <g transform="translate(165, 95)">
+              <!-- Silicone/Heat-transfer backplate -->
+              <rect x="-10" y="-8" width="190" height="96" rx="14" fill="#020e07" stroke="#10b981" stroke-width="1" opacity="0.9" />
+              <!-- USER'S ACTUAL LOGO ON BACK -->
+              <image href="logo_transparent.png" x="5" y="5" width="160" height="80" preserveAspectRatio="xMidYMid meet" class="logo-glow" />
+            </g>
+
+            <!-- Bottom Text Below Logo -->
+            <text x="250" y="215" text-anchor="middle" font-family="'Prompt', sans-serif" font-weight="700" font-size="9" fill="#34d399" letter-spacing="3">
+              บริษัทยื่น กฟภ. หาดใหญ่ • รับประกัน 25 ปี
+            </text>
+
+            <!-- Bottom Hem -->
+            <line x1="145" y1="500" x2="355" y2="500" stroke="#04170d" stroke-width="2" />
+          </svg>
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Color Swatches & Placement Specs (5 Cols) -->
+      <div class="lg:col-span-5 space-y-6">
+
+        <!-- 1. Color Customizer -->
+        <div class="bg-slate-900/90 rounded-2xl p-5 border border-slate-800 space-y-3 shadow-xl">
+          <label class="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+            1. ทดลองเปลี่ยนสีเสื้อ (ดูว่าโลโก้จริงของคุณไจ๋ไจ๋เด่นบนสีไหนที่สุด)
+          </label>
+          <div class="grid grid-cols-3 gap-2.5">
+            <!-- Option 1: Dark Forest Emerald -->
+            <button onclick="changeShirtColor('emerald')" class="p-3 rounded-xl border-2 border-emerald-500 bg-slate-950 text-left transition flex flex-col gap-1.5 group">
+              <span class="w-full h-5 rounded-md bg-[#082b1b] border border-emerald-600/60"></span>
+              <span class="text-xs font-bold text-white">เขียวมรกตเข้ม</span>
+              <span class="text-[10px] text-emerald-400 font-medium">ดูเป็นทางการ & ไฮเทค</span>
+            </button>
+            <!-- Option 2: Obsidian Black -->
+            <button onclick="changeShirtColor('black')" class="p-3 rounded-xl border border-slate-800 bg-slate-950 text-left transition flex flex-col gap-1.5 group hover:border-slate-600">
+              <span class="w-full h-5 rounded-md bg-[#0f172a] border border-slate-700"></span>
+              <span class="text-xs font-bold text-white">ดำชาร์โคล</span>
+              <span class="text-[10px] text-slate-400">โลโก้เขียวเด่นสะดุดตา</span>
+            </button>
+            <!-- Option 3: Clean Snow White -->
+            <button onclick="changeShirtColor('white')" class="p-3 rounded-xl border border-slate-800 bg-slate-950 text-left transition flex flex-col gap-1.5 group hover:border-slate-600">
+              <span class="w-full h-5 rounded-md bg-[#f8fafc] border border-slate-300"></span>
+              <span class="text-xs font-bold text-white">ขาวพรีเมียม</span>
+              <span class="text-[10px] text-slate-400">สีโลโก้ตรงไฟล์ 100%</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Logo Application Technique -->
+        <div class="bg-slate-900/90 rounded-2xl p-5 border border-slate-800 space-y-3 shadow-xl">
+          <label class="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+            2. เทคนิคการติดโลโก้จริงของคุณไจ๋ไจ๋ลงบนเสื้อ
+          </label>
+          <div class="space-y-2.5 text-xs text-slate-300">
+            <div class="p-3 rounded-xl bg-slate-950 border border-emerald-500/40 space-y-1">
+              <div class="flex items-center justify-between">
+                <strong class="text-white font-heading">เทคนิคที่แนะนำ: High-Density 3D Rubber Patch</strong>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-bold">เกรดพรีเมียม</span>
+              </div>
+              <p class="text-[11px] text-slate-400">
+                นำไฟล์โลโก้จริงของคุณไจ๋ไจ๋ไปทำเป็น **อาร์มยางซิลิโคนปั๊มนูน 3 มิติ** สีเขียวและเหลืองมะนาวจะเงางาม คมชัดทุกเส้นสาย และทนทานต่อการซัก 100 ครั้งไม่หลุดลอกครับ
+              </p>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-1">
+              <strong class="text-slate-300 font-heading">เทคนิคทางเลือก: Direct Heat-Transfer Film (DFT)</strong>
+              <p class="text-[11px] text-slate-400">
+                รีดฟิล์มความร้อนความละเอียดสูง เนื้อสัมผัสเรียบเนียน แนบสนิทไปกับเนื้อผ้า ราคาประหยัดกว่า
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Exact Production Specifications -->
+        <div class="bg-slate-900/90 rounded-2xl p-5 border border-slate-800 space-y-3 shadow-xl text-xs">
+          <label class="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+            3. สเปกการผลิต (ยื่นให้โรงงานการ์เมนท์ได้ทันที)
+          </label>
+          <div class="space-y-2 text-slate-300">
+            <div class="flex justify-between py-1 border-b border-slate-800">
+              <span class="text-slate-400">ไฟล์โลโก้ที่ใช้:</span>
+              <strong class="text-emerald-400">logo_transparent.png (ของคุณไจ๋ไจ๋)</strong>
+            </div>
+            <div class="flex justify-between py-1 border-b border-slate-800">
+              <span class="text-slate-400">ขนาดโลโก้อกซ้าย:</span>
+              <span class="text-white font-medium">กว้าง 8.5 ซม. &times; สูง 4.2 ซม. (สัดส่วน 2:1)</span>
+            </div>
+            <div class="flex justify-between py-1 border-b border-slate-800">
+              <span class="text-slate-400">ขนาดโลโก้หลังเสื้อ:</span>
+              <span class="text-white font-medium">กว้าง 16 ซม. &times; สูง 8 ซม. ใต้คอเสื้อ</span>
+            </div>
+            <div class="flex justify-between py-1">
+              <span class="text-slate-400">เนื้อผ้า:</span>
+              <span class="text-amber-400 font-medium">Dry-Tech Aero Spandex (นุ่ม ลื่น ไม่ยับ)</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    let currentView = 'front';
+
+    function setView(view) {
+      currentView = view;
+      const svgFront = document.getElementById('svgFront');
+      const svgBack = document.getElementById('svgBack');
+      const btnFront = document.getElementById('btnFront');
+      const btnBack = document.getElementById('btnBack');
+      const lbl = document.getElementById('lblCurrentView');
+
+      if (view === 'front') {
+        svgFront.classList.remove('hidden');
+        svgBack.classList.add('hidden');
+        btnFront.className = 'px-4 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white transition shadow';
+        btnBack.className = 'px-4 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition';
+        lbl.textContent = 'ด้านหน้า (อกซ้าย)';
+      } else {
+        svgFront.classList.add('hidden');
+        svgBack.classList.remove('hidden');
+        btnBack.className = 'px-4 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white transition shadow';
+        btnFront.className = 'px-4 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition';
+        lbl.textContent = 'ด้านหลัง (กลางหลังใต้ปก)';
+      }
+    }
+
+    function changeShirtColor(color) {
+      const stop1 = document.getElementById('stop1');
+      const stop2 = document.getElementById('stop2');
+      const stop3 = document.getElementById('stop3');
+      const shirtStroke = document.getElementById('shirtStroke');
+      const shirtStrokeBack = document.getElementById('shirtStrokeBack');
+      const collarLeft = document.getElementById('collarLeft');
+      const collarRight = document.getElementById('collarRight');
+      const collarBack = document.getElementById('collarBack');
+      const badgeBackdrop = document.getElementById('badgeBackdrop');
+
+      if (color === 'emerald') {
+        stop1.setAttribute('stop-color', '#082b1b');
+        stop2.setAttribute('stop-color', '#041910');
+        stop3.setAttribute('stop-color', '#020d08');
+        shirtStroke.setAttribute('stroke', '#113e28');
+        shirtStrokeBack.setAttribute('stroke', '#113e28');
+        collarLeft.setAttribute('fill', '#041f13');
+        collarRight.setAttribute('fill', '#041f13');
+        collarBack.setAttribute('fill', '#041f13');
+        badgeBackdrop.setAttribute('fill', '#020e07');
+        badgeBackdrop.setAttribute('stroke', '#10b981');
+      } else if (color === 'black') {
+        stop1.setAttribute('stop-color', '#1e293b');
+        stop2.setAttribute('stop-color', '#0f172a');
+        stop3.setAttribute('stop-color', '#020617');
+        shirtStroke.setAttribute('stroke', '#334155');
+        shirtStrokeBack.setAttribute('stroke', '#334155');
+        collarLeft.setAttribute('fill', '#0f172a');
+        collarRight.setAttribute('fill', '#0f172a');
+        collarBack.setAttribute('fill', '#0f172a');
+        badgeBackdrop.setAttribute('fill', '#020617');
+        badgeBackdrop.setAttribute('stroke', '#475569');
+      } else if (color === 'white') {
+        stop1.setAttribute('stop-color', '#ffffff');
+        stop2.setAttribute('stop-color', '#f1f5f9');
+        stop3.setAttribute('stop-color', '#e2e8f0');
+        shirtStroke.setAttribute('stroke', '#cbd5e1');
+        shirtStrokeBack.setAttribute('stroke', '#cbd5e1');
+        collarLeft.setAttribute('fill', '#ffffff');
+        collarRight.setAttribute('fill', '#ffffff');
+        collarBack.setAttribute('fill', '#ffffff');
+        badgeBackdrop.setAttribute('fill', '#ffffff');
+        badgeBackdrop.setAttribute('stroke', '#cbd5e1');
+      }
+    }
+  </script>
+</body>
+</html>
