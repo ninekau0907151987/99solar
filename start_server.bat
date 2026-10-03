@@ -13,5 +13,5 @@ echo พอร์ทัลทีมงาน: http://localhost:3000/portal.html
 echo.
 timeout /t 2 /nobreak >nul
 start http://localhost:3000
-node server.js
+node local_server.js
 pause

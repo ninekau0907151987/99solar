@@ -1,12 +1,10 @@
 {
   "name": "99solar-hatyai",
   "version": "1.0.0",
-  "description": "99 Solar Hat Yai - Solar Engineering, Quotation, BOM, RFQ & Sales SOP Suite",
-  "main": "server.js",
   "scripts": {
     "build": "echo 'Static site ready'",
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "node local_server.js",
+    "dev": "node local_server.js"
   },
   "keywords": [
     "solar",
