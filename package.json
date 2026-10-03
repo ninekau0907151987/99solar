@@ -4,6 +4,7 @@
   "description": "99 Solar Hat Yai - Solar Engineering, Quotation, BOM, RFQ & Sales SOP Suite",
   "main": "server.js",
   "scripts": {
+    "build": "echo 'Static site ready'",
     "start": "node server.js",
     "dev": "node server.js"
   },
