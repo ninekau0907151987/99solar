@@ -2,5 +2,7 @@ server.js
 local_server.js
 render.yaml
 start_server.bat
+package.json
+package-lock.json
 *.log
 logo_b64.txt
