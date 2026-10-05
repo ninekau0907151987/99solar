@@ -687,10 +687,136 @@
 
           </div>
 
+          <!-- ======================================================== -->
+          <!-- NEW: ระบบแจ้งเตือนแบ่ง 3 หมวดหมู่คำถามลูกค้า (SMART ALERTS) -->
+          <!-- ======================================================== -->
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
+            <div class="pb-4 border-b border-slate-100">
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-xs font-bold mb-1.5">
+                <i class="fa-solid fa-bell text-purple-600"></i> Smart Notification Routing
+              </div>
+              <h3 class="text-lg font-bold font-heading text-slate-900">
+                ระบบแจ้งเตือนแบ่ง 3 หมวดหมู่คำถามลูกค้า (ตรงคีย์ / ขอใบเสนอราคา / นอกคีย์)
+              </h3>
+              <p class="text-xs text-slate-500">
+                บอทจัดการแจ้งเตือนตามระดับความสำคัญอย่างแม่นยำ ไม่รบกวนเวลาในเรื่องทั่วไป แต่รายงานเรื่องสำคัญและเตือนด่วนในเรื่องนอกระบบ
+              </p>
+            </div>
+
+            <!-- 3 Category Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+
+              <!-- Category 1 (Green) -->
+              <div class="p-5 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-3 flex flex-col justify-between">
+                <div class="space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="px-2.5 py-0.5 rounded-full bg-emerald-200 text-emerald-900 text-[10px] font-extrabold uppercase">
+                      หมวดหมู่ 1 • ปกติ
+                    </span>
+                    <span class="text-emerald-700 font-bold text-[11px]"><i class="fa-solid fa-bell-slash"></i> ไม่ต้องแจ้งเตือน</span>
+                  </div>
+                  <h4 class="font-bold text-slate-900 text-sm">🟢 บอทตอบจบในตัว (ตรงคีย์ทั่วไป)</h4>
+                  <p class="text-slate-600 text-[11px] leading-relaxed">
+                    เมื่อลูกค้าถามข้อมูลพื้นฐานที่บอทมีชุดคำตอบครบถ้วน บอทจะตอบข้อมูลทันทีใน 1 วินาที โดย <strong>ไม่ต้องยิงแจ้งเตือนรบกวนมือถือคุณไจ๋ไจ๋</strong>
+                  </p>
+                  <div class="p-2.5 bg-white rounded-xl border border-emerald-200 text-[11px] text-slate-700 space-y-1">
+                    <div class="font-bold text-emerald-800">คำถามที่เข้าหมวดนี้:</div>
+                    <p>• ถามราคา / แพ็กเกจ 3.3, 5, 10 kW (บอทส่ง Flex Card)</p>
+                    <p>• ขอลิงก์คำนวณค่าไฟ (บอทส่งลิงก์เว็บ)</p>
+                    <p>• ขอลิงก์สัญญา E-Contract ออนไลน์</p>
+                    <p>• ขอดูเบอร์โทรศัพท์ติดต่อบริษัท</p>
+                  </div>
+                </div>
+                <div class="text-[10px] text-emerald-700 font-semibold pt-2 border-t border-emerald-200/60">
+                  ⚡ ผลลัพธ์: บอทดูแลลูกค้า 100% คุณไจ๋ไจ๋ไม่ต้องเสียเวลาตอบ
+                </div>
+              </div>
+
+              <!-- Category 2 (Yellow) -->
+              <div class="p-5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-3 flex flex-col justify-between">
+                <div class="space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="px-2.5 py-0.5 rounded-full bg-amber-200 text-amber-900 text-[10px] font-extrabold uppercase">
+                      หมวดหมู่ 2 • สนใจสูง
+                    </span>
+                    <span class="text-amber-700 font-bold text-[11px]"><i class="fa-solid fa-bell"></i> เตือนหลังบ้าน</span>
+                  </div>
+                  <h4 class="font-bold text-slate-900 text-sm">🟡 บอทตอบรับ + แจ้งเตือนคุณไจ๋ไจ๋</h4>
+                  <p class="text-slate-600 text-[11px] leading-relaxed">
+                    เมื่อลูกค้าแสดงความสนใจจะซื้อจริง (ขอใบเสนอราคา / นัดสำรวจ / ส่งเบอร์) บอทจะตอบรับอย่างสุภาพ และ <strong>ยิงแจ้งเตือนหลังบ้านมาบอกคุณไจ๋ไจ๋ทันที</strong>
+                  </p>
+                  <div class="p-2.5 bg-white rounded-xl border border-amber-200 text-[11px] text-slate-700 space-y-1">
+                    <div class="font-bold text-amber-800">คำถามที่เข้าหมวดนี้:</div>
+                    <p>• <strong>ขอใบเสนอราคา</strong> (บอทแนะส่งบิลค่าไฟ + เตือนคุณไจ๋ไจ๋)</p>
+                    <p>• <strong>นัดสำรวจหน้างานฟรี</strong> (บอทขอพิกัด + เตือนคุณไจ๋ไจ๋)</p>
+                    <p>• <strong>ลูกค้าพิมพ์เบอร์โทร</strong> (เซฟ Supabase + เตือนคุณไจ๋ไจ๋)</p>
+                  </div>
+                </div>
+                <div class="text-[10px] text-amber-800 font-semibold pt-2 border-t border-amber-200/60">
+                  📋 ผลลัพธ์: คุณไจ๋ไจ๋รับทราบข้อมูล พร้อมเปิดเช็กบิลค่าไฟลูกค้า
+                </div>
+              </div>
+
+              <!-- Category 3 (Red) -->
+              <div class="p-5 rounded-2xl bg-rose-50/70 border border-rose-200 space-y-3 flex flex-col justify-between">
+                <div class="space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="px-2.5 py-0.5 rounded-full bg-rose-200 text-rose-900 text-[10px] font-extrabold uppercase">
+                      หมวดหมู่ 3 • ด่วนที่สุด
+                    </span>
+                    <span class="text-rose-700 font-bold text-[11px]"><i class="fa-solid fa-triangle-exclamation"></i> เตือนด่วนพิเศษ!</span>
+                  </div>
+                  <h4 class="font-bold text-slate-900 text-sm">🔴 นอกคีย์ / ส่งต่อคน (ตอบพักสาย + ปิดบอท)</h4>
+                  <p class="text-slate-600 text-[11px] leading-relaxed">
+                    เมื่อคำถามอยู่นอกระบบ หรือไม่มีในคีย์ บอทจะ <strong>ตอบรับไปก่อนสักครู่</strong> ➔ <strong>สั่งปิดบอทตัวเองทันที (Silence Mode)</strong> ➔ <strong>รีบแจ้งเตือนด่วนจี๋หาคุณไจ๋ไจ๋</strong> เพื่อเข้ามาคุยสด
+                  </p>
+                  <div class="p-2.5 bg-white rounded-xl border border-rose-200 text-[11px] text-slate-700 space-y-1">
+                    <div class="font-bold text-rose-800">พฤติกรรมในหมวดนี้:</div>
+                    <p>1. บอทตอบ: <em>"รับข้อความแล้ว คุณไจ๋ไจ๋กำลังตรวจเช็กสักครู่ครับ"</em></p>
+                    <p>2. บอทหยุดตอบทันที ไม่พูดแทรก ไม่ตอบมั่ว</p>
+                    <p>3. ส่งข้อความลูกค้าเด้งเข้า LINE คุณไจ๋ไจ๋แบบด่วนพิเศษ</p>
+                  </div>
+                </div>
+                <div class="text-[10px] text-rose-800 font-semibold pt-2 border-t border-rose-200/60">
+                  🔥 ผลลัพธ์: คุณไจ๋ไจ๋เปิดแชท LINE OA พิมพ์คุยสดกับลูกค้าได้ทันที
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Back-Office Alert Format Preview Box -->
+            <div class="p-4 bg-slate-900 text-white rounded-2xl space-y-3">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                  <i class="fa-brands fa-line text-sm"></i> ตัวอย่างรูปแบบข้อความแจ้งเตือนหลังบ้าน (ที่จะเด้งเข้า LINE คุณไจ๋ไจ๋)
+                </span>
+                <span class="text-[10px] text-slate-400 font-mono">Push Notification Preview</span>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+                <!-- Preview หมวด 2: ใบเสนอราคา -->
+                <div class="p-3 bg-slate-800/90 rounded-xl border border-amber-500/40 space-y-1">
+                  <div class="text-amber-400 font-bold">[หมวดหมู่ 2: ลูกค้าสนใจขอใบเสนอราคา]</div>
+                  <div class="text-slate-300">ข้อความลูกค้า: "อยากได้ใบเสนอราคาบ้าน 5kW ครับ ส่งบิลค่าไฟให้ดูแล้ว"</div>
+                  <div class="text-slate-400 text-[11px]">เวลา: 14:35 น.</div>
+                  <div class="text-emerald-400 text-[11px]">สถานะ: บอทแนะส่งรูปบิลแล้ว คุณไจ๋ไจ๋ตรวจเช็กจัดทำใบเสนอราคาได้เลยครับ ⚡</div>
+                </div>
+
+                <!-- Preview หมวด 3: นอกคีย์ / ส่งต่อคน -->
+                <div class="p-3 bg-slate-800/90 rounded-xl border border-rose-500/40 space-y-1">
+                  <div class="text-rose-400 font-bold">🔥 [หมวดหมู่ 3: ด่วนที่สุด! คำถามนอกระบบ - ต้องใช้คนตอบ]</div>
+                  <div class="text-slate-300">ลูกค้าพิมพ์ว่า: "หลังคาบ้านเป็นซีแพคโมเนีย เอียง 25 องศา ช่างรับติดไหม ลดราคาได้เท่าไหร่"</div>
+                  <div class="text-slate-400 text-[11px]">เวลา: 15:10 น.</div>
+                  <div class="text-rose-300 text-[11px]">สถานะ: บอทตอบรับเบื้องต้นและหยุดทำงานแล้ว 👉 คุณไจ๋ไจ๋เปิดแชทเข้าไปคุยสดได้ทันที!</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
           <!-- Bot Engine Status Banner & Switch -->
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100">
-              <div class="space-y-1">
               <div class="space-y-1">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">
                   <i class="fa-solid fa-shield-halved text-emerald-600"></i> 3-Tier Bot Engine Active
