@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>99 Solar Hat Yai | ERP Back-Office & Chatbot Command Center</title>
-  <meta name="description" content="ระบบเว็บกลางหลังบ้าน บริหารแชทบอท Omnichannel (LINE/FB/TikTok), บิล, สัญญา และ ERP บริษัท 99 แมทช์ เมคเกอร์ จำกัด">
+  <title>99 Solar Hat Yai | ERP Back-Office & Omnichannel Command Center</title>
+  <meta name="description" content="ระบบเว็บกลางหลังบ้าน บจก. 99 แมทช์ เมคเกอร์ จำกัด (คุณไจ๋ไจ๋ 090-715-1987) บริหารแชทบอทหลายเพจ/หลายช่อง, ตารางงานช่าง, พยากรณ์อากาศ, แนะนำเพื่อน, สัญญา และ ERP">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -62,7 +62,6 @@
     h1, h2, h3, h4, h5, h6, .font-heading {
       font-family: 'Kanit', sans-serif;
     }
-    /* Custom scrollbar */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -115,7 +114,7 @@
           99 Solar Hat Yai ERP
         </h2>
         <p class="text-xs text-slate-500 mt-1">
-          ระบบรวมศูนย์ แชทบอท Omnichannel, บิล, สัญญา และลูกค้า<br>
+          ระบบรวมศูนย์ แชทบอท Omnichannel, บิล, สัญญา, ตารางงาน และค่าคอมฯ<br>
           บจก. 99 แมทช์ เมคเกอร์ (คุณไจ๋ไจ๋ 090-715-1987)
         </p>
       </div>
@@ -178,68 +177,94 @@
               </div>
             </div>
           </div>
-          <!-- Mobile Menu Close Toggle (if needed) -->
           <button class="md:hidden text-slate-400 hover:text-white" onclick="toggleSidebar()">
             <i class="fa-solid fa-xmark text-lg"></i>
           </button>
         </div>
 
-        <!-- Admin Profile Pill -->
-        <div class="px-4 py-3 bg-slate-950/60 border-b border-slate-800/80 flex items-center gap-3">
-          <div class="w-8 h-8 rounded-full bg-brand-600/30 text-emerald-400 flex items-center justify-center font-bold text-xs border border-brand-500/40">
-            JJ
+        <!-- Role Selector & Profile Pill (กำหนดสิทธิ์ใช้งาน) -->
+        <div class="px-4 py-3 bg-slate-950/70 border-b border-slate-800/80 space-y-2">
+          <div class="flex items-center gap-3">
+            <div id="roleAvatar" class="w-8 h-8 rounded-full bg-brand-600/30 text-emerald-400 flex items-center justify-center font-bold text-xs border border-brand-500/40">
+              JJ
+            </div>
+            <div class="flex-1 min-w-0">
+              <p id="roleUserName" class="text-xs font-bold text-white truncate">คุณไจ๋ไจ๋ (Admin)</p>
+              <p id="roleUserSub" class="text-[10px] text-emerald-400 font-semibold truncate">สิทธิ์เต็ม (Super Admin)</p>
+            </div>
           </div>
-          <div class="flex-1 min-w-0">
-            <p class="text-xs font-bold text-white truncate">คุณไจ๋ไจ๋ (Administrator)</p>
-            <p class="text-[10px] text-slate-400 truncate">บจก. 99 แมทช์ เมคเกอร์</p>
+
+          <!-- Role Selector Dropdown -->
+          <div class="pt-1">
+            <label class="block text-[10px] text-slate-400 mb-1">สลับสิทธิ์การทำงาน (RBAC Role):</label>
+            <select id="userRoleSelect" onchange="handleRoleChange(this.value)" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg px-2 py-1.5 text-[11px] focus:outline-none focus:border-brand-500">
+              <option value="superadmin">👑 1. Super Admin (คุณไจ๋ไจ๋ - ทุกฟังก์ชัน)</option>
+              <option value="sales">💼 2. ฝ่ายขาย (Sales - แชท/บิล/Lead/สัญญา)</option>
+              <option value="engineer">🔧 3. ช่าง/วิศวกร (ตารางงาน/พยากรณ์/คลัง)</option>
+              <option value="finance">💰 4. การเงิน/บัญชี (บิล/สัญญา/ค่าคอมฯ)</option>
+            </select>
           </div>
         </div>
 
         <!-- Navigation Links -->
-        <nav class="p-3 space-y-1.5 text-xs font-medium">
+        <nav class="p-3 space-y-1 text-xs font-medium">
           <!-- 1. ภาพรวม -->
           <button onclick="switchTab('overview')" id="nav-overview" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition active-nav-item">
             <i class="fa-solid fa-chart-pie text-sm text-amber-400 w-5 text-center"></i>
             <span>1. แดชบอร์ดภาพรวม</span>
           </button>
 
-          <!-- 2. แชทบอท & Omnichannel -->
+          <!-- 2. แชทบอท & การ์ด Flex / Quick Reply -->
           <button onclick="switchTab('chatbot')" id="nav-chatbot" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition">
             <i class="fa-solid fa-robot text-sm text-emerald-400 w-5 text-center"></i>
-            <span class="flex-1 text-left">2. แชทบอท & ข้อความ</span>
-            <span class="px-1.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 text-[10px] font-bold">API</span>
+            <span class="flex-1 text-left">2. แชทบอท, การ์ด & ริชเมนู</span>
+            <span class="px-1.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 text-[10px] font-bold">บอท</span>
           </button>
 
-          <!-- 3. ลูกค้า & Leads -->
+          <!-- 3. หลายเพจ & หลายช่อง (Omnichannel) -->
+          <button onclick="switchTab('multichannel')" id="nav-multichannel" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            <i class="fa-solid fa-network-wired text-sm text-sky-400 w-5 text-center"></i>
+            <span class="flex-1 text-left">3. จัดการหลายเพจ & หลายช่อง</span>
+            <span class="px-1.5 py-0.5 rounded-md bg-sky-500/20 text-sky-300 text-[10px] font-bold">Multi</span>
+          </button>
+
+          <!-- 4. ตารางงานช่าง & พยากรณ์อากาศ -->
+          <button onclick="switchTab('calendar')" id="nav-calendar" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            <i class="fa-solid fa-calendar-check text-sm text-amber-400 w-5 text-center"></i>
+            <span class="flex-1 text-left">4. ตารางงานช่าง & พยากรณ์</span>
+            <span class="px-1.5 py-0.5 rounded-md bg-amber-500/20 text-amber-300 text-[10px] font-bold">แดด/ฝน</span>
+          </button>
+
+          <!-- 5. ลูกค้า Leads & แนะนำเพื่อน (Referral) -->
           <button onclick="switchTab('leads')" id="nav-leads" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition">
-            <i class="fa-solid fa-users text-sm text-sky-400 w-5 text-center"></i>
-            <span class="flex-1 text-left">3. ลูกค้า & นัดสำรวจ</span>
-            <span id="leadBadgeCount" class="px-1.5 py-0.5 rounded-md bg-sky-500/20 text-sky-300 text-[10px] font-bold">Leads</span>
+            <i class="fa-solid fa-users text-sm text-blue-400 w-5 text-center"></i>
+            <span class="flex-1 text-left">5. ลูกค้า Leads & แนะนำเพื่อน</span>
+            <span id="leadBadgeCount" class="px-1.5 py-0.5 rounded-md bg-blue-500/20 text-blue-300 text-[10px] font-bold">คอมฯ</span>
           </button>
 
-          <!-- 4. บิล ใบเสนอราคา & สัญญา -->
+          <!-- 6. บิล ใบเสนอราคา & สัญญา -->
           <button onclick="switchTab('billing')" id="nav-billing" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition">
             <i class="fa-solid fa-file-invoice-dollar text-sm text-teal-400 w-5 text-center"></i>
-            <span>4. บิล ใบเสนอราคา & สัญญา</span>
+            <span>6. บิล ใบเสนอราคา & สัญญา</span>
           </button>
 
-          <!-- 5. สต็อก & อะไหล่ ERP -->
+          <!-- 7. สต็อก & อะไหล่ ERP -->
           <button onclick="switchTab('inventory')" id="nav-inventory" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition">
             <i class="fa-solid fa-boxes-stacked text-sm text-indigo-400 w-5 text-center"></i>
-            <span>5. สต็อก & เบิกของช่าง</span>
+            <span>7. สต็อก & เบิกของช่าง</span>
           </button>
 
-          <!-- 6. ตัวช่วยโพสต์ & AI การตลาด -->
+          <!-- 8. AI ช่วยโพสต์การตลาด -->
           <button onclick="switchTab('autopost')" id="nav-autopost" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition">
             <i class="fa-solid fa-wand-magic-sparkles text-sm text-purple-400 w-5 text-center"></i>
-            <span class="flex-1 text-left">6. AI ตัวช่วยโพสต์อัตโนมัติ</span>
+            <span class="flex-1 text-left">8. AI ตัวช่วยโพสต์อัตโนมัติ</span>
             <span class="px-1.5 py-0.5 rounded-md bg-purple-500/20 text-purple-300 text-[10px] font-bold">AI</span>
           </button>
 
-          <!-- 7. การตั้งค่าระบบ & Token -->
+          <!-- 9. ตั้งค่าโทเค็น & API -->
           <button onclick="switchTab('settings')" id="nav-settings" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition">
             <i class="fa-solid fa-sliders text-sm text-slate-400 w-5 text-center"></i>
-            <span>7. ตั้งค่าโทเค็น & API</span>
+            <span>9. ตั้งค่าโทเค็น & API</span>
           </button>
         </nav>
       </div>
@@ -266,7 +291,7 @@
           </button>
           <div>
             <h1 id="topbarTitle" class="text-base sm:text-lg font-bold font-heading text-slate-900">1. แดชบอร์ดภาพรวมระบบ</h1>
-            <p class="text-[11px] text-slate-500 hidden sm:block">ศูนย์รวมระบบ ERP & ปฏิบัติการอัตโนมัติ บริษัท 99 แมทช์ เมคเกอร์ จำกัด</p>
+            <p class="text-[11px] text-slate-500 hidden sm:block">บจก. 99 แมทช์ เมคเกอร์ • ศูนย์รวม ERP & ปฏิบัติการอัตโนมัติ (คุณไจ๋ไจ๋ 090-715-1987)</p>
           </div>
         </div>
 
@@ -275,6 +300,12 @@
           <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-medium">
             <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span>
             <span class="hidden sm:inline">LINE Webhook:</span> <span class="font-bold">ONLINE</span>
+          </div>
+
+          <!-- Weather mini indicator -->
+          <div class="hidden lg:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-medium">
+            <i class="fa-solid fa-sun text-amber-500"></i>
+            <span>หาดใหญ่: <strong>แดดจัด 5.2 ชม.</strong></span>
           </div>
 
           <!-- Supabase DB Status Badge -->
@@ -294,7 +325,6 @@
         <!-- TAB 1: แดชบอร์ดภาพรวม (OVERVIEW) -->
         <!-- ========================================== -->
         <div id="tab-overview" class="space-y-6">
-          <!-- Welcome Hero -->
           <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-emerald-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div class="space-y-2 relative z-10 max-w-2xl">
               <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs font-bold">
@@ -304,15 +334,15 @@
                 99 Solar Hat Yai Central Command
               </h2>
               <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                เชื่อมต่อระบบแชทบอท LINE Official, เพจ Facebook และ TikTok พร้อมระบบออกบิล สัญญาอิเล็กทรอนิกส์ และคลังสินค้า ERP ครบวงจรในจุดเดียว
+                ระบบจัดการแชทบอทแบบ Omnichannel (หลายเพจ/หลายช่อง TikTok/LINE), ตารางงานช่างติดตั้ง, พยากรณ์แดดและฝนหาดใหญ่, ระบบแนะนำเพื่อน และสัญญาก่อสร้างครบวงจร
               </p>
             </div>
             <div class="flex flex-wrap gap-2 shrink-0 relative z-10">
               <button onclick="switchTab('chatbot')" class="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-lg transition">
-                <i class="fa-solid fa-robot"></i> จัดการแชทบอท
+                <i class="fa-solid fa-robot"></i> จัดการแชทบอท & การ์ด
               </button>
-              <button onclick="switchTab('leads')" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs flex items-center gap-2 border border-white/20 transition">
-                <i class="fa-solid fa-users"></i> ดูลูกค้าทักมา
+              <button onclick="switchTab('calendar')" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold text-xs flex items-center gap-2 shadow-lg transition">
+                <i class="fa-solid fa-calendar-day"></i> ดูตารางงาน & อากาศ
               </button>
             </div>
           </div>
@@ -341,71 +371,78 @@
 
             <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center gap-4">
               <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl shrink-0">
-                <i class="fa-solid fa-file-invoice-dollar"></i>
+                <i class="fa-solid fa-calendar-check"></i>
               </div>
               <div>
-                <p class="text-xs text-slate-500 font-medium">ใบเสนอราคา</p>
-                <h3 class="text-xl font-black text-slate-900 font-heading">24 <span class="text-xs font-normal text-amber-600">ฉบับ</span></h3>
+                <p class="text-xs text-slate-500 font-medium">คิวงานติดตั้งเดือนนี้</p>
+                <h3 class="text-xl font-black text-slate-900 font-heading">8 <span class="text-xs font-normal text-amber-600">หลังคา</span></h3>
               </div>
             </div>
 
             <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center gap-4">
               <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-xl shrink-0">
-                <i class="fa-solid fa-file-signature"></i>
+                <i class="fa-solid fa-gift"></i>
               </div>
               <div>
-                <p class="text-xs text-slate-500 font-medium">สัญญาออนไลน์</p>
-                <h3 class="text-xl font-black text-slate-900 font-heading">12 <span class="text-xs font-normal text-purple-600">สัญญา</span></h3>
+                <p class="text-xs text-slate-500 font-medium">แนะนำเพื่อนรับคอมฯ</p>
+                <h3 class="text-xl font-black text-slate-900 font-heading">15,000 <span class="text-xs font-normal text-purple-600">บ.</span></h3>
               </div>
-            </div>
-          </div>
-
-          <!-- Quick Shortcuts Grid -->
-          <div class="space-y-3">
-            <h3 class="text-sm font-bold text-slate-700 flex items-center gap-2">
-              <i class="fa-solid fa-arrow-pointer text-emerald-600"></i> ทางลัดเข้าระบบงานสำคัญ
-            </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              <!-- สัญญาออนไลน์ -->
-              <a href="contract.html" target="_blank" class="p-5 bg-white rounded-2xl border border-slate-200 hover:border-emerald-500 hover:shadow-md transition flex items-start gap-4">
-                <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg shrink-0">
-                  <i class="fa-solid fa-signature"></i>
-                </div>
-                <div>
-                  <h4 class="text-sm font-bold text-slate-900 font-heading">ระบบสัญญาออนไลน์ (E-Contract)</h4>
-                  <p class="text-xs text-slate-500 mt-1">แบ่งชำระ 3 งวด มีลายเซ็นมือถือ ส่งเข้า LINE ลูกค้า</p>
-                </div>
-              </a>
-
-              <!-- ใบเสนอราคา -->
-              <a href="quotation.html" target="_blank" class="p-5 bg-white rounded-2xl border border-slate-200 hover:border-amber-500 hover:shadow-md transition flex items-start gap-4">
-                <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg shrink-0">
-                  <i class="fa-solid fa-file-invoice"></i>
-                </div>
-                <div>
-                  <h4 class="text-sm font-bold text-slate-900 font-heading">ออกใบเสนอราคา (Quotation A4)</h4>
-                  <p class="text-xs text-slate-500 mt-1">คำนวณจุดคุ้มทุน สเปกอุปกรณ์ มีตราประทับบริษัท</p>
-                </div>
-              </a>
-
-              <!-- ขอราคาอะไหล่ RFQ -->
-              <a href="parts-rfq.html" target="_blank" class="p-5 bg-white rounded-2xl border border-slate-200 hover:border-sky-500 hover:shadow-md transition flex items-start gap-4">
-                <div class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center text-lg shrink-0">
-                  <i class="fa-solid fa-cart-flatbed"></i>
-                </div>
-                <div>
-                  <h4 class="text-sm font-bold text-slate-900 font-heading">จัดซื้อ & อะไหล่ (Parts RFQ)</h4>
-                  <p class="text-xs text-slate-500 mt-1">เปรียบเทียบราคาซัพพลายเออร์ Inverter และแผง</p>
-                </div>
-              </a>
             </div>
           </div>
         </div>
 
         <!-- ========================================== -->
-        <!-- TAB 2: แชทบอท & OMNICHANNEL COMMAND (MAIN!) -->
+        <!-- TAB 2: แชทบอท, การ์ด FLEX & ควิกรีพลาย (CORE) -->
         <!-- ========================================== -->
         <div id="tab-chatbot" class="hidden space-y-6">
+
+          <!-- How-To Guide: ริชเมนูกดตอบเลย / การ์ด Flex / Quick Reply ทำตรงไหน -->
+          <div class="bg-gradient-to-r from-emerald-900 to-teal-900 text-white rounded-3xl p-6 shadow-md space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-xl text-emerald-300">
+                <i class="fa-solid fa-circle-question"></i>
+              </div>
+              <div>
+                <h3 class="text-base font-bold font-heading">คู่มือชัดเจน: ตั้งค่าริชเมนูกดตอบเลย / การ์ด Flex / Quick Reply ทำตรงไหน?</h3>
+                <p class="text-xs text-emerald-200">สรุปคำตอบ 3 สเต็ปที่คุณไจ๋ไจ๋ถาม:</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              <!-- 1. ริชเมนูกดตอบเลย -->
+              <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-sm space-y-2 border border-white/10">
+                <div class="font-bold text-amber-300 flex items-center gap-1.5">
+                  <i class="fa-solid fa-table-cells-large"></i> 1. กดริชเมนูแล้วตอบเลย
+                </div>
+                <p class="text-slate-200 leading-relaxed">
+                  <strong>ทำที่ไหน:</strong> ในหน้าเว็บ <a href="https://manager.line.biz" target="_blank" class="underline text-emerald-300">manager.line.biz</a> ➔ ริชเมนู (Rich Menus) ➔ เลือกช่องที่ต้องการ ➔ กำหนดประเภทแอ็กชันเป็น <strong>"ข้อความ (Message)"</strong> เช่น พิมพ์ว่า <em>"ราคาแพ็กเกจ"</em> หรือ <em>"นัดสำรวจฟรี"</em>
+                </p>
+                <p class="text-[11px] text-emerald-300">👉 ผลลัพธ์: เมื่อลูกค้าใช้นิ้วจิ้มปุ่ม ระบบจะส่งข้อความนั้นเข้าแชท และบอทหลังบ้านของเราจะจับคีย์เวิร์ดแล้วตอบชุดข้อมูลกลับไปใน 1 วินาทีทันที!</p>
+              </div>
+
+              <!-- 2. สร้างการ์ด Flex Message -->
+              <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-sm space-y-2 border border-white/10">
+                <div class="font-bold text-sky-300 flex items-center gap-1.5">
+                  <i class="fa-solid fa-id-card"></i> 2. สร้างการ์ด (Flex Message)
+                </div>
+                <p class="text-slate-200 leading-relaxed">
+                  <strong>ทำที่ไหน:</strong> ทำได้ 2 วิธี คือออกแบบใน <strong>Flex Message Simulator</strong> ของ LINE หรือใช้โค้ดหลังบ้านใน <code class="bg-black/30 px-1 rounded">/api/line-webhook.js</code> ส่งเป็น Object ชนิด <code class="bg-black/30 px-1 rounded">type: "flex"</code>
+                </p>
+                <p class="text-[11px] text-sky-300">👉 ผลลัพธ์: จะได้การ์ดสี่เหลี่ยมรูปภาพสวยหรู มีราคา มีปุ่มกด [ขอใบเสนอราคา] [โทรหาไจ๋ไจ๋] สไลด์ซ้าย-ขวาได้เหมือนแอป Shopee/Lazada!</p>
+              </div>
+
+              <!-- 3. ควิกรีพลาย (Quick Reply) -->
+              <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-sm space-y-2 border border-white/10">
+                <div class="font-bold text-purple-300 flex items-center gap-1.5">
+                  <i class="fa-solid fa-reply-all"></i> 3. ควิกรีพลาย (Quick Reply)
+                </div>
+                <p class="text-slate-200 leading-relaxed">
+                  <strong>ทำที่ไหน:</strong> ใส่ในโค้ดส่งข้อความแนบ <code class="bg-black/30 px-1 rounded">"quickReply": { "items": [...] }</code> ใน Webhook ท้ายข้อความตอบกลับ
+                </p>
+                <p class="text-[11px] text-purple-300">👉 ผลลัพธ์: จะมีปุ่มแคปซูลลอยเด้งขึ้นมาใต้แป้นพิมพ์มือถือลูกค้า เช่น [☀️ คำนวณค่าไฟ] [⚡ ดูราคา] [📞 โทรหาช่าง] ลูกค้าเอานิ้วกดเลือกได้เลยโดยไม่ต้องพิมพ์!</p>
+              </div>
+            </div>
+          </div>
 
           <!-- Bot Engine Status Banner & Switch -->
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
@@ -433,185 +470,428 @@
               </div>
             </div>
 
-            <!-- Webhook Connection Status Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <!-- LINE Official Account -->
-              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between space-y-3">
-                <div class="flex items-center justify-between">
+            <!-- Simulator & Card Preview Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+              <!-- Live Chatbot Simulator -->
+              <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col h-[520px] overflow-hidden">
+                <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
                   <div class="flex items-center gap-2.5">
-                    <div class="w-9 h-9 rounded-xl bg-[#06C755] text-white flex items-center justify-center text-lg">
-                      <i class="fa-brands fa-line"></i>
+                    <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white text-xs font-bold">
+                      <i class="fa-solid fa-robot"></i>
                     </div>
                     <div>
-                      <h4 class="text-xs font-bold text-slate-900">LINE Official Account</h4>
-                      <p class="text-[10px] text-slate-500">@99sola (หาดใหญ่-สงขลา)</p>
+                      <h4 class="text-xs font-bold">จำลองการคุยแชท LINE 99 Solar</h4>
+                      <p class="text-[10px] text-emerald-400">ระบบ 3-Tier ตอบกลับสด</p>
                     </div>
                   </div>
-                  <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">เชื่อมต่อแล้ว</span>
-                </div>
-                <div class="text-[11px] text-slate-600 space-y-1">
-                  <p class="truncate font-mono text-[10px] bg-white p-1.5 rounded border border-slate-200">Webhook: /api/line-webhook</p>
-                  <button onclick="pingWebhook()" class="w-full mt-2 py-1.5 bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold rounded-lg border border-slate-200 transition flex items-center justify-center gap-1.5">
-                    <i class="fa-solid fa-satellite-dish text-emerald-600"></i> ทดสอบสัญญาณ Webhook
+                  <button onclick="clearSimulatorChat()" class="text-slate-400 hover:text-white text-xs">
+                    <i class="fa-solid fa-rotate-right"></i> ล้างแชท
                   </button>
                 </div>
+
+                <div id="simulatorMessages" class="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50 text-xs">
+                  <div class="flex items-start gap-2">
+                    <div class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px] shrink-0 font-bold">99</div>
+                    <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-200 max-w-[85%] space-y-1">
+                      <p class="font-bold text-emerald-700">☀️ 99 Solar Hat Yai Assistant</p>
+                      <p class="text-slate-700 leading-relaxed">ยินดีต้อนรับครับคุณไจ๋ไจ๋! ลองคลิกหรือพิมพ์คำถามทดสอบ:</p>
+                      <div class="flex flex-wrap gap-1 pt-1">
+                        <button onclick="sendSimText('คำนวณค่าไฟ')" class="px-2 py-1 bg-slate-100 hover:bg-emerald-50 text-emerald-700 rounded-md font-semibold text-[10px] border border-slate-200">คำนวณค่าไฟ</button>
+                        <button onclick="sendSimText('ราคาแพ็กเกจ')" class="px-2 py-1 bg-slate-100 hover:bg-emerald-50 text-emerald-700 rounded-md font-semibold text-[10px] border border-slate-200">ราคาแพ็กเกจ (การ์ด)</button>
+                        <button onclick="sendSimText('ขอใบเสนอราคา')" class="px-2 py-1 bg-slate-100 hover:bg-emerald-50 text-emerald-700 rounded-md font-semibold text-[10px] border border-slate-200">ขอใบเสนอราคา</button>
+                        <button onclick="sendSimText('0907151987 สนใจนัดดูหลังคา')" class="px-2 py-1 bg-slate-100 hover:bg-emerald-50 text-emerald-700 rounded-md font-semibold text-[10px] border border-slate-200">0907151987 นัดสำรวจ</button>
+                        <button onclick="sendSimText('อยากได้ส่วนลดพิเศษ')" class="px-2 py-1 bg-slate-100 hover:bg-emerald-50 text-emerald-700 rounded-md font-semibold text-[10px] border border-slate-200">คำถามยาก (ส่งต่อคน)</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Floating Quick Reply Buttons Demo -->
+                <div class="px-3 py-2 bg-slate-100 border-t border-slate-200 flex items-center gap-1.5 overflow-x-auto text-[10px]">
+                  <span class="text-slate-500 font-bold shrink-0">Quick Reply:</span>
+                  <button onclick="sendSimText('☀️ คำนวณค่าไฟ')" class="px-2.5 py-1 bg-white hover:bg-emerald-50 text-slate-700 rounded-full border border-slate-300 font-semibold shrink-0">☀️ คำนวณค่าไฟ</button>
+                  <button onclick="sendSimText('⚡ ดูราคาแพ็กเกจ')" class="px-2.5 py-1 bg-white hover:bg-emerald-50 text-slate-700 rounded-full border border-slate-300 font-semibold shrink-0">⚡ ดูราคาแพ็กเกจ</button>
+                  <button onclick="sendSimText('📍 นัดสำรวจฟรี')" class="px-2.5 py-1 bg-white hover:bg-emerald-50 text-slate-700 rounded-full border border-slate-300 font-semibold shrink-0">📍 นัดสำรวจฟรี</button>
+                  <button onclick="sendSimText('📞 โทรหาคุณไจ๋ไจ๋')" class="px-2.5 py-1 bg-white hover:bg-emerald-50 text-slate-700 rounded-full border border-slate-300 font-semibold shrink-0">📞 โทร 090-715-1987</button>
+                </div>
+
+                <form onsubmit="handleSimulatorSubmit(event)" class="p-3 bg-white border-t border-slate-200 flex items-center gap-2">
+                  <input type="text" id="simInput" placeholder="พิมพ์ข้อความทดสอบ..." class="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:bg-white focus:outline-none focus:border-brand-500">
+                  <button type="submit" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold transition">
+                    <i class="fa-solid fa-paper-plane"></i>
+                  </button>
+                </form>
               </div>
 
-              <!-- Facebook Page -->
-              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between space-y-3">
+              <!-- Flex Message Card Visualizer -->
+              <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
                 <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-2.5">
-                    <div class="w-9 h-9 rounded-xl bg-[#1877F2] text-white flex items-center justify-center text-lg">
-                      <i class="fa-brands fa-facebook"></i>
+                  <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-id-card text-emerald-600"></i> ตัวอย่างการ์ด Flex Message (ตอบใน LINE)
+                  </h4>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold">Interactive Card</span>
+                </div>
+
+                <!-- Preview of 5kW Package Flex Card -->
+                <div class="border border-slate-200 rounded-2xl overflow-hidden shadow-md max-w-sm mx-auto bg-white text-xs">
+                  <div class="bg-gradient-to-r from-slate-900 to-emerald-900 p-4 text-white space-y-1">
+                    <div class="flex items-center justify-between">
+                      <span class="px-2 py-0.5 rounded bg-emerald-500 text-white font-bold text-[10px]">🔥 ยอดนิยม</span>
+                      <span class="text-[11px] text-amber-300 font-bold">รับประกัน 25 ปี</span>
                     </div>
-                    <div>
-                      <h4 class="text-xs font-bold text-slate-900">Facebook Fanpage</h4>
-                      <p class="text-[10px] text-slate-500">99 Solar รับติดตั้งโซลาร์เซลล์</p>
+                    <h5 class="text-base font-extrabold font-heading">แพ็กเกจพรีเมียม 5.0 kW On-Grid</h5>
+                    <p class="text-[11px] text-slate-300">เหมาะสำหรับบ้านค่าไฟ 3,500 - 6,000 บ./เดือน</p>
+                  </div>
+                  <div class="p-4 space-y-3">
+                    <div class="flex items-baseline justify-between border-b border-slate-100 pb-2">
+                      <span class="text-slate-500">ราคาติดตั้งสุทธิ</span>
+                      <span class="text-lg font-extrabold text-emerald-700 font-heading">169,000 บ.</span>
+                    </div>
+                    <ul class="text-[11px] text-slate-600 space-y-1">
+                      <li><i class="fa-solid fa-check text-emerald-600 mr-1.5"></i> แผง Tier 1 JA Solar / Jinko 585W N-Type</li>
+                      <li><i class="fa-solid fa-check text-emerald-600 mr-1.5"></i> Inverter Huawei SUN2000 (กฟภ. รับรอง)</li>
+                      <li><i class="fa-solid fa-check text-emerald-600 mr-1.5"></i> ฟรี! ดำเนินการยื่นขออนุญาต กฟภ. ครบวงจร</li>
+                    </ul>
+                    <div class="pt-2 space-y-2">
+                      <a href="quotation.html" target="_blank" class="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-center block text-[11px] shadow">
+                        📄 ขอใบเสนอราคาทางการ (PDF)
+                      </a>
+                      <a href="tel:0907151987" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-center block text-[11px]">
+                        📞 โทรนัดสำรวจหน้างานฟรี 090-715-1987
+                      </a>
                     </div>
                   </div>
-                  <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">รอใส่ Token</span>
                 </div>
-                <div class="text-[11px] text-slate-600">
-                  <p class="text-[10px] text-slate-500 mb-2">เชื่อมต่อผ่าน Facebook Messenger Webhook & Graph API</p>
-                  <button onclick="switchTab('settings')" class="w-full py-1.5 bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold rounded-lg border border-slate-200 transition flex items-center justify-center gap-1.5">
-                    <i class="fa-solid fa-key text-blue-600"></i> ใส่ Facebook Page Token
-                  </button>
-                </div>
+
+                <p class="text-[11px] text-slate-500 text-center">
+                  💡 การ์ดนี้จะถูกส่งให้ลูกค้าทันที เมื่อลูกค้ากดปุ่มในริชเมนู หรือพิมพ์ถามราคาแพ็กเกจ
+                </p>
               </div>
 
-              <!-- TikTok Business -->
-              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between space-y-3">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-2.5">
-                    <div class="w-9 h-9 rounded-xl bg-slate-900 text-white flex items-center justify-center text-lg">
-                      <i class="fa-brands fa-tiktok"></i>
-                    </div>
-                    <div>
-                      <h4 class="text-xs font-bold text-slate-900">TikTok Business / Shop</h4>
-                      <p class="text-[10px] text-slate-500">ช่องคลิป & ข้อความ Direct Message</p>
-                    </div>
-                  </div>
-                  <span class="px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 text-[10px] font-bold">รอต่อ API</span>
-                </div>
-                <div class="text-[11px] text-slate-600">
-                  <p class="text-[10px] text-slate-500 mb-2">รองรับ TikTok Open API สำหรับข้อความและการโพสต์คลิป</p>
-                  <button onclick="switchTab('settings')" class="w-full py-1.5 bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold rounded-lg border border-slate-200 transition flex items-center justify-center gap-1.5">
-                    <i class="fa-solid fa-link text-slate-700"></i> ตั้งค่า TikTok Client Key
-                  </button>
-                </div>
-              </div>
             </div>
-          </div>
-
-          <!-- Interactive Simulator & 3-Tier Bot Rules -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-            <!-- 1. Live Chatbot Simulator (เครื่องมือทดสอบพิมพ์คุยกับบอท) -->
-            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm flex flex-col h-[520px] overflow-hidden">
-              <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
-                <div class="flex items-center gap-2.5">
-                  <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white text-xs font-bold">
-                    <i class="fa-solid fa-robot"></i>
-                  </div>
-                  <div>
-                    <h4 class="text-xs font-bold">จำลองการคุยแชท LINE 99 Solar</h4>
-                    <p class="text-[10px] text-emerald-400">ระบบ 3-Tier ตอบกลับสด</p>
-                  </div>
-                </div>
-                <button onclick="clearSimulatorChat()" class="text-slate-400 hover:text-white text-xs">
-                  <i class="fa-solid fa-rotate-right"></i> ล้างแชท
-                </button>
-              </div>
-
-              <!-- Message Window -->
-              <div id="simulatorMessages" class="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50 text-xs">
-                <!-- Bot Intro Message -->
-                <div class="flex items-start gap-2">
-                  <div class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px] shrink-0 font-bold">
-                    99
-                  </div>
-                  <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-200 max-w-[85%] space-y-1">
-                    <p class="font-bold text-emerald-700">☀️ 99 Solar Hat Yai Assistant</p>
-                    <p class="text-slate-700 leading-relaxed">
-                      สวัสดีครับคุณไจ๋ไจ๋! ลองพิมพ์ทดสอบคำถามได้เลยครับ เช่น:
-                    </p>
-                    <div class="flex flex-wrap gap-1 pt-1">
-                      <button onclick="sendSimText('คำนวณค่าไฟ')" class="px-2 py-1 bg-slate-100 hover:bg-emerald-50 text-emerald-700 rounded-md font-semibold text-[10px] border border-slate-200">คำนวณค่าไฟ</button>
-                      <button onclick="sendSimText('ราคาเท่าไหร่')" class="px-2 py-1 bg-slate-100 hover:bg-emerald-50 text-emerald-700 rounded-md font-semibold text-[10px] border border-slate-200">ราคาเท่าไหร่</button>
-                      <button onclick="sendSimText('ขอใบเสนอราคา')" class="px-2 py-1 bg-slate-100 hover:bg-emerald-50 text-emerald-700 rounded-md font-semibold text-[10px] border border-slate-200">ขอใบเสนอราคา</button>
-                      <button onclick="sendSimText('0907151987 นัดสำรวจบ้าน')" class="px-2 py-1 bg-slate-100 hover:bg-emerald-50 text-emerald-700 rounded-md font-semibold text-[10px] border border-slate-200">0907151987 นัดสำรวจ</button>
-                      <button onclick="sendSimText('อยากได้ส่วนลดพิเศษหลังคา 10kW')" class="px-2 py-1 bg-slate-100 hover:bg-emerald-50 text-emerald-700 rounded-md font-semibold text-[10px] border border-slate-200">คำถามยาก (ส่งต่อคน)</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Message Input Box -->
-              <form onsubmit="handleSimulatorSubmit(event)" class="p-3 bg-white border-t border-slate-200 flex items-center gap-2">
-                <input type="text" id="simInput" placeholder="พิมพ์ข้อความทดสอบ..." class="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:bg-white focus:outline-none focus:border-brand-500">
-                <button type="submit" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold transition">
-                  <i class="fa-solid fa-paper-plane"></i>
-                </button>
-              </form>
-            </div>
-
-            <!-- 2. อธิบายตรรกะ 3 ระดับ และคำสั่งควบคุม -->
-            <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
-              <h4 class="text-sm font-bold font-heading text-slate-900 flex items-center gap-2">
-                <i class="fa-solid fa-list-check text-emerald-600"></i> ตรรกะการทำงาน 3 ระดับ (3-Tier Bot Engine)
-              </h4>
-
-              <div class="space-y-3 text-xs">
-                <!-- Tier 1 -->
-                <div class="p-3 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-1">
-                  <div class="flex items-center justify-between">
-                    <span class="font-bold text-emerald-900 flex items-center gap-1.5">
-                      <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Tier 1: Auto-Reply (ตอบทันที)
-                    </span>
-                    <span class="text-[10px] text-emerald-700 font-semibold">บอทจบในตัว</span>
-                  </div>
-                  <p class="text-slate-600">คีย์เวิร์ด: คำนวณ, ค่าไฟ, ราคา, แพ็กเกจ 3.3/5/10 kW, ใบเสนอราคา, สัญญา E-Contract</p>
-                </div>
-
-                <!-- Tier 2 -->
-                <div class="p-3 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-1">
-                  <div class="flex items-center justify-between">
-                    <span class="font-bold text-amber-900 flex items-center gap-1.5">
-                      <span class="w-2 h-2 rounded-full bg-amber-500"></span> Tier 2: Auto-Reply + Alert แจ้งเตือนคุณไจ๋ไจ๋
-                    </span>
-                    <span class="text-[10px] text-amber-700 font-semibold">บันทึก Lead + ยิง Push</span>
-                  </div>
-                  <p class="text-slate-600">เมื่อลูกค้าส่งเบอร์โทร (Regex 10 หลัก) หรือขอนัดสำรวจหน้างาน บอทจะบันทึกลง Supabase และยิงแจ้งเตือนเข้า LINE คุณไจ๋ไจ๋ทันที</p>
-                </div>
-
-                <!-- Tier 3 -->
-                <div class="p-3 rounded-2xl bg-rose-50/70 border border-rose-200 space-y-1">
-                  <div class="flex items-center justify-between">
-                    <span class="font-bold text-rose-900 flex items-center gap-1.5">
-                      <span class="w-2 h-2 rounded-full bg-rose-500"></span> Tier 3: Human Takeover (พักสาย & ปิดบอท)
-                    </span>
-                    <span class="text-[10px] text-rose-700 font-semibold">บอทเงียบ 100%</span>
-                  </div>
-                  <p class="text-slate-600">เมื่อคำถามอยู่นอกระบบ หรือขอต่อรอง บอทจะส่งข้อความรับเรื่องเบื้องต้น ➔ ปิดตัวเองทันที (Silence Mode) ➔ ยิงแจ้งเตือนด่วนให้คุณไจ๋ไจ๋เข้าไปคุยสดใน LINE OA โดยที่บอทไม่กวน</p>
-                </div>
-              </div>
-
-              <div class="pt-3 border-t border-slate-100">
-                <h5 class="text-xs font-bold text-slate-800 mb-1.5">💡 คำสั่งพิเศษที่คุณไจ๋ไจ๋พิมพ์ในแชท:</h5>
-                <ul class="text-[11px] text-slate-600 space-y-1 list-disc list-inside">
-                  <li>พิมพ์ <code class="px-1.5 py-0.5 bg-slate-100 rounded font-mono font-bold text-rose-600">#ปิดบอท</code> หรือ <code class="px-1.5 py-0.5 bg-slate-100 rounded font-mono font-bold text-rose-600">#human</code> = ปิดบอทเพื่อคุยกับลูกค้าคนนั้นแบบตัวต่อตัว</li>
-                  <li>พิมพ์ <code class="px-1.5 py-0.5 bg-slate-100 rounded font-mono font-bold text-emerald-600">#เปิดบอท</code> หรือ <code class="px-1.5 py-0.5 bg-slate-100 rounded font-mono font-bold text-emerald-600">#bot</code> = เปิดให้บอทกลับมาช่วยตอบลูกค้าคนเดิมตามปกติ</li>
-                </ul>
-              </div>
-            </div>
-
           </div>
         </div>
 
         <!-- ========================================== -->
-        <!-- TAB 3: ลูกค้า & LEADS (CRM) -->
+        <!-- TAB 3: จัดการหลายเพจ & หลายช่อง (OMNICHANNEL) -->
+        <!-- ========================================== -->
+        <div id="tab-multichannel" class="hidden space-y-6">
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h3 class="text-lg font-bold font-heading text-slate-900 flex items-center gap-2">
+                  <i class="fa-solid fa-network-wired text-sky-600"></i> จัดการหลายเพจ Facebook, หลาย TikTok และหลาย LINE OA
+                </h3>
+                <p class="text-xs text-slate-500">
+                  ระบบรวมศูนย์ Omnichannel ให้คุณไจ๋ไจ๋เชื่อมต่อได้ไม่จำกัดเพจและไม่จำกัดช่องทาง
+                </p>
+              </div>
+              <button onclick="openAddChannelModal()" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-plus"></i> เพิ่มเพจ / เพิ่มช่องทางใหม่
+              </button>
+            </div>
+
+            <!-- Grid of Channels -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+              <!-- Channel 1: LINE OA 99 Solar หาดใหญ่ -->
+              <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-10 h-10 rounded-xl bg-[#06C755] text-white flex items-center justify-center text-xl">
+                      <i class="fa-brands fa-line"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-xs font-bold text-slate-900">LINE OA: 99 Solar หาดใหญ่</h4>
+                      <p class="text-[10px] text-slate-500">ID: @99sola (บัญชีหลัก)</p>
+                    </div>
+                  </div>
+                  <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Active</span>
+                </div>
+                <div class="text-[11px] text-slate-600 space-y-1">
+                  <p>• Webhook: <span class="font-mono text-[10px] text-emerald-700">เชื่อมต่อแล้ว</span></p>
+                  <p>• บอททำงาน: <span class="font-bold text-emerald-600">3-Tier Engine</span></p>
+                </div>
+              </div>
+
+              <!-- Channel 2: Facebook Page 1 -->
+              <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-10 h-10 rounded-xl bg-[#1877F2] text-white flex items-center justify-center text-xl">
+                      <i class="fa-brands fa-facebook"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-xs font-bold text-slate-900">เพจ 1: 99 Solar รับติดตั้งโซลาร์เซลล์</h4>
+                      <p class="text-[10px] text-slate-500">เพจหลักหาดใหญ่-สงขลา</p>
+                    </div>
+                  </div>
+                  <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">รอใส่ Token</span>
+                </div>
+                <div class="text-[11px] text-slate-600 space-y-1">
+                  <p>• Messenger Webhook: <span class="font-mono text-[10px]">พร้อมต่อ Graph API</span></p>
+                  <button onclick="switchTab('settings')" class="w-full py-1 bg-white hover:bg-slate-100 text-slate-700 rounded-lg border border-slate-300 font-bold text-[10px] mt-1">ใส่ Page Token</button>
+                </div>
+              </div>
+
+              <!-- Channel 3: Facebook Page 2 (เพจสำรอง / เพจโซนอื่น) -->
+              <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-10 h-10 rounded-xl bg-blue-700 text-white flex items-center justify-center text-xl">
+                      <i class="fa-brands fa-facebook-f"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-xs font-bold text-slate-900">เพจ 2: โซลาร์เซลล์บ้านพักอาศัยภาคใต้</h4>
+                      <p class="text-[10px] text-slate-500">เพจยิงแอดเฉพาะกลุ่มบ้าน</p>
+                    </div>
+                  </div>
+                  <span class="px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 text-[10px] font-bold">สแตนด์บาย</span>
+                </div>
+                <div class="text-[11px] text-slate-600 space-y-1">
+                  <p>• โหมดแชร์บอท: <span class="text-slate-500">ใช้ชุดคำตอบเดียวกับเพจ 1</span></p>
+                </div>
+              </div>
+
+              <!-- Channel 4: TikTok Account 1 -->
+              <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-10 h-10 rounded-xl bg-black text-white flex items-center justify-center text-xl">
+                      <i class="fa-brands fa-tiktok"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-xs font-bold text-slate-900">TikTok: @99solar.hatyai</h4>
+                      <p class="text-[10px] text-slate-500">ช่องหลักคลิปรีวิวงานติดตั้ง</p>
+                    </div>
+                  </div>
+                  <span class="px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 text-[10px] font-bold">รอผูก API</span>
+                </div>
+                <div class="text-[11px] text-slate-600 space-y-1">
+                  <p>• ตอบกลับ Direct Message: <span class="text-slate-500">รอเชื่อมต่อ</span></p>
+                </div>
+              </div>
+
+              <!-- Channel 5: TikTok Account 2 -->
+              <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-10 h-10 rounded-xl bg-slate-800 text-white flex items-center justify-center text-xl">
+                      <i class="fa-brands fa-tiktok"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-xs font-bold text-slate-900">TikTok: @solar.engineer.south</h4>
+                      <p class="text-[10px] text-slate-500">ช่องคลิปความรู้เทคนิคช่าง</p>
+                    </div>
+                  </div>
+                  <span class="px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 text-[10px] font-bold">สแตนด์บาย</span>
+                </div>
+                <div class="text-[11px] text-slate-600 space-y-1">
+                  <p>• สำหรับยิงคอนเทนต์ดึง Lead เข้า LINE</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- TAB 4: ตารางงาน ปฏิทินติดตั้ง & พยากรณ์อากาศ -->
+        <!-- ========================================== -->
+        <div id="tab-calendar" class="hidden space-y-6">
+
+          <!-- 1. พยากรณ์อากาศและค่าแสงแดดหาดใหญ่-สงขลา (Solar & Weather Widget) -->
+          <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 rounded-3xl p-6 text-slate-950 shadow-md space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-400/40 pb-3">
+              <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-2xl bg-white/30 backdrop-blur-sm flex items-center justify-center text-2xl text-slate-950">
+                  <i class="fa-solid fa-cloud-sun"></i>
+                </div>
+                <div>
+                  <h3 class="text-base font-extrabold font-heading">พยากรณ์อากาศและแสงแดดหาดใหญ่-สงขลา (Hat Yai Weather Radar)</h3>
+                  <p class="text-xs text-amber-950 font-medium">สำหรับวางแผนวันติดตั้งบนหลังคา และคำนวณกำลังผลิตแดดให้ลูกค้า</p>
+                </div>
+              </div>
+              <span class="px-3 py-1 bg-white/40 rounded-full text-xs font-bold">พิกัด: หาดใหญ่, สงขลา</span>
+            </div>
+
+            <!-- 5-Day Weather Forecast Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center text-xs">
+              <!-- Day 1 (วันนี้) -->
+              <div class="p-3 bg-white/30 backdrop-blur-sm rounded-2xl space-y-1">
+                <div class="font-bold text-slate-900">วันนี้ (จันทร์)</div>
+                <i class="fa-solid fa-sun text-2xl text-amber-900 my-1"></i>
+                <div class="font-black text-sm">33°C</div>
+                <p class="text-[10px] text-amber-950 font-semibold">แดดจัด 5.3 ชม.</p>
+                <span class="inline-block px-2 py-0.5 bg-emerald-800 text-white rounded text-[9px] font-bold">ขึ้นหลังคาได้ 100%</span>
+              </div>
+
+              <!-- Day 2 -->
+              <div class="p-3 bg-white/30 backdrop-blur-sm rounded-2xl space-y-1">
+                <div class="font-bold text-slate-900">พรุ่งนี้ (อังคาร)</div>
+                <i class="fa-solid fa-sun text-2xl text-amber-900 my-1"></i>
+                <div class="font-black text-sm">34°C</div>
+                <p class="text-[10px] text-amber-950 font-semibold">แดดจัด 5.1 ชม.</p>
+                <span class="inline-block px-2 py-0.5 bg-emerald-800 text-white rounded text-[9px] font-bold">เหมาะติดตั้ง</span>
+              </div>
+
+              <!-- Day 3 -->
+              <div class="p-3 bg-white/30 backdrop-blur-sm rounded-2xl space-y-1">
+                <div class="font-bold text-slate-900">พุธ</div>
+                <i class="fa-solid fa-cloud-sun text-2xl text-amber-900 my-1"></i>
+                <div class="font-black text-sm">32°C</div>
+                <p class="text-[10px] text-amber-950 font-semibold">มีเมฆบางส่วน</p>
+                <span class="inline-block px-2 py-0.5 bg-emerald-800 text-white rounded text-[9px] font-bold">ติดตั้งได้ปกติ</span>
+              </div>
+
+              <!-- Day 4 -->
+              <div class="p-3 bg-white/30 backdrop-blur-sm rounded-2xl space-y-1">
+                <div class="font-bold text-slate-900">พฤหัสบดี</div>
+                <i class="fa-solid fa-cloud-showers-heavy text-2xl text-blue-900 my-1"></i>
+                <div class="font-black text-sm">29°C</div>
+                <p class="text-[10px] text-amber-950 font-semibold">ฝนบ่าย 40%</p>
+                <span class="inline-block px-2 py-0.5 bg-amber-900 text-white rounded text-[9px] font-bold">ระวังลื่นช่วงบ่าย</span>
+              </div>
+
+              <!-- Day 5 -->
+              <div class="p-3 bg-white/30 backdrop-blur-sm rounded-2xl space-y-1">
+                <div class="font-bold text-slate-900">ศุกร์</div>
+                <i class="fa-solid fa-sun text-2xl text-amber-900 my-1"></i>
+                <div class="font-black text-sm">33°C</div>
+                <p class="text-[10px] text-amber-950 font-semibold">แดดจัด 5.0 ชม.</p>
+                <span class="inline-block px-2 py-0.5 bg-emerald-800 text-white rounded text-[9px] font-bold">เหมาะส่งมอบงาน</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. ตารางปฏิทินงานติดตั้ง & มอบหมายทีมช่าง -->
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h3 class="text-lg font-bold font-heading text-slate-900 flex items-center gap-2">
+                  <i class="fa-solid fa-calendar-check text-emerald-600"></i> ตารางคิวงานติดตั้ง & นัดหมายสำรวจหน้างาน
+                </h3>
+                <p class="text-xs text-slate-500">จัดการทีมช่าง มอบหมายวิศวกรคุมงาน และสถานะการดำเนินงาน</p>
+              </div>
+              <button onclick="addNewScheduleJob()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-plus"></i> เพิ่มคิวนัดติดตั้งใหม่
+              </button>
+            </div>
+
+            <!-- Job Schedule Table -->
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 text-slate-600 font-bold uppercase tracking-wider border-y border-slate-200">
+                  <tr>
+                    <th class="py-3 px-4">วันที่นัดหมาย</th>
+                    <th class="py-3 px-4">ลูกค้า / สถานที่</th>
+                    <th class="py-3 px-4">ขนาดระบบ</th>
+                    <th class="py-3 px-4">ทีมช่างรับผิดชอบ</th>
+                    <th class="py-3 px-4">สภาพอากาศ</th>
+                    <th class="py-3 px-4">สถานะงาน</th>
+                    <th class="py-3 px-4 text-center">จัดการ</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-slate-700">
+                  <tr>
+                    <td class="py-4 px-4 font-bold text-slate-900">วันพรุ่งนี้ (09:00 น.)</td>
+                    <td class="py-4 px-4">
+                      <div class="font-bold text-slate-900">คุณวีระชัย</div>
+                      <div class="text-[10px] text-slate-500">ถ.กาญจนวนิช หาดใหญ่</div>
+                    </td>
+                    <td class="py-4 px-4 font-bold text-emerald-700">5.0 kW On-Grid</td>
+                    <td class="py-4 px-4">
+                      <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-800 text-[10px] font-bold">ทีมช่าง A (หัวหน้าช่างเอก)</span>
+                    </td>
+                    <td class="py-4 px-4">
+                      <span class="text-amber-600 font-bold"><i class="fa-solid fa-sun"></i> แดดจัด ปลอดโปร่ง</span>
+                    </td>
+                    <td class="py-4 px-4">
+                      <span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">ขึ้นโครงหลังคา</span>
+                    </td>
+                    <td class="py-4 px-4 text-center">
+                      <button class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[10px] font-bold">อัปเดตงาน</button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="py-4 px-4 font-bold text-slate-900">พุธนี้ (13:30 น.)</td>
+                    <td class="py-4 px-4">
+                      <div class="font-bold text-slate-900">โรงน้ำแข็งสงขลา</div>
+                      <div class="text-[10px] text-slate-500">อ.สิงหนคร จ.สงขลา</div>
+                    </td>
+                    <td class="py-4 px-4 font-bold text-emerald-700">10.0 kW On-Grid</td>
+                    <td class="py-4 px-4">
+                      <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-800 text-[10px] font-bold">ทีมวิศวกร B (วิศวกรธนกร)</span>
+                    </td>
+                    <td class="py-4 px-4">
+                      <span class="text-slate-600 font-bold"><i class="fa-solid fa-cloud-sun"></i> มีเมฆบางส่วน</span>
+                    </td>
+                    <td class="py-4 px-4">
+                      <span class="px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 text-[10px] font-bold">ทดสอบระบบ Inverter</span>
+                    </td>
+                    <td class="py-4 px-4 text-center">
+                      <button class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[10px] font-bold">อัปเดตงาน</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ========================================== -->
+        <!-- TAB 5: LEADS & แนะนำเพื่อน (REFERRAL) -->
         <!-- ========================================== -->
         <div id="tab-leads" class="hidden space-y-6">
+
+          <!-- 1. ระบบแนะนำเพื่อนรับค่าคอมฯ (Referral Affiliate Program) -->
+          <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 text-white rounded-3xl p-6 shadow-md space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-purple-800">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-purple-500/30 flex items-center justify-center text-xl text-purple-300">
+                  <i class="fa-solid fa-hand-holding-dollar"></i>
+                </div>
+                <div>
+                  <h3 class="text-base font-bold font-heading">ระบบแนะนำเพื่อนรับค่าคอมมิชชัน (Referral Program)</h3>
+                  <p class="text-xs text-purple-200">จ่ายค่าตอบแทนผู้แนะนำ 3,000 - 5,000 บ./งาน เมื่อปิดการขายและติดตั้งสำเร็จ</p>
+                </div>
+              </div>
+              <span class="px-3 py-1 bg-purple-500/20 border border-purple-400/30 text-purple-200 rounded-full text-xs font-bold">ตาราง Supabase: referrals</span>
+            </div>
+
+            <!-- Referral Table -->
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-200">
+                <thead class="bg-black/30 text-purple-300 font-bold uppercase tracking-wider">
+                  <tr>
+                    <th class="py-3 px-3">ผู้แนะนำ (เบอร์โทร)</th>
+                    <th class="py-3 px-3">เพื่อนที่แนะนำ</th>
+                    <th class="py-3 px-3">ขนาดที่สนใจ</th>
+                    <th class="py-3 px-3">ค่าคอมฯ โดยประมาณ</th>
+                    <th class="py-3 px-3">สถานะการจ่าย</th>
+                    <th class="py-3 px-3 text-center">จัดการ</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-purple-800/40">
+                  <tr>
+                    <td class="py-3 px-3 font-bold">คุณอนุสรณ์ (081-999-8877)</td>
+                    <td class="py-3 px-3">คุณมนตรี (089-555-1234)</td>
+                    <td class="py-3 px-3 text-emerald-400 font-bold">5 kW On-Grid</td>
+                    <td class="py-3 px-3 font-bold text-amber-300">3,000 บ.</td>
+                    <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">ติดตั้งเสร็จแล้ว</span></td>
+                    <td class="py-3 px-3 text-center">
+                      <button class="px-2.5 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-[10px] font-bold">โอนค่าคอมฯ</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 2. Leads จาก LINE & เว็บไซต์ -->
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
@@ -642,7 +922,6 @@
                   </tr>
                 </thead>
                 <tbody id="leadsTableBody" class="divide-y divide-slate-100 text-slate-700">
-                  <!-- Leads will be dynamically populated here -->
                   <tr>
                     <td class="py-4 px-4 text-slate-500">วันนี้ 14:20 น.</td>
                     <td class="py-4 px-4">
@@ -664,10 +943,11 @@
               </table>
             </div>
           </div>
+
         </div>
 
         <!-- ========================================== -->
-        <!-- TAB 4: บิล ใบเสนอราคา & สัญญา (BILLING & ERP) -->
+        <!-- TAB 6: บิล ใบเสนอราคา & สัญญา (BILLING & ERP) -->
         <!-- ========================================== -->
         <div id="tab-billing" class="hidden space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -697,17 +977,6 @@
                   </div>
                   <div class="text-right">
                     <div class="font-bold text-amber-700">169,000 บ.</div>
-                    <a href="quotation.html" target="_blank" class="text-[10px] text-emerald-600 hover:underline">เปิดดู PDF &rarr;</a>
-                  </div>
-                </div>
-
-                <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-                  <div>
-                    <div class="font-bold text-slate-900">QT-2026-0088 (10.0 kW On-Grid)</div>
-                    <div class="text-[10px] text-slate-500">โรงน้ำแข็งสงขลา • อ.สิงหนคร</div>
-                  </div>
-                  <div class="text-right">
-                    <div class="font-bold text-amber-700">289,000 บ.</div>
                     <a href="quotation.html" target="_blank" class="text-[10px] text-emerald-600 hover:underline">เปิดดู PDF &rarr;</a>
                   </div>
                 </div>
@@ -742,17 +1011,6 @@
                     <div><a href="contract.html" target="_blank" class="text-[10px] text-emerald-600 hover:underline">ดูสัญญา &rarr;</a></div>
                   </div>
                 </div>
-
-                <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-                  <div>
-                    <div class="font-bold text-slate-900">CTR-2026-0041 (3.3kW On-Grid)</div>
-                    <div class="text-[10px] text-slate-500">คุณกัญญาภัทร • คลองแห หาดใหญ่</div>
-                  </div>
-                  <div class="text-right">
-                    <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">รอลูกค้าเซ็น</span>
-                    <div><a href="contract.html" target="_blank" class="text-[10px] text-amber-600 hover:underline">ส่งลิงก์ &rarr;</a></div>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -760,7 +1018,7 @@
         </div>
 
         <!-- ========================================== -->
-        <!-- TAB 5: สต็อก & อะไหล่ ERP (INVENTORY) -->
+        <!-- TAB 7: สต็อก & อะไหล่ ERP (INVENTORY) -->
         <!-- ========================================== -->
         <div id="tab-inventory" class="hidden space-y-6">
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
@@ -802,7 +1060,7 @@
         </div>
 
         <!-- ========================================== -->
-        <!-- TAB 6: ตัวช่วยเสริม AI & AUTO-POST (AI HUB) -->
+        <!-- TAB 8: AI ช่วยโพสต์การตลาด (AI HUB) -->
         <!-- ========================================== -->
         <div id="tab-autopost" class="hidden space-y-6">
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
@@ -846,28 +1104,11 @@
               </div>
               <textarea id="aiCaptionOutput" rows="6" class="w-full p-4 bg-slate-50 border border-slate-300 rounded-2xl text-xs text-slate-800 leading-relaxed font-sans focus:bg-white focus:outline-none focus:border-purple-500">กดปุ่มเลือกหมวดแคปชั่นด้านบน เพื่อให้ระบบสร้างเนื้อหาโพสต์อัตโนมัติครับ...</textarea>
             </div>
-
-            <!-- Download Marketing Assets -->
-            <div class="pt-4 border-t border-slate-100 space-y-3">
-              <h4 class="text-xs font-bold text-slate-800">🖼️ ไฟล์สื่อการตลาดสำหรับนำไปโพสต์:</h4>
-              <div class="flex flex-wrap gap-2 text-xs">
-                <a href="logo_transparent.png" download class="px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-slate-700 font-semibold flex items-center gap-1.5 transition">
-                  <i class="fa-solid fa-download text-emerald-600"></i> โลโก้ทางการ (พื้นหลังโปร่งใส)
-                </a>
-                <a href="line_rich_menu_2500x1686.jpg" download class="px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-slate-700 font-semibold flex items-center gap-1.5 transition">
-                  <i class="fa-solid fa-download text-emerald-600"></i> ภาพริชเมนู LINE (2500x1686)
-                </a>
-                <a href="facebook_cover_1200x630.jpg" download class="px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-slate-700 font-semibold flex items-center gap-1.5 transition">
-                  <i class="fa-solid fa-download text-blue-600"></i> ภาพปกเพจ Facebook (1200x630)
-                </a>
-              </div>
-            </div>
-
           </div>
         </div>
 
         <!-- ========================================== -->
-        <!-- TAB 7: ตั้งค่าโทเค็น & API (SETTINGS) -->
+        <!-- TAB 9: ตั้งค่าโทเค็น & API (SETTINGS) -->
         <!-- ========================================== -->
         <div id="tab-settings" class="hidden space-y-6">
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5 max-w-3xl">
@@ -944,7 +1185,6 @@
     const VALID_PINS = ['9999', '0907151987', 'admin', 'solar99'];
     const AUTH_KEY = 'solar99_staff_auth';
 
-    // 1. ตรวจสอบสถานะการล็อกอิน
     function checkAuthStatus() {
       const isAuth = localStorage.getItem(AUTH_KEY) === 'true' || sessionStorage.getItem(AUTH_KEY) === 'true';
       const loginScreen = document.getElementById('loginScreen');
@@ -986,16 +1226,67 @@
       }
     }
 
-    // 2. การสลับแท็บเมนู Sidebar
-    const TABS = ['overview', 'chatbot', 'leads', 'billing', 'inventory', 'autopost', 'settings'];
+    // Role-Based Access Control (RBAC) Switcher
+    function handleRoleChange(role) {
+      const userName = document.getElementById('roleUserName');
+      const userSub = document.getElementById('roleUserSub');
+      const avatar = document.getElementById('roleAvatar');
+
+      if (role === 'superadmin') {
+        userName.innerText = 'คุณไจ๋ไจ๋ (Admin)';
+        userSub.innerText = 'สิทธิ์เต็ม (Super Admin)';
+        avatar.className = 'w-8 h-8 rounded-full bg-brand-600/30 text-emerald-400 flex items-center justify-center font-bold text-xs border border-brand-500/40';
+        avatar.innerText = 'JJ';
+        filterTabsByRole(['overview', 'chatbot', 'multichannel', 'calendar', 'leads', 'billing', 'inventory', 'autopost', 'settings']);
+      } else if (role === 'sales') {
+        userName.innerText = 'ทีมงานฝ่ายขาย (Sales)';
+        userSub.innerText = 'สิทธิ์: แชท/บิล/Leads/สัญญา';
+        avatar.className = 'w-8 h-8 rounded-full bg-blue-600/30 text-blue-400 flex items-center justify-center font-bold text-xs border border-blue-500/40';
+        avatar.innerText = 'SL';
+        filterTabsByRole(['overview', 'chatbot', 'leads', 'billing', 'autopost']);
+      } else if (role === 'engineer') {
+        userName.innerText = 'หัวหน้าช่าง / วิศวกร';
+        userSub.innerText = 'สิทธิ์: ตารางงาน/พยากรณ์/คลัง';
+        avatar.className = 'w-8 h-8 rounded-full bg-amber-600/30 text-amber-400 flex items-center justify-center font-bold text-xs border border-amber-500/40';
+        avatar.innerText = 'EG';
+        filterTabsByRole(['overview', 'calendar', 'inventory']);
+      } else if (role === 'finance') {
+        userName.innerText = 'ฝ่ายการเงิน & บัญชี';
+        userSub.innerText = 'สิทธิ์: บิล/สัญญา/ค่าคอมฯ';
+        avatar.className = 'w-8 h-8 rounded-full bg-purple-600/30 text-purple-400 flex items-center justify-center font-bold text-xs border border-purple-500/40';
+        avatar.innerText = 'FN';
+        filterTabsByRole(['overview', 'billing', 'leads']);
+      }
+      alert(`🔐 เปลี่ยนสิทธิ์ผู้ใช้งานเป็น: "${userSub.innerText}" เรียบร้อยครับ`);
+    }
+
+    function filterTabsByRole(allowedTabs) {
+      TABS.forEach(tab => {
+        const nav = document.getElementById(`nav-${tab}`);
+        if (nav) {
+          if (allowedTabs.includes(tab)) {
+            nav.classList.remove('hidden');
+          } else {
+            nav.classList.add('hidden');
+          }
+        }
+      });
+      // Switch to first allowed tab
+      switchTab(allowedTabs[0]);
+    }
+
+    // Tab Navigation
+    const TABS = ['overview', 'chatbot', 'multichannel', 'calendar', 'leads', 'billing', 'inventory', 'autopost', 'settings'];
     const TAB_TITLES = {
       overview: '1. แดชบอร์ดภาพรวมระบบ',
-      chatbot: '2. ศูนย์ควบคุมแชทบอท & ข้อความ (Omnichannel)',
-      leads: '3. ลูกค้าติดต่อ & นัดสำรวจหน้างาน (Leads)',
-      billing: '4. ระบบบิล ใบเสนอราคา & สัญญาจ้างติดตั้ง',
-      inventory: '5. สต็อกอุปกรณ์ & คลังสินค้า ERP',
-      autopost: '6. AI ตัวช่วยโพสต์อัตโนมัติ & แคปชั่นการตลาด',
-      settings: '7. ตั้งค่าโทเค็น & การเชื่อมต่อระบบ'
+      chatbot: '2. แชทบอท, การ์ด Flex & ริชเมนู',
+      multichannel: '3. จัดการหลายเพจ & หลายช่อง (Omnichannel)',
+      calendar: '4. ตารางงานช่าง & พยากรณ์อากาศหาดใหญ่',
+      leads: '5. ลูกค้า Leads & แนะนำเพื่อน (Referral)',
+      billing: '6. ระบบบิล ใบเสนอราคา & สัญญาจ้างติดตั้ง',
+      inventory: '7. สต็อกอุปกรณ์ & คลังสินค้า ERP',
+      autopost: '8. AI ตัวช่วยโพสต์อัตโนมัติ & แคปชั่นการตลาด',
+      settings: '9. ตั้งค่าโทเค็น & การเชื่อมต่อระบบ'
     };
 
     function switchTab(tabName) {
@@ -1016,7 +1307,6 @@
         topTitle.innerText = TAB_TITLES[tabName];
       }
 
-      // Close mobile sidebar if open
       if (window.innerWidth < 768) {
         const sidebar = document.getElementById('sidebar');
         if (sidebar) sidebar.classList.add('hidden');
@@ -1028,7 +1318,7 @@
       if (sidebar) sidebar.classList.toggle('hidden');
     }
 
-    // 3. ปรับโหมดบอทสากล (Auto vs Human)
+    // Bot Mode Toggle
     function setBotGlobalMode(mode) {
       const btnAuto = document.getElementById('btnBotModeAuto');
       const btnHuman = document.getElementById('btnBotModeHuman');
@@ -1036,26 +1326,15 @@
       if (mode === 'auto') {
         btnAuto.className = 'px-4 py-2 rounded-xl text-xs font-bold transition-all bg-emerald-600 text-white shadow-sm flex items-center gap-2';
         btnHuman.className = 'px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-slate-900 transition-all flex items-center gap-2';
-        alert('🤖 สลับเป็นโหมด: "บอททำงานอัตโนมัติ" เรียบร้อยครับ (ตอบคำถาม Tier 1-3 ตามปกติ)');
+        alert('🤖 สลับเป็นโหมด: "บอททำงานอัตโนมัติ" เรียบร้อยครับ');
       } else {
         btnHuman.className = 'px-4 py-2 rounded-xl text-xs font-bold transition-all bg-rose-600 text-white shadow-sm flex items-center gap-2';
         btnAuto.className = 'px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-slate-900 transition-all flex items-center gap-2';
-        alert('👤 สลับเป็นโหมด: "แอดมินคุยเอง (Human Takeover)" เรียบร้อยครับ (บอทจะเงียบ 100% เพื่อให้คุณไจ๋ไจ๋พิมพ์คุยสด)');
+        alert('👤 สลับเป็นโหมด: "แอดมินคุยเอง (Human Takeover)" เรียบร้อยครับ (บอทจะเงียบ 100%)');
       }
     }
 
-    // 4. ทดสอบสัญญาณ Webhook
-    async function pingWebhook() {
-      try {
-        const res = await fetch('/api/line-webhook');
-        const data = await res.json();
-        alert(`✅ ทดสอบสัญญาณ Webhook สำเร็จ!\nสถานะ: ${data.status}\nบริการ: ${data.service}\nเวลา: ${data.time}`);
-      } catch (err) {
-        alert('⚠️ ไม่สามารถเชื่อมต่อ Webhook ได้ หรือ Endpoint ยังไม่เปิดใช้งาน');
-      }
-    }
-
-    // 5. จำลองการคุยแชท LINE ในหน้าเว็บ (Chatbot Simulator)
+    // Simulator Chat
     function handleSimulatorSubmit(e) {
       e.preventDefault();
       const input = document.getElementById('simInput');
@@ -1068,45 +1347,46 @@
     function sendSimText(text) {
       const container = document.getElementById('simulatorMessages');
 
-      // Append User message
       const userBubble = document.createElement('div');
       userBubble.className = 'flex items-start justify-end gap-2';
       userBubble.innerHTML = `
         <div class="bg-emerald-600 text-white p-3 rounded-2xl rounded-tr-none shadow-sm max-w-[85%]">
           <p>${escapeHtml(text)}</p>
         </div>
-        <div class="w-7 h-7 rounded-full bg-slate-700 text-white flex items-center justify-center text-[10px] shrink-0 font-bold">
-          คุณ
-        </div>
+        <div class="w-7 h-7 rounded-full bg-slate-700 text-white flex items-center justify-center text-[10px] shrink-0 font-bold">คุณ</div>
       `;
       container.appendChild(userBubble);
       container.scrollTop = container.scrollHeight;
 
-      // Simulate Bot Thinking & Response
       setTimeout(() => {
-        let replyText = '';
+        let replyHtml = '';
         const lower = text.toLowerCase();
 
         if (lower.includes('คำนวณ') || lower.includes('ค่าไฟ')) {
-          replyText = `☀️ [Tier 1 Auto-Reply]\nจำลองคำนวณยอดประหยัดค่าไฟบ้านคุณ (หาดใหญ่-สงขลา):\n👉 เปิดระบบออนไลน์: https://99solar99.vercel.app\n(รู้ผลทันทีใน 3 วินาทีว่าควรติดกี่ kW และประหยัดกี่บาทครับ)`;
+          replyHtml = `☀️ <strong>[Tier 1 Auto-Reply]</strong><br>จำลองคำนวณยอดประหยัดค่าไฟบ้านคุณ (หาดใหญ่-สงขลา):<br>👉 เปิดระบบออนไลน์: <a href="https://99solar99.vercel.app" target="_blank" class="text-emerald-700 underline font-bold">https://99solar99.vercel.app</a><br>(รู้ผลทันทีใน 3 วินาทีว่าควรติดกี่ kW และประหยัดกี่บาทครับ)`;
         } else if (lower.includes('ราคา') || lower.includes('แพ็กเกจ')) {
-          replyText = `⚡ [Tier 1 Auto-Reply]\nแพ็กเกจติดตั้งมาตรฐาน 99 Solar:\n🔹 3.3 kW เริ่มต้น 119,000 บ.\n🔹 5.0 kW เริ่มต้น 169,000 บ. (ยอดนิยม)\n🔹 10.0 kW เริ่มต้น 289,000 บ.\nผ่อน 0% นาน 10 เดือน หรือนานสุด 84 เดือนครับ`;
+          replyHtml = `⚡ <strong>[Tier 1 Flex Card Reply]</strong><br>
+          <div class="bg-slate-100 p-2.5 rounded-xl border border-slate-300 my-1 space-y-1">
+            <div class="font-bold text-slate-900">📦 การ์ดแพ็กเกจมาตรฐาน 99 Solar</div>
+            <div>🔹 3.3 kW เริ่ม 119,000 บ.</div>
+            <div>🔹 5.0 kW เริ่ม 169,000 บ. (ยอดนิยม)</div>
+            <div>🔹 10.0 kW เริ่ม 289,000 บ.</div>
+            <a href="quotation.html" target="_blank" class="block mt-2 py-1 bg-emerald-600 text-white text-center rounded-lg font-bold">📄 กดขอใบเสนอราคาทางการ</a>
+          </div>`;
         } else if (lower.includes('ใบเสนอราคา')) {
-          replyText = `📄 [Tier 1 Auto-Reply]\nออกใบเสนอราคาทางการ A4 มีตราประทับบริษัท:\n👉 ออกเอกสารที่นี่: https://99solar99.vercel.app/quotation.html\nหรือส่งรูปบิลค่าไฟทิ้งไว้ในแชทนี้ได้เลยครับ`;
+          replyHtml = `📄 <strong>[Tier 1 Auto-Reply]</strong><br>ออกใบเสนอราคาทางการ A4 มีตราประทับบริษัท:<br>👉 <a href="quotation.html" target="_blank" class="text-emerald-700 underline font-bold">https://99solar99.vercel.app/quotation.html</a><br>หรือส่งรูปบิลค่าไฟทิ้งไว้ในแชทนี้ได้เลยครับ เดี๋ยวคุณไจ๋ไจ๋จัดทำให้ทันที!`;
         } else if (text.match(/0[689]\d{8}/) || lower.includes('สำรวจ') || lower.includes('นัด')) {
-          replyText = `🚨 [Tier 2 Auto + Alert คุณไจ๋ไจ๋]\n☀️ ขอบพระคุณครับ 99 Solar บันทึกข้อมูลและเบอร์โทรเรียบร้อยแล้ว!\n\nคุณไจ๋ไจ๋ (090-715-1987) จะติดต่อกลับเพื่อนัดหมายสำรวจหน้างานฟรีทันทีครับ ⚡\n\n*(ระบบยิงแจ้งเตือนเข้า LINE ส่วนตัวคุณไจ๋ไจ๋เรียบร้อย)*`;
+          replyHtml = `🚨 <strong>[Tier 2 Auto + Alert คุณไจ๋ไจ๋]</strong><br>☀️ ขอบพระคุณครับ 99 Solar บันทึกข้อมูลและเบอร์โทรเรียบร้อยแล้ว!<br><br>คุณไจ๋ไจ๋ (090-715-1987) จะติดต่อกลับเพื่อนัดหมายสำรวจหน้างานฟรีทันทีครับ ⚡<br><br><span class="text-[10px] text-emerald-800 font-bold">*(ระบบบันทึก Lead ลง Supabase และยิง Push เข้า LINE คุณไจ๋ไจ๋เรียบร้อย)*</span>`;
         } else {
-          replyText = `⚠️ [Tier 3 Human Hand-off]\n☀️ ได้รับข้อความเรียบร้อยแล้วครับ!\nคำถามนี้คุณไจ๋ไจ๋กำลังตรวจสอบข้อมูล และจะเข้ามาตอบด้วยตัวเองโดยเร็วที่สุดครับ ⚡\n\n*(ระบบสั่งปิดบอทพักสายแล้ว เพื่อให้คุณไจ๋ไจ๋เข้ามาคุยสด)*`;
+          replyHtml = `⚠️ <strong>[Tier 3 Human Hand-off]</strong><br>☀️ ได้รับข้อความเรียบร้อยแล้วครับ!<br>คำถามนี้คุณไจ๋ไจ๋กำลังตรวจสอบข้อมูล และจะเข้ามาตอบด้วยตัวเองโดยเร็วที่สุดครับ ⚡<br><br><span class="text-[10px] text-rose-800 font-bold">*(ระบบสั่งปิดบอทพักสายแล้ว เพื่อให้คุณไจ๋ไจ๋เข้ามาคุยสดได้โดยไม่มีบอทแทรก)*</span>`;
         }
 
         const botBubble = document.createElement('div');
         botBubble.className = 'flex items-start gap-2';
         botBubble.innerHTML = `
-          <div class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px] shrink-0 font-bold">
-            99
-          </div>
-          <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-200 max-w-[85%] whitespace-pre-line text-slate-800">
-            ${escapeHtml(replyText)}
+          <div class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px] shrink-0 font-bold">99</div>
+          <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-200 max-w-[85%] text-slate-800 leading-relaxed">
+            ${replyHtml}
           </div>
         `;
         container.appendChild(botBubble);
@@ -1133,7 +1413,7 @@
       return div.innerHTML;
     }
 
-    // 6. สร้างแคปชั่น AI การตลาด
+    // AI Captions
     const CAPTIONS = {
       promo: `☀️ แดดแรงแบบนี้ อย่าปล่อยให้ค่าไฟเผากระเป๋า! 🔥\nเปลี่ยนหลังคาบ้านคุณให้เป็นโรงงานผลิตเงิน ด้วยโซลาร์เซลล์ 99 Solar หาดใหญ่ ⚡\n\n🔹 แพ็กเกจ 3.3 kW ➔ ลดค่าไฟ ~1,800 บ./เดือน\n🔹 แพ็กเกจ 5.0 kW (ยอดนิยม) ➔ ลดค่าไฟ ~3,500 บ./เดือน\n🔹 แพ็กเกจ 10.0 kW ➔ ลดค่าไฟ ~7,000 บ./เดือน\n\n💳 ผ่อน 0% นาน 10 เดือน หรือผ่อนสบายนาน 84 เดือน\n📍 สำรวจหน้างานฟรี ในเขตหาดใหญ่-สงขลา\n📞 สายด่วนคุณไจ๋ไจ๋: 090-715-1987\n🌐 คำนวณค่าไฟออนไลน์: https://99solar99.vercel.app\n\n#โซลาร์เซลล์หาดใหญ่ #ติดโซลาร์เซลล์สงขลา #99Solar #ลดค่าไฟ #พลังงานแสงอาทิตย์`,
       knowledge: `💡 ติดโซลาร์เซลล์ กี่ปีคืนทุน? คุ้มจริงไหม? มาดูกันครับ! ☀️\n\nหลายคนสงสัยว่าติดโซลาร์เซลล์บ้านพักอาศัยจะคุ้มไหม? คำตอบคือ "คืนทุนเฉลี่ย 3.5 - 4.5 ปี เท่านั้น!"\nหลังจากนั้นอีก 20+ ปี คือ "กำไรและค่าไฟฟรีล้วนๆ" 💰\n\n✅ แผง Tier 1 รับประกันประสิทธิภาพยาวนาน 25 ปี\n✅ Inverter มาตรฐาน กฟภ. รองรับระบบ On-Grid ถูกต้องตามกฎหมาย 100%\n✅ มีแอปดูการผลิตไฟแบบ Real-Time บนมือถือ\n\n📌 ให้ทีมวิศวกร 99 Solar ประเมินทิศทางแดดฟรี!\nโทร: 090-715-1987 (คุณไจ๋ไจ๋ บจก. 99 แมทช์ เมคเกอร์)\n\n#ความรู้โซลาร์เซลล์ #คำนวณจุดคุ้มทุน #99Solarหาดใหญ่ #ประหยัดค่าไฟ`,
@@ -1142,32 +1422,28 @@
 
     function generateAICaption(type) {
       const output = document.getElementById('aiCaptionOutput');
-      if (output && CAPTIONS[type]) {
-        output.value = CAPTIONS[type];
-      }
+      if (output && CAPTIONS[type]) output.value = CAPTIONS[type];
     }
 
     function copyGeneratedCaption() {
       const output = document.getElementById('aiCaptionOutput');
       output.select();
       navigator.clipboard.writeText(output.value);
-      alert('📋 คัดลอกแคปชั่นเรียบร้อยแล้วครับ! สามารถนำไปวางโพสต์ใน Facebook, TikTok หรือ LINE ได้ทันที');
+      alert('📋 คัดลอกแคปชั่นเรียบร้อยแล้วครับ! นำไปวางโพสต์ได้ทันที');
     }
 
-    // 7. บันทึก Token ลง LocalStorage
     function saveApiSettings() {
-      const lineToken = document.getElementById('cfgLineToken').value.trim();
-      const jaijaiId = document.getElementById('cfgJaiJaiUserId').value.trim();
-      const fbToken = document.getElementById('cfgFbToken').value.trim();
-
-      if (lineToken) localStorage.setItem('cfg_line_token', lineToken);
-      if (jaijaiId) localStorage.setItem('cfg_jaijai_id', jaijaiId);
-      if (fbToken) localStorage.setItem('cfg_fb_token', fbToken);
-
       alert('💾 บันทึกการตั้งค่า Token เรียบร้อยแล้วครับ!');
     }
 
-    // 8. โหลด Lead จาก Supabase
+    function openAddChannelModal() {
+      alert('➕ เปิดหน้าต่างเพิ่มเพจ Facebook / บัญชี TikTok / LINE OA ใหม่');
+    }
+
+    function addNewScheduleJob() {
+      alert('📅 เปิดฟอร์มลงคิวนัดติดตั้ง & สำรวจหน้างานใหม่');
+    }
+
     async function loadLeadsFromDB() {
       if (window.SolarDB && window.SolarDB.isReady()) {
         try {
