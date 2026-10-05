@@ -220,12 +220,23 @@ function getPackageFlexCard() {
 }
 
 module.exports = async (req, res) => {
+  // 1. GET Request: Health Check หรือ Facebook Webhook Verification
   if (req.method === 'GET') {
+    // Meta / Facebook Webhook Verification
+    const mode = req.query?.['hub.mode'];
+    const challenge = req.query?.['hub.challenge'];
+    if (mode === 'subscribe' && challenge) {
+      console.log('✅ Facebook Webhook Verified successfully');
+      return res.status(200).send(challenge);
+    }
+
     return res.status(200).json({
       status: 'online',
-      service: '99 Solar Hat Yai - 3-Tier LINE Bot Engine & Flex Cards',
+      service: '99 Solar Hat Yai - Unified Multi-Channel Bot Engine (LINE & Facebook)',
       company: '99 Match Maker Co., Ltd.',
       active_takeovers: humanTakeoverMap.size,
+      webhook_url: 'https://99solar99.vercel.app/api/line-webhook',
+      supported_channels: ['line', 'facebook', 'tiktok'],
       time: new Date().toISOString()
     });
   }
@@ -234,12 +245,27 @@ module.exports = async (req, res) => {
     return res.status(405).send('Method Not Allowed');
   }
 
-  const events = req.body?.events || [];
-  if (events.length === 0) {
-    return res.status(200).send('OK (Verified)');
-  }
-
   try {
+    // 2. Meta / Facebook Messenger Webhook POST
+    if (req.body?.object === 'page') {
+      const entries = req.body?.entry || [];
+      for (const entry of entries) {
+        const messaging = entry.messaging || [];
+        for (const msgEvent of messaging) {
+          if (msgEvent.message && msgEvent.message.text) {
+            await handleFacebookTextMessage(msgEvent);
+          }
+        }
+      }
+      return res.status(200).send('EVENT_RECEIVED');
+    }
+
+    // 3. LINE Messaging API Webhook POST
+    const events = req.body?.events || [];
+    if (events.length === 0) {
+      return res.status(200).send('OK (Verified)');
+    }
+
     for (const event of events) {
       if (event.type === 'message' && event.message.type === 'text') {
         await handleTextMessage(event);
@@ -251,10 +277,49 @@ module.exports = async (req, res) => {
     }
     return res.status(200).send('OK');
   } catch (error) {
-    console.error('Error handling LINE webhook event:', error);
+    console.error('Error handling webhook event:', error);
     return res.status(500).send('Internal Server Error');
   }
 };
+
+/**
+ * จัดการข้อความจาก Facebook Messenger
+ */
+async function handleFacebookTextMessage(event) {
+  const senderId = event.sender?.id || '';
+  const rawText = (event.message?.text || '').trim();
+  const lowerText = rawText.toLowerCase();
+
+  console.log(`📩 [Facebook Messenger] จาก ${senderId}: "${rawText}"`);
+
+  // ตรวจจับเบอร์โทรศัพท์ (Lead Capture)
+  const phoneMatch = rawText.match(/0[689]\d{8}/);
+  if (phoneMatch) {
+    const detectedPhone = phoneMatch[0];
+    await saveLeadToSupabase({
+      name: 'ลูกค้าจาก Facebook Messenger',
+      phone: detectedPhone,
+      line_id: senderId,
+      location: 'หาดใหญ่/สงขลา',
+      source: 'facebook_page',
+      interests: [rawText]
+    });
+
+    await notifyJaiJai(
+      `🚨 [Lead ด่วนจาก Facebook Messenger]\nลูกค้าแจ้งเบอร์โทรติดต่อกลับ!\nเบอร์: ${detectedPhone}\nข้อความ: "${rawText}"\nเวลา: ${new Date().toLocaleTimeString('th-TH')}`
+    );
+    return;
+  }
+
+  // คำถามนอกระบบ หรือ สนใจติดตั้ง
+  if (lowerText.includes('ราคา') || lowerText.includes('แพ็กเกจ')) {
+    await notifyJaiJai(`💬 [Facebook Messenger] ลูกค้าถามราคา: "${rawText}"`);
+  } else if (lowerText.includes('เสนอราคา') || lowerText.includes('สำรวจ')) {
+    await notifyJaiJai(`📋 [Facebook Messenger] ลูกค้าสนใจขอใบเสนอราคา/สำรวจ: "${rawText}"`);
+  } else {
+    await notifyJaiJai(`🔥 [Facebook Messenger ด่วน] ลูกค้าถาม: "${rawText}"\nเข้าตอบในเพจได้เลยครับ!`);
+  }
+}
 
 /**
  * จัดการข้อความตัวอักษร

@@ -4,7 +4,8 @@
   "trailingSlash": false,
   "rewrites": [
     { "source": "/admin", "destination": "/portal.html" },
-    { "source": "/portal", "destination": "/portal.html" }
+    { "source": "/portal", "destination": "/portal.html" },
+    { "source": "/api/webhook", "destination": "/api/line-webhook" }
   ],
   "headers": [
     {

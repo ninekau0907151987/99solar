@@ -386,9 +386,72 @@
         </div>
 
         <!-- ========================================== -->
-        <!-- TAB 2: แชทบอท, การ์ด FLEX & ควิกรีพลาย (CORE) -->
+        <!-- TAB 2: แชทบอท & จัดการข้อความลูกค้า (CORE CHATBOT & INBOX) -->
         <!-- ========================================== -->
         <div id="tab-chatbot" class="hidden space-y-6">
+
+          <!-- 1. กล่องจัดการข้อความ & ตรวจสอบคำถามลูกค้า (LIVE QUESTION INBOX) -->
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+              <div>
+                <div class="flex items-center gap-2">
+                  <h3 class="text-lg font-bold font-heading text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-comments text-emerald-600"></i> กล่องจัดการข้อความ & ดูคำถามลูกค้าจริง (Live Question Inbox)
+                  </h3>
+                  <span id="inboxCountBadge" class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold">4 ข้อความ</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-0.5">
+                  ตรวจสอบได้ชัดเจนว่า <strong>"ลูกค้าถามมาว่าไง"</strong> พร้อมแยกหมวดหมู่อัตโนมัติ (คำถามด่วนนอกระบบ / ขอใบเสนอราคา / นัดสำรวจ)
+                </p>
+              </div>
+
+              <!-- Action buttons -->
+              <div class="flex items-center gap-2">
+                <button onclick="simulateCustomerQuestion()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-xs active:scale-95">
+                  <i class="fa-solid fa-vial text-amber-500"></i>
+                  <span>จำลองลูกค้าพิมพ์ถาม</span>
+                </button>
+                <button onclick="renderInboxMessages()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm active:scale-95">
+                  <i class="fa-solid fa-arrows-rotate"></i>
+                  <span>รีเฟรชข้อความ</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Inbox Filter Pills -->
+            <div class="flex flex-wrap items-center gap-2 text-xs">
+              <span class="text-slate-500 font-semibold text-[11px]">ตัวกรอง:</span>
+              <button onclick="filterInbox('all')" id="btnFilterAll" class="px-3 py-1 rounded-lg bg-slate-900 text-white font-bold text-[11px] transition">ทั้งหมด</button>
+              <button onclick="filterInbox('urgent')" id="btnFilterUrgent" class="px-3 py-1 rounded-lg bg-slate-100 text-rose-700 hover:bg-rose-50 font-bold text-[11px] transition flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-rose-500 inline-block"></span> 🔴 รอคุณไจ๋ไจ๋ตอบสด (Takeover)
+              </button>
+              <button onclick="filterInbox('quote_survey')" id="btnFilterQuote" class="px-3 py-1 rounded-lg bg-slate-100 text-amber-700 hover:bg-amber-50 font-bold text-[11px] transition flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block"></span> 🟡 ขอใบเสนอราคา / นัดสำรวจ
+              </button>
+              <button onclick="filterInbox('auto_replied')" id="btnFilterAuto" class="px-3 py-1 rounded-lg bg-slate-100 text-emerald-700 hover:bg-emerald-50 font-bold text-[11px] transition flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span> 🟢 บอทตอบเรียบร้อย
+              </button>
+            </div>
+
+            <!-- Messages Table -->
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 text-slate-600 font-bold uppercase tracking-wider border-y border-slate-200">
+                  <tr>
+                    <th class="py-3 px-3">วัน-เวลา</th>
+                    <th class="py-3 px-3">ช่องทาง</th>
+                    <th class="py-3 px-3">ลูกค้า / ผู้ติดต่อ</th>
+                    <th class="py-3 px-4 w-1/3">คำถามที่ลูกค้าพิมพ์มา ("ถามมาว่าไง")</th>
+                    <th class="py-3 px-3">หมวดหมู่ & สถานะบอท</th>
+                    <th class="py-3 px-3 text-center">จัดการ</th>
+                  </tr>
+                </thead>
+                <tbody id="inboxTableBody" class="divide-y divide-slate-100 text-slate-700">
+                  <!-- Rendered dynamically via renderInboxMessages() -->
+                </tbody>
+              </table>
+            </div>
+          </div>
 
           <!-- How-To Guide: ริชเมนูกดตอบเลย / การ์ด Flex / Quick Reply ทำตรงไหน -->
           <div class="bg-gradient-to-r from-emerald-900 to-teal-900 text-white rounded-3xl p-6 shadow-md space-y-4">
@@ -1003,6 +1066,78 @@
             </div>
           </div>
 
+          <!-- BANNER 2: สถาปัตยกรรมช่องทางเชื่อมต่อ 2 แบบ (2-Way Channel Architecture) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- แบบที่ 1: เชื่อมเข้าหน้า Landing Page (Inbound Traffic & Lead Gen) -->
+            <div class="p-5 rounded-3xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 space-y-3 shadow-xs">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-base shadow-xs shrink-0">
+                  <i class="fa-solid fa-arrow-down-to-bracket"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm">แบบที่ 1: เชื่อมไปหน้า Landing Page (ดึง Lead เข้าเว็บ)</h4>
+                  <p class="text-[11px] text-emerald-800">นำลิงก์ไปใส่ในโพสต์/Bio เพจ เพื่อให้ลูกค้ากดเข้ามาคำนวณและส่งข้อมูล</p>
+                </div>
+              </div>
+              
+              <div class="space-y-2 text-xs">
+                <div class="p-2.5 bg-white rounded-xl border border-emerald-200/80 flex items-center justify-between gap-2 shadow-xs">
+                  <div class="truncate">
+                    <span class="font-bold text-slate-800">🌐 หน้าคำนวณค่าไฟ:</span>
+                    <span class="text-slate-500 font-mono text-[11px] ml-1">https://99solar99.vercel.app</span>
+                  </div>
+                  <button onclick="copyCustomLink('https://99solar99.vercel.app')" class="px-2.5 py-1 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 rounded-lg font-bold text-[10px] shrink-0 active:scale-95 transition">
+                    <i class="fa-solid fa-copy"></i> คัดลอก
+                  </button>
+                </div>
+
+                <div class="p-2.5 bg-white rounded-xl border border-emerald-200/80 flex items-center justify-between gap-2 shadow-xs">
+                  <div class="truncate">
+                    <span class="font-bold text-slate-800">📄 หน้าขอใบเสนอราคา:</span>
+                    <span class="text-slate-500 font-mono text-[11px] ml-1">.../quotation.html</span>
+                  </div>
+                  <button onclick="copyCustomLink('https://99solar99.vercel.app/quotation.html')" class="px-2.5 py-1 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 rounded-lg font-bold text-[10px] shrink-0 active:scale-95 transition">
+                    <i class="fa-solid fa-copy"></i> คัดลอก
+                  </button>
+                </div>
+              </div>
+
+              <div class="pt-1 text-[11px] text-emerald-700">
+                💡 <strong>เป้าหมาย:</strong> ให้ลูกค้าคลิกลิงก์จากเพจเข้ามาออกใบเสนอราคา และบันทึก Lead พร้อมเตือนคุณไจ๋ไจ๋
+              </div>
+            </div>
+
+            <!-- แบบที่ 2: เชื่อมไประบบโพสต์อัตโนมัติ (Outbound AI Auto-Poster) -->
+            <div class="p-5 rounded-3xl bg-gradient-to-br from-purple-50 to-indigo-50 border border-purple-200 space-y-3 shadow-xs">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center text-base shadow-xs shrink-0">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm">แบบที่ 2: เชื่อมไปหน้าโพสต์อัตโนมัติ (AI Content Creator)</h4>
+                  <p class="text-[11px] text-purple-800">ส่งคอนเทนต์และแคปชั่นที่ AI คิด ไปโพสต์ลงเพจ Facebook / TikTok</p>
+                </div>
+              </div>
+
+              <div class="space-y-2 text-xs">
+                <p class="text-slate-600 leading-relaxed text-[11px]">
+                  นำ Token ของแต่ละเพจไปเชื่อมกับระบบ <strong>AI ตัวช่วยโพสต์อัตโนมัติ (เมนู 8)</strong> เพื่อให้ AI ร่างแคปชั่นโปรโมชั่น จุดคุ้มทุน และผลงาน แล้วส่งไปโพสต์ลงแต่ละเพจได้ทันที
+                </p>
+                <div class="flex gap-2">
+                  <button onclick="switchTab('autopost')" class="w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold text-xs shadow-sm flex items-center justify-center gap-1.5 transition active:scale-95">
+                    <i class="fa-solid fa-paper-plane"></i> เปิดหน้า AI โพสต์อัตโนมัติ (เมนู 8)
+                  </button>
+                </div>
+              </div>
+
+              <div class="pt-1 text-[11px] text-purple-700">
+                💡 <strong>เป้าหมาย:</strong> ทำคอนเทนต์อัตโนมัติตามระบบ คุณไจ๋ไจ๋ไม่ต้องเสียเวลาร่างโพสต์เองทุกวัน
+              </div>
+            </div>
+
+          </div>
+
           <!-- SECTION 2: จัดการช่องทางบอท & เพจที่เชื่อมต่อ (บอทมีได้หลายทาง เพิ่มข้อมูลได้ เพื่อใช้) -->
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
@@ -1109,10 +1244,11 @@
                 <h3 class="text-lg font-bold font-heading text-slate-900 flex items-center gap-2">
                   <i class="fa-solid fa-calendar-check text-emerald-600"></i> ตารางคิวงานติดตั้ง & นัดหมายสำรวจหน้างาน
                 </h3>
-                <p class="text-xs text-slate-500">จัดการทีมช่าง มอบหมายวิศวกรคุมงาน และสถานะการดำเนินงาน</p>
+                <p class="text-xs text-slate-500">จัดการทีมช่าง มอบหมายวิศวกรคุมงาน และเปิดรอบงานติดตั้งใหม่ได้จริง</p>
               </div>
-              <button onclick="addNewScheduleJob()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm">
-                <i class="fa-solid fa-plus"></i> เพิ่มคิวนัดติดตั้งใหม่
+              <button onclick="openAddScheduleModal()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow-sm active:scale-95 transition">
+                <i class="fa-solid fa-plus-circle text-sm"></i>
+                <span>เปิดรอบ / เพิ่มคิวนัดติดตั้งใหม่</span>
               </button>
             </div>
 
@@ -1121,57 +1257,17 @@
               <table class="w-full text-left text-xs">
                 <thead class="bg-slate-50 text-slate-600 font-bold uppercase tracking-wider border-y border-slate-200">
                   <tr>
-                    <th class="py-3 px-4">วันที่นัดหมาย</th>
-                    <th class="py-3 px-4">ลูกค้า / สถานที่</th>
-                    <th class="py-3 px-4">ขนาดระบบ</th>
-                    <th class="py-3 px-4">ทีมช่างรับผิดชอบ</th>
-                    <th class="py-3 px-4">สภาพอากาศ</th>
-                    <th class="py-3 px-4">สถานะงาน</th>
-                    <th class="py-3 px-4 text-center">จัดการ</th>
+                    <th class="py-3 px-3">วัน-เวลาที่นัด</th>
+                    <th class="py-3 px-3">ลูกค้า / พิกัดสถานที่</th>
+                    <th class="py-3 px-3">ขนาดระบบ</th>
+                    <th class="py-3 px-3">ทีมช่างรับผิดชอบ</th>
+                    <th class="py-3 px-3">สภาพอากาศ</th>
+                    <th class="py-3 px-3">สถานะงาน</th>
+                    <th class="py-3 px-3 text-center">จัดการ</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100 text-slate-700">
-                  <tr>
-                    <td class="py-4 px-4 font-bold text-slate-900">วันพรุ่งนี้ (09:00 น.)</td>
-                    <td class="py-4 px-4">
-                      <div class="font-bold text-slate-900">คุณวีระชัย</div>
-                      <div class="text-[10px] text-slate-500">ถ.กาญจนวนิช หาดใหญ่</div>
-                    </td>
-                    <td class="py-4 px-4 font-bold text-emerald-700">5.0 kW On-Grid</td>
-                    <td class="py-4 px-4">
-                      <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-800 text-[10px] font-bold">ทีมช่าง A (หัวหน้าช่างเอก)</span>
-                    </td>
-                    <td class="py-4 px-4">
-                      <span class="text-amber-600 font-bold"><i class="fa-solid fa-sun"></i> แดดจัด ปลอดโปร่ง</span>
-                    </td>
-                    <td class="py-4 px-4">
-                      <span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">ขึ้นโครงหลังคา</span>
-                    </td>
-                    <td class="py-4 px-4 text-center">
-                      <button class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[10px] font-bold">อัปเดตงาน</button>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td class="py-4 px-4 font-bold text-slate-900">พุธนี้ (13:30 น.)</td>
-                    <td class="py-4 px-4">
-                      <div class="font-bold text-slate-900">โรงน้ำแข็งสงขลา</div>
-                      <div class="text-[10px] text-slate-500">อ.สิงหนคร จ.สงขลา</div>
-                    </td>
-                    <td class="py-4 px-4 font-bold text-emerald-700">10.0 kW On-Grid</td>
-                    <td class="py-4 px-4">
-                      <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-800 text-[10px] font-bold">ทีมวิศวกร B (วิศวกรธนกร)</span>
-                    </td>
-                    <td class="py-4 px-4">
-                      <span class="text-slate-600 font-bold"><i class="fa-solid fa-cloud-sun"></i> มีเมฆบางส่วน</span>
-                    </td>
-                    <td class="py-4 px-4">
-                      <span class="px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 text-[10px] font-bold">ทดสอบระบบ Inverter</span>
-                    </td>
-                    <td class="py-4 px-4 text-center">
-                      <button class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[10px] font-bold">อัปเดตงาน</button>
-                    </td>
-                  </tr>
+                <tbody id="scheduleTableBody" class="divide-y divide-slate-100 text-slate-700">
+                  <!-- Rendered dynamically via renderScheduleJobs() -->
                 </tbody>
               </table>
             </div>
@@ -1508,6 +1604,103 @@
           <button type="button" onclick="closeAddChannelModal()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition">ยกเลิก</button>
           <button type="submit" class="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white rounded-xl font-bold transition shadow-md flex items-center gap-1.5">
             <i class="fa-solid fa-check"></i> บันทึกและสร้างช่องทาง
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- MODAL: เพิ่มคิวนัดหมาย & เปิดรอบตารางช่าง (ADD SCHEDULE MODAL) -->
+  <!-- ========================================================== -->
+  <div id="addScheduleModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-lg w-full shadow-2xl border border-slate-200 space-y-5 animate-scale-up">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-calendar-plus"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">เปิดรอบคิวนัดหมาย & ตารางงานช่าง</h3>
+            <p class="text-[11px] text-slate-500">ลงตารางงานติดตั้ง โครงสร้าง หรือสำรวจหน้างานฟรี</p>
+          </div>
+        </div>
+        <button onclick="closeAddScheduleModal()" class="text-slate-400 hover:text-slate-600 p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form id="addScheduleForm" onsubmit="handleCreateScheduleJob(event)" class="space-y-4 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">ชื่อลูกค้า / โครงการ:</label>
+            <input type="text" id="schCustomerName" required placeholder="เช่น คุณสมศักดิ์ / โรงงานหาดใหญ่" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">เบอร์โทรติดต่อ:</label>
+            <input type="tel" id="schCustomerPhone" required placeholder="เช่น 081-234-5678" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl font-mono focus:bg-white focus:outline-none focus:border-amber-500">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">วัน-เวลาที่นัดหมาย:</label>
+            <input type="text" id="schJobDate" required placeholder="เช่น วันพรุ่งนี้ 09:00 น. หรือ 12 ต.ค. 67" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">สถานที่ / พิกัด:</label>
+            <input type="text" id="schJobLocation" required placeholder="เช่น ต.คลองแห อ.หาดใหญ่" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">ขนาดระบบโซลาร์:</label>
+            <select id="schSystemSize" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500">
+              <option value="3.3 kW On-Grid">3.3 kW On-Grid (ประหยัด ~1,800 บ./ด.)</option>
+              <option value="5.0 kW On-Grid" selected>5.0 kW On-Grid (ประหยัด ~3,500 บ./ด.)</option>
+              <option value="10.0 kW On-Grid">10.0 kW On-Grid (ประหยัด ~7,000 บ./ด.)</option>
+              <option value="15.0 kW Hybrid">15.0 kW Hybrid + แบตเตอรี่</option>
+              <option value="Solar Carport 5kW">Solar Carport 5kW (โรงจอดรถไฝ่การช่าง)</option>
+              <option value="สำรวจหน้างานฟรี">ยังไม่ระบุ (นัดสำรวจหน้างานฟรี)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">ทีมช่างรับผิดชอบ:</label>
+            <select id="schTeam" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500">
+              <option value="ทีมช่าง A (หัวหน้าช่างเอก)">ทีมช่าง A (หัวหน้าช่างเอก - โครงสร้าง & แผง)</option>
+              <option value="ทีมวิศวกร B (วิศวกรธนกร)">ทีมวิศวกร B (วิศวกรธนกร - Inverter & ขนานไฟ)</option>
+              <option value="ทีม C (ไฝ่การช่าง โรงเหล็ก)">ทีม C (ไฝ่การช่าง - โรงจอดรถเหล็ก)</option>
+              <option value="คุณไจ๋ไจ๋ สำรวจเอง">คุณไจ๋ไจ๋ (สำรวจหน้างานประเมินราคา)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">สภาพอากาศที่พยากรณ์:</label>
+            <select id="schWeather" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500">
+              <option value="☀️ แดดจัด ปลอดโปร่ง">☀️ แดดจัด ปลอดโปร่ง (ขึ้นหลังคาได้ 100%)</option>
+              <option value="⛅ มีเมฆบางส่วน">⛅ มีเมฆบางส่วน (ติดตั้งได้ปกติ)</option>
+              <option value="🌧️ ระวังฝนบ่าย">🌧️ ระวังฝนบ่าย (ทำช่วงเช้า)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">สถานะงานเริ่มต้น:</label>
+            <select id="schStatus" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500">
+              <option value="นัดหมายใหม่">🗓️ นัดหมายใหม่</option>
+              <option value="ขึ้นโครงหลังคา">🔨 ขึ้นโครงหลังคา</option>
+              <option value="ติดตั้งแผงโซลาร์">⚡ ติดตั้งแผงโซลาร์</option>
+              <option value="ทดสอบ Inverter">🔌 ทดสอบ Inverter</option>
+              <option value="ส่งมอบงานแล้ว">✅ ส่งมอบงานแล้ว</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+          <button type="button" onclick="closeAddScheduleModal()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition">ยกเลิก</button>
+          <button type="submit" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-xl font-bold transition shadow-md flex items-center gap-1.5 active:scale-95">
+            <i class="fa-solid fa-calendar-check"></i> บันทึกคิวงาน
           </button>
         </div>
       </form>
@@ -2189,8 +2382,467 @@
       alert(`🎉 เพิ่มช่องทาง "${name}" เข้าสู่ระบบเรียบร้อยแล้วครับ!\nสามารถกรอกหรือแก้ไข Token และเปิดบอททำงานได้ทันที`);
     }
 
+    // ==========================================================
+    // 2-WAY CONNECTION HELPER (คัดลอกลิงก์ Landing Page)
+    // ==========================================================
+    function copyCustomLink(url) {
+      navigator.clipboard.writeText(url);
+      alert('📋 คัดลอกลิงก์เรียบร้อยแล้วครับ!\n\n👉 ' + url + '\n\nนำไปวางในแคปชั่นโพสต์เพจ Facebook หรือ Bio TikTok ได้ทันทีครับ');
+    }
+
+    // ==========================================================
+    // 1. LIVE QUESTION & MESSAGE INBOX (จัดการข้อความ & ดูคำถามจริง)
+    // ==========================================================
+    const INBOX_KEY = 'solar99_inbox_messages';
+    let currentInboxFilter = 'all';
+
+    const DEFAULT_INBOX_MESSAGES = [
+      {
+        id: 'msg_01',
+        time: 'วันนี้ 10:45 น.',
+        channel: 'line',
+        channelName: 'LINE OA @99sola',
+        senderName: 'คุณเอกชัย (ต.คลองแห)',
+        senderId: 'U883719028a',
+        question: 'สนใจติดแอร์ 2 ตัวตอนกลางคืน ใช้แบตกี่ลูกและงบประมาณเท่าไหร่ครับ มีโปรผ่อน 0% ไหมครับ?',
+        category: 'urgent',
+        categoryLabel: '🔴 คำถามนอกระบบ (รอคนตอบ)',
+        botStatus: 'takeover',
+        botReply: 'บอทตอบรับเบื้องต้นแล้ว พักสายบอทไว้ให้คุณไจ๋ไจ๋เข้าคุยสด',
+        phone: '081-959-xxxx'
+      },
+      {
+        id: 'msg_02',
+        time: 'วันนี้ 09:15 น.',
+        channel: 'facebook',
+        channelName: 'เพจ 1: 99 Solar รับติดตั้ง',
+        senderName: 'คุณศิริพร (หาดใหญ่ใน)',
+        senderId: 'fb_1928374',
+        question: 'ขอใบเสนอราคาบ้าน 5kW หน่อยค่ะ บิลค่าไฟเดือนละ 3,800 บาท ส่งรูปบิลให้ดูทางไหนได้บ้างคะ',
+        category: 'quote_survey',
+        categoryLabel: '🟡 ขอใบเสนอราคา',
+        botStatus: 'auto',
+        botReply: 'บอทส่งลิงก์ออกใบเสนอราคา PDF + แนะนำส่งรูปบิลค่าไฟในแชทแล้ว',
+        phone: '093-456-xxxx'
+      },
+      {
+        id: 'msg_03',
+        time: 'เมื่อวาน 16:30 น.',
+        channel: 'facebook',
+        channelName: 'เพจ 2: โซลาร์เซลล์บ้านภาคใต้',
+        senderName: 'โรงน้ำแข็งสงขลา (สิงหนคร)',
+        senderId: 'fb_5521903',
+        question: 'สนใจนัดสำรวจหน้างานอาคารพาณิชย์ โครงสร้างหลังคาเมทัลชีท มีทีมวิศวกรเข้าดูวันเสาร์นี้ได้ไหม',
+        category: 'quote_survey',
+        categoryLabel: '🟡 นัดสำรวจหน้างานฟรี',
+        botStatus: 'auto',
+        botReply: 'บอทแจ้งนัดสำรวจฟรี 100% พร้อมขอชื่อ+เบอร์โทรติดต่อกลับแล้ว',
+        phone: '086-778-xxxx'
+      },
+      {
+        id: 'msg_04',
+        time: 'เมื่อวาน 14:02 น.',
+        channel: 'line',
+        channelName: 'LINE OA @99sola',
+        senderName: 'คุณพงษ์ศักดิ์ (สงขลา)',
+        senderId: 'U994821045b',
+        question: 'ราคาแพ็กเกจ 3.3 kW กับ 5 kW ต่างกันกี่บาท และลดค่าไฟได้กี่บาทต่อเดือนครับ',
+        category: 'auto_replied',
+        categoryLabel: '🟢 ถามราคาแพ็กเกจ',
+        botStatus: 'auto',
+        botReply: 'บอทส่ง Flex Message Card การ์ดราคามาตรฐาน 99 Solar ให้เรียบร้อย',
+        phone: '-'
+      }
+    ];
+
+    function getInboxMessages() {
+      try {
+        const stored = localStorage.getItem(INBOX_KEY);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {}
+      localStorage.setItem(INBOX_KEY, JSON.stringify(DEFAULT_INBOX_MESSAGES));
+      return DEFAULT_INBOX_MESSAGES;
+    }
+
+    function saveInboxMessages(msgs) {
+      localStorage.setItem(INBOX_KEY, JSON.stringify(msgs));
+      renderInboxMessages();
+    }
+
+    function filterInbox(type) {
+      currentInboxFilter = type;
+      // Update filter button styles
+      ['all', 'urgent', 'quote_survey', 'auto_replied'].forEach(t => {
+        const btn = document.getElementById(`btnFilter${t === 'all' ? 'All' : t === 'urgent' ? 'Urgent' : t === 'quote_survey' ? 'Quote' : 'Auto'}`);
+        if (btn) {
+          if (t === type) {
+            btn.className = 'px-3 py-1 rounded-lg bg-slate-900 text-white font-bold text-[11px] transition shadow-xs';
+          } else {
+            btn.className = 'px-3 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold text-[11px] transition';
+          }
+        }
+      });
+      renderInboxMessages();
+    }
+
+    function renderInboxMessages() {
+      const tbody = document.getElementById('inboxTableBody');
+      const badge = document.getElementById('inboxCountBadge');
+      if (!tbody) return;
+
+      const allMsgs = getInboxMessages();
+      let filtered = allMsgs;
+      if (currentInboxFilter === 'urgent') {
+        filtered = allMsgs.filter(m => m.category === 'urgent');
+      } else if (currentInboxFilter === 'quote_survey') {
+        filtered = allMsgs.filter(m => m.category === 'quote_survey');
+      } else if (currentInboxFilter === 'auto_replied') {
+        filtered = allMsgs.filter(m => m.category === 'auto_replied');
+      }
+
+      if (badge) badge.innerText = `${allMsgs.length} ข้อความ (${allMsgs.filter(m => m.category === 'urgent').length} รอคนตอบ)`;
+
+      tbody.innerHTML = '';
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-slate-400">ไม่มีข้อความในหมวดหมู่นี้ครับ</td></tr>`;
+        return;
+      }
+
+      filtered.forEach(msg => {
+        let channelIcon = msg.channel === 'line' 
+          ? `<span class="inline-flex items-center gap-1 text-[#06C755] font-bold text-[11px]"><i class="fa-brands fa-line text-sm"></i> LINE OA</span>`
+          : msg.channel === 'facebook'
+          ? `<span class="inline-flex items-center gap-1 text-[#1877F2] font-bold text-[11px]"><i class="fa-brands fa-facebook text-sm"></i> Facebook</span>`
+          : `<span class="inline-flex items-center gap-1 text-slate-900 font-bold text-[11px]"><i class="fa-brands fa-tiktok text-sm"></i> TikTok</span>`;
+
+        let catBadge = '';
+        if (msg.category === 'urgent') {
+          catBadge = `<span class="px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 text-[10px] font-black inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-rose-600 animate-pulse"></span> รอตอบสด</span>`;
+        } else if (msg.category === 'quote_survey') {
+          catBadge = `<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">สนใจสูง</span>`;
+        } else {
+          catBadge = `<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">บอทตอบแล้ว</span>`;
+        }
+
+        const tr = document.createElement('tr');
+        tr.className = msg.category === 'urgent' ? 'bg-rose-50/40 hover:bg-rose-50/80 transition' : 'hover:bg-slate-50 transition';
+        tr.innerHTML = `
+          <td class="py-3.5 px-3 text-slate-500 font-mono text-[11px]">${escapeHtml(msg.time)}</td>
+          <td class="py-3.5 px-3">
+            <div>${channelIcon}</div>
+            <div class="text-[10px] text-slate-400">${escapeHtml(msg.channelName || '')}</div>
+          </td>
+          <td class="py-3.5 px-3">
+            <div class="font-bold text-slate-900">${escapeHtml(msg.senderName)}</div>
+            <div class="text-[10px] text-slate-500 font-mono">${escapeHtml(msg.phone !== '-' ? msg.phone : msg.senderId)}</div>
+          </td>
+          <td class="py-3.5 px-4">
+            <div class="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 text-xs font-medium leading-relaxed shadow-2xs">
+              <span class="text-emerald-700 font-bold mr-1">💬 ถามว่า:</span> "${escapeHtml(msg.question)}"
+            </div>
+            <div class="text-[10px] text-slate-500 mt-1 flex items-center gap-1">
+              <i class="fa-solid fa-reply text-slate-400"></i>
+              <span>${escapeHtml(msg.botReply)}</span>
+            </div>
+          </td>
+          <td class="py-3.5 px-3">
+            <div class="space-y-1">
+              <div>${catBadge}</div>
+              <div class="text-[10px] text-slate-600 font-medium">${escapeHtml(msg.categoryLabel)}</div>
+            </div>
+          </td>
+          <td class="py-3.5 px-3 text-center">
+            <div class="flex items-center justify-center gap-1.5">
+              <button onclick="replyToCustomer('${msg.id}')" class="px-2.5 py-1 bg-brand-600 hover:bg-brand-700 text-white rounded-lg font-bold text-[11px] transition shadow-2xs active:scale-95 flex items-center gap-1">
+                <i class="fa-solid fa-paper-plane text-[10px]"></i> ตอบ
+              </button>
+              <button onclick="toggleTakeoverForUser('${msg.id}')" title="สลับโหมดเปิด/ปิดบอท" class="px-2 py-1 ${msg.botStatus === 'takeover' ? 'bg-amber-100 text-amber-900 hover:bg-amber-200' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'} rounded-lg font-bold text-[10px] transition">
+                ${msg.botStatus === 'takeover' ? '🤖 เปิดบอท' : '👤 คุยเอง'}
+              </button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function toggleTakeoverForUser(msgId) {
+      const msgs = getInboxMessages();
+      const msg = msgs.find(m => m.id === msgId);
+      if (!msg) return;
+
+      if (msg.botStatus === 'takeover') {
+        msg.botStatus = 'auto';
+        msg.category = 'auto_replied';
+        msg.categoryLabel = '🟢 เปิดบอทตอบปกติ';
+        alert(`🤖 เปิดบอทอัตโนมัติสำหรับ "${msg.senderName}" เรียบร้อยครับ`);
+      } else {
+        msg.botStatus = 'takeover';
+        msg.category = 'urgent';
+        msg.categoryLabel = '🔴 ปิดบอท (คุณไจ๋ไจ๋คุยสด)';
+        alert(`👤 ปิดบอทชั่วคราวสำหรับ "${msg.senderName}" แล้วครับ บอทจะไม่ตอบแทรก คุณไจ๋ไจ๋พิมพ์คุยในแชทได้เลยครับ`);
+      }
+      saveInboxMessages(msgs);
+    }
+
+    function replyToCustomer(msgId) {
+      const msgs = getInboxMessages();
+      const msg = msgs.find(m => m.id === msgId);
+      if (!msg) return;
+
+      const replyText = prompt(`💬 พิมพ์ข้อความตอบกลับถึง: "${msg.senderName}"\n(คำถามลูกค้า: "${msg.question}")`);
+      if (replyText && replyText.trim()) {
+        msg.botReply = `คุณไจ๋ไจ๋ตอบสด: "${replyText.trim()}"`;
+        msg.category = 'auto_replied';
+        msg.categoryLabel = '🟢 ตอบเรียบร้อยแล้ว';
+        saveInboxMessages(msgs);
+        alert(`🚀 ส่งข้อความตอบกลับไปยัง ${msg.channelName} สำเร็จแล้วครับ!`);
+      }
+    }
+
+    function simulateCustomerQuestion() {
+      const samples = [
+        {
+          name: 'คุณชัยวัฒน์ (บ้านพรุ)',
+          phone: '089-876-5432',
+          question: 'บ้านสองชั้นค่าไฟเดือนละ 4,500 บาท อยากติด 5kW มีรับประกันอินเวอร์เตอร์กี่ปีครับ?',
+          channel: 'line',
+          channelName: 'LINE OA @99sola',
+          cat: 'urgent'
+        },
+        {
+          name: 'คุณนพดล (หาดใหญ่)',
+          phone: '081-332-1199',
+          question: 'ขอใบเสนอราคาโรงจอดรถ Solar Carport 5kW โครงเหล็กไฝ่การช่าง จอดได้กี่คันครับ?',
+          channel: 'facebook',
+          channelName: 'เพจ 1: 99 Solar รับติดตั้ง',
+          cat: 'quote_survey'
+        },
+        {
+          name: 'ป้าจันทร์ (สงขลา)',
+          phone: '090-112-8877',
+          question: 'สนใจติดโซลาร์เซลล์ มีแอร์ 1 เครื่อง ประหยัดไฟได้กี่บาทต่อเดือน',
+          channel: 'facebook',
+          channelName: 'เพจ 2: โซลาร์เซลล์บ้านภาคใต้',
+          cat: 'auto_replied'
+        }
+      ];
+
+      const pick = samples[Math.floor(Math.random() * samples.length)];
+      const msgs = getInboxMessages();
+      const newMsg = {
+        id: 'msg_' + Date.now(),
+        time: 'เมื่อสักครู่ (' + new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) + ' น.)',
+        channel: pick.channel,
+        channelName: pick.channelName,
+        senderName: pick.name,
+        senderId: 'U_sim_' + Math.floor(Math.random()*1000),
+        question: pick.question,
+        category: pick.cat,
+        categoryLabel: pick.cat === 'urgent' ? '🔴 คำถามใหม่นอกระบบ (รอคนตอบ)' : pick.cat === 'quote_survey' ? '🟡 ขอใบเสนอราคา/สเปก' : '🟢 บอทตอบราคาเบื้องต้น',
+        botStatus: pick.cat === 'urgent' ? 'takeover' : 'auto',
+        botReply: pick.cat === 'urgent' ? 'บอทพักสายรอคุณไจ๋ไจ๋เข้าตอบ' : 'บอทส่งข้อมูลแพ็กเกจให้แล้ว',
+        phone: pick.phone
+      };
+
+      msgs.unshift(newMsg);
+      saveInboxMessages(msgs);
+      alert(`🔔 [จำลองข้อความใหม่]\n"${pick.name}" พิมพ์ถามมาว่า:\n"${pick.question}"\n\nระบบบันทึกลงกล่องข้อความเรียบร้อยแล้วครับ!`);
+    }
+
+    // ==========================================================
+    // 3. SCHEDULE JOBS MANAGEMENT (เปิดรอบ & ตารางงานช่างที่ใช้งานได้จริง)
+    // ==========================================================
+    const SCHEDULE_KEY = 'solar99_schedule_jobs';
+
+    const DEFAULT_SCHEDULE_JOBS = [
+      {
+        id: 'job_01',
+        date: 'วันพรุ่งนี้ (09:00 น.)',
+        customerName: 'คุณวีระชัย',
+        customerPhone: '081-959-1122',
+        location: 'ถ.กาญจนวนิช ต.คลองแห หาดใหญ่',
+        systemSize: '5.0 kW On-Grid',
+        team: 'ทีมช่าง A (หัวหน้าช่างเอก)',
+        weather: '☀️ แดดจัด ปลอดโปร่ง',
+        status: 'ขึ้นโครงหลังคา'
+      },
+      {
+        id: 'job_02',
+        date: 'พุธนี้ (13:30 น.)',
+        customerName: 'โรงน้ำแข็งสงขลา',
+        customerPhone: '086-778-9900',
+        location: 'อ.สิงหนคร จ.สงขลา',
+        systemSize: '10.0 kW On-Grid',
+        team: 'ทีมวิศวกร B (วิศวกรธนกร)',
+        weather: '⛅ มีเมฆบางส่วน',
+        status: 'ทดสอบ Inverter'
+      },
+      {
+        id: 'job_03',
+        date: 'ศุกร์นี้ (10:00 น.)',
+        customerName: 'คุณศิริพร (บ้านพักอาศัย)',
+        customerPhone: '093-456-7890',
+        location: 'หาดใหญ่ใน จ.สงขลา',
+        systemSize: 'Solar Carport 5kW',
+        team: 'ทีม C (ไฝ่การช่าง โรงเหล็ก)',
+        weather: '☀️ แดดจัด ปลอดโปร่ง',
+        status: 'นัดหมายใหม่'
+      }
+    ];
+
+    function getScheduleJobs() {
+      try {
+        const stored = localStorage.getItem(SCHEDULE_KEY);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {}
+      localStorage.setItem(SCHEDULE_KEY, JSON.stringify(DEFAULT_SCHEDULE_JOBS));
+      return DEFAULT_SCHEDULE_JOBS;
+    }
+
+    function saveScheduleJobs(jobs) {
+      localStorage.setItem(SCHEDULE_KEY, JSON.stringify(jobs));
+      renderScheduleJobs();
+    }
+
+    function renderScheduleJobs() {
+      const tbody = document.getElementById('scheduleTableBody');
+      if (!tbody) return;
+
+      const jobs = getScheduleJobs();
+      tbody.innerHTML = '';
+
+      jobs.forEach(job => {
+        let statusBadge = '';
+        if (job.status === 'ส่งมอบงานแล้ว') {
+          statusBadge = `<span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">✅ ส่งมอบงานแล้ว</span>`;
+        } else if (job.status === 'ทดสอบ Inverter') {
+          statusBadge = `<span class="px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 text-[10px] font-bold">🔌 ทดสอบ Inverter</span>`;
+        } else if (job.status === 'ติดตั้งแผงโซลาร์') {
+          statusBadge = `<span class="px-2.5 py-1 rounded-full bg-purple-100 text-purple-800 text-[10px] font-bold">⚡ ติดตั้งแผง</span>`;
+        } else if (job.status === 'ขึ้นโครงหลังคา') {
+          statusBadge = `<span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">🔨 ขึ้นโครงหลังคา</span>`;
+        } else {
+          statusBadge = `<span class="px-2.5 py-1 rounded-full bg-slate-100 text-slate-800 text-[10px] font-bold">🗓️ นัดหมายใหม่</span>`;
+        }
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition';
+        tr.innerHTML = `
+          <td class="py-4 px-3 font-bold text-slate-900">${escapeHtml(job.date)}</td>
+          <td class="py-4 px-3">
+            <div class="font-bold text-slate-900">${escapeHtml(job.customerName)}</div>
+            <div class="text-[10px] text-slate-500">${escapeHtml(job.location)}</div>
+            <div class="text-[10px] font-mono text-emerald-700 font-bold">${escapeHtml(job.customerPhone || '')}</div>
+          </td>
+          <td class="py-4 px-3 font-bold text-emerald-700">${escapeHtml(job.systemSize)}</td>
+          <td class="py-4 px-3">
+            <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-800 text-[10px] font-bold">${escapeHtml(job.team)}</span>
+          </td>
+          <td class="py-4 px-3">
+            <span class="text-amber-600 font-bold text-xs">${escapeHtml(job.weather)}</span>
+          </td>
+          <td class="py-4 px-3">
+            ${statusBadge}
+          </td>
+          <td class="py-4 px-3 text-center">
+            <div class="flex items-center justify-center gap-1.5">
+              <button onclick="changeJobStatusPrompt('${job.id}')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[10px] font-bold transition">
+                อัปเดต
+              </button>
+              <button onclick="deleteScheduleJob('${job.id}')" title="ลบคิวนี้" class="text-slate-400 hover:text-rose-600 text-xs p-1 transition">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openAddScheduleModal() {
+      const modal = document.getElementById('addScheduleModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeAddScheduleModal() {
+      const modal = document.getElementById('addScheduleModal');
+      if (modal) modal.classList.add('hidden');
+      document.getElementById('addScheduleForm')?.reset();
+    }
+
+    function handleCreateScheduleJob(e) {
+      e.preventDefault();
+      const name = document.getElementById('schCustomerName').value.trim();
+      const phone = document.getElementById('schCustomerPhone').value.trim();
+      const date = document.getElementById('schJobDate').value.trim();
+      const location = document.getElementById('schJobLocation').value.trim();
+      const systemSize = document.getElementById('schSystemSize').value;
+      const team = document.getElementById('schTeam').value;
+      const weather = document.getElementById('schWeather').value;
+      const status = document.getElementById('schStatus').value;
+
+      if (!name || !date) {
+        alert('กรุณากรอกชื่อลูกค้าและวันที่นัดหมายครับ');
+        return;
+      }
+
+      const jobs = getScheduleJobs();
+      const newJob = {
+        id: 'job_' + Date.now(),
+        date: date,
+        customerName: name,
+        customerPhone: phone,
+        location: location || 'หาดใหญ่',
+        systemSize: systemSize,
+        team: team,
+        weather: weather,
+        status: status
+      };
+
+      jobs.unshift(newJob);
+      saveScheduleJobs(jobs);
+      closeAddScheduleModal();
+      alert(`🎉 เปิดรอบคิวนัดติดตั้งของ "${name}" เรียบร้อยแล้วครับ! ตารางงานได้รับการอัปเดตทันที`);
+    }
+
+    function changeJobStatusPrompt(jobId) {
+      const jobs = getScheduleJobs();
+      const job = jobs.find(j => j.id === jobId);
+      if (!job) return;
+
+      const statuses = ['นัดหมายใหม่', 'ขึ้นโครงหลังคา', 'ติดตั้งแผงโซลาร์', 'ทดสอบ Inverter', 'ส่งมอบงานแล้ว'];
+      const choice = prompt(`🔄 เลือกสถานะใหม่สำหรับคิว "${job.customerName}":\n\nพิมพ์ตัวเลข 1 - 5:\n1. นัดหมายใหม่\n2. ขึ้นโครงหลังคา\n3. ติดตั้งแผงโซลาร์\n4. ทดสอบ Inverter\n5. ส่งมอบงานแล้ว\n\n(สถานะปัจจุบัน: ${job.status})`);
+
+      if (choice) {
+        const idx = parseInt(choice) - 1;
+        if (idx >= 0 && idx < statuses.length) {
+          job.status = statuses[idx];
+          saveScheduleJobs(jobs);
+          alert(`✅ เปลี่ยนสถานะของ "${job.customerName}" เป็น "${job.status}" เรียบร้อยครับ`);
+        }
+      }
+    }
+
+    function deleteScheduleJob(jobId) {
+      const jobs = getScheduleJobs();
+      const job = jobs.find(j => j.id === jobId);
+      if (!job) return;
+
+      if (confirm(`คุณไจ๋ไจ๋ต้องการลบคิวงานของ "${job.customerName}" ใช่หรือไม่?`)) {
+        const filtered = jobs.filter(j => j.id !== jobId);
+        saveScheduleJobs(filtered);
+      }
+    }
+
     function addNewScheduleJob() {
-      alert('📅 เปิดฟอร์มลงคิวนัดติดตั้ง & สำรวจหน้างานใหม่');
+      openAddScheduleModal();
     }
 
     async function loadLeadsFromDB() {
@@ -2234,6 +2886,8 @@
       checkAuthStatus();
       loadAdminSettings();
       renderChannels();
+      renderInboxMessages();
+      renderScheduleJobs();
       loadLeadsFromDB();
     });
   </script>
