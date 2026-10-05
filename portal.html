@@ -444,9 +444,227 @@
             </div>
           </div>
 
+          <!-- ======================================================== -->
+          <!-- NEW: แบบฟอร์มและดีไซน์คำตอบริชเมนู 6 ช่อง (RICH MENU CONFIG FORM) -->
+          <!-- ======================================================== -->
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+              <div>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold mb-1.5">
+                  <i class="fa-solid fa-pen-ruler text-amber-600"></i> ออกแบบคำตอบสำเร็จรูปสำหรับริชเมนู 6 ช่อง
+                </div>
+                <h3 class="text-lg font-bold font-heading text-slate-900">
+                  แบบฟอร์มกำหนดการตอบของริชเมนู (Rich Menu 6-Slot Response Form)
+                </h3>
+                <p class="text-xs text-slate-500">
+                  คลิกเลือกช่องที่ต้องการด้านซ้าย เพื่อดูแบบฟอร์มการตั้งค่าใน LINE Manager และข้อความที่บอทตอบกลับทันที (ก๊อปปี้ไปใช้ได้เลย)
+                </p>
+              </div>
+              <a href="https://manager.line.biz" target="_blank" class="px-4 py-2 bg-[#06C755] hover:bg-[#05b34c] text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm shrink-0">
+                <i class="fa-brands fa-line text-sm"></i> <span>เปิด LINE Official Manager</span>
+              </a>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+              <!-- Left Side: Interactive 6-Slot Grid Visualizer -->
+              <div class="lg:col-span-5 space-y-3">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-bold text-slate-700">ผังภาพริชเมนู (คลิกเพื่อเลือกช่อง):</span>
+                  <span class="text-slate-400 font-mono text-[11px]">ขนาด: 2500x1686 px</span>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2.5 p-3 bg-slate-900 rounded-2xl shadow-inner border border-slate-800 aspect-[2500/1686] text-white">
+                  <!-- Slot A -->
+                  <button type="button" onclick="selectRichSlot('slot_a')" id="btnSlot_a" class="rich-slot-btn relative p-2.5 rounded-xl bg-slate-800 hover:bg-emerald-800/80 border-2 border-emerald-500 transition-all flex flex-col justify-between text-left group">
+                    <span class="px-1.5 py-0.5 rounded bg-emerald-500 text-white font-mono text-[10px] font-bold self-start">A</span>
+                    <div>
+                      <div class="text-base text-amber-400 mb-0.5"><i class="fa-solid fa-calculator"></i></div>
+                      <div class="text-[11px] font-bold leading-tight group-hover:text-emerald-300">1. คำนวณค่าไฟ</div>
+                    </div>
+                  </button>
+
+                  <!-- Slot B -->
+                  <button type="button" onclick="selectRichSlot('slot_b')" id="btnSlot_b" class="rich-slot-btn relative p-2.5 rounded-xl bg-slate-800 hover:bg-emerald-800/80 border border-slate-700 transition-all flex flex-col justify-between text-left group">
+                    <span class="px-1.5 py-0.5 rounded bg-slate-700 text-slate-300 font-mono text-[10px] font-bold self-start">B</span>
+                    <div>
+                      <div class="text-base text-emerald-400 mb-0.5"><i class="fa-solid fa-tags"></i></div>
+                      <div class="text-[11px] font-bold leading-tight group-hover:text-emerald-300">2. แพ็กเกจราคา</div>
+                    </div>
+                  </button>
+
+                  <!-- Slot C -->
+                  <button type="button" onclick="selectRichSlot('slot_c')" id="btnSlot_c" class="rich-slot-btn relative p-2.5 rounded-xl bg-slate-800 hover:bg-emerald-800/80 border border-slate-700 transition-all flex flex-col justify-between text-left group">
+                    <span class="px-1.5 py-0.5 rounded bg-slate-700 text-slate-300 font-mono text-[10px] font-bold self-start">C</span>
+                    <div>
+                      <div class="text-base text-sky-400 mb-0.5"><i class="fa-solid fa-file-invoice"></i></div>
+                      <div class="text-[11px] font-bold leading-tight group-hover:text-emerald-300">3. ขอใบเสนอราคา</div>
+                    </div>
+                  </button>
+
+                  <!-- Slot D -->
+                  <button type="button" onclick="selectRichSlot('slot_d')" id="btnSlot_d" class="rich-slot-btn relative p-2.5 rounded-xl bg-slate-800 hover:bg-emerald-800/80 border border-slate-700 transition-all flex flex-col justify-between text-left group">
+                    <span class="px-1.5 py-0.5 rounded bg-slate-700 text-slate-300 font-mono text-[10px] font-bold self-start">D</span>
+                    <div>
+                      <div class="text-base text-teal-400 mb-0.5"><i class="fa-solid fa-signature"></i></div>
+                      <div class="text-[11px] font-bold leading-tight group-hover:text-emerald-300">4. สัญญาออนไลน์</div>
+                    </div>
+                  </button>
+
+                  <!-- Slot E -->
+                  <button type="button" onclick="selectRichSlot('slot_e')" id="btnSlot_e" class="rich-slot-btn relative p-2.5 rounded-xl bg-slate-800 hover:bg-emerald-800/80 border border-slate-700 transition-all flex flex-col justify-between text-left group">
+                    <span class="px-1.5 py-0.5 rounded bg-slate-700 text-slate-300 font-mono text-[10px] font-bold self-start">E</span>
+                    <div>
+                      <div class="text-base text-rose-400 mb-0.5"><i class="fa-solid fa-location-dot"></i></div>
+                      <div class="text-[11px] font-bold leading-tight group-hover:text-emerald-300">5. นัดสำรวจฟรี</div>
+                    </div>
+                  </button>
+
+                  <!-- Slot F -->
+                  <button type="button" onclick="selectRichSlot('slot_f')" id="btnSlot_f" class="rich-slot-btn relative p-2.5 rounded-xl bg-slate-800 hover:bg-emerald-800/80 border border-slate-700 transition-all flex flex-col justify-between text-left group">
+                    <span class="px-1.5 py-0.5 rounded bg-slate-700 text-slate-300 font-mono text-[10px] font-bold self-start">F</span>
+                    <div>
+                      <div class="text-base text-amber-400 mb-0.5"><i class="fa-solid fa-phone-volume"></i></div>
+                      <div class="text-[11px] font-bold leading-tight group-hover:text-emerald-300">6. โทรหาไจ๋ไจ๋</div>
+                    </div>
+                  </button>
+                </div>
+
+                <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-[11px] text-slate-600 space-y-1">
+                  <p class="font-bold text-slate-800"><i class="fa-solid fa-image text-emerald-600"></i> ไฟล์ภาพริชเมนูที่ใช้:</p>
+                  <p class="font-mono text-[10px] text-slate-500">line_rich_menu_2500x1686.jpg (สร้างเตรียมไว้ให้แล้ว)</p>
+                  <a href="line_rich_menu_2500x1686.jpg" download class="inline-flex items-center gap-1 text-emerald-600 font-bold hover:underline pt-0.5">
+                    <i class="fa-solid fa-download"></i> ดาวน์โหลดภาพไปอัปโหลดใน LINE Manager
+                  </a>
+                </div>
+              </div>
+
+              <!-- Right Side: Config Form for Selected Slot -->
+              <div class="lg:col-span-7 bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+                  <div class="flex items-center gap-2">
+                    <span id="slotBadge" class="px-2.5 py-0.5 rounded-full bg-emerald-600 text-white font-mono text-xs font-bold">ช่อง A (บนซ้าย)</span>
+                    <h4 id="slotTitle" class="text-sm font-bold font-heading text-slate-900">1. ปุ่มคำนวณค่าไฟ</h4>
+                  </div>
+                  <span id="slotCoords" class="text-[10px] font-mono text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">Bounds: 0, 0, 833, 843</span>
+                </div>
+
+                <!-- Form Fields -->
+                <div class="space-y-3 text-xs">
+                  <!-- Action Type -->
+                  <div>
+                    <label class="block font-bold text-slate-700 mb-1">1. ประเภทแอ็กชัน (Action Type ใน LINE Manager):</label>
+                    <div class="flex items-center gap-2">
+                      <input type="text" id="slotActionType" readonly class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl font-semibold text-slate-800">
+                    </div>
+                  </div>
+
+                  <!-- Trigger Keyword / Link -->
+                  <div>
+                    <div class="flex items-center justify-between mb-1">
+                      <label class="font-bold text-slate-700">2. คำที่ส่งเข้าแชท (หรือลิงก์ปลายทาง):</label>
+                      <button onclick="copySlotField('slotTriggerText')" class="text-emerald-600 hover:text-emerald-700 font-bold text-[11px] flex items-center gap-1">
+                        <i class="fa-solid fa-copy"></i> ก๊อปปี้คำนี้
+                      </button>
+                    </div>
+                    <input type="text" id="slotTriggerText" readonly class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl font-mono text-slate-800 font-bold">
+                  </div>
+
+                  <!-- Bot Response Preview -->
+                  <div>
+                    <div class="flex items-center justify-between mb-1">
+                      <label class="font-bold text-slate-700">3. ข้อความที่บอทจะตอบกลับอัตโนมัติ (Bot Instant Response):</label>
+                      <button onclick="copySlotField('slotBotReplyText')" class="text-emerald-600 hover:text-emerald-700 font-bold text-[11px] flex items-center gap-1">
+                        <i class="fa-solid fa-copy"></i> ก๊อปปี้คำตอบนี้
+                      </button>
+                    </div>
+                    <textarea id="slotBotReplyText" rows="6" readonly class="w-full p-3 bg-white border border-slate-300 rounded-xl font-sans text-slate-800 leading-relaxed"></textarea>
+                  </div>
+
+                  <!-- System Action Note -->
+                  <div class="p-3 bg-emerald-50/80 border border-emerald-200 rounded-xl text-[11px] text-emerald-900 flex items-start gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-emerald-600 mt-0.5"></i>
+                    <div>
+                      <span class="font-bold">ระบบทำงานเสริม:</span>
+                      <span id="slotExtraNote" class="text-slate-700">แนบปุ่ม Quick Reply ลอยใต้แป้นพิมพ์มือถือลูกค้าทันที</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Full 6-Slot Master Summary Table (Cheatsheet) -->
+            <div class="pt-4 border-t border-slate-100 space-y-3">
+              <h4 class="text-xs font-bold text-slate-800 flex items-center gap-2">
+                <i class="fa-solid fa-table-list text-emerald-600"></i> ตารางสรุปตั้งค่าริชเมนู 6 ช่องแบบรวดเร็ว (Cheatsheet สำหรับนำไปกรอก):
+              </h4>
+
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border border-slate-200 rounded-xl overflow-hidden">
+                  <thead class="bg-slate-100 text-slate-700 font-bold">
+                    <tr>
+                      <th class="py-2.5 px-3 border-b">ช่อง</th>
+                      <th class="py-2.5 px-3 border-b">ชื่อปุ่ม</th>
+                      <th class="py-2.5 px-3 border-b">ประเภท (Action)</th>
+                      <th class="py-2.5 px-3 border-b">คำที่กรอก (Trigger)</th>
+                      <th class="py-2.5 px-3 border-b">รูปแบบการตอบของบอท</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 text-slate-700 bg-white">
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-2.5 px-3 font-mono font-bold text-emerald-700">A (บนซ้าย)</td>
+                      <td class="py-2.5 px-3 font-bold">☀️ คำนวณค่าไฟ</td>
+                      <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-mono text-[10px]">ข้อความ</span></td>
+                      <td class="py-2.5 px-3 font-mono text-emerald-600 font-bold">คำนวณค่าไฟ</td>
+                      <td class="py-2.5 px-3 text-slate-600">ตอบลิงก์คำนวณ 3 วินาที + Quick Reply</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-2.5 px-3 font-mono font-bold text-emerald-700">B (บนกลาง)</td>
+                      <td class="py-2.5 px-3 font-bold">⚡ แพ็กเกจราคา</td>
+                      <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-mono text-[10px]">ข้อความ</span></td>
+                      <td class="py-2.5 px-3 font-mono text-emerald-600 font-bold">ราคาแพ็กเกจ</td>
+                      <td class="py-2.5 px-3 text-slate-600">ส่ง <strong>Flex Message Card</strong> 3.3/5/10kW มีปุ่มกด</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-2.5 px-3 font-mono font-bold text-emerald-700">C (บนขวา)</td>
+                      <td class="py-2.5 px-3 font-bold">📄 ขอใบเสนอราคา</td>
+                      <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-mono text-[10px]">ข้อความ</span></td>
+                      <td class="py-2.5 px-3 font-mono text-emerald-600 font-bold">ขอใบเสนอราคา</td>
+                      <td class="py-2.5 px-3 text-slate-600">ตอบลิงก์ออกเอกสาร A4 + แนะนำส่งรูปบิลค่าไฟ</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-2.5 px-3 font-mono font-bold text-emerald-700">D (ล่างซ้าย)</td>
+                      <td class="py-2.5 px-3 font-bold">✍️ สัญญาออนไลน์</td>
+                      <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-mono text-[10px]">ข้อความ</span></td>
+                      <td class="py-2.5 px-3 font-mono text-emerald-600 font-bold">เซ็นสัญญาออนไลน์</td>
+                      <td class="py-2.5 px-3 text-slate-600">ตอบลิงก์เซ็นสัญญา E-Contract บนมือถือ</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-2.5 px-3 font-mono font-bold text-emerald-700">E (ล่างกลาง)</td>
+                      <td class="py-2.5 px-3 font-bold">📍 นัดสำรวจฟรี</td>
+                      <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-mono text-[10px]">ข้อความ</span></td>
+                      <td class="py-2.5 px-3 font-mono text-emerald-600 font-bold">สนใจนัดสำรวจหน้างานฟรีครับ</td>
+                      <td class="py-2.5 px-3 text-slate-600">ขอเบอร์โทร + <strong>ยิงแจ้งเตือนด่วนหาคุณไจ๋ไจ๋</strong></td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-2.5 px-3 font-mono font-bold text-emerald-700">F (ล่างขวา)</td>
+                      <td class="py-2.5 px-3 font-bold">📞 โทรหาไจ๋ไจ๋</td>
+                      <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-700 font-mono text-[10px]">ลิงก์ (URL)</span></td>
+                      <td class="py-2.5 px-3 font-mono text-blue-600 font-bold">tel:0907151987</td>
+                      <td class="py-2.5 px-3 text-slate-600">มือถือเปิดแอปโทรศัพท์ กดโทรออก 090-715-1987 ทันที</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
           <!-- Bot Engine Status Banner & Switch -->
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100">
+              <div class="space-y-1">
               <div class="space-y-1">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">
                   <i class="fa-solid fa-shield-halved text-emerald-600"></i> 3-Tier Bot Engine Active
@@ -1434,6 +1652,97 @@
 
     function saveApiSettings() {
       alert('💾 บันทึกการตั้งค่า Token เรียบร้อยแล้วครับ!');
+    }
+
+    // Rich Menu 6-Slot Response Configurator Data
+    const RICH_MENU_DATA = {
+      slot_a: {
+        badge: 'ช่อง A (บนซ้าย)',
+        title: '1. ปุ่มคำนวณค่าไฟ',
+        coords: 'Bounds: 0, 0, 833, 843',
+        actionType: 'ข้อความ (Message)',
+        triggerText: 'คำนวณค่าไฟ',
+        botReply: `☀️ จำลองคำนวณยอดประหยัดค่าไฟบ้านคุณ (หาดใหญ่-สงขลา):\n\nกดเปิดระบบคำนวณออนไลน์ได้ทันทีครับ:\n👉 https://99solar99.vercel.app\n\n(รู้ผลทันทีใน 3 วินาที ว่าบ้านคุณควรติดกี่ kW และประหยัดได้เดือนละกี่บาทครับ ⚡)`,
+        extraNote: 'ส่งลิงก์คำนวณบนเว็บ + แนบ Quick Reply ลอยใต้แป้นพิมพ์มือถือลูกค้า'
+      },
+      slot_b: {
+        badge: 'ช่อง B (บนกลาง)',
+        title: '2. ปุ่มแพ็กเกจราคา',
+        coords: 'Bounds: 833, 0, 834, 843',
+        actionType: 'ข้อความ (Message)',
+        triggerText: 'ราคาแพ็กเกจ',
+        botReply: `⚡ ส่งการ์ด Flex Message แพ็กเกจมาตรฐาน 99 Solar:\n\n🔹 3.3 kW (ลดค่าไฟ ~1,800 บ./ด.) ➔ 119,000 บ.\n🔹 5.0 kW (ลดค่าไฟ ~3,500 บ./ด.) ➔ 169,000 บ. (ยอดนิยม 🔥)\n🔹 10.0 kW (ลดค่าไฟ ~7,000 บ./ด.) ➔ 289,000 บ.\n\n💳 ผ่อน 0% นาน 10 เดือน หรือผ่อนสบายนาน 84 เดือน\nพร้อมปุ่มกด [ขอใบเสนอราคา] และ [โทรนัดสำรวจฟรี]`,
+        extraNote: 'ส่งการ์ด Flex Message สวยหรู (Bubble Card) สไลด์ดูได้ พร้อมปุ่มกด Call-to-Action'
+      },
+      slot_c: {
+        badge: 'ช่อง C (บนขวา)',
+        title: '3. ปุ่มขอใบเสนอราคา',
+        coords: 'Bounds: 1667, 0, 833, 843',
+        actionType: 'ข้อความ (Message)',
+        triggerText: 'ขอใบเสนอราคา',
+        botReply: `📄 ออกใบเสนอราคาทางการ (PDF A4 มาตรฐาน มีตราประทับบริษัท 99 แมทช์ เมคเกอร์ จำกัด):\n\nสามารถกรอกข้อมูลออกเอกสารสำหรับยื่นกู้ธนาคาร หรือขออนุมัติงบได้ที่นี่ครับ:\n👉 https://99solar99.vercel.app/quotation.html\n\nหรือส่ง "รูปบิลค่าไฟเดือนล่าสุด" ทิ้งไว้ในแชทนี้ได้เลยครับ เดี๋ยวคุณไจ๋ไจ๋จัดทำใบเสนอราคาให้ทันทีครับ ⚡`,
+        extraNote: 'ลูกค้าสามารถกดเปิดเว็บออกเอกสาร PDF ได้เองทันที หรือส่งรูปบิลค่าไฟให้คุณไจ๋ไจ๋คำนวณ'
+      },
+      slot_d: {
+        badge: 'ช่อง D (ล่างซ้าย)',
+        title: '4. ปุ่มเซ็นสัญญาออนไลน์',
+        coords: 'Bounds: 0, 843, 833, 843',
+        actionType: 'ข้อความ (Message)',
+        triggerText: 'เซ็นสัญญาออนไลน์',
+        botReply: `✍️ ระบบเซ็นสัญญาจ้างติดตั้งออนไลน์ (E-Contract):\n\nสัญญาระหว่างลูกค้า กับ บจก. 99 แมทช์ เมคเกอร์ แบ่งชำระ 3 งวด ถูกต้องตามกฎหมาย ใช้นิ้วเซ็นบนมือถือได้ทันทีครับ:\n👉 https://99solar99.vercel.app/contract.html\n\n(สะดวก รวดเร็ว ปลอดภัย มีผลผูกพันตามกฎหมาย 100%)`,
+        extraNote: 'เปิดหน้าเซ็นสัญญา Paperless แบ่งจ่าย 3 งวด มีระบบบันทึกลายเซ็นลงฐานข้อมูล'
+      },
+      slot_e: {
+        badge: 'ช่อง E (ล่างกลาง)',
+        title: '5. ปุ่มนัดสำรวจหน้างานฟรี',
+        coords: 'Bounds: 833, 843, 834, 843',
+        actionType: 'ข้อความ (Message)',
+        triggerText: 'สนใจนัดสำรวจหน้างานฟรีครับ',
+        botReply: `📍 99 Solar ให้บริการ "สำรวจหน้างานฟรี 100%" ในเขตหาดใหญ่และสงขลาครับ!\n\n• วิศวกรตรวจเช็กทิศทางแดดและโครงสร้างหลังคา\n• ตรวจสอบตู้ไฟ MDB ก่อนยื่นขอ กฟภ.\n• ไม่มีค่าใช้จ่ายและไม่มีข้อผูกมัดใดๆ\n\n📌 พิมพ์ "ชื่อ + เบอร์โทร + พิกัดบ้าน" ทิ้งไว้ได้เลยครับ เดี๋ยวคุณไจ๋ไจ๋ติดต่อกลับนัดหมายทันทีครับ! ⚡`,
+        extraNote: 'เมื่อลูกค้าพิมพ์เบอร์โทรกลับมา ระบบจะบันทึก Lead ลง Supabase และยิง Push Alert หาคุณไจ๋ไจ๋ทันที'
+      },
+      slot_f: {
+        badge: 'ช่อง F (ล่างขวา)',
+        title: '6. ปุ่มโทรหาคุณไจ๋ไจ๋',
+        coords: 'Bounds: 1667, 843, 833, 843',
+        actionType: 'ลิงก์ (URL)',
+        triggerText: 'tel:0907151987',
+        botReply: `📞 สายด่วนโทรออก 090-715-1987 ทันที:\n(เมื่อลูกค้ากดปุ่มนี้ในมือถือ เครื่องจะเปิดแอปโทรศัพท์และต่อสายหาคุณไจ๋ไจ๋ กรรมการผู้จัดการ บจก. 99 แมทช์ เมคเกอร์ ทันที)`,
+        extraNote: 'ไม่ต้องผ่านบอท มือถือของลูกค้าจะเปิดแอปโทรศัพท์โทรออกทันทีใน 1 วินาที'
+      }
+    };
+
+    function selectRichSlot(slotKey) {
+      const data = RICH_MENU_DATA[slotKey];
+      if (!data) return;
+
+      // Update Active Button Style
+      document.querySelectorAll('.rich-slot-btn').forEach(btn => {
+        btn.classList.remove('border-2', 'border-emerald-500');
+        btn.classList.add('border', 'border-slate-700');
+      });
+      const activeBtn = document.getElementById(`btnSlot_${slotKey.split('_')[1]}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('border-slate-700');
+        activeBtn.classList.add('border-2', 'border-emerald-500');
+      }
+
+      // Update Form Fields
+      document.getElementById('slotBadge').innerText = data.badge;
+      document.getElementById('slotTitle').innerText = data.title;
+      document.getElementById('slotCoords').innerText = data.coords;
+      document.getElementById('slotActionType').value = data.actionType;
+      document.getElementById('slotTriggerText').value = data.triggerText;
+      document.getElementById('slotBotReplyText').value = data.botReply;
+      document.getElementById('slotExtraNote').innerText = data.extraNote;
+    }
+
+    function copySlotField(fieldId) {
+      const el = document.getElementById(fieldId);
+      if (el) {
+        navigator.clipboard.writeText(el.value);
+        alert('📋 คัดลอกเรียบร้อยแล้วครับ! สามารถนำไปวางใน LINE Official Account Manager ได้ทันที');
+      }
     }
 
     function openAddChannelModal() {
