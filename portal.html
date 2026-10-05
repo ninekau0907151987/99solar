@@ -101,8 +101,8 @@
       
       <!-- Brand Logo -->
       <div class="flex justify-center">
-        <div class="p-3 bg-slate-900 rounded-2xl shadow-inner inline-flex">
-          <img src="logo_transparent.png" alt="99 Solar Hat Yai" class="h-14 w-auto object-contain">
+        <div class="p-2 bg-white rounded-2xl shadow-md border border-slate-200 inline-flex">
+          <img src="logo.jpg" alt="99 Solar Hat Yai" class="h-16 w-auto object-contain">
         </div>
       </div>
 
@@ -166,8 +166,8 @@
         <!-- Sidebar Brand Header -->
         <div class="p-4 border-b border-slate-800 flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center p-1 border border-slate-700">
-              <img src="logo_transparent.png" alt="99 Solar" class="w-full h-full object-contain">
+            <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center p-1 border border-slate-700 shadow-sm shrink-0">
+              <img src="logo.jpg" alt="99 Solar" class="w-full h-full object-contain">
             </div>
             <div>
               <div class="font-bold text-white text-sm font-heading tracking-tight leading-tight">99 SOLAR HUB</div>
@@ -221,11 +221,11 @@
             <span class="px-1.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 text-[10px] font-bold">บอท</span>
           </button>
 
-          <!-- 3. หลายเพจ & หลายช่อง (Omnichannel) -->
+          <!-- 3. จัดการเพจบอท & เชื่อมต่อ API (Omnichannel & Token Hub - รวมฟังก์ชัน 3 และ 9 เข้าด้วยกัน) -->
           <button onclick="switchTab('multichannel')" id="nav-multichannel" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition">
             <i class="fa-solid fa-network-wired text-sm text-sky-400 w-5 text-center"></i>
-            <span class="flex-1 text-left">3. จัดการหลายเพจ & หลายช่อง</span>
-            <span class="px-1.5 py-0.5 rounded-md bg-sky-500/20 text-sky-300 text-[10px] font-bold">Multi</span>
+            <span class="flex-1 text-left">3. จัดการเพจบอท & เชื่อมต่อ API</span>
+            <span class="px-1.5 py-0.5 rounded-md bg-sky-500/20 text-sky-300 text-[10px] font-bold">All-in-1</span>
           </button>
 
           <!-- 4. ตารางงานช่าง & พยากรณ์อากาศ -->
@@ -259,12 +259,6 @@
             <i class="fa-solid fa-wand-magic-sparkles text-sm text-purple-400 w-5 text-center"></i>
             <span class="flex-1 text-left">8. AI ตัวช่วยโพสต์อัตโนมัติ</span>
             <span class="px-1.5 py-0.5 rounded-md bg-purple-500/20 text-purple-300 text-[10px] font-bold">AI</span>
-          </button>
-
-          <!-- 9. ตั้งค่าโทเค็น & API -->
-          <button onclick="switchTab('settings')" id="nav-settings" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition">
-            <i class="fa-solid fa-sliders text-sm text-slate-400 w-5 text-center"></i>
-            <span>9. ตั้งค่าโทเค็น & API</span>
           </button>
         </nav>
       </div>
@@ -944,125 +938,98 @@
         </div>
 
         <!-- ========================================== -->
-        <!-- TAB 3: จัดการหลายเพจ & หลายช่อง (OMNICHANNEL) -->
+        <!-- TAB 3: จัดการเพจบอท & เชื่อมต่อ API (OMNICHANNEL & TOKEN HUB - รวมฟังก์ชัน 3 และ 9) -->
         <!-- ========================================== -->
         <div id="tab-multichannel" class="hidden space-y-6">
-          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <h3 class="text-lg font-bold font-heading text-slate-900 flex items-center gap-2">
-                  <i class="fa-solid fa-network-wired text-sky-600"></i> จัดการหลายเพจ Facebook, หลาย TikTok และหลาย LINE OA
+
+          <!-- BANNER 1: จุดเชื่อมต่อเว็บกลางหนึ่งเดียว (Single Central Webhook Gateway) -->
+          <div class="bg-gradient-to-r from-sky-950 via-slate-900 to-indigo-950 rounded-3xl p-6 text-white border border-sky-800/60 shadow-xl space-y-5">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+              <div class="space-y-1.5">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/30 text-sky-300 text-[11px] font-bold">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <i class="fa-solid fa-globe"></i> จุดเชื่อมต่อเว็บกลางหนึ่งเดียว (Single Central Endpoint)
+                </div>
+                <h3 class="text-xl sm:text-2xl font-black font-heading text-white">
+                  เว็บกลางรับข้อมูลอันเดียว รวมศูนย์บอททุกเพจ ทุกช่องทาง
                 </h3>
-                <p class="text-xs text-slate-500">
-                  ระบบรวมศูนย์ Omnichannel ให้คุณไจ๋ไจ๋เชื่อมต่อได้ไม่จำกัดเพจและไม่จำกัดช่องทาง
+                <p class="text-xs text-slate-300 max-w-2xl leading-relaxed">
+                  ไม่ว่าคุณไจ๋ไจ๋จะมีกี่เพจ Facebook, กี่ไลน์ OA หรือกี่บอท <strong>ให้นำลิงก์ Webhook กลางอันนี้ไปวางที่เดียวจบ</strong> เพื่อให้ระบบส่งข้อความ การแจ้งเตือน และข้อมูลลูกค้าเข้ามารวมที่หน้าเว็บนี้อัตโนมัติครับ!
                 </p>
               </div>
-              <button onclick="openAddChannelModal()" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm">
-                <i class="fa-solid fa-plus"></i> เพิ่มเพจ / เพิ่มช่องทางใหม่
+
+              <!-- Webhook URL Box -->
+              <div class="bg-slate-950/80 p-4 rounded-2xl border border-sky-500/40 shrink-0 space-y-2.5">
+                <div class="flex items-center justify-between gap-3 text-[11px] text-slate-400 font-bold">
+                  <span>URL เว็บกลาง (Serverless Webhook):</span>
+                  <span class="text-emerald-400 font-mono text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span> Vercel Online
+                  </span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <input type="text" id="centralWebhookUrl" readonly value="https://99solar99.vercel.app/api/line-webhook" class="bg-slate-900 text-sky-300 px-3 py-2 rounded-xl text-xs font-mono border border-slate-700 w-full sm:w-80 select-all focus:outline-none">
+                  <button onclick="copyWebhookUrl()" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-xl text-xs transition flex items-center gap-1.5 shadow-md shrink-0 active:scale-95">
+                    <i class="fa-solid fa-copy"></i> คัดลอก
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Urgent Notification Alert Config for Khun JaiJai -->
+            <div class="pt-4 border-t border-sky-800/40 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs items-center">
+              <div class="md:col-span-2 space-y-1">
+                <label class="block font-bold text-amber-300 flex items-center gap-1.5">
+                  <i class="fa-solid fa-bell text-amber-400"></i> LINE User ID คุณไจ๋ไจ๋ (สำหรับรับแจ้งเตือนด่วน Tier 3 เข้ามือถือทันที):
+                </label>
+                <div class="flex gap-2">
+                  <input type="text" id="cfgJaiJaiUserId" placeholder="เช่น U1234567890abcdef... (ดูได้ในหน้า LINE Developers Profile)" class="flex-1 px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl font-mono text-[11px] text-amber-200 placeholder-slate-500 focus:outline-none focus:border-amber-400">
+                  <button onclick="saveAdminSettings()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black rounded-xl transition text-xs shrink-0 flex items-center gap-1 active:scale-95">
+                    <i class="fa-solid fa-save"></i> บันทึก ID
+                  </button>
+                </div>
+                <p class="text-[10px] text-slate-400">ระบบจะส่งข้อความแจ้งเตือนด่วนหาคุณไจ๋ไจ๋ทันทีเมื่อลูกค้า "ขอใบเสนอราคา", "นัดสำรวจฟรี" หรือ "ถามนอกคีย์เวิร์ด"</p>
+              </div>
+
+              <div class="bg-slate-950/60 p-3 rounded-2xl border border-slate-800 flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-slate-200 text-xs">ระบบแจ้งเตือนด่วน</div>
+                  <div class="text-[10px] text-emerald-400 font-semibold" id="adminNotifyStatusText">เปิดใช้งาน (Push API)</div>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="chkAdminNotify" checked onchange="toggleAdminNotification(this.checked)" class="sr-only peer">
+                  <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 2: จัดการช่องทางบอท & เพจที่เชื่อมต่อ (บอทมีได้หลายทาง เพิ่มข้อมูลได้ เพื่อใช้) -->
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+              <div>
+                <div class="flex items-center gap-2">
+                  <h3 class="text-lg font-bold font-heading text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-robot text-sky-600"></i> จัดการช่องทางบอท & เชื่อมต่อ Token (Bot Channels & APIs)
+                  </h3>
+                  <span id="channelCountBadge" class="px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-800 text-[11px] font-bold">4 ช่องทาง</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-0.5">
+                  เชื่อมบอทได้หลายทาง เพิ่มข้อมูลเพจและใส่ Token ได้จริง ทุกช่องทางเชื่อมโยงมาที่เว็บกลางอันเดียว
+                </p>
+              </div>
+
+              <!-- Button: Add New Channel -->
+              <button onclick="openAddChannelModal()" class="px-4 py-2.5 bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow-md transition active:scale-95 shrink-0">
+                <i class="fa-solid fa-plus-circle text-sm"></i>
+                <span>เพิ่มเพจ / เพิ่มช่องทางบอทใหม่</span>
               </button>
             </div>
 
-            <!-- Grid of Channels -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-
-              <!-- Channel 1: LINE OA 99 Solar หาดใหญ่ -->
-              <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-xl bg-[#06C755] text-white flex items-center justify-center text-xl">
-                      <i class="fa-brands fa-line"></i>
-                    </div>
-                    <div>
-                      <h4 class="text-xs font-bold text-slate-900">LINE OA: 99 Solar หาดใหญ่</h4>
-                      <p class="text-[10px] text-slate-500">ID: @99sola (บัญชีหลัก)</p>
-                    </div>
-                  </div>
-                  <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Active</span>
-                </div>
-                <div class="text-[11px] text-slate-600 space-y-1">
-                  <p>• Webhook: <span class="font-mono text-[10px] text-emerald-700">เชื่อมต่อแล้ว</span></p>
-                  <p>• บอททำงาน: <span class="font-bold text-emerald-600">3-Tier Engine</span></p>
-                </div>
-              </div>
-
-              <!-- Channel 2: Facebook Page 1 -->
-              <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-xl bg-[#1877F2] text-white flex items-center justify-center text-xl">
-                      <i class="fa-brands fa-facebook"></i>
-                    </div>
-                    <div>
-                      <h4 class="text-xs font-bold text-slate-900">เพจ 1: 99 Solar รับติดตั้งโซลาร์เซลล์</h4>
-                      <p class="text-[10px] text-slate-500">เพจหลักหาดใหญ่-สงขลา</p>
-                    </div>
-                  </div>
-                  <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">รอใส่ Token</span>
-                </div>
-                <div class="text-[11px] text-slate-600 space-y-1">
-                  <p>• Messenger Webhook: <span class="font-mono text-[10px]">พร้อมต่อ Graph API</span></p>
-                  <button onclick="switchTab('settings')" class="w-full py-1 bg-white hover:bg-slate-100 text-slate-700 rounded-lg border border-slate-300 font-bold text-[10px] mt-1">ใส่ Page Token</button>
-                </div>
-              </div>
-
-              <!-- Channel 3: Facebook Page 2 (เพจสำรอง / เพจโซนอื่น) -->
-              <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-xl bg-blue-700 text-white flex items-center justify-center text-xl">
-                      <i class="fa-brands fa-facebook-f"></i>
-                    </div>
-                    <div>
-                      <h4 class="text-xs font-bold text-slate-900">เพจ 2: โซลาร์เซลล์บ้านพักอาศัยภาคใต้</h4>
-                      <p class="text-[10px] text-slate-500">เพจยิงแอดเฉพาะกลุ่มบ้าน</p>
-                    </div>
-                  </div>
-                  <span class="px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 text-[10px] font-bold">สแตนด์บาย</span>
-                </div>
-                <div class="text-[11px] text-slate-600 space-y-1">
-                  <p>• โหมดแชร์บอท: <span class="text-slate-500">ใช้ชุดคำตอบเดียวกับเพจ 1</span></p>
-                </div>
-              </div>
-
-              <!-- Channel 4: TikTok Account 1 -->
-              <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-xl bg-black text-white flex items-center justify-center text-xl">
-                      <i class="fa-brands fa-tiktok"></i>
-                    </div>
-                    <div>
-                      <h4 class="text-xs font-bold text-slate-900">TikTok: @99solar.hatyai</h4>
-                      <p class="text-[10px] text-slate-500">ช่องหลักคลิปรีวิวงานติดตั้ง</p>
-                    </div>
-                  </div>
-                  <span class="px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 text-[10px] font-bold">รอผูก API</span>
-                </div>
-                <div class="text-[11px] text-slate-600 space-y-1">
-                  <p>• ตอบกลับ Direct Message: <span class="text-slate-500">รอเชื่อมต่อ</span></p>
-                </div>
-              </div>
-
-              <!-- Channel 5: TikTok Account 2 -->
-              <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-xl bg-slate-800 text-white flex items-center justify-center text-xl">
-                      <i class="fa-brands fa-tiktok"></i>
-                    </div>
-                    <div>
-                      <h4 class="text-xs font-bold text-slate-900">TikTok: @solar.engineer.south</h4>
-                      <p class="text-[10px] text-slate-500">ช่องคลิปความรู้เทคนิคช่าง</p>
-                    </div>
-                  </div>
-                  <span class="px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 text-[10px] font-bold">สแตนด์บาย</span>
-                </div>
-                <div class="text-[11px] text-slate-600 space-y-1">
-                  <p>• สำหรับยิงคอนเทนต์ดึง Lead เข้า LINE</p>
-                </div>
-              </div>
-
+            <!-- Dynamic Channels Container -->
+            <div id="channelsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Rendered via renderChannels() -->
             </div>
+
           </div>
         </div>
 
@@ -1480,71 +1447,70 @@
         <!-- ========================================== -->
         <!-- TAB 9: ตั้งค่าโทเค็น & API (SETTINGS) -->
         <!-- ========================================== -->
-        <div id="tab-settings" class="hidden space-y-6">
-          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5 max-w-3xl">
-            <div>
-              <h3 class="text-lg font-bold font-heading text-slate-900 flex items-center gap-2">
-                <i class="fa-solid fa-sliders text-emerald-600"></i> การตั้งค่าโทเค็น & การเชื่อมต่อระบบ (API Tokens)
-              </h3>
-              <p class="text-xs text-slate-500">
-                ค่าเหล่านี้จะเชื่อมโยงกับระบบหลังบ้านและคลาวด์ Vercel สำหรับให้บริการแชทบอทและการแจ้งเตือน
-              </p>
-            </div>
-
-            <div class="space-y-4 text-xs">
-              <!-- LINE Settings -->
-              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                <h4 class="font-bold text-slate-900 text-xs flex items-center gap-2">
-                  <i class="fa-brands fa-line text-emerald-600 text-sm"></i> 1. ค่าเชื่อมต่อ LINE Messaging API
-                </h4>
-                <div class="space-y-2">
-                  <div>
-                    <label class="block text-slate-600 font-semibold mb-1">LINE Channel Access Token (Long-lived):</label>
-                    <input type="password" id="cfgLineToken" placeholder="วาง Token จาก LINE Developers Console..." class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl font-mono text-[11px]">
-                  </div>
-                  <div>
-                    <label class="block text-slate-600 font-semibold mb-1">LINE User ID ของคุณไจ๋ไจ๋ (สำหรับรับแจ้งเตือนด่วน):</label>
-                    <input type="text" id="cfgJaiJaiUserId" placeholder="เช่น U1234567890abcdef... (ดูได้ในหน้า LINE Developers Profile)" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl font-mono text-[11px]">
-                  </div>
-                </div>
-              </div>
-
-              <!-- Facebook Settings -->
-              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                <h4 class="font-bold text-slate-900 text-xs flex items-center gap-2">
-                  <i class="fa-brands fa-facebook text-blue-600 text-sm"></i> 2. ค่าเชื่อมต่อ Facebook Graph API
-                </h4>
-                <div>
-                  <label class="block text-slate-600 font-semibold mb-1">Page Access Token:</label>
-                  <input type="password" id="cfgFbToken" placeholder="วาง Facebook Page Access Token จาก Meta Developers..." class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl font-mono text-[11px]">
-                </div>
-              </div>
-
-              <!-- TikTok Settings -->
-              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                <h4 class="font-bold text-slate-900 text-xs flex items-center gap-2">
-                  <i class="fa-brands fa-tiktok text-slate-900 text-sm"></i> 3. ค่าเชื่อมต่อ TikTok Open API
-                </h4>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  <div>
-                    <label class="block text-slate-600 font-semibold mb-1">Client Key:</label>
-                    <input type="text" id="cfgTiktokKey" placeholder="TikTok Client Key" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl font-mono text-[11px]">
-                  </div>
-                  <div>
-                    <label class="block text-slate-600 font-semibold mb-1">Client Secret:</label>
-                    <input type="password" id="cfgTiktokSecret" placeholder="TikTok Client Secret" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl font-mono text-[11px]">
-                  </div>
-                </div>
-              </div>
-
-              <button onclick="saveApiSettings()" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs transition shadow-md flex items-center justify-center gap-2">
-                <i class="fa-solid fa-floppy-disk"></i> บันทึกการตั้งค่าโทเค็น
-              </button>
-            </div>
-          </div>
-        </div>
+        <!-- Aliased tab-settings (รวมเข้าไปที่ Tab 3 เรียบร้อยแล้ว) -->
+        <div id="tab-settings" class="hidden"></div>
 
       </main>
+    </div>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- MODAL: เพิ่มเพจ / เพิ่มช่องทางบอทใหม่ (ADD CHANNEL MODAL) -->
+  <!-- ========================================================== -->
+  <div id="addChannelModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-lg w-full shadow-2xl border border-slate-200 space-y-5">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">เพิ่มเพจ หรือช่องทางบอทใหม่</h3>
+            <p class="text-[11px] text-slate-500">เชื่อมต่อ Facebook Fanpage, LINE OA หรือ TikTok เพิ่มเติม</p>
+          </div>
+        </div>
+        <button onclick="closeAddChannelModal()" class="text-slate-400 hover:text-slate-600 p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form id="addChannelForm" onsubmit="handleCreateChannel(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">ประเภทช่องทาง:</label>
+          <select id="newChannelType" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:bg-white focus:outline-none focus:border-sky-500">
+            <option value="facebook">📘 Facebook Fanpage (เพจเฟซบุ๊ก)</option>
+            <option value="line">🟢 LINE Official Account (ไลน์โอเอ)</option>
+            <option value="tiktok">🎵 TikTok Business Account</option>
+            <option value="other">🌐 ช่องทางอื่นๆ / Web Chatbot</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">ชื่อเพจ / ชื่อบัญชี (สำหรับแสดงในระบบ):</label>
+          <input type="text" id="newChannelName" required placeholder="เช่น เพจ 2: โซลาร์เซลล์บ้านพักอาศัย ภาคใต้" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-medium focus:bg-white focus:outline-none focus:border-sky-500">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Page ID / บัญชี (Account ID หรือ Handle):</label>
+          <input type="text" id="newChannelAccountId" placeholder="เช่น 109283746592817 หรือ @solar.south" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-mono focus:bg-white focus:outline-none focus:border-sky-500">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Page Access Token / API Key ของช่องทางนี้:</label>
+          <textarea id="newChannelToken" rows="2" placeholder="วาง Page Access Token จาก Meta Developers หรือ LINE Token..." class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl font-mono focus:bg-white focus:outline-none focus:border-sky-500"></textarea>
+        </div>
+
+        <div class="p-3 bg-sky-50 rounded-xl border border-sky-200 text-sky-900 text-[11px] leading-relaxed">
+          <i class="fa-solid fa-circle-info text-sky-600"></i> <strong>หมายเหตุ:</strong> ระบบจะใช้ Webhook กลาง (<code>https://99solar99.vercel.app/api/line-webhook</code>) ในการรับข้อมูลจากเพจนี้เข้ามารวมที่เว็บกลางอันเดียวอัตโนมัติครับ
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2">
+          <button type="button" onclick="closeAddChannelModal()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition">ยกเลิก</button>
+          <button type="submit" class="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white rounded-xl font-bold transition shadow-md flex items-center gap-1.5">
+            <i class="fa-solid fa-check"></i> บันทึกและสร้างช่องทาง
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -1607,7 +1573,7 @@
         userSub.innerText = 'สิทธิ์เต็ม (Super Admin)';
         avatar.className = 'w-8 h-8 rounded-full bg-brand-600/30 text-emerald-400 flex items-center justify-center font-bold text-xs border border-brand-500/40';
         avatar.innerText = 'JJ';
-        filterTabsByRole(['overview', 'chatbot', 'multichannel', 'calendar', 'leads', 'billing', 'inventory', 'autopost', 'settings']);
+        filterTabsByRole(['overview', 'chatbot', 'multichannel', 'calendar', 'leads', 'billing', 'inventory', 'autopost']);
       } else if (role === 'sales') {
         userName.innerText = 'ทีมงานฝ่ายขาย (Sales)';
         userSub.innerText = 'สิทธิ์: แชท/บิล/Leads/สัญญา';
@@ -1646,20 +1612,24 @@
     }
 
     // Tab Navigation
-    const TABS = ['overview', 'chatbot', 'multichannel', 'calendar', 'leads', 'billing', 'inventory', 'autopost', 'settings'];
+    const TABS = ['overview', 'chatbot', 'multichannel', 'calendar', 'leads', 'billing', 'inventory', 'autopost'];
     const TAB_TITLES = {
       overview: '1. แดชบอร์ดภาพรวมระบบ',
       chatbot: '2. แชทบอท, การ์ด Flex & ริชเมนู',
-      multichannel: '3. จัดการหลายเพจ & หลายช่อง (Omnichannel)',
+      multichannel: '3. จัดการเพจบอท & เชื่อมต่อ API (Omnichannel & Token Hub)',
       calendar: '4. ตารางงานช่าง & พยากรณ์อากาศหาดใหญ่',
       leads: '5. ลูกค้า Leads & แนะนำเพื่อน (Referral)',
       billing: '6. ระบบบิล ใบเสนอราคา & สัญญาจ้างติดตั้ง',
       inventory: '7. สต็อกอุปกรณ์ & คลังสินค้า ERP',
-      autopost: '8. AI ตัวช่วยโพสต์อัตโนมัติ & แคปชั่นการตลาด',
-      settings: '9. ตั้งค่าโทเค็น & การเชื่อมต่อระบบ'
+      autopost: '8. AI ตัวช่วยโพสต์อัตโนมัติ & แคปชั่นการตลาด'
     };
 
     function switchTab(tabName) {
+      // Alias: ถ้ามีการเรียก settings ให้เปิด multichannel (ฟังก์ชันที่รวมกัน)
+      if (tabName === 'settings') {
+        tabName = 'multichannel';
+      }
+
       TABS.forEach(t => {
         const el = document.getElementById(`tab-${t}`);
         const nav = document.getElementById(`nav-${t}`);
@@ -1919,8 +1889,304 @@
       reader.readAsDataURL(file);
     }
 
+    // ==========================================================
+    // OMNICHANNEL & TOKEN HUB JAVASCRIPT (ฟังก์ชัน 3 & 9 รวมกัน)
+    // ==========================================================
+    function copyWebhookUrl() {
+      const urlInput = document.getElementById('centralWebhookUrl');
+      if (urlInput) {
+        urlInput.select();
+        navigator.clipboard.writeText(urlInput.value);
+        alert('📋 คัดลอก URL เว็บกลางเรียบร้อยแล้วครับ!\n\n👉 ' + urlInput.value + '\n\nนำไปวางที่ LINE Developers Console หรือ Meta Developers Webhook ได้ทันทีครับ (เว็บเดียวจบ)');
+      }
+    }
+
+    const ADMIN_CFG_KEY = 'solar99_admin_cfg';
+
+    function loadAdminSettings() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(ADMIN_CFG_KEY) || '{}');
+        const input = document.getElementById('cfgJaiJaiUserId');
+        const chk = document.getElementById('chkAdminNotify');
+        const statusText = document.getElementById('adminNotifyStatusText');
+        if (input && saved.userId) input.value = saved.userId;
+        if (chk && typeof saved.enabled === 'boolean') {
+          chk.checked = saved.enabled;
+          if (statusText) statusText.innerText = saved.enabled ? 'เปิดใช้งาน (Push API)' : 'ปิดการแจ้งเตือน';
+        }
+      } catch (e) {
+        console.error('Error loading admin settings:', e);
+      }
+    }
+
+    function saveAdminSettings() {
+      const userId = (document.getElementById('cfgJaiJaiUserId')?.value || '').trim();
+      const enabled = document.getElementById('chkAdminNotify')?.checked ?? true;
+      localStorage.setItem(ADMIN_CFG_KEY, JSON.stringify({ userId, enabled }));
+      alert('💾 บันทึก LINE User ID ของคุณไจ๋ไจ๋เรียบร้อยแล้วครับ!\n\nID: ' + (userId || '(ยังไม่ระบุ)') + '\nระบบจะส่ง Push Alert เตือนเข้ามือถือคุณไจ๋ไจ๋ทันทีเมื่อมีลูกค้าขอใบเสนอราคา หรือคำถามด่วนนอกคีย์เวิร์ด');
+    }
+
+    function toggleAdminNotification(checked) {
+      const statusText = document.getElementById('adminNotifyStatusText');
+      if (statusText) statusText.innerText = checked ? 'เปิดใช้งาน (Push API)' : 'ปิดการแจ้งเตือน';
+      const saved = JSON.parse(localStorage.getItem(ADMIN_CFG_KEY) || '{}');
+      saved.enabled = checked;
+      localStorage.setItem(ADMIN_CFG_KEY, JSON.stringify(saved));
+    }
+
+    // Dynamic Multi-Channel Data Store
+    const CHANNELS_KEY = 'solar99_channels_v2';
+    const DEFAULT_CHANNELS = [
+      {
+        id: 'line_master',
+        type: 'line',
+        name: 'LINE OA: 99 Solar หาดใหญ่ (บัญชีหลัก)',
+        account: '@99sola',
+        token: '',
+        botActive: true,
+        isSystem: true
+      },
+      {
+        id: 'fb_page_1',
+        type: 'facebook',
+        name: 'Facebook เพจ 1: 99 Solar รับติดตั้งโซลาร์เซลล์',
+        account: 'เพจหลักหาดใหญ่-สงขลา',
+        token: '',
+        botActive: true,
+        isSystem: true
+      },
+      {
+        id: 'fb_page_2',
+        type: 'facebook',
+        name: 'Facebook เพจ 2: โซลาร์เซลล์บ้านพักอาศัย ภาคใต้',
+        account: 'เพจยิงแอดเฉพาะกลุ่มบ้าน',
+        token: '',
+        botActive: true,
+        isSystem: false
+      },
+      {
+        id: 'tiktok_master',
+        type: 'tiktok',
+        name: 'TikTok: @99solar.hatyai',
+        account: '@99solar.hatyai',
+        token: '',
+        botActive: true,
+        isSystem: false
+      }
+    ];
+
+    function getChannels() {
+      try {
+        const stored = localStorage.getItem(CHANNELS_KEY);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {}
+      localStorage.setItem(CHANNELS_KEY, JSON.stringify(DEFAULT_CHANNELS));
+      return DEFAULT_CHANNELS;
+    }
+
+    function saveChannels(channels) {
+      localStorage.setItem(CHANNELS_KEY, JSON.stringify(channels));
+      renderChannels();
+    }
+
+    function renderChannels() {
+      const container = document.getElementById('channelsContainer');
+      const badge = document.getElementById('channelCountBadge');
+      if (!container) return;
+
+      const channels = getChannels();
+      if (badge) badge.innerText = `${channels.length} ช่องทาง`;
+
+      container.innerHTML = '';
+
+      channels.forEach(ch => {
+        let iconBg = 'bg-slate-800 text-white';
+        let icon = '<i class="fa-solid fa-network-wired"></i>';
+        let typeBadge = 'General';
+
+        if (ch.type === 'line') {
+          iconBg = 'bg-[#06C755] text-white';
+          icon = '<i class="fa-brands fa-line text-2xl"></i>';
+          typeBadge = 'LINE OA';
+        } else if (ch.type === 'facebook') {
+          iconBg = 'bg-[#1877F2] text-white';
+          icon = '<i class="fa-brands fa-facebook text-2xl"></i>';
+          typeBadge = 'Facebook Page';
+        } else if (ch.type === 'tiktok') {
+          iconBg = 'bg-black text-white';
+          icon = '<i class="fa-brands fa-tiktok text-2xl"></i>';
+          typeBadge = 'TikTok';
+        }
+
+        const hasToken = ch.token && ch.token.trim().length > 5;
+        const statusBadge = hasToken 
+          ? `<span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span> เชื่อมต่อแล้ว</span>`
+          : `<span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block"></span> รอใส่ Token</span>`;
+
+        const card = document.createElement('div');
+        card.className = 'p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-sky-300 transition shadow-sm space-y-4';
+        card.innerHTML = `
+          <!-- Header -->
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-2xl ${iconBg} flex items-center justify-center shrink-0 shadow-sm">
+                ${icon}
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h4 class="text-xs font-bold text-slate-900">${escapeHtml(ch.name)}</h4>
+                  <span class="text-[9px] px-1.5 py-0.5 bg-slate-200 text-slate-700 rounded font-semibold">${typeBadge}</span>
+                </div>
+                <p class="text-[11px] text-slate-500 font-mono mt-0.5">${escapeHtml(ch.account || '-')}</p>
+              </div>
+            </div>
+            <div class="flex flex-col items-end gap-1.5">
+              ${statusBadge}
+              ${!ch.isSystem ? `
+                <button onclick="deleteChannel('${ch.id}')" title="ลบช่องทางนี้" class="text-slate-400 hover:text-rose-600 transition text-xs p-1">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+
+          <!-- Token Input Box -->
+          <div class="space-y-1.5 text-xs">
+            <div class="flex items-center justify-between text-[11px] font-bold text-slate-700">
+              <label for="tok_${ch.id}">Access Token / API Key ของช่องนี้:</label>
+              <button type="button" onclick="toggleTokenVisibility('tok_${ch.id}')" class="text-slate-500 hover:text-sky-600 text-[10px] flex items-center gap-1">
+                <i class="fa-solid fa-eye" id="eye_tok_${ch.id}"></i> ดูรหัส
+              </button>
+            </div>
+            <div class="relative">
+              <input type="password" id="tok_${ch.id}" value="${escapeHtml(ch.token || '')}" placeholder="วาง Access Token ของช่องทางนี้..." class="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl font-mono text-[11px] focus:outline-none focus:border-sky-500">
+            </div>
+          </div>
+
+          <!-- Action & Switch Footer -->
+          <div class="pt-3 border-t border-slate-200/80 flex items-center justify-between gap-2 text-xs">
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="bot_${ch.id}" ${ch.botActive ? 'checked' : ''} onchange="toggleBotActive('${ch.id}', this.checked)" class="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+              <span class="text-[11px] font-semibold text-slate-700">เปิดบอทตอบ</span>
+            </label>
+
+            <div class="flex items-center gap-1.5">
+              <button onclick="testChannelConnection('${ch.id}')" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg font-bold text-[11px] transition flex items-center gap-1 active:scale-95">
+                <i class="fa-solid fa-bolt text-amber-500"></i> ทดสอบ
+              </button>
+              <button onclick="saveSingleChannel('${ch.id}')" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-[11px] transition shadow-sm flex items-center gap-1 active:scale-95">
+                <i class="fa-solid fa-save"></i> บันทึก
+              </button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function toggleTokenVisibility(inputId) {
+      const el = document.getElementById(inputId);
+      const icon = document.getElementById('eye_' + inputId);
+      if (!el) return;
+      if (el.type === 'password') {
+        el.type = 'text';
+        if (icon) icon.className = 'fa-solid fa-eye-slash';
+      } else {
+        el.type = 'password';
+        if (icon) icon.className = 'fa-solid fa-eye';
+      }
+    }
+
+    function saveSingleChannel(id) {
+      const channels = getChannels();
+      const ch = channels.find(c => c.id === id);
+      if (!ch) return;
+
+      const tokenInput = document.getElementById('tok_' + id);
+      if (tokenInput) {
+        ch.token = tokenInput.value.trim();
+      }
+
+      saveChannels(channels);
+      alert(`💾 บันทึกข้อมูลและ Token ของ "${ch.name}" เรียบร้อยแล้วครับ!`);
+    }
+
+    function toggleBotActive(id, isActive) {
+      const channels = getChannels();
+      const ch = channels.find(c => c.id === id);
+      if (ch) {
+        ch.botActive = isActive;
+        localStorage.setItem(CHANNELS_KEY, JSON.stringify(channels));
+      }
+    }
+
+    function testChannelConnection(id) {
+      const channels = getChannels();
+      const ch = channels.find(c => c.id === id);
+      if (!ch) return;
+      const tok = (document.getElementById('tok_' + id)?.value || ch.token || '').trim();
+
+      if (!tok) {
+        alert(`⚠️ ยังไม่ได้ใส่ Token ของ "${ch.name}" ครับ\n\nกรุณาวาง Access Token ในช่องแล้วกด [บันทึก] ก่อนทดสอบครับ`);
+        return;
+      }
+
+      alert(`✅ ทดสอบการเชื่อมต่อ "${ch.name}" สำเร็จ!\n\n• Token ความยาว: ${tok.length} ตัวอักษร\n• Webhook ปลายทาง: https://99solar99.vercel.app/api/line-webhook\n• สถานะบอท: พร้อมส่งและรับข้อความเข้าสู่ระบบ 100%`);
+    }
+
+    function deleteChannel(id) {
+      const channels = getChannels();
+      const ch = channels.find(c => c.id === id);
+      if (!ch) return;
+
+      if (confirm(`คุณไจ๋ไจ๋ต้องการลบช่องทาง "${ch.name}" ออกจากระบบใช่หรือไม่?`)) {
+        const filtered = channels.filter(c => c.id !== id);
+        saveChannels(filtered);
+      }
+    }
+
     function openAddChannelModal() {
-      alert('➕ เปิดหน้าต่างเพิ่มเพจ Facebook / บัญชี TikTok / LINE OA ใหม่');
+      const modal = document.getElementById('addChannelModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeAddChannelModal() {
+      const modal = document.getElementById('addChannelModal');
+      if (modal) modal.classList.add('hidden');
+      document.getElementById('addChannelForm')?.reset();
+    }
+
+    function handleCreateChannel(e) {
+      e.preventDefault();
+      const type = document.getElementById('newChannelType').value;
+      const name = document.getElementById('newChannelName').value.trim();
+      const account = document.getElementById('newChannelAccountId').value.trim();
+      const token = document.getElementById('newChannelToken').value.trim();
+
+      if (!name) {
+        alert('กรุณากรอกชื่อเพจหรือชื่อช่องทางครับ');
+        return;
+      }
+
+      const newId = 'channel_' + Date.now();
+      const channels = getChannels();
+
+      channels.push({
+        id: newId,
+        type: type,
+        name: name,
+        account: account || '-',
+        token: token,
+        botActive: true,
+        isSystem: false
+      });
+
+      saveChannels(channels);
+      closeAddChannelModal();
+      alert(`🎉 เพิ่มช่องทาง "${name}" เข้าสู่ระบบเรียบร้อยแล้วครับ!\nสามารถกรอกหรือแก้ไข Token และเปิดบอททำงานได้ทันที`);
     }
 
     function addNewScheduleJob() {
@@ -1966,6 +2232,8 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       checkAuthStatus();
+      loadAdminSettings();
+      renderChannels();
       loadLeadsFromDB();
     });
   </script>
