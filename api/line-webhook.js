@@ -414,6 +414,62 @@ async function handleTextMessage(event) {
       text: `📞 สายด่วนติดต่อคุณไจ๋ไจ๋ (ผู้จัดการ บจก. 99 แมทช์ เมคเกอร์):\n\nโทร: 090-715-1987\n(ปรึกษาเรื่องติดตั้ง สเปกอุปกรณ์ ยื่น กฟภ. ฟรีครับ)`,
       quickReply: getQuickReplies()
     });
+  }
+  // 4.4.1 แรงดันไฟฟ้า / สเปกไฟ
+  else if (lowerText.includes('แรงดัน') || lowerText.includes('โวลต์') || lowerText.includes('voltage')) {
+    replyMessages.push({
+      type: 'text',
+      text: `⚡ ระบบแรงดันไฟฟ้าของ 99 Solar:\n\n• ด้านไฟกระแสตรง (DC): วิ่งจากแผงแรงดัน 300V - 600V DC มีระบบตัดไฟอัตโนมัติ\n• ด้านไฟกระแสสลับ (AC): แปลงผ่าน Inverter เป็นไฟ 220V (1 เฟส) หรือ 380V (3 เฟส) จ่ายเข้าเครื่องใช้ไฟฟ้าในบ้านได้อย่างเสถียร 100% มีตู้เบรกเกอร์กันไฟกระชากตามมาตรฐาน กฟภ. ครับ`,
+      quickReply: getQuickReplies()
+    });
+  }
+  // 4.4.2 ตู้ Combiner Box
+  else if (lowerText.includes('combiner') || lowerText.includes('คอมไบน์') || lowerText.includes('ตู้ไฟ')) {
+    replyMessages.push({
+      type: 'text',
+      text: `🎛️ ตู้ Combiner Box (มาตรฐานวิศวกรรม 99 Solar):\n\nทำหน้าที่รวมสายไฟจากแผงโซลาร์และเป็นหัวใจความปลอดภัย ภายในมี:\n• DC Fuse & DC Circuit Breaker\n• DC Surge Protection Device (SPD) ป้องกันฟ้าผ่า\n• AC Breaker ป้องกันไฟเกิน\nช่วยตัดระบบทันทีหากเกิดไฟฟ้าลัดวงจร ปลอดภัยต่อตัวบ้าน 100% ครับ`,
+      quickReply: getQuickReplies()
+    });
+  }
+  // 4.4.3 สายไฟ Solar PV
+  else if (lowerText.includes('สายไฟ') || lowerText.includes('pv cable')) {
+    replyMessages.push({
+      type: 'text',
+      text: `🔌 มาตรฐานสายไฟที่ 99 Solar ใช้:\n\nใช้สายไฟเฉพาะทาง Solar PV1-F (Cross-linked Polyolefin) เกรดมาตรฐานยุโรป ทนความร้อนสูง 120°C ทนแดด UV ไม่ลามไฟ ขนาด 4.0 - 6.0 sq.mm เคลือบดีบุกกันสนิม และร้อยในท่อเหล็กกัลวาไนซ์ EMT ป้องกันสัตว์กัดแทะ อายุใช้งานยาวนานกว่า 25 ปีครับ`,
+      quickReply: getQuickReplies()
+    });
+  }
+  // 4.4.4 โซลาร์ฟาร์ม vs รูฟท็อป
+  else if (lowerText.includes('โซลาร์ฟาร์ม') || lowerText.includes('solar farm')) {
+    replyMessages.push({
+      type: 'text',
+      text: `🏭 ความแตกต่างระบบโซลาร์:\n\n• Solar Rooftop: ติดตั้งบนหลังคาบ้าน/โรงงานเพื่อ "ลดค่าไฟรายเดือนตัวเอง" (คุ้มค่า คืนทุนไว 3-4 ปี)\n• Solar Farm: ติดบนที่ดินแปลงใหญ่หลายสิบไร่เพื่อ "ผลิตไฟฟ้าขายให้รัฐ"\n\n99 Solar เชี่ยวชาญงาน Rooftop และ Solar Carport โรงจอดรถ พร้อมวิศวกรดูแลครบวงจรครับ`,
+      quickReply: getQuickReplies()
+    });
+  }
+  // 4.4.5 ของแถม และ การรับประกัน
+  else if (lowerText.includes('ของแถม') || lowerText.includes('แถม') || lowerText.includes('ประกัน')) {
+    replyMessages.push({
+      type: 'text',
+      text: `🎁 สิทธิพิเศษ & การรับประกัน 99 Solar:\n\n1. ฟรี! ค่าสำรวจหน้างานและออกแบบโครงสร้าง\n2. ฟรี! เดินเรื่องขออนุญาต กฟภ. และเทศบาล 100%\n3. ฟรี! ล้างแผงตรวจเช็กระบบ 2 ปีแรก\n4. รับประกันแผง Tier 1 ยาวนาน 25-30 ปี\n5. รับประกัน Inverter ศูนย์ไทย 5-10 ปี\n6. รับประกันงานติดตั้งและกันน้ำรั่วซึม 2 ปีเต็มครับ`,
+      quickReply: getQuickReplies()
+    });
+  }
+  // 4.4.6 ใบอนุญาต กฟภ. & เทศบาล
+  else if (lowerText.includes('ใบอนุญาต') || lowerText.includes('ขออนุญาต') || lowerText.includes('กฟภ') || lowerText.includes('ขนานไฟ')) {
+    replyMessages.push({
+      type: 'text',
+      text: `📋 งานขอใบอนุญาตราชการ (Turnkey 100%):\n\nลูกค้าไม่ต้องเดินเรื่องเองเลยครับ บริษัท 99 แมทช์ เมคเกอร์ จำกัด ดำเนินการให้ฟรี:\n• ยื่นขออนุญาตดัดแปลงอาคาร (แบบ อ.1) กับเทศบาล/อบต.\n• ยื่นขอยกเว้นใบอนุญาตกับ กกพ.\n• ยื่นขอขนานไฟกับการไฟฟ้าส่วนภูมิภาค (PEA) พร้อมวิศวกรลงนามรับรองครบถ้วนครับ`,
+      quickReply: getQuickReplies()
+    });
+  }
+  // 4.4.7 การลดหย่อนภาษี
+  else if (lowerText.includes('ภาษี') || lowerText.includes('ลดหย่อน')) {
+    replyMessages.push({
+      type: 'text',
+      text: `💰 สิทธิประโยชน์ทางภาษีในการติดตั้งโซลาร์เซลล์:\n\n• สำหรับนิติบุคคล/บริษัท: นำไปหักค่าใช้จ่ายบริษัท หักค่าเสื่อมราคา และขอยกเว้นภาษีเงินได้นิติบุคคลผ่าน BOI ได้สูงสุด 50% ของเงินลงทุน\n• ลูกค้าบ้านพักอาศัย: บริษัทออกใบกำกับภาษีถูกต้อง (VAT 7%) นำไปใช้สิทธิลดหย่อนตามมาตรการรัฐได้ครับ`,
+      quickReply: getQuickReplies()
+    });
   } 
 
   // ========================================================

@@ -446,6 +446,51 @@
             </div>
           </div>
 
+          <!-- ======================================================== -->
+          <!-- NEW: คลังสมองความรู้โซลาร์เซลล์ (SOLAR KNOWLEDGE BASE ENGINE) -->
+          <!-- คุณไจ๋ไจ๋สามารถเพิ่ม/แก้ไข ข้อมูล แรงดันไฟฟ้า โซลาร์ฟาร์ม คอมไบน์เนอร์ สเปก สายไฟ ของแถม การลดหย่อนภาษี ฯลฯ ได้เองตลอดเวลา -->
+          <!-- ======================================================== -->
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+              <div>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold mb-1.5">
+                  <i class="fa-solid fa-brain text-emerald-600"></i> Smart Knowledge Hub (สมองกลเรียนรู้เพิ่มได้ไม่จำกัด)
+                </div>
+                <h3 class="text-lg font-bold font-heading text-slate-900 flex items-center gap-2">
+                  <i class="fa-solid fa-book-open text-emerald-600"></i> คลังสมองความรู้โซลาร์เซลล์ & คำถาม-คำตอบ (Knowledge Base)
+                </h3>
+                <p class="text-xs text-slate-500 mt-0.5">
+                  เพิ่มข้อมูลให้บอทเรียนรู้ได้ตลอดเวลา เช่น แรงดันไฟฟ้า, โซลาร์ฟาร์ม, Combiner Box, ขนาดสายไฟ PV, ของแถม, ภาษี/ลดหย่อน, การขออนุญาต
+                </p>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <button onclick="openAddKnowledgeModal()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm active:scale-95">
+                  <i class="fa-solid fa-plus"></i>
+                  <span>+ เพิ่มความรู้ใหม่เข้าสมองบอท</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Knowledge Filter and Search -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+              <div class="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
+                <button onclick="filterKnowledge('all')" id="kbFilterAll" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white font-bold text-[11px] transition">ทั้งหมด (<span id="kbCountTotal">8</span>)</button>
+                <button onclick="filterKnowledge('technical')" id="kbFilterTech" class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold text-[11px] transition">⚡ สเปก/เทคนิค (สายไฟ/แรงดัน)</button>
+                <button onclick="filterKnowledge('packages')" id="kbFilterPkg" class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold text-[11px] transition">💰 แพ็กเกจ & ของแถม</button>
+                <button onclick="filterKnowledge('legal_tax')" id="kbFilterLegal" class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold text-[11px] transition">📋 ใบอนุญาต & ภาษี</button>
+              </div>
+              <div class="w-full sm:w-64">
+                <input type="text" id="kbSearchInput" onkeyup="handleKnowledgeSearch(this.value)" placeholder="ค้นหาความรู้ในสมองบอท..." class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:bg-white focus:outline-none focus:border-emerald-500 font-sans">
+              </div>
+            </div>
+
+            <!-- Knowledge Cards Grid -->
+            <div id="knowledgeGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Dynamically populated via renderKnowledgeBase() -->
+            </div>
+          </div>
+
           <!-- How-To Guide: ริชเมนูกดตอบเลย / การ์ด Flex / Quick Reply ทำตรงไหน -->
           <div class="bg-gradient-to-r from-emerald-900 to-teal-900 text-white rounded-3xl p-6 shadow-md space-y-4">
             <div class="flex items-center gap-3">
@@ -1701,6 +1746,63 @@
   </div>
 
   <!-- ========================================================== -->
+  <!-- MODAL: เพิ่มความรู้ใหม่เข้าสมองบอท (ADD KNOWLEDGE BASE MODAL) -->
+  <!-- ========================================================== -->
+  <div id="addKnowledgeModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-lg w-full shadow-2xl border border-slate-200 space-y-5 animate-scale-up">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">เพิ่มองค์ความรู้ใหม่เข้าสมองบอท</h3>
+            <p class="text-[11px] text-slate-500">สอนคำศัพท์ สเปกอุปกรณ์ หรือเงื่อนไขให้บอทจำและนำไปตอบลูกค้า</p>
+          </div>
+        </div>
+        <button onclick="closeAddKnowledgeModal()" class="text-slate-400 hover:text-slate-600 p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form id="addKnowledgeForm" onsubmit="handleCreateKnowledge(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">หมวดหมู่ความรู้:</label>
+          <select id="newKbCategory" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:bg-white focus:outline-none focus:border-emerald-500">
+            <option value="technical">⚡ สเปก & เทคนิค (แรงดันไฟฟ้า, สายไฟ, Combiner Box, Inverter)</option>
+            <option value="packages">💰 แพ็กเกจ, ของแถม & การรับประกัน</option>
+            <option value="legal_tax">📋 กฎหมาย, ใบอนุญาต กฟภ. & การลดหย่อนภาษี</option>
+            <option value="general">☀️ ความรู้ทั่วไป & การดูแลรักษา</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">หัวข้อ / คำถามที่ลูกค้าชอบถาม (Topic / Question):</label>
+          <input type="text" id="newKbQuestion" required placeholder="เช่น Combiner Box คืออะไร? หรือ สายไฟที่ใช้ขนาดเท่าไหร่?" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:bg-white focus:outline-none focus:border-emerald-500">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">คีย์เวิร์ดดักจับ (Keywords - คั่นด้วยจุลภาค):</label>
+          <input type="text" id="newKbKeywords" required placeholder="เช่น คอมไบน์, combiner, ตู้ไฟ, กล่องรวมสาย" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl font-mono text-slate-700 focus:bg-white focus:outline-none focus:border-emerald-500">
+          <p class="text-[10px] text-slate-500 mt-1">หากลูกค้าพิมพ์มีคำเหล่านี้ บอทจะดึงคำตอบนี้ไปตอบทันที</p>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">คำตอบมาตรฐานที่บอทจะส่งให้ลูกค้า (Bot Answer):</label>
+          <textarea id="newKbAnswer" rows="4" required placeholder="อธิบายคำตอบแบบสุภาพ ชัดเจน เข้าใจง่าย มีตัวเลขสเปกรับรอง..." class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 leading-relaxed focus:bg-white focus:outline-none focus:border-emerald-500"></textarea>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+          <button type="button" onclick="closeAddKnowledgeModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition">ยกเลิก</button>
+          <button type="submit" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold transition shadow-md flex items-center gap-1.5 active:scale-95">
+            <i class="fa-solid fa-save"></i> บันทึกเข้าสมองบอท
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================== -->
   <!-- 3. JAVASCRIPT ควบคุมระบบทั้งหมด -->
   <!-- ========================================================== -->
   <script>
@@ -2075,8 +2177,209 @@
     }
 
     // ==========================================================
-    // OMNICHANNEL & TOKEN HUB JAVASCRIPT (ฟังก์ชัน 3 & 9 รวมกัน)
+    // SOLAR KNOWLEDGE BASE CONTROLLER (สมองกลความรู้โซลาร์เซลล์)
     // ==========================================================
+    const KB_STORAGE_KEY = 'solar99_custom_knowledge_base';
+    let knowledgeBaseData = [
+      {
+        id: 'kb-1',
+        category: 'technical',
+        question: '⚡ แรงดันไฟฟ้าในระบบโซลาร์เซลล์คืออะไร? (System Voltage)',
+        keywords: ['แรงดันไฟฟ้า', 'แรงดัน', 'โวลต์', 'voltage', 'voc', 'vmp'],
+        answer: 'ในระบบโซลาร์รูฟท็อป 99 Solar มี 2 ส่วนหลักครับ: 1. ด้านไฟกระแสตรง (DC) จากแผงโซลาร์ วิ่งเข้าตู้ไฟแรงดันประมาณ 300V - 600V DC และ 2. ด้านไฟกระแสสลับ (AC) แปลงผ่านอินเวอร์เตอร์เป็นไฟบ้าน 220V (Single Phase) หรือ 380V (3-Phase) มี Surge Protection ป้องกันไฟกระชากตามมาตรฐาน กฟภ. ปลอดภัย 100% ครับ'
+      },
+      {
+        id: 'kb-2',
+        category: 'technical',
+        question: '🎛️ ตู้ Combiner Box คืออะไร? ทำหน้าที่อะไร?',
+        keywords: ['combiner', 'คอมไบน์', 'คอมไบเนอร์', 'ตู้ไฟ', 'กล่องรวมสาย'],
+        answer: 'ตู้ Combiner Box คือ "หัวใจความปลอดภัย" ของ 99 Solar ครับ ทำหน้าที่รวมสายไฟจากแผงโซลาร์เข้าด้วยกัน ภายในติดตั้ง DC Fuse, DC Breaker, DC Surge Protection (กันฟ้าผ่า) และ AC Breaker เมื่อเกิดไฟฟ้าลัดวงจรหรือไฟเกิน ระบบจะตัดไฟอัตโนมัติภายในเสี้ยววินาทีเพื่อปกป้องตัวบ้านครับ'
+      },
+      {
+        id: 'kb-3',
+        category: 'technical',
+        question: '🔌 สายไฟที่ 99 Solar ใช้ เป็นสายแบบไหน? ขนาดเท่าไหร่?',
+        keywords: ['สายไฟ', 'ขนาดสายไฟ', 'pv cable', 'solar cable'],
+        answer: '99 Solar ใช้สายไฟ Solar PV1-F (Cross-linked Polyolefin) เกรดมาตรฐานยุโรป ทนความร้อนสูงถึง 120°C ทนรังสี UV และไม่ลามไฟ ขนาด 4.0 sq.mm ถึง 6.0 sq.mm เคลือบดีบุกกันสนิม และร้อยในท่อเหล็กกัลวาไนซ์ EMT ป้องกันสัตว์กัดแทะ มีอายุการใช้งานยาวนานกว่า 25 ปีครับ'
+      },
+      {
+        id: 'kb-4',
+        category: 'technical',
+        question: '🏭 โซลาร์ฟาร์ม vs โซลาร์รูฟท็อป แตกต่างกันอย่างไร?',
+        keywords: ['โซลาร์ฟาร์ม', 'solar farm', 'ฟาร์มโซลาร์'],
+        answer: 'โซลาร์รูฟท็อป (Solar Rooftop) ติดตั้งบนหลังคาบ้าน/โรงงานเพื่อ "ลดค่าไฟรายเดือน" ของตัวเองโดยตรง ส่วนโซลาร์ฟาร์ม (Solar Farm) คือการติดตั้งบนพื้นที่ดินขนาดใหญ่หลายไร่เพื่อ "ผลิตไฟฟ้าขายให้การไฟฟ้า (กฟภ./กฟผ.)" บริษัท 99 แมทช์ เมคเกอร์ จำกัด เชี่ยวชาญงาน Rooftop และ Solar Carport โรงจอดรถ พร้อมวิศวกรควบคุมงานครับ'
+      },
+      {
+        id: 'kb-5',
+        category: 'packages',
+        question: '☀️ แพ็กเกจ 5.0 kW เหมาะกับบ้านแบบไหน? ได้อะไรบ้าง?',
+        keywords: ['5kw', '5 กิโลวัตต์', '5.0 kw', 'แพ็กเกจ 5'],
+        answer: 'แพ็กเกจ 5.0 kW (ราคามาตรฐาน 169,000 บ.) เหมาะกับบ้านที่มีบิลค่าไฟ 3,500 - 6,000 บ./เดือน เปิดแอร์กลางวัน 2-3 ตัว ใช้แผง Tier 1 Jinko/JA Solar N-Type และ Inverter Huawei/Solis ผ่าน กฟภ. ช่วยประหยัดค่าไฟได้ประมาณ 3,000 - 3,500 บ./เดือน คืนทุนไวใน 3-4 ปีครับ'
+      },
+      {
+        id: 'kb-6',
+        category: 'packages',
+        question: '🎁 ของแถมและการรับประกันของ 99 Solar มีอะไรบ้าง?',
+        keywords: ['ของแถม', 'แถมอะไรบ้าง', 'การรับประกัน', 'ประกันกี่ปี'],
+        answer: 'ติดกับ 99 Solar หาดใหญ่ ได้รับฟรีครบเซ็ต: 1. ฟรีสำรวจหน้างาน 2. ฟรีขอดำเนินการ กฟภ. และเทศบาล 100% 3. ฟรีล้างแผงตรวจเช็ก 2 ปีแรก 4. รับประกันแผง 25-30 ปี 5. ประกัน Inverter ศูนย์ไทย 5-10 ปี 6. ประกันงานติดตั้งและกันน้ำรั่วซึม 2 ปีเต็มครับ'
+      },
+      {
+        id: 'kb-7',
+        category: 'legal_tax',
+        question: '📋 การขอใบอนุญาต กฟภ. และเทศบาล ยุ่งยากไหม? ใช้เวลากี่วัน?',
+        keywords: ['ใบอนุญาต', 'ขออนุญาต', 'กฟภ', 'pea', 'ขนานไฟ', 'อบต', 'เทศบาล'],
+        answer: 'ลูกค้าไม่ต้องเหนื่อยเดินเรื่องเองเลยครับ! บริษัท 99 แมทช์ เมคเกอร์ ดำเนินการยื่นขออนุญาตดัดแปลงอาคาร (แบบ อ.1) และขอขนานไฟกับการไฟฟ้าส่วนภูมิภาค (PEA) ให้ฟรีครบวงจร 100% มีวิศวกรไฟฟ้าและโยธาเซ็นรับรองถูกต้องตามระเบียบ ใช้เวลาประสานงานประมาณ 30-45 วันครับ'
+      },
+      {
+        id: 'kb-8',
+        category: 'legal_tax',
+        question: '💰 ติดตั้งโซลาร์เซลล์ สามารถลดหย่อนภาษีได้ไหม?',
+        keywords: ['ลดหย่อนภาษี', 'ภาษี', 'หักภาษี', 'นิติบุคคล', 'บิล vat'],
+        answer: 'สำหรับลูกค้านิติบุคคล/บริษัท สามารถนำค่าติดตั้งโซลาร์เซลล์ไปหักเป็นค่าใช้จ่ายบริษัท และทำมาตรการส่งเสริมการลงทุน (BOI) ได้สูงสุด 50% หรือหักค่าเสื่อมราคาได้ทันทีครับ ส่วนลูกค้าบ้านพักอาศัย บริษัทออกใบกำกับภาษีถูกต้อง (VAT 7%) สามารถนำไปใช้ในโครงการกระตุ้นเศรษฐกิจตามประกาศของรัฐบาลได้ครับ'
+      }
+    ];
+
+    function initKnowledgeBase() {
+      const stored = localStorage.getItem(KB_STORAGE_KEY);
+      if (stored) {
+        try {
+          knowledgeBaseData = JSON.parse(stored);
+        } catch(e) { console.error('Failed to parse KB', e); }
+      }
+      renderKnowledgeBase(knowledgeBaseData);
+    }
+
+    let activeKbFilter = 'all';
+
+    function renderKnowledgeBase(list) {
+      const grid = document.getElementById('knowledgeGrid');
+      const countEl = document.getElementById('kbCountTotal');
+      if (countEl) countEl.innerText = knowledgeBaseData.length;
+      if (!grid) return;
+
+      let filtered = list;
+      if (activeKbFilter !== 'all') {
+        filtered = list.filter(item => item.category === activeKbFilter);
+      }
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-8 text-center text-slate-400 text-xs">
+            <i class="fa-solid fa-folder-open text-2xl mb-2 text-slate-300 block"></i>
+            ไม่พบข้อมูลในหมวดนี้ คุณไจ๋ไจ๋สามารถกดปุ่ม <strong>"+ เพิ่มความรู้ใหม่เข้าสมองบอท"</strong> ได้ทันทีครับ
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(item => {
+        let catBadge = '';
+        if (item.category === 'technical') catBadge = '<span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-[10px]">⚡ สเปก/เทคนิค</span>';
+        else if (item.category === 'packages') catBadge = '<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold text-[10px]">💰 แพ็กเกจ & ของแถม</span>';
+        else if (item.category === 'legal_tax') catBadge = '<span class="px-2 py-0.5 rounded bg-sky-100 text-sky-800 font-bold text-[10px]">📋 ใบอนุญาต & ภาษี</span>';
+        else catBadge = '<span class="px-2 py-0.5 rounded bg-purple-100 text-purple-800 font-bold text-[10px]">☀️ ทั่วไป</span>';
+
+        return `
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2.5 flex flex-col justify-between hover:border-emerald-300 transition">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between gap-2">
+                ${catBadge}
+                <button onclick="deleteKnowledgeItem('${item.id}')" class="text-slate-400 hover:text-rose-500 text-xs p-1" title="ลบข้อมูลนี้">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </div>
+              <h4 class="font-bold text-slate-900 text-xs">${item.question}</h4>
+              <p class="text-slate-600 text-[11px] leading-relaxed">${item.answer}</p>
+            </div>
+            <div class="pt-2 border-t border-slate-200/60 flex items-center justify-between text-[10px]">
+              <div class="text-slate-400 truncate max-w-[200px]">
+                <i class="fa-solid fa-key text-emerald-600"></i> ${item.keywords.join(', ')}
+              </div>
+              <button onclick="testKnowledgeInSim('${item.keywords[0]}')" class="px-2 py-0.5 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 rounded font-bold transition">
+                ทดสอบในบอท
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterKnowledge(category) {
+      activeKbFilter = category;
+      ['all', 'technical', 'packages', 'legal_tax'].forEach(c => {
+        const btn = document.getElementById(c === 'all' ? 'kbFilterAll' : c === 'technical' ? 'kbFilterTech' : c === 'packages' ? 'kbFilterPkg' : 'kbFilterLegal');
+        if (btn) {
+          if (c === category) {
+            btn.className = 'px-3 py-1.5 rounded-lg bg-slate-900 text-white font-bold text-[11px] transition';
+          } else {
+            btn.className = 'px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold text-[11px] transition';
+          }
+        }
+      });
+      renderKnowledgeBase(knowledgeBaseData);
+    }
+
+    function handleKnowledgeSearch(query) {
+      const q = (query || '').trim().toLowerCase();
+      if (!q) {
+        renderKnowledgeBase(knowledgeBaseData);
+        return;
+      }
+      const matched = knowledgeBaseData.filter(item => 
+        item.question.toLowerCase().includes(q) ||
+        item.answer.toLowerCase().includes(q) ||
+        item.keywords.some(k => k.toLowerCase().includes(q))
+      );
+      renderKnowledgeBase(matched);
+    }
+
+    function openAddKnowledgeModal() {
+      document.getElementById('addKnowledgeModal').classList.remove('hidden');
+    }
+
+    function closeAddKnowledgeModal() {
+      document.getElementById('addKnowledgeModal').classList.add('hidden');
+    }
+
+    function handleCreateKnowledge(e) {
+      e.preventDefault();
+      const cat = document.getElementById('newKbCategory').value;
+      const question = document.getElementById('newKbQuestion').value.trim();
+      const keywordsRaw = document.getElementById('newKbKeywords').value.trim();
+      const answer = document.getElementById('newKbAnswer').value.trim();
+
+      const keywords = keywordsRaw.split(',').map(k => k.trim()).filter(Boolean);
+
+      const newItem = {
+        id: 'kb-' + Date.now(),
+        category: cat,
+        question: question,
+        keywords: keywords,
+        answer: answer
+      };
+
+      knowledgeBaseData.unshift(newItem);
+      localStorage.setItem(KB_STORAGE_KEY, JSON.stringify(knowledgeBaseData));
+      renderKnowledgeBase(knowledgeBaseData);
+      closeAddKnowledgeModal();
+      document.getElementById('addKnowledgeForm').reset();
+      alert('🧠 บันทึกความรู้ใหม่เข้าสมองบอทเรียบร้อยแล้วครับ!\n\nบอทจะนำข้อมูลนี้ไปใช้ตอบคำถามลูกค้าอัตโนมัติทันทีครับ');
+    }
+
+    function deleteKnowledgeItem(id) {
+      if (confirm('คุณไจ๋ไจ๋ต้องการลบข้อมูลความรู้นี้ออกจากสมองบอทใช่หรือไม่?')) {
+        knowledgeBaseData = knowledgeBaseData.filter(item => item.id !== id);
+        localStorage.setItem(KB_STORAGE_KEY, JSON.stringify(knowledgeBaseData));
+        renderKnowledgeBase(knowledgeBaseData);
+      }
+    }
+
+    function testKnowledgeInSim(keyword) {
+      sendSimText(keyword);
+      // scroll to simulator
+      const sim = document.getElementById('simulatorMessages');
+      if (sim) sim.scrollIntoView({ behavior: 'smooth' });
+    }
     function copyWebhookUrl() {
       const urlInput = document.getElementById('centralWebhookUrl');
       if (urlInput) {
@@ -2877,6 +3180,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       checkAuthStatus();
       loadAdminSettings();
+      initKnowledgeBase();
       renderChannels();
       renderInboxMessages();
       renderScheduleJobs();
