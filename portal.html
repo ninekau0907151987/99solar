@@ -253,13 +253,6 @@
             <i class="fa-solid fa-boxes-stacked text-sm text-indigo-400 w-5 text-center"></i>
             <span>7. สต็อก & เบิกของช่าง</span>
           </button>
-
-          <!-- 8. AI ช่วยโพสต์การตลาด -->
-          <button onclick="switchTab('autopost')" id="nav-autopost" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition">
-            <i class="fa-solid fa-wand-magic-sparkles text-sm text-purple-400 w-5 text-center"></i>
-            <span class="flex-1 text-left">8. AI ตัวช่วยโพสต์อัตโนมัติ</span>
-            <span class="px-1.5 py-0.5 rounded-md bg-purple-500/20 text-purple-300 text-[10px] font-bold">AI</span>
-          </button>
         </nav>
       </div>
 
@@ -1766,13 +1759,13 @@
         userSub.innerText = 'สิทธิ์เต็ม (Super Admin)';
         avatar.className = 'w-8 h-8 rounded-full bg-brand-600/30 text-emerald-400 flex items-center justify-center font-bold text-xs border border-brand-500/40';
         avatar.innerText = 'JJ';
-        filterTabsByRole(['overview', 'chatbot', 'multichannel', 'calendar', 'leads', 'billing', 'inventory', 'autopost']);
+        filterTabsByRole(['overview', 'chatbot', 'multichannel', 'calendar', 'leads', 'billing', 'inventory']);
       } else if (role === 'sales') {
         userName.innerText = 'ทีมงานฝ่ายขาย (Sales)';
         userSub.innerText = 'สิทธิ์: แชท/บิล/Leads/สัญญา';
         avatar.className = 'w-8 h-8 rounded-full bg-blue-600/30 text-blue-400 flex items-center justify-center font-bold text-xs border border-blue-500/40';
         avatar.innerText = 'SL';
-        filterTabsByRole(['overview', 'chatbot', 'leads', 'billing', 'autopost']);
+        filterTabsByRole(['overview', 'chatbot', 'leads', 'billing']);
       } else if (role === 'engineer') {
         userName.innerText = 'หัวหน้าช่าง / วิศวกร';
         userSub.innerText = 'สิทธิ์: ตารางงาน/พยากรณ์/คลัง';
@@ -1805,16 +1798,15 @@
     }
 
     // Tab Navigation
-    const TABS = ['overview', 'chatbot', 'multichannel', 'calendar', 'leads', 'billing', 'inventory', 'autopost'];
+    const TABS = ['overview', 'chatbot', 'multichannel', 'calendar', 'leads', 'billing', 'inventory'];
     const TAB_TITLES = {
       overview: '1. แดชบอร์ดภาพรวมระบบ',
-      chatbot: '2. แชทบอท, การ์ด Flex & ริชเมนู',
+      chatbot: '2. แชทบอท, การ์ด Flex & ริชเมนู (สมองตอบ & แจ้งเตือน)',
       multichannel: '3. จัดการเพจบอท & เชื่อมต่อ API (Omnichannel & Token Hub)',
       calendar: '4. ตารางงานช่าง & พยากรณ์อากาศหาดใหญ่',
       leads: '5. ลูกค้า Leads & แนะนำเพื่อน (Referral)',
       billing: '6. ระบบบิล ใบเสนอราคา & สัญญาจ้างติดตั้ง',
-      inventory: '7. สต็อกอุปกรณ์ & คลังสินค้า ERP',
-      autopost: '8. AI ตัวช่วยโพสต์อัตโนมัติ & แคปชั่นการตลาด'
+      inventory: '7. สต็อกอุปกรณ์ & คลังสินค้า ERP'
     };
 
     function switchTab(tabName) {
