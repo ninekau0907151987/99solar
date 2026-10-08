@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>99 Solar Architecture - แผนผังสถาปัตยกรรมระบบ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Prompt', sans-serif; }
+    .pulse-glow {
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 sm:p-8">
+
+  <div class="max-w-6xl mx-auto space-y-8">
+    
+    <!-- Header -->
+    <div class="text-center space-y-2 border-b border-slate-800 pb-6">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold border border-emerald-500/30">
+        <i class="fa-solid fa-sitemap"></i> SYSTEM ARCHITECTURE BLUEPRINT
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-white">
+        สถาปัตยกรรมระบบ 99 Solar (โครงสร้าง 2 ห้องแชท + สมองกลหลังบ้าน)
+      </h1>
+      <p class="text-sm text-slate-400">
+        ออกแบบเฉพาะสำหรับ บจก. 99 แมทช์ เมคเกอร์ • บริหารงานโดย คุณไจ๋ไจ๋ (090-715-1987)
+      </p>
+    </div>
+
+    <!-- 3 Big Columns: Channels, Brain, Backend -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- Column 1: Front Channels (2 ห้องแชท) -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-2 text-emerald-400 font-bold text-base border-b border-slate-800 pb-2">
+          <i class="fa-solid fa-comments text-lg"></i>
+          <span>1. ช่องทางการสื่อสาร (แยก 2 ห้องชัดเจน)</span>
+        </div>
+
+        <!-- Room 1: Customer Room -->
+        <div class="bg-slate-800/90 rounded-2xl p-5 border border-emerald-500/30 space-y-3 relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-emerald-600 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl">
+            ห้องที่ 1: ห้องคุยกับลูกค้า
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg">
+              <i class="fa-brands fa-line"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-sm">LINE OA ลูกค้า (@99sola)</h3>
+              <p class="text-xs text-slate-400">ลูกค้าทุกคนคุยในห้องนี้</p>
+            </div>
+          </div>
+          
+          <ul class="text-xs text-slate-300 space-y-2 pt-2 border-t border-slate-700/60">
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+              <span><strong>มี Rich Menu 6 ปุ่ม:</strong> กดดูราคา, คำนวณค่าไฟ, ขอใบเสนอราคา, สัญญา</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+              <span><strong>บอทให้ความรู้โซลาร์เซลล์:</strong> ตอบอธิบายการทำงาน ระบบ On-Grid/Hybrid</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-bell text-amber-400 mt-0.5"></i>
+              <span><strong>แจ้งอัปเดตสถานะกลับหาลูกค้า:</strong> "กำลังสำรวจ", "อนุมัติใบเสนอราคาแล้ว", "นัดติดตั้งสำเร็จ"</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Room 2: Admin Alert Room -->
+        <div class="bg-slate-800/90 rounded-2xl p-5 border border-rose-500/30 space-y-3 relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-rose-600 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl">
+            ห้องที่ 2: ห้องแจ้งเตือนคุณไจ๋ไจ๋
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-bell-concierge"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-sm">ห้องแจ้งเตือนด่วน (Admin Alert)</h3>
+              <p class="text-xs text-slate-400">LINE ส่วนตัวคุณไจ๋ไจ๋ หรือกลุ่มทีมงาน</p>
+            </div>
+          </div>
+          
+          <ul class="text-xs text-slate-300 space-y-2 pt-2 border-t border-slate-700/60">
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-triangle-exclamation text-rose-400 mt-0.5"></i>
+              <span><strong>แจ้งเตือนคำถามนอกกรอบ:</strong> ลูกค้าถามสิ่งที่บอทไม่รู้ -> เด้งมาบอกคุณไจ๋ไจ๋ทันที</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-phone text-emerald-400 mt-0.5"></i>
+              <span><strong>แจ้งเตือนเมื่อได้เบอร์โทร:</strong> ลูกค้าทิ้งเบอร์ -> ยิงเบอร์มาให้คุณไจ๋ไจ๋โทรกลับ</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-file-invoice text-sky-400 mt-0.5"></i>
+              <span><strong>แจ้งเตือนขอใบเสนอราคา / นัดสำรวจ:</strong> เตือนให้เตรียมส่งคิวช่าง</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Column 2: Brain Engine (สมองกลกลาง) -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-2 text-sky-400 font-bold text-base border-b border-slate-800 pb-2">
+          <i class="fa-solid fa-brain text-lg"></i>
+          <span>2. สมองกลกลาง (Vercel Serverless Webhook)</span>
+        </div>
+
+        <div class="bg-slate-800/90 rounded-2xl p-5 border border-sky-500/30 space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-server"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-sm">api/line-webhook.js</h3>
+              <p class="text-xs text-slate-400">โฮสต์บน Vercel (Gateway รับข้อมูล)</p>
+            </div>
+          </div>
+
+          <!-- Knowledge Base Box -->
+          <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2 text-xs">
+            <div class="font-bold text-amber-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-book-bookmark"></i> กรอบความรู้เฉพาะ 99 Solar (Strict Domain)
+            </div>
+            <p class="text-slate-300 text-[11px] leading-relaxed">
+              จำกัดขอบเขตความรู้ 100% ตอบเฉพาะเรื่อง:
+            </p>
+            <ul class="text-[11px] text-slate-400 space-y-1 pl-3 list-disc">
+              <li>แพ็กเกจ 3.3kW, 5kW, 10kW และระบบ On-Grid/Hybrid</li>
+              <li>แผงโซลาร์ Tier 1 (JA Solar / Longi) ประกัน 25 ปี</li>
+              <li>อินเวอร์เตอร์ Huawei ที่ผ่านการรับรอง กฟภ.</li>
+              <li>เงื่อนไขผ่อนชำระ 0% 10 เดือน</li>
+              <li><strong>กฎเหล็ก:</strong> ห้ามคิดเอง ห้ามตอบนอกกรอบโซลาร์เซลล์</li>
+            </ul>
+          </div>
+
+          <!-- Logic Classifier -->
+          <div class="bg-slate-900/80 rounded-xl p-4 border border-slate-700 space-y-2 text-xs">
+            <div class="font-bold text-emerald-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-shuffle"></i> กลไกการแยกแยะคำถาม (Router)
+            </div>
+            <div class="space-y-1.5 text-[11px]">
+              <div class="p-2 rounded bg-emerald-950/40 text-emerald-300 border border-emerald-800/40">
+                🟢 <strong>คำถามในคีย์:</strong> ส่ง Flex Card / ลิงก์ ตอบลูกค้าจบในห้อง 1 (ไม่กวนคุณไจ๋ไจ๋)
+              </div>
+              <div class="p-2 rounded bg-rose-950/40 text-rose-300 border border-rose-800/40">
+                🔴 <strong>คำถามนอกคีย์ / มีเบอร์:</strong> ตอบคั่นเวลาลูกค้า + พักบอท + ยิงข้อความเข้าห้อง 2
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 3: Backend & Database -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-2 text-amber-400 font-bold text-base border-b border-slate-800 pb-2">
+          <i class="fa-solid fa-database text-lg"></i>
+          <span>3. ฐานข้อมูล & ระบบควบคุมหลังบ้าน</span>
+        </div>
+
+        <!-- Supabase -->
+        <div class="bg-slate-800/90 rounded-2xl p-5 border border-amber-500/30 space-y-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-cloud"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-sm">Supabase Database</h3>
+              <p class="text-xs text-slate-400">ฐานข้อมูล Cloud เก็บทุกความเคลื่อนไหว</p>
+            </div>
+          </div>
+
+          <div class="text-xs text-slate-300 space-y-1.5 pt-2 border-t border-slate-700/60">
+            <div class="flex justify-between py-1 border-b border-slate-700/40">
+              <span class="text-slate-400">📁 solar_leads:</span>
+              <span class="font-bold text-emerald-400">เก็บเบอร์โทร & นัดสำรวจ</span>
+            </div>
+            <div class="flex justify-between py-1 border-b border-slate-700/40">
+              <span class="text-slate-400">📁 quotations:</span>
+              <span class="font-bold text-sky-400">ใบเสนอราคา A4 ทุกใบ</span>
+            </div>
+            <div class="flex justify-between py-1 border-b border-slate-700/40">
+              <span class="text-slate-400">📁 contracts:</span>
+              <span class="font-bold text-purple-400">สัญญาจ้างติดตั้งแบ่ง 3 งวด</span>
+            </div>
+            <div class="flex justify-between py-1">
+              <span class="text-slate-400">📁 order_status:</span>
+              <span class="font-bold text-amber-400">สถานะงาน (รอตรวจ/อนุมัติ/เสร็จ)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Portal Admin -->
+        <div class="bg-slate-800/90 rounded-2xl p-5 border border-slate-700 space-y-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-desktop"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-sm">Portal แอดมิน (portal.html)</h3>
+              <p class="text-xs text-slate-400">หน้าจอหลักสำหรับคุณไจ๋ไจ๋และทีมงาน</p>
+            </div>
+          </div>
+
+          <ul class="text-xs text-slate-300 space-y-1.5 pt-2 border-t border-slate-700/60">
+            <li>• ดูกล่องข้อความสด (รู้ทันทีว่าลูกค้าถามว่าอะไร)</li>
+            <li>• สลับสิทธิ์ผู้ใช้งาน (Admin / เซลล์ / ช่าง / การเงิน)</li>
+            <li>• อัปเดตสถานะงานเพื่อยิงข้อความแจ้งกลับหาลูกค้า</li>
+            <li>• <strong>ตัดระบบโพสต์อัตโนมัติออกแล้ว</strong> เพื่อความเรียบง่ายและไม่รกตา</li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Summary Guarantee Box -->
+    <div class="bg-gradient-to-r from-emerald-950/60 via-slate-800 to-sky-950/60 rounded-3xl p-6 border border-emerald-500/40 text-center space-y-3">
+      <div class="text-lg font-bold text-white flex items-center justify-center gap-2">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i> สรุปความเข้าใจตรงกันกับคุณไจ๋ไจ๋
+      </div>
+      <p class="text-xs sm:text-sm text-slate-300 max-w-3xl mx-auto leading-relaxed">
+        ระบบนี้จะทำหน้าที่เป็น <strong>"พนักงานขายและวิศวกรประจำแชท"</strong> ที่รู้เฉพาะเรื่องโซลาร์เซลล์ของบริษัทเราเท่านั้น 
+        คำถามทั่วไปตอบจบในห้องลูกค้าทันที คำถามสำคัญหรืออยู่นอกเหนือความรู้จะส่งต่อเข้าห้องคุณไจ๋ไจ๋แบบด่วนพิเศษ 
+        และเมื่อออเดอร์มีความคืบหน้า ระบบจะส่งแจ้งเตือนกลับหาลูกค้าอัตโนมัติครบวงจรครับ!
+      </p>
+    </div>
+
+  </div>
+
+</body>
+</html>
