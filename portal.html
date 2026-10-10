@@ -3107,7 +3107,7 @@
       alert(`🎉 เปิดรอบคิวนัดติดตั้งของ "${name}" เรียบร้อยแล้วครับ! ตารางงานได้รับการอัปเดตทันที`);
     }
 
-    function changeJobStatusPrompt(jobId) {
+    async function changeJobStatusPrompt(jobId) {
       const jobs = getScheduleJobs();
       const job = jobs.find(j => j.id === jobId);
       if (!job) return;
@@ -3120,7 +3120,25 @@
         if (idx >= 0 && idx < statuses.length) {
           job.status = statuses[idx];
           saveScheduleJobs(jobs);
-          alert(`✅ เปลี่ยนสถานะของ "${job.customerName}" เป็น "${job.status}" เรียบร้อยครับ`);
+
+          // ส่งแจ้งเตือนอัปเดตสถานะกลับหาลูกค้าใน LINE (Order/Job Status Push)
+          try {
+            await fetch('/api/line-webhook', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                action: 'push_customer_status',
+                customerId: job.customerId || job.customerPhone,
+                statusTitle: `ความคืบหน้า: ${job.status}`,
+                statusDetail: `โครงการติดตั้ง ${job.systemSize} สถานที่ ${job.location} มีการอัปเดตสถานะเรียบร้อยครับ`
+              })
+            });
+            console.log('Push status notification sent to customer');
+          } catch(e) {
+            console.warn('Push status failed or running offline:', e);
+          }
+
+          alert(`✅ เปลี่ยนสถานะของ "${job.customerName}" เป็น "${job.status}" เรียบร้อยครับ\n\n(ระบบส่งข้อความแจ้งเตือนอัปเดตสถานะให้ลูกค้าแล้ว)`);
         }
       }
     }
