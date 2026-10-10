@@ -379,7 +379,15 @@ async function handleTextMessage(event) {
     });
 
     await notifyJaiJai(
-      `🚨 [Lead ด่วนจาก LINE OA]\nลูกค้าแจ้งเบอร์โทรติดต่อกลับ!\nเบอร์: ${detectedPhone}\nข้อความเต็ม: "${rawText}"\nเวลา: ${new Date().toLocaleTimeString('th-TH')}`
+      `ลูกค้าแจ้งเบอร์โทรติดต่อกลับผ่าน LINE OA\n\n📌 เบอร์โทร: ${detectedPhone}\n💬 ข้อความลูกค้า: "${rawText}"\n⏰ เวลา: ${new Date().toLocaleTimeString('th-TH')} น.\n\nแตะปุ่มสีเขียวด้านล่างเพื่อโทรออกหาลูกค้าทันทีครับ`,
+      {
+        tag: '🚨 NEW HOT LEAD DETECTED',
+        title: 'ลูกค้าทิ้งเบอร์โทรติดต่อ!',
+        phone: detectedPhone,
+        headerColor: '#059669',
+        urlLabel: '📋 เปิดดูใน Portal',
+        url: 'https://99solar99.vercel.app/portal'
+      }
     );
 
     await sendLineReply(replyToken, [{
@@ -542,11 +550,14 @@ async function handleTextMessage(event) {
       });
 
       await notifyJaiJai(
-        `🔥 [หมวดหมู่ 3: ด่วนที่สุด! คำถามนอกระบบ - ต้องใช้คนตอบ]\n` +
-        `ลูกค้าพิมพ์ว่า: "${rawText}"\n` +
-        `เวลา: ${new Date().toLocaleTimeString('th-TH')}\n` +
-        `สถานะ: บอทตอบรับเบื้องต้นและหยุดทำงานแล้ว\n` +
-        `👉 คุณไจ๋ไจ๋เปิดแชท LINE OA เข้าไปคุยสดได้ทันทีเลยครับ!`
+        `คำถามนอกระบบที่บอทไม่มีข้อมูล:\n\n💬 ลูกค้าพิมพ์ว่า: "${rawText}"\n⏰ เวลา: ${new Date().toLocaleTimeString('th-TH')} น.\n\nสถานะ: บอทสั่งพักสาย 12 ชม. เรียบร้อยแล้ว คุณไจ๋ไจ๋แตะเปิดแชทเข้าไปคุยสดได้ทันทีครับ!`,
+        {
+          tag: '🔥 URGENT HUMAN TAKEOVER',
+          title: 'คำถามนอกระบบ (รอคนตอบ)',
+          headerColor: '#dc2626',
+          urlLabel: '💬 แตะเปิดกล่องแชทสดใน Portal',
+          url: 'https://99solar99.vercel.app/portal'
+        }
       );
     }
   }
@@ -593,16 +604,103 @@ function isUserUnderTakeover(userId) {
   return true;
 }
 
-function notifyJaiJai(messageText) {
+function notifyJaiJai(messageText, actionData = null) {
   return new Promise((resolve) => {
     if (!CHANNEL_ACCESS_TOKEN || !JAIJAI_LINE_USER_ID) {
       console.log('Push notification skipped:', messageText);
       return resolve();
     }
 
+    let lineMessages = [];
+
+    // หากมี actionData ให้ส่งเป็นการ์ด Flex Alert พร้อมปุ่มกด Action (โทรออก / เปิดดูใบเสนอราคา / เปิด Portal)
+    if (actionData && (actionData.phone || actionData.url)) {
+      const buttons = [];
+
+      if (actionData.phone) {
+        buttons.push({
+          type: 'button',
+          style: 'primary',
+          color: '#059669',
+          height: 'sm',
+          action: {
+            type: 'uri',
+            label: `📞 แตะโทรออก: ${actionData.phone}`,
+            uri: `tel:${actionData.phone}`
+          }
+        });
+      }
+
+      buttons.push({
+        type: 'button',
+        style: 'secondary',
+        height: 'sm',
+        action: {
+          type: 'uri',
+          label: actionData.urlLabel || '💻 เปิด Portal แอดมิน',
+          uri: actionData.url || 'https://99solar99.vercel.app/portal'
+        }
+      });
+
+      lineMessages.push({
+        type: 'flex',
+        altText: `🚨 แจ้งเตือนด่วน 99 Solar: ${actionData.title || 'ลูกค้าติดต่อใหม่'}`,
+        contents: {
+          type: 'bubble',
+          size: 'mega',
+          header: {
+            type: 'box',
+            layout: 'vertical',
+            backgroundColor: actionData.headerColor || '#dc2626',
+            paddingAll: '16px',
+            contents: [
+              {
+                type: 'text',
+                text: actionData.tag || '🚨 URGENT ACTION REQUIRED',
+                color: '#ffffff',
+                size: 'xs',
+                weight: 'bold'
+              },
+              {
+                type: 'text',
+                text: actionData.title || 'ลูกค้าใหม่ติดต่อด่วน',
+                color: '#ffffff',
+                size: 'md',
+                weight: 'bold',
+                margin: 'xs'
+              }
+            ]
+          },
+          body: {
+            type: 'box',
+            layout: 'vertical',
+            spacing: 'sm',
+            contents: [
+              {
+                type: 'text',
+                text: messageText,
+                size: 'xs',
+                color: '#334155',
+                wrap: true
+              }
+            ]
+          },
+          footer: {
+            type: 'box',
+            layout: 'vertical',
+            spacing: 'sm',
+            contents: buttons
+          }
+        }
+      });
+    } else {
+      // ข้อความธรรมดา
+      lineMessages.push({ type: 'text', text: messageText });
+    }
+
     const payload = JSON.stringify({
       to: JAIJAI_LINE_USER_ID,
-      messages: [{ type: 'text', text: messageText }]
+      messages: lineMessages
     });
 
     const options = {
