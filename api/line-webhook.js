@@ -199,7 +199,7 @@ function getPackageFlexCard() {
             action: {
               type: 'uri',
               label: '📄 ออกใบเสนอราคาทางการ (A4)',
-              uri: 'https://99solar99.vercel.app/quotation.html'
+              uri: 'https://99solar99.vercel.app/quotation'
             }
           },
           {
@@ -421,7 +421,7 @@ async function handleTextMessage(event) {
   else if (lowerText.includes('สัญญา') || lowerText.includes('เซ็นสัญญา')) {
     replyMessages.push({
       type: 'text',
-      text: `✍️ ระบบเซ็นสัญญาจ้างติดตั้งออนไลน์ (E-Contract):\n\nสัญญาระหว่างลูกค้า กับ บจก. 99 แมทช์ เมคเกอร์ แบ่งชำระ 3 งวด ถูกต้องตามกฎหมาย ใช้นิ้วเซ็นบนมือถือได้ทันทีครับ:\n👉 https://99solar99.vercel.app/contract.html`,
+      text: `✍️ ระบบเซ็นสัญญาจ้างติดตั้งออนไลน์ (E-Contract):\n\nสัญญาระหว่างลูกค้า กับ บจก. 99 แมทช์ เมคเกอร์ แบ่งชำระ 3 งวด ถูกต้องตามกฎหมาย ใช้นิ้วเซ็นบนมือถือได้ทันทีครับ:\n👉 https://99solar99.vercel.app/contract`,
       quickReply: getQuickReplies()
     });
   } 
@@ -498,7 +498,7 @@ async function handleTextMessage(event) {
   else if (lowerText.includes('ใบเสนอราคา') || lowerText.includes('ขอราคา') || lowerText.includes('เสนอราคา')) {
     replyMessages.push({
       type: 'text',
-      text: `📄 ออกใบเสนอราคาทางการ (PDF A4 มาตรฐาน มีตราประทับบริษัท 99 แมทช์ เมคเกอร์ จำกัด):\n\nสามารถกรอกข้อมูลออกเอกสารสำหรับยื่นกู้ธนาคาร หรือขออนุมัติงบได้ที่นี่ครับ:\n👉 https://99solar99.vercel.app/quotation.html\n\nหรือส่ง "รูปบิลค่าไฟเดือนล่าสุด" ทิ้งไว้ในแชทนี้ได้เลยครับ เดี๋ยวคุณไจ๋ไจ๋จัดทำใบเสนอราคาให้ทันทีครับ ⚡`,
+      text: `📄 ออกใบเสนอราคาทางการ (PDF A4 มาตรฐาน มีตราประทับบริษัท 99 แมทช์ เมคเกอร์ จำกัด):\n\nสามารถกรอกข้อมูลออกเอกสารสำหรับยื่นกู้ธนาคาร หรือขออนุมัติงบได้ที่นี่ครับ:\n👉 https://99solar99.vercel.app/quotation\n\nหรือส่ง "รูปบิลค่าไฟเดือนล่าสุด" ทิ้งไว้ในแชทนี้ได้เลยครับ เดี๋ยวคุณไจ๋ไจ๋จัดทำใบเสนอราคาให้ทันทีครับ ⚡`,
       quickReply: getQuickReplies()
     });
 
