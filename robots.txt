@@ -25,4 +25,4 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://solar99-hatyai.onrender.com/sitemap.xml
+Sitemap: https://99solar99.vercel.app/sitemap.xml
