@@ -2341,7 +2341,7 @@
       document.getElementById('addKnowledgeModal').classList.add('hidden');
     }
 
-    function handleCreateKnowledge(e) {
+    async function handleCreateKnowledge(e) {
       e.preventDefault();
       const cat = document.getElementById('newKbCategory').value;
       const question = document.getElementById('newKbQuestion').value.trim();
@@ -2361,9 +2361,39 @@
       knowledgeBaseData.unshift(newItem);
       localStorage.setItem(KB_STORAGE_KEY, JSON.stringify(knowledgeBaseData));
       renderKnowledgeBase(knowledgeBaseData);
+
+      // ซิงก์ขึ้นตาราง solar_knowledge บน Supabase Cloud
+      if (window.SolarDB && window.SolarDB.saveKnowledge) {
+        await window.SolarDB.saveKnowledge(newItem);
+      } else {
+        const storedUrl = localStorage.getItem('solar99_supabase_url') || 'https://rvikurxokhlhvilmytil.supabase.co';
+        const storedKey = localStorage.getItem('solar99_supabase_anon') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2aWt1cnhva2hsaHZpbG15dGlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyOTM0NTUsImV4cCI6MjA3NDg2OTQ1NX0.2XQzE2fPz9YVjL49L47rE57C3eD8U2a3H8gqQ_yZ-2I';
+        try {
+          await fetch(`${storedUrl}/rest/v1/solar_knowledge`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': storedKey,
+              'Authorization': `Bearer ${storedKey}`,
+              'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify({
+              category: cat,
+              question: question,
+              keywords: keywords,
+              answer: answer,
+              status: 'active'
+            })
+          });
+          console.log('✅ Knowledge synced to Supabase Cloud');
+        } catch(err) {
+          console.warn('Supabase knowledge sync fallback:', err);
+        }
+      }
+
       closeAddKnowledgeModal();
       document.getElementById('addKnowledgeForm').reset();
-      alert('🧠 บันทึกความรู้ใหม่เข้าสมองบอทเรียบร้อยแล้วครับ!\n\nบอทจะนำข้อมูลนี้ไปใช้ตอบคำถามลูกค้าอัตโนมัติทันทีครับ');
+      alert('🧠 บันทึกความรู้ใหม่เข้าสมองบอท & ซิงก์ขึ้น Supabase เรียบร้อยแล้วครับ!\n\nบอทจะนำข้อมูลนี้ไปใช้ตอบคำถามลูกค้าอัตโนมัติทันทีครับ');
     }
 
     function deleteKnowledgeItem(id) {

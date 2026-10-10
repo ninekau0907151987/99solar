@@ -520,28 +520,35 @@ async function handleTextMessage(event) {
   } 
 
   // ========================================================
-  // หมวดหมู่ 3 (🔴 ด่วนที่สุด): คำถามนอกคีย์ / ไม่มีชื่อคนติดต่อ
-  // ตอบรับไปก่อนสักครู่ + ปิดบอทพักสาย + รีบแจ้งเตือนคุณไจ๋ไจ๋ด่วนๆ!
+  // หมวดหมู่ 3 (🔴 ด่วนที่สุด หรือ ดึงจากคลังสมอง Supabase สด)
   // ========================================================
   else {
-    // 1. ปิดบอทพักสายสำหรับลูกค้ารายนี้ (Silence Mode) บอทจะไม่ตอบแทรก
-    humanTakeoverMap.set(userId, { isPaused: true, pausedAt: Date.now() });
+    // 4.7 ลองดึงคำตอบจากคลังสมอง Supabase (solar_knowledge) แบบ Realtime ดูก่อน
+    const customAnswer = await searchKnowledgeFromSupabase(rawText);
+    if (customAnswer) {
+      replyMessages.push({
+        type: 'text',
+        text: customAnswer,
+        quickReply: getQuickReplies()
+      });
+    } else {
+      // หากไม่มีในคลังสมองเลย -> ปิดบอทพักสาย + รีบแจ้งเตือนคุณไจ๋ไจ๋ด่วนๆ!
+      humanTakeoverMap.set(userId, { isPaused: true, pausedAt: Date.now() });
 
-    // 2. ตอบรับไปก่อนสักครู่
-    replyMessages.push({
-      type: 'text',
-      text: `☀️ ได้รับข้อความเรียบร้อยแล้วครับ!\n\nทางคุณไจ๋ไจ๋ (ผู้จัดการ) กำลังตรวจสอบข้อมูล และจะรีบตอบกลับข้อความนี้ด้วยตัวเองในสักครู่ครับ ⚡\n\n🔹 สายด่วน: 090-715-1987\n🔹 คำนวณค่าไฟออนไลน์: https://99solar99.vercel.app`,
-      quickReply: getQuickReplies()
-    });
+      replyMessages.push({
+        type: 'text',
+        text: `☀️ ได้รับข้อความเรียบร้อยแล้วครับ!\n\nทางคุณไจ๋ไจ๋ (ผู้จัดการ) กำลังตรวจสอบข้อมูล และจะรีบตอบกลับข้อความนี้ด้วยตัวเองในสักครู่ครับ ⚡\n\n🔹 สายด่วน: 090-715-1987\n🔹 คำนวณค่าไฟออนไลน์: https://99solar99.vercel.app`,
+        quickReply: getQuickReplies()
+      });
 
-    // 3. รีบมาบอกคุณไจ๋ไจ๋แบบด่วนๆ
-    await notifyJaiJai(
-      `🔥 [หมวดหมู่ 3: ด่วนที่สุด! คำถามนอกระบบ - ต้องใช้คนตอบ]\n` +
-      `ลูกค้าพิมพ์ว่า: "${rawText}"\n` +
-      `เวลา: ${new Date().toLocaleTimeString('th-TH')}\n` +
-      `สถานะ: บอทตอบรับเบื้องต้นและหยุดทำงานแล้ว\n` +
-      `👉 คุณไจ๋ไจ๋เปิดแชท LINE OA เข้าไปคุยสดได้ทันทีเลยครับ!`
-    );
+      await notifyJaiJai(
+        `🔥 [หมวดหมู่ 3: ด่วนที่สุด! คำถามนอกระบบ - ต้องใช้คนตอบ]\n` +
+        `ลูกค้าพิมพ์ว่า: "${rawText}"\n` +
+        `เวลา: ${new Date().toLocaleTimeString('th-TH')}\n` +
+        `สถานะ: บอทตอบรับเบื้องต้นและหยุดทำงานแล้ว\n` +
+        `👉 คุณไจ๋ไจ๋เปิดแชท LINE OA เข้าไปคุยสดได้ทันทีเลยครับ!`
+      );
+    }
   }
 
   if (replyMessages.length > 0 && CHANNEL_ACCESS_TOKEN) {
@@ -658,6 +665,63 @@ function saveLeadToSupabase(leadData) {
     req.end();
   });
 }
+
+/**
+ * ดึงความรู้โซลาร์เซลล์แบบ Realtime จากตาราง solar_knowledge บน Supabase
+ */
+function searchKnowledgeFromSupabase(queryText) {
+  return new Promise((resolve) => {
+    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return resolve(null);
+
+    const url = new URL(`${SUPABASE_URL}/rest/v1/solar_knowledge?status=eq.active&select=*`);
+
+    const options = {
+      hostname: url.hostname,
+      path: url.pathname + url.search,
+      method: 'GET',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Accept': 'application/json'
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let body = '';
+      res.on('data', chunk => body += chunk);
+      res.on('end', () => {
+        try {
+          if (res.statusCode >= 200 && res.statusCode < 300) {
+            const list = JSON.parse(body);
+            if (Array.isArray(list) && list.length > 0) {
+              const lowerQ = queryText.toLowerCase();
+              for (const item of list) {
+                // ตรวจสอบ keywords
+                const kwList = Array.isArray(item.keywords) ? item.keywords : [];
+                const matchKeyword = kwList.some(k => lowerQ.includes(String(k).toLowerCase()));
+                const matchQuestion = item.question && lowerQ.includes(item.question.toLowerCase());
+                if (matchKeyword || matchQuestion) {
+                  return resolve(item.answer);
+                }
+              }
+            }
+          }
+        } catch (e) {
+          console.error('Error parsing Supabase knowledge:', e);
+        }
+        resolve(null);
+      });
+    });
+
+    req.on('error', (err) => {
+      console.error('Supabase Knowledge query error:', err);
+      resolve(null);
+    });
+
+    req.end();
+  });
+}
+
 
 function sendLineReply(replyToken, messages) {
   return new Promise((resolve) => {

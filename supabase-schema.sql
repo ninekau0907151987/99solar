@@ -159,3 +159,19 @@ CREATE POLICY "Public select contracts" ON public.solar_contracts FOR SELECT USI
 DROP POLICY IF EXISTS "Public update contracts" ON public.solar_contracts;
 CREATE POLICY "Public update contracts" ON public.solar_contracts FOR UPDATE USING (true);
 
+-- 8. ตารางคลังสมองความรู้โซลาร์เซลล์ (Solar Knowledge Base Brain)
+CREATE TABLE IF NOT EXISTS public.solar_knowledge (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    category TEXT DEFAULT 'general', -- 'technical', 'packages', 'legal_tax', 'general'
+    question TEXT NOT NULL,
+    keywords JSONB DEFAULT '[]'::jsonb,
+    answer TEXT NOT NULL,
+    status TEXT DEFAULT 'active'
+);
+
+ALTER TABLE public.solar_knowledge ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public access knowledge" ON public.solar_knowledge;
+CREATE POLICY "Public access knowledge" ON public.solar_knowledge FOR ALL USING (true);
+
