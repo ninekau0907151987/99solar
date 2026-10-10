@@ -1989,7 +1989,19 @@
         let replyHtml = '';
         const lower = text.toLowerCase();
 
-        if (lower.includes('คำนวณ') || lower.includes('ค่าไฟ')) {
+        // ตรวจสอบจาก Knowledge Base ก่อน
+        let matchedKb = null;
+        if (typeof knowledgeBaseData !== 'undefined' && Array.isArray(knowledgeBaseData)) {
+          matchedKb = knowledgeBaseData.find(item => {
+            const kwMatch = item.keywords && item.keywords.some(k => lower.includes(k.toLowerCase()));
+            const qMatch = item.question && lower.includes(item.question.toLowerCase());
+            return kwMatch || qMatch;
+          });
+        }
+
+        if (matchedKb) {
+          replyHtml = `⚡ <strong>[Solar Knowledge Brain ตอบสด]</strong><br><div class="font-bold text-slate-900 mb-1">${matchedKb.question}</div><p class="text-slate-700">${matchedKb.answer}</p><span class="text-[10px] text-emerald-800 font-bold block mt-1">*(ดึงข้อมูลจากสมองกล Knowledge Base อัตโนมัติ)*</span>`;
+        } else if (lower.includes('คำนวณ') || lower.includes('ค่าไฟ')) {
           replyHtml = `☀️ <strong>[Tier 1 Auto-Reply]</strong><br>จำลองคำนวณยอดประหยัดค่าไฟบ้านคุณ (หาดใหญ่-สงขลา):<br>👉 เปิดระบบออนไลน์: <a href="https://99solar99.vercel.app" target="_blank" class="text-emerald-700 underline font-bold">https://99solar99.vercel.app</a><br>(รู้ผลทันทีใน 3 วินาทีว่าควรติดกี่ kW และประหยัดกี่บาทครับ)`;
         } else if (lower.includes('ราคา') || lower.includes('แพ็กเกจ')) {
           replyHtml = `⚡ <strong>[Tier 1 Flex Card Reply]</strong><br>
@@ -2003,9 +2015,10 @@
         } else if (lower.includes('ใบเสนอราคา')) {
           replyHtml = `📄 <strong>[Tier 1 Auto-Reply]</strong><br>ออกใบเสนอราคาทางการ A4 มีตราประทับบริษัท:<br>👉 <a href="quotation.html" target="_blank" class="text-emerald-700 underline font-bold">https://99solar99.vercel.app/quotation.html</a><br>หรือส่งรูปบิลค่าไฟทิ้งไว้ในแชทนี้ได้เลยครับ เดี๋ยวคุณไจ๋ไจ๋จัดทำให้ทันที!`;
         } else if (text.match(/0[689]\d{8}/) || lower.includes('สำรวจ') || lower.includes('นัด')) {
-          replyHtml = `🚨 <strong>[Tier 2 Auto + Alert คุณไจ๋ไจ๋]</strong><br>☀️ ขอบพระคุณครับ 99 Solar บันทึกข้อมูลและเบอร์โทรเรียบร้อยแล้ว!<br><br>คุณไจ๋ไจ๋ (090-715-1987) จะติดต่อกลับเพื่อนัดหมายสำรวจหน้างานฟรีทันทีครับ ⚡<br><br><span class="text-[10px] text-emerald-800 font-bold">*(ระบบบันทึก Lead ลง Supabase และยิง Push เข้า LINE คุณไจ๋ไจ๋เรียบร้อย)*</span>`;
+          const ph = text.match(/0[689]\d{8}/)?.[0] || '08x-xxx-xxxx';
+          replyHtml = `🚨 <strong>[Tier 2 Auto + Alert คุณไจ๋ไจ๋]</strong><br>☀️ ขอบพระคุณครับ 99 Solar บันทึกข้อมูลและเบอร์โทร ${ph} เรียบร้อยแล้ว!<br><br>คุณไจ๋ไจ๋ (090-715-1987) จะติดต่อกลับเพื่อนัดหมายสำรวจหน้างานฟรีทันทีครับ ⚡<br><br><div class="p-2 bg-emerald-50 rounded-lg border border-emerald-300 text-[10px] text-emerald-900"><strong>🔔 จำลองข้อความเด้งเข้าห้องคุณไจ๋ไจ๋:</strong><br>มีปุ่มสีเขียวขนาดใหญ่: <span class="bg-emerald-600 text-white px-2 py-0.5 rounded font-bold">📞 แตะโทรออก: ${ph}</span> ให้คุณไจ๋ไจ๋กดโทรได้ทันทีใน 1 วินาที!</div>`;
         } else {
-          replyHtml = `⚠️ <strong>[Tier 3 Human Hand-off]</strong><br>☀️ ได้รับข้อความเรียบร้อยแล้วครับ!<br>คำถามนี้คุณไจ๋ไจ๋กำลังตรวจสอบข้อมูล และจะเข้ามาตอบด้วยตัวเองโดยเร็วที่สุดครับ ⚡<br><br><span class="text-[10px] text-rose-800 font-bold">*(ระบบสั่งปิดบอทพักสายแล้ว เพื่อให้คุณไจ๋ไจ๋เข้ามาคุยสดได้โดยไม่มีบอทแทรก)*</span>`;
+          replyHtml = `⚠️ <strong>[Tier 3 Human Hand-off]</strong><br>☀️ ได้รับข้อความเรียบร้อยแล้วครับ!<br>คำถามนี้คุณไจ๋ไจ๋กำลังตรวจสอบข้อมูล และจะเข้ามาตอบด้วยตัวเองโดยเร็วที่สุดครับ ⚡<br><br><div class="p-2 bg-rose-50 rounded-lg border border-rose-300 text-[10px] text-rose-900"><strong>🔔 จำลองข้อความเด้งเข้าห้องคุณไจ๋ไจ๋:</strong><br>มีปุ่มทางลัด: <span class="bg-rose-600 text-white px-2 py-0.5 rounded font-bold">💬 แตะเปิดกล่องแชทสดใน Portal</span> พร้อมสั่งพักบอท 12 ชม. เพื่อให้คนคุยสด</div>`;
         }
 
         const botBubble = document.createElement('div');
