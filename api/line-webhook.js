@@ -246,7 +246,17 @@ module.exports = async (req, res) => {
   }
 
   try {
-    // 2. Meta / Facebook Messenger Webhook POST
+    // 2. Customer Status Update Push (จาก Portal เมื่อเปลี่ยนสถานะงาน)
+    if (req.body?.action === 'push_customer_status') {
+      const { customerId, statusTitle, statusDetail } = req.body;
+      if (customerId && statusTitle) {
+        await pushStatusToCustomer(customerId, statusTitle, statusDetail);
+        return res.status(200).json({ success: true, message: 'Status pushed to customer' });
+      }
+      return res.status(400).json({ error: 'Missing customerId or statusTitle' });
+    }
+
+    // 3. Meta / Facebook Messenger Webhook POST
     if (req.body?.object === 'page') {
       const entries = req.body?.entry || [];
       for (const entry of entries) {
@@ -260,7 +270,7 @@ module.exports = async (req, res) => {
       return res.status(200).send('EVENT_RECEIVED');
     }
 
-    // 3. LINE Messaging API Webhook POST
+    // 4. LINE Messaging API Webhook POST
     const events = req.body?.events || [];
     if (events.length === 0) {
       return res.status(200).send('OK (Verified)');
@@ -692,3 +702,51 @@ function sendLineReply(replyToken, messages) {
     req.end();
   });
 }
+
+/**
+ * ส่งข้อความอัปเดตสถานะงานกลับหาลูกค้าใน LINE (Order/Service Status Push)
+ */
+function pushStatusToCustomer(customerId, statusTitle, statusDetail) {
+  return new Promise((resolve) => {
+    if (!CHANNEL_ACCESS_TOKEN || !customerId) {
+      console.log('Customer Push skipped: missing token or customerId');
+      return resolve();
+    }
+
+    const messageText = `☀️ [อัปเดตสถานะจาก 99 Solar หาดใหญ่]\n\nสถานะงานของคุณ: ${statusTitle}\nรายละเอียด: ${statusDetail || 'ทีมงานกำลังดำเนินการตามขั้นตอนครับ'}\n\nสายด่วนคุณไจ๋ไจ๋: 090-715-1987 ⚡`;
+
+    const payload = JSON.stringify({
+      to: customerId,
+      messages: [{ 
+        type: 'text', 
+        text: messageText,
+        quickReply: getQuickReplies()
+      }]
+    });
+
+    const options = {
+      hostname: 'api.line.me',
+      path: '/v2/bot/message/push',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${CHANNEL_ACCESS_TOKEN}`,
+        'Content-Length': Buffer.byteLength(payload)
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      res.on('data', () => {});
+      res.on('end', () => resolve());
+    });
+
+    req.on('error', (err) => {
+      console.error('Failed to push status to customer:', err);
+      resolve();
+    });
+
+    req.write(payload);
+    req.end();
+  });
+}
+
